@@ -1,0 +1,147 @@
+@media screen and (min-width: 1400px) {
+    .container,
+    .container-lg,
+    .container-md,
+    .container-sm,
+    .container-xl,
+    .container-xxl {
+        max-width: 1320px;
+    }
+}
+
+@media screen and (max-width: 1400px) {
+    .col-xl-7 {
+        margin-left: 17.4rem;
+        margin-right: 17.4rem;
+    }
+    .heigt-frm .accuContent{
+        margin-left: 10.5rem;
+        margin-right: 10.5rem;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .container,
+    .container-lg,
+    .container-md,
+    .container-sm,
+    .container-xl {
+        max-width: 1140px;
+    }
+}
+@media screen and (max-width: 1200px) {
+    .col-xl-7 {
+        margin-left: 10rem;
+        margin-right: 10rem;
+    }
+}
+@media screen and (max-width: 1200px){
+    .heigt-frm .accuContent{
+        margin-left: 10.5rem;
+        margin-right: 10.5rem;
+    }
+}
+@media screen and (min-width: 992px) {
+    .container,
+    .container-lg,
+    .container-md,
+    .container-sm {
+        max-width: 960px;
+    }
+}
+@media screen and (max-width: 992px){
+    .heigt-frm .accuContent{
+        margin-left: 4.5rem;
+        margin-right: 4.5rem;
+    }
+}
+@media screen and (min-width: 768px) {
+    .container,
+    .container-md,
+    .container-sm {
+        max-width: 720px;
+    }
+}
+@media screen and (max-width: 768px){
+    .heigt-frm .accuContent{
+        margin-left: 2rem;
+        margin-right: 2rem;
+    }
+}
+
+@media screen and (min-width: 650px) {
+    .row div {
+        -ms-flex: 1;
+        flex: 1 1 !important;
+        padding: 0 5px 0 5px;
+    }
+    .badge {
+        line-height: 1.7;
+    }
+    .col-xl-4 .col-md-4 {
+        flex: 0 0 auto !important;
+           }
+         
+}
+@media screen and (max-width: 650px){
+    .col-xl-8{
+        
+        margin-left: 2rem;
+        margin-right: 2rem;
+    }
+    .row{
+        margin-bottom: 0 !important;
+    }
+    .row div{
+        padding-bottom: 10px;
+    }
+}
+@media screen and (min-width: 557px) {
+    .col-md-6 {
+        flex: 0 0 auto !important;
+    }
+    .col-xl-4 .col-md-4 {
+        flex: 0 0 auto !important;
+        padding-left: 7rem !important;
+    }
+}
+@media screen and (max-width: 557px) {
+    .col-md-6 {
+        flex: 0 0 auto !important;
+        padding: 0px;
+    }
+    .partner-form .tabMobRes .regLiveContent {
+        padding: 30px !important;
+    }
+    .col-xl-4,
+    .col-md-4 {
+        flex: 0 0 auto !important;
+        /* padding-left: 7rem !important; */
+    }
+    .heigt-frm .entityAcculogin{
+        /* padding-left: 1.5rem; */
+    }
+    .heigt-frm .entityAccu{
+        text-align: start;
+    }
+    .heigt-frm .accuContent{
+        margin-left: 2rem;
+        margin-right: 2rem;
+    }
+}
+@media screen and (max-width: 400px) {
+    .logblock{
+        display: block !important;
+    text-align: center;
+    }
+    .logblock1{
+        background: white !important;
+    border-radius: 7px;
+    }
+}
+
+@media screen and (max-width : 649px) {
+    .absol {
+      width: 80% !important;
+    }
+  }

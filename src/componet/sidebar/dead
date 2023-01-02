@@ -1,0 +1,1028 @@
+    // <div>
+    //   <div id="__next">
+    //     <div className="">
+    //       <header
+    //         className="sticky-header scroll-on"
+    //         style={{ maxWidth: "100%", display: "none" }}
+    //       >
+    //         <div className="container">
+    //           <nav className="bg-transparent top  navbar navbar-light bg-light">
+    //             <a
+    //               href="https://loving-shaw-65125c.netlify.app/"
+    //               className="brand p-0 cursor-pointer navbar-brand"
+    //             >
+    //               <img
+    //                 src="./rightfx_login_files/top-logo-white.svg"
+    //                 alt="RightFX logo"
+    //                 className="main-logo"
+    //               />
+    //               <img
+    //                 src="./rightfx_login_files/top-logo.svg"
+    //                 alt="RightFX logo"
+    //                 className="menu-logo "
+    //               />
+    //             </a>
+    //             <div className="user-area d-none d-lg-flex">
+    //               <div className="user-desk">
+    //                 <div className="offcanvas-collapse navbar navbar-expand-lg navbar-dark justify-content-center bottom  navbar-nav">
+    //                   <ul className="navbar-nav">
+    //                     <li className="nav-item dropdown">
+    //                       <a
+    //                         className="nav-link  dropdown-toggle "
+    //                         href="https://loving-shaw-65125c.netlify.app/register-live#"
+    //                         data-bs-toggle="dropdown"
+    //                       >
+    //                         Company
+    //                       </a>
+    //                       <ul className="dropdown-menu dropdown-menu-end fade-up menu-fixed column-2 p-0 ">
+    //                         <li>
+    //                           <a
+    //                             className="dropdown-item"
+    //                             href="https://loving-shaw-65125c.netlify.app/company-profile"
+    //                           >
+    //                             Company Profile
+    //                           </a>
+    //                         </li>
+    //                         <li>
+    //                           <a
+    //                             className="dropdown-item"
+    //                             href="https://loving-shaw-65125c.netlify.app/careers"
+    //                           >
+    //                             Careers
+    //                           </a>
+    //                         </li>
+    //                         <li>
+    //                           <a
+    //                             className="dropdown-item"
+    //                             href="https://loving-shaw-65125c.netlify.app/legal-documents"
+    //                           >
+    //                             Legal Documents
+    //                           </a>
+    //                         </li>
+    //                         <li>
+    //                           <a
+    //                             className="dropdown-item"
+    //                             href="https://loving-shaw-65125c.netlify.app/contact-us"
+    //                           >
+    //                             Contact Us
+    //                           </a>
+    //                         </li>
+    //                       </ul>
+    //                     </li>
+    //                     <li className="nav-item dropdown">
+    //                       <a
+    //                         className="nav-link  dropdown-toggle "
+    //                         href="https://loving-shaw-65125c.netlify.app/register-live#"
+    //                         data-bs-toggle="dropdown"
+    //                       >
+    //                         Trading
+    //                       </a>
+    //                       <ul className="dropdown-menu dropdown-menu-end fade-up menu-fixed column-2 p-0 ">
+    //                         <li>
+    //                           <a
+    //                             className="dropdown-item"
+    //                             href="https://loving-shaw-65125c.netlify.app/register-live#"
+    //                           >
+    //                             MT5 Desktop
+    //                           </a>
+    //                         </li>
+    //                         <li>
+    //                           <a
+    //                             className="dropdown-item"
+    //                             href="https://loving-shaw-65125c.netlify.app/register-live#"
+    //                           >
+    //                             MT5 Mobile
+    //                           </a>
+    //                         </li>
+    //                         <li>
+    //                           <a
+    //                             className="dropdown-item"
+    //                             href="https://loving-shaw-65125c.netlify.app/register-live#"
+    //                           >
+    //                             Web Trader
+    //                           </a>
+    //                         </li>
+    //                         <li>
+    //                           <a
+    //                             className="dropdown-item"
+    //                             href="https://loving-shaw-65125c.netlify.app/register-live#"
+    //                           >
+    //                             Account Types
+    //                           </a>
+    //                         </li>
+    //                       </ul>
+    //                     </li>
+    //                     <li className="nav-item dropdown">
+    //                       <a
+    //                         className="nav-link  dropdown-toggle "
+    //                         href="https://loving-shaw-65125c.netlify.app/register-live#"
+    //                         data-bs-toggle="dropdown"
+    //                       >
+    //                         Markets
+    //                       </a>
+    //                       <ul className="dropdown-menu dropdown-menu-end fade-up menu-fixed column-2 p-0 ">
+    //                         <li>
+    //                           <a
+    //                             className="dropdown-item"
+    //                             href="https://loving-shaw-65125c.netlify.app/forex"
+    //                           >
+    //                             Forex
+    //                           </a>
+    //                         </li>
+    //                         <li>
+    //                           <a
+    //                             className="dropdown-item"
+    //                             href="https://loving-shaw-65125c.netlify.app/indices-market"
+    //                           >
+    //                             Indices
+    //                           </a>
+    //                         </li>
+    //                         <li>
+    //                           <a
+    //                             className="dropdown-item"
+    //                             href="https://loving-shaw-65125c.netlify.app/energies-market"
+    //                           >
+    //                             Commodities Energy
+    //                           </a>
+    //                         </li>
+    //                         <li>
+    //                           <a
+    //                             className="dropdown-item"
+    //                             href="https://loving-shaw-65125c.netlify.app/stocks"
+    //                           >
+    //                             Stocks
+    //                           </a>
+    //                         </li>
+    //                         <li>
+    //                           <a
+    //                             className="dropdown-item"
+    //                             href="https://loving-shaw-65125c.netlify.app/metals-market"
+    //                           >
+    //                             Metals
+    //                           </a>
+    //                         </li>
+    //                         <li>
+    //                           <a
+    //                             className="dropdown-item"
+    //                             href="https://loving-shaw-65125c.netlify.app/exchange-market"
+    //                           >
+    //                             Exchange Futures
+    //                           </a>
+    //                         </li>
+    //                       </ul>
+    //                     </li>
+    //                     <li className="nav-item dropdown">
+    //                       <a
+    //                         className="nav-link  dropdown-toggle "
+    //                         href="https://loving-shaw-65125c.netlify.app/register-live#"
+    //                         data-bs-toggle="dropdown"
+    //                       >
+    //                         Partnership
+    //                       </a>
+    //                       <ul className="dropdown-menu dropdown-menu-end fade-up menu-fixed column-1 p-0 ">
+    //                         <li>
+    //                           <a
+    //                             className="dropdown-item"
+    //                             href="https://loving-shaw-65125c.netlify.app/white-label-partnership"
+    //                           >
+    //                             White Label Partnership
+    //                           </a>
+    //                         </li>
+    //                         <li>
+    //                           <a
+    //                             className="dropdown-item"
+    //                             href="https://loving-shaw-65125c.netlify.app/corporate-live"
+    //                           >
+    //                             Corporate Account
+    //                           </a>
+    //                         </li>
+    //                       </ul>
+    //                     </li>
+    //                     <li className="nav-item dropdown">
+    //                       <a
+    //                         className="nav-link  dropdown-toggle "
+    //                         href="https://loving-shaw-65125c.netlify.app/register-live#"
+    //                         data-bs-toggle="dropdown"
+    //                       >
+    //                         Learn
+    //                       </a>
+    //                       <ul className="dropdown-menu dropdown-menu-end fade-up menu-fixed column-1 p-0 ">
+    //                         <li>
+    //                           <a
+    //                             className="dropdown-item"
+    //                             href="https://loving-shaw-65125c.netlify.app/economic-calendar"
+    //                           >
+    //                             Economic Calendar
+    //                           </a>
+    //                         </li>
+    //                         <li>
+    //                           <a
+    //                             className="dropdown-item"
+    //                             href="https://loving-shaw-65125c.netlify.app/rightfx-academy"
+    //                           >
+    //                             RightFX Academy
+    //                           </a>
+    //                         </li>
+    //                         <li>
+    //                           <a
+    //                             className="dropdown-item"
+    //                             href="https://loving-shaw-65125c.netlify.app/trading-faq"
+    //                           >
+    //                             Trading FAQ
+    //                           </a>
+    //                         </li>
+    //                       </ul>
+    //                     </li>
+    //                     <li className="nav-item dropdown d-lg-none">
+    //                       <a
+    //                         className="nav-link dropdown-toggle "
+    //                         href="https://loving-shaw-65125c.netlify.app/register-live#"
+    //                         data-bs-toggle="dropdown"
+    //                       >
+    //                         <img
+    //                           src="./rightfx_login_files/login-icon-blue.png"
+    //                           alt=""
+    //                         />{" "}
+    //                         Log in
+    //                       </a>
+    //                       <ul className="dropdown-menu fade-up portal p-0 ">
+    //                         <li>
+    //                           <a
+    //                             className="dropdown-item"
+    //                             href="https://loving-shaw-65125c.netlify.app/web-trader"
+    //                           >
+    //                             Web Trader
+    //                           </a>
+    //                         </li>
+    //                         <li>
+    //                           <a
+    //                             className="dropdown-item"
+    //                             href="https://my.rightfx.com/"
+    //                           >
+    //                             Client Portal
+    //                           </a>
+    //                         </li>
+    //                         <li>
+    //                           <a
+    //                             className="dropdown-item"
+    //                             href="https://loving-shaw-65125c.netlify.app/partner"
+    //                           >
+    //                             Partner
+    //                           </a>
+    //                         </li>
+    //                       </ul>
+    //                     </li>
+    //                     <li className="nav-item d-lg-none text-center">
+    //                       <a
+    //                         href="https://loving-shaw-65125c.netlify.app/register-live"
+    //                         className="btn btn-success"
+    //                       >
+    //                         Trade Now
+    //                       </a>
+    //                       <a
+    //                         href="https://loving-shaw-65125c.netlify.app/register-demo"
+    //                         className="btn btn-outline-secondary"
+    //                       >
+    //                         Demo Account
+    //                       </a>
+    //                     </li>
+    //                     <li className="nav-item d-lg-none text-center help-txt">
+    //                       <span>
+    //                         <a
+    //                           href="https://support.rightfx.com/hc/en-us"
+    //                           target="_blank"
+    //                           rel="noreferrer"
+    //                           className="text-black"
+    //                         >
+    //                           Help Support &nbsp;
+    //                           <img
+    //                             src="./rightfx_login_files/support-icon.png"
+    //                             alt="RightFX"
+    //                           />
+    //                         </a>
+    //                       </span>
+    //                       <span>CySEC | FSCM | JSC</span>
+    //                     </li>
+    //                   </ul>
+    //                 </div>
+    //                 <div className="divider"></div>
+    //               </div>
+    //               <div className="user-actions">
+    //                 <a
+    //                   href="https://loving-shaw-65125c.netlify.app/register-live"
+    //                   target="_parent"
+    //                   variant="success"
+    //                   className="btn btn-secondary btn-lg btn-success"
+    //                 >
+    //                   Trade Now
+    //                 </a>
+    //                 <div className="dropdown">
+    //                   <button
+    //                     id="dropdown-basic"
+    //                     aria-expanded="false"
+    //                     type="button"
+    //                     className="btn dropdown-toggle dropdown-toggle btn btn-none"
+    //                   >
+    //                     <img
+    //                       src="./rightfx_login_files/login-icon.png"
+    //                       alt="RightFX"
+    //                     />
+    //                   </button>
+    //                 </div>
+    //               </div>
+    //             </div>
+    //             <div href="/" className="brand d-lg-none"></div>
+    //             <div className="brnd-respnsive d-lg-none">
+    //               <div className="lgnBtn">
+    //                 <a href="https://my.rightfx.com/">
+    //                   <img
+    //                     src="./rightfx_login_files/login-icon.png"
+    //                     alt=""
+    //                     className="main-logo"
+    //                   />
+    //                   <img
+    //                     src="./rightfx_login_files/login-icon-blue.png"
+    //                     alt=""
+    //                     className="menu-logo"
+    //                   />
+    //                 </a>
+    //               </div>
+    //               <div className="d-lg-none hamburger " id="hamburger-1">
+    //                 <span className="line"></span>
+    //                 <span className="line"></span>
+    //                 <span className="line"></span>
+    //               </div>
+    //             </div>
+    //           </nav>
+    //           <div className="main-menu offcanvas-collapse navbar navbar-expand-lg navbar-dark justify-content-center bottom  nav">
+    //             <ul className="navbar-nav">
+    //               <li className="nav-item dropdown">
+    //                 <a
+    //                   className="nav-link  dropdown-toggle "
+    //                   href="https://loving-shaw-65125c.netlify.app/register-live#"
+    //                   data-bs-toggle="dropdown"
+    //                 >
+    //                   Company
+    //                 </a>
+    //                 <ul className="dropdown-menu dropdown-menu-end fade-up menu-fixed column-2 p-0 ">
+    //                   <li>
+    //                     <a
+    //                       className="dropdown-item"
+    //                       href="https://loving-shaw-65125c.netlify.app/company-profile"
+    //                     >
+    //                       Company Profile
+    //                     </a>
+    //                   </li>
+    //                   <li>
+    //                     <a
+    //                       className="dropdown-item"
+    //                       href="https://loving-shaw-65125c.netlify.app/careers"
+    //                     >
+    //                       Careers
+    //                     </a>
+    //                   </li>
+    //                   <li>
+    //                     <a
+    //                       className="dropdown-item"
+    //                       href="https://loving-shaw-65125c.netlify.app/legal-documents"
+    //                     >
+    //                       Legal Documents
+    //                     </a>
+    //                   </li>
+    //                   <li>
+    //                     <a
+    //                       className="dropdown-item"
+    //                       href="https://loving-shaw-65125c.netlify.app/contact-us"
+    //                     >
+    //                       Contact Us
+    //                     </a>
+    //                   </li>
+    //                 </ul>
+    //               </li>
+    //               <li className="nav-item dropdown">
+    //                 <a
+    //                   className="nav-link  dropdown-toggle "
+    //                   href="https://loving-shaw-65125c.netlify.app/register-live#"
+    //                   data-bs-toggle="dropdown"
+    //                 >
+    //                   Trading
+    //                 </a>
+    //                 <ul className="dropdown-menu dropdown-menu-end fade-up menu-fixed column-2 p-0 ">
+    //                   <li>
+    //                     <a
+    //                       className="dropdown-item"
+    //                       href="https://loving-shaw-65125c.netlify.app/register-live#"
+    //                     >
+    //                       MT5 Desktop
+    //                     </a>
+    //                   </li>
+    //                   <li>
+    //                     <a
+    //                       className="dropdown-item"
+    //                       href="https://loving-shaw-65125c.netlify.app/register-live#"
+    //                     >
+    //                       MT5 Mobile
+    //                     </a>
+    //                   </li>
+    //                   <li>
+    //                     <a
+    //                       className="dropdown-item"
+    //                       href="https://loving-shaw-65125c.netlify.app/register-live#"
+    //                     >
+    //                       Web Trader
+    //                     </a>
+    //                   </li>
+    //                   <li>
+    //                     <a
+    //                       className="dropdown-item"
+    //                       href="https://loving-shaw-65125c.netlify.app/register-live#"
+    //                     >
+    //                       Account Types
+    //                     </a>
+    //                   </li>
+    //                 </ul>
+    //               </li>
+    //               <li className="nav-item dropdown">
+    //                 <a
+    //                   className="nav-link  dropdown-toggle "
+    //                   href="https://loving-shaw-65125c.netlify.app/register-live#"
+    //                   data-bs-toggle="dropdown"
+    //                 >
+    //                   Markets
+    //                 </a>
+    //                 <ul className="dropdown-menu dropdown-menu-end fade-up menu-fixed column-2 p-0 ">
+    //                   <li>
+    //                     <a
+    //                       className="dropdown-item"
+    //                       href="https://loving-shaw-65125c.netlify.app/forex"
+    //                     >
+    //                       Forex
+    //                     </a>
+    //                   </li>
+    //                   <li>
+    //                     <a
+    //                       className="dropdown-item"
+    //                       href="https://loving-shaw-65125c.netlify.app/indices-market"
+    //                     >
+    //                       Indices
+    //                     </a>
+    //                   </li>
+    //                   <li>
+    //                     <a
+    //                       className="dropdown-item"
+    //                       href="https://loving-shaw-65125c.netlify.app/energies-market"
+    //                     >
+    //                       Commodities Energy
+    //                     </a>
+    //                   </li>
+    //                   <li>
+    //                     <a
+    //                       className="dropdown-item"
+    //                       href="https://loving-shaw-65125c.netlify.app/stocks"
+    //                     >
+    //                       Stocks
+    //                     </a>
+    //                   </li>
+    //                   <li>
+    //                     <a
+    //                       className="dropdown-item"
+    //                       href="https://loving-shaw-65125c.netlify.app/metals-market"
+    //                     >
+    //                       Metals
+    //                     </a>
+    //                   </li>
+    //                   <li>
+    //                     <a
+    //                       className="dropdown-item"
+    //                       href="https://loving-shaw-65125c.netlify.app/exchange-market"
+    //                     >
+    //                       Exchange Futures
+    //                     </a>
+    //                   </li>
+    //                 </ul>
+    //               </li>
+    //               <li className="nav-item dropdown">
+    //                 <a
+    //                   className="nav-link  dropdown-toggle "
+    //                   href="https://loving-shaw-65125c.netlify.app/register-live#"
+    //                   data-bs-toggle="dropdown"
+    //                 >
+    //                   Partnership
+    //                 </a>
+    //                 <ul className="dropdown-menu dropdown-menu-end fade-up menu-fixed column-1 p-0 ">
+    //                   <li>
+    //                     <a
+    //                       className="dropdown-item"
+    //                       href="https://loving-shaw-65125c.netlify.app/white-label-partnership"
+    //                     >
+    //                       White Label Partnership
+    //                     </a>
+    //                   </li>
+    //                   <li>
+    //                     <a
+    //                       className="dropdown-item"
+    //                       href="https://loving-shaw-65125c.netlify.app/corporate-live"
+    //                     >
+    //                       Corporate Account
+    //                     </a>
+    //                   </li>
+    //                 </ul>
+    //               </li>
+    //               <li className="nav-item dropdown">
+    //                 <a
+    //                   className="nav-link  dropdown-toggle "
+    //                   href="https://loving-shaw-65125c.netlify.app/register-live#"
+    //                   data-bs-toggle="dropdown"
+    //                 >
+    //                   Learn
+    //                 </a>
+    //                 <ul className="dropdown-menu dropdown-menu-end fade-up menu-fixed column-1 p-0 ">
+    //                   <li>
+    //                     <a
+    //                       className="dropdown-item"
+    //                       href="https://loving-shaw-65125c.netlify.app/economic-calendar"
+    //                     >
+    //                       Economic Calendar
+    //                     </a>
+    //                   </li>
+    //                   <li>
+    //                     <a
+    //                       className="dropdown-item"
+    //                       href="https://loving-shaw-65125c.netlify.app/rightfx-academy"
+    //                     >
+    //                       RightFX Academy
+    //                     </a>
+    //                   </li>
+    //                   <li>
+    //                     <a
+    //                       className="dropdown-item"
+    //                       href="https://loving-shaw-65125c.netlify.app/trading-faq"
+    //                     >
+    //                       Trading FAQ
+    //                     </a>
+    //                   </li>
+    //                 </ul>
+    //               </li>
+    //               <li className="nav-item dropdown d-lg-none">
+    //                 <a
+    //                   className="nav-link dropdown-toggle "
+    //                   href="https://loving-shaw-65125c.netlify.app/register-live#"
+    //                   data-bs-toggle="dropdown"
+    //                 >
+    //                   <img
+    //                     src="./rightfx_login_files/login-icon-blue.png"
+    //                     alt=""
+    //                   />{" "}
+    //                   Log in
+    //                 </a>
+    //                 <ul className="dropdown-menu fade-up portal p-0 ">
+    //                   <li>
+    //                     <a
+    //                       className="dropdown-item"
+    //                       href="https://loving-shaw-65125c.netlify.app/web-trader"
+    //                     >
+    //                       Web Trader
+    //                     </a>
+    //                   </li>
+    //                   <li>
+    //                     <a
+    //                       className="dropdown-item"
+    //                       href="https://my.rightfx.com/"
+    //                     >
+    //                       Client Portal
+    //                     </a>
+    //                   </li>
+    //                   <li>
+    //                     <a
+    //                       className="dropdown-item"
+    //                       href="https://loving-shaw-65125c.netlify.app/partner"
+    //                     >
+    //                       Partner
+    //                     </a>
+    //                   </li>
+    //                 </ul>
+    //               </li>
+    //               <li className="nav-item d-lg-none text-center">
+    //                 <a
+    //                   href="https://loving-shaw-65125c.netlify.app/register-live"
+    //                   className="btn btn-success"
+    //                 >
+    //                   Trade Now
+    //                 </a>
+    //                 <a
+    //                   href="https://loving-shaw-65125c.netlify.app/register-demo"
+    //                   className="btn btn-outline-secondary"
+    //                 >
+    //                   Demo Account
+    //                 </a>
+    //               </li>
+    //               <li className="nav-item d-lg-none text-center help-txt">
+    //                 <span>
+    //                   <a
+    //                     href="https://support.rightfx.com/hc/en-us"
+    //                     target="_blank"
+    //                     rel="noreferrer"
+    //                     className="text-black"
+    //                   >
+    //                     Help Support &nbsp;
+    //                     <img
+    //                       src="./rightfx_login_files/support-icon.png"
+    //                       alt="RightFX"
+    //                     />
+    //                   </a>
+    //                 </span>
+    //                 <span>CySEC | FSCM | JSC</span>
+    //               </li>
+    //             </ul>
+    //           </div>
+    //         </div>
+    //       </header>
+    //       <div className="partner-form heigt-frm">
+    //         <div className="position-relative reg-liv container">
+    //           <div className="row">
+    //             <div className="tabMobRes col-12">
+    //               <div className="tab-content regLiveContent" id="myTabContent">
+    //                 <div className="row">
+    //                   <div className="container">
+    //                     <div className="form-lng">
+    //                       <div className="dropdown">
+    //                         <button
+    //                           id="dropdown-basic"
+    //                           aria-expanded="false"
+    //                           type="button"
+    //                           className="btn dropdown-toggle dropdown-toggle btn btn-none"
+    //                         >
+    //                           <img
+    //                             src="./rightfx_login_files/lang-grey.png"
+    //                             alt="RightFX"
+    //                           />
+    //                           <span>en</span>
+    //                         </button>
+    //                       </div>
+    //                     </div>
+    //                   </div>
+    //                 </div>
+    //                 <div
+    //                   className="tab-pane fade show active"
+    //                   id="register"
+    //                   role="tabpanel"
+    //                   aria-labelledby="register-tab"
+    //                 >
+    //                   <div className="row">
+    //                     <div className="col-lg-12">
+    //                       <form className="">
+    //                         <div className="accuImg">
+    //                           <a href="https://loving-shaw-65125c.netlify.app/">
+    //                             <img
+    //                               src="./rightfx_login_files/top-logo.svg"
+    //                               alt="RightFX logo"
+    //                               className="menu-logo "
+    //                             />
+    //                           </a>
+    //                           <h4>Register now, it's easy!</h4>
+    //                         </div>
+    //                         <div style={{ display: "none" }} className="row">
+    //                           <div className="position-relative mb-4 col">
+    //                             <select
+    //                               name="type"
+    //                               type="text"
+    //                               required=""
+    //                               className="form-select"
+    //                             >
+    //                               <option value="individual">Individual</option>
+    //                               <option value="corporate">Corporate</option>
+    //                             </select>
+    //                             <div className="invalid-tooltip"></div>
+    //                           </div>
+    //                         </div>
+    //                         <div className="row">
+    //                           <div className="position-relative mb-4 col-md-6 col-12">
+    //                             <input
+    //                               type="text"
+    //                               name="firstName"
+    //                               placeholder="First name"
+    //                               value=""
+    //                               className="form-control"
+    //                               onChange={input1}
+    //                             />
+    //                             <div className="invalid-tooltip">
+    //                               First name is required
+    //                             </div>
+    //                           </div>
+    //                           <div className="position-relative mb-4 col-md-6 col-12">
+    //                             <input
+    //                               type="text"
+    //                               name="lastName"
+    //                               placeholder="Last name"
+    //                               value=""
+    //                               required=""
+    //                               className="form-control"
+    //                               onChange={input1}
+    //                             />
+    //                             <div className="invalid-tooltip">
+    //                               Last name is required
+    //                             </div>
+    //                           </div>
+    //                         </div>
+    //                         <div className="row">
+    //                           <div className="position-relative mb-4 col">
+    //                             <select
+    //                               name="countryResidency"
+    //                               required=""
+    //                               className="form-select form-select-lg"
+    //                             >
+    //                               <option value="">Select Country</option>
+    //                             </select>
+    //                             <div className="invalid-tooltip"></div>
+    //                           </div>
+    //                         </div>
+    //                         <div className="row">
+    //                           <div className="position-relative mb-4 col-md-6 col-12">
+    //                             <div className="input-group has-validation">
+    //                               <button
+    //                                 type="button"
+    //                                 className="btn btn-outline-secondary"
+    //                               >
+    //                                 +971
+    //                               </button>
+    //                               <input
+    //                                 type="text"
+    //                                 name="phone"
+    //                                 placeholder="Phone number"
+    //                                 autoComplete="off"
+    //                                 value=""
+    //                                 required=""
+    //                                 className="form-control"
+    //                                 onChange={input1}
+    //                               />
+    //                               <div className="invalid-tooltip">
+    //                                 Phone is required
+    //                               </div>
+    //                             </div>
+    //                           </div>
+    //                           <div className="position-relative mb-4 col-md-6 col-12">
+    //                             <input
+    //                               type="email"
+    //                               name="email"
+    //                               placeholder="Email"
+    //                               value=""
+    //                               required=""
+    //                               onChange={input1}
+    //                               className="form-control"
+    //                             />
+    //                             <div className="invalid-tooltip">
+    //                               Email is required
+    //                             </div>
+    //                           </div>
+    //                         </div>
+    //                         <div className="row">
+    //                           <div className="position-relative mb-4 col-md-6 col-12">
+    //                             <div className="input-group has-validation">
+    //                               <input
+    //                                 type="password"
+    //                                 name="portalPassword"
+    //                                 placeholder="Password"
+    //                                 value=""
+    //                                 required=""
+    //                                 onChange={input1}
+
+    //                                 className="form-control"
+    //                               />
+    //                               <button
+    //                                 type="button"
+    //                                 className="btn btn-outline-secondary"
+    //                               >
+    //                                 <i className="bi bi-eye-fill"></i>
+    //                               </button>
+    //                               <div className="invalid-tooltip">
+    //                                 Enter your password
+    //                               </div>
+    //                             </div>
+    //                           </div>
+    //                           <div className="position-relative mb-4 col-md-6 col-12">
+    //                             <div className="input-group has-validation">
+    //                               <input
+    //                                 type="password"
+    //                                 name="portalPasswordConfirm"
+    //                                 placeholder="Confirm Password"
+    //                                 value=""
+    //                                 onChange={input1}
+    //                                 required=""
+    //                                 className="form-control"
+    //                               />
+    //                               <button
+    //                                 type="button"
+    //                                 className="btn btn-outline-secondary"
+    //                               >
+    //                                 <i className="bi bi-eye-fill"></i>
+    //                               </button>
+    //                               <div className="invalid-tooltip">
+    //                                 Enter confirm password
+    //                               </div>
+    //                             </div>
+    //                           </div>
+    //                         </div>
+    //                         <div className="mb-4 row">
+    //                           <div className="mb-2 mt-0 col-12">
+    //                             <div className="badge rounded-pill bg-primary me-1">
+    //                               8-20 characters
+    //                             </div>
+    //                             <div className="badge rounded-pill bg-primary me-1">
+    //                               Latin Letters
+    //                             </div>
+    //                             <div className="badge rounded-pill bg-primary me-1">
+    //                               Numbers
+    //                             </div>
+    //                           </div>
+    //                         </div>
+    //                         <div className="mb-4 row">
+    //                           <div className="col-12">
+    //                             <div className="d-flex align-items-center justify-content-start pin-area">
+    //                               <button
+    //                                 disabled=""
+    //                                 type="button"
+    //                                 className="btn btn-secondary"
+    //                               >
+    //                                 Send PIN
+    //                                 <i className="bi bi-cursor-fill"></i>
+    //                               </button>
+    //                               <input
+    //                                 type="text"
+    //                                 name="emailPin"
+    //                                 placeholder="Enter Pin"
+    //                                 value=""
+    //                                 required=""
+    //                                 onChange={input1}
+    //                                 // readOnly=""
+    //                                 className="mx-3 form-control"
+    //                               />
+    //                               <div className="invalid-tooltip">
+    //                                 PIN must be entered
+    //                               </div>
+    //                             </div>
+    //                           </div>
+    //                         </div>
+    //                         <div className="row">
+    //                           <div className="mb-4 col-12">
+    //                             <div mb="3" className="position-relative col">
+    //                               <div className="form-check">
+    //                                 <input
+    //                                   type="checkbox"
+    //                                   name="tos"
+    //                                   value="true"
+    //                                   required=""
+    //                                   onChange={input1}
+    //                                   id="gridCheck"
+    //                                   className="form-check-input"
+    //                                 />
+    //                                 <label
+    //                                   htmlFor="gridCheck"
+    //                                   className="form-check-label"
+    //                                 >
+    //                                   <span>
+    //                                     By registering you agree to our
+    //                                   </span>
+    //                                   <a
+    //                                     href="https://loving-shaw-65125c.netlify.app/legal-documents"
+    //                                     target="_blank"
+    //                                   >
+    //                                     privacy policy
+    //                                   </a>
+    //                                 </label>
+    //                                 <div className="invalid-tooltip">
+    //                                   Accept Terms &amp; Conditions is required
+    //                                 </div>
+    //                               </div>
+    //                             </div>
+    //                           </div>
+    //                         </div>
+    //                         <div className="row">
+    //                           <div className="mb-3 subMobRes col-12">
+    //                             <button
+    //                               type="submit"
+    //                               className="btn btn-primary"
+    //                               disabled=""
+    //                             >
+    //                               Register
+    //                             </button>
+    //                           </div>
+    //                         </div>
+    //                       </form>
+    //                     </div>
+    //                   </div>
+    //                 </div>
+    //                 <div
+    //                   className="tab-pane fade "
+    //                   id="login"
+    //                   role="tabpanel"
+    //                   aria-labelledby="login-tab"
+    //                 >
+    //                   <div className="row">
+    //                     <div className="col-lg-12">
+    //                       <h6 className="text-muted mb-3">
+    //                         Fill in the fields below to login to your account
+    //                       </h6>
+    //                       <form className="">
+    //                         <div className="mb-3 row">
+    //                           <div className="position-relative col">
+    //                             <label className="form-label">
+    //                               Email<sup>*</sup>
+    //                             </label>
+    //                             <input
+    //                               type="email"
+    //                               name="email"
+    //                               value=""
+    //                               onChange={input1}
+    //                               required=""
+    //                               className="form-control form-control-lg"
+    //                             />
+    //                             <div className="invalid-tooltip"></div>
+    //                           </div>
+    //                         </div>
+    //                         <div className="mb-3 row">
+    //                           <div className="position-relative mb-3 col">
+    //                             <label className="form-label">
+    //                               Password<sup>*</sup>
+    //                             </label>
+    //                             <div className="input-group has-validation">
+    //                               <input
+    //                                 type="password"
+    //                                 name="password"
+    //                                 value=""
+    //                                 onChange={input1}
+    //                                 required=""
+    //                                 className="form-control form-control-lg"
+    //                               />
+    //                               <button
+    //                                 type="button"
+    //                                 className="btn btn-outline-secondary"
+    //                               >
+    //                                 <i className="bi bi-eye-fill"></i>
+    //                               </button>
+    //                               <div className="invalid-tooltip"></div>
+    //                             </div>
+    //                           </div>
+    //                         </div>
+    //                         <div className="mb-3 row">
+    //                           <div className="mb-2 col-12">
+    //                             <button
+    //                               type="submit"
+    //                               className="btn btn-primary"
+    //                             >
+    //                               Login
+    //                             </button>
+    //                           </div>
+    //                         </div>
+    //                       </form>
+    //                     </div>
+    //                   </div>
+    //                 </div>
+    //               </div>
+    //             </div>
+    //           </div>
+    //           <div className="row">
+    //             <div className="col-xl-4 col-md-4"></div>
+    //             <div className="col-xl-4 col-md-4">
+    //               <div className="entityAcculogin">
+    //                 <span>Already have an account?</span>{" "}
+    //                 <a
+    //                   href="https://my.rightfx.com/Login"
+    //                   target="_blank"
+    //                   rel="noreferrer"
+    //                 >
+    //                   <strong>Log in</strong>
+    //                 </a>
+    //               </div>
+    //             </div>
+    //             <div className="col-xl-4 col-md-4">
+    //               <div className="entityAccu">
+    //                 <span>Entity:</span>
+    //                 <select name="type" type="text">
+    //                   <option value="RightFX FSCM">RightFX FSCM </option>
+    //                   <option value="RightFX JOR">RightFX JOR</option>
+    //                   <option value="RightFX EU CySEC">RightFX EU CySEC</option>
+    //                 </select>
+    //               </div>
+    //             </div>
+    //           </div>
+    //           <div className="row">
+    //             <div className="col-xl-2"> </div>
+    //             <div className="accuContent col-xl-8">
+    //               <div>
+    //                 <p>
+    //                   RightFX Limited is an Investment Firm incorporated under
+    //                   number 167867 in the Republic of Mauritius. Authorized and
+    //                   regulated by the Financial Service Commission ( FSC ) in
+    //                   Mauritius (License No GB19024778 ). Registered address at
+    //                   The Cyberati Lounge, Ground Floor, The Catalyst, Silicon
+    //                   Avenue, 40 Cybercity, 72201 Ebène, Republic of Mauritius.
+    //                 </p>
+    //               </div>
+    //             </div>
+    //           </div>
+    //         </div>
+    //       </div>
+        
+    //     </div>
+    //   </div>
+    // </div>

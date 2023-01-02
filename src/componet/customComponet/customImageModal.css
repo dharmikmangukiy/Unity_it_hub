@@ -1,0 +1,27 @@
+.btnImageOpenBtn {
+    width: 100%;
+}
+.modalbody {
+    width: auto !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+.image-popup img {
+    max-height: 100vh;
+}
+#hide {
+    position: absolute;
+    opacity: 0;
+    z-index: -100;
+    white-space: pre;
+}
+.dynamicInputStyle {
+    width: 0px;
+    border-radius: 5px;
+    border: 1px solid rgb(236, 236, 236);
+    min-width: 9px;
+    font-weight: 700;
+}

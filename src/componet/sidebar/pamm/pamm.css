@@ -1,0 +1,500 @@
+.btn-create-portfolio-right {
+    display: flex;
+    justify-content: end;
+}
+.dialogMultipleActionButton {
+    display: flex;
+    gap: 10px;
+}
+.dialogMultipleActionButton .cancelButton {
+    background-color: #e0e0e0!important;
+    color: #000!important;
+}
+.pamm-portfolio.boxSection .boxsize .text-align-center p {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    font-size: 14px;
+}
+.dialogMultipleActionButton {
+    padding: 0 5px;
+}
+.tabpanel .MuiBox-root .MuiTypography-root {
+    font-family: 'Cairo', sans-serif !important;
+}
+.money-manager-card-list-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+.money-manager-card-list-section .money-manager-content {
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%);
+    background-color: white;
+    border-radius: 10px;
+    min-width: 305px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.money-manager-card-list-section .money-manager-content p {
+    margin: 0;
+}
+.money-manager-card-list-section .money-manager-content .money-manager-header-section {
+    background-color: #2a3f73;
+    border-radius: 10px 10px 0 0;
+    color: #fff;
+    padding: 5px 10px;
+}
+.money-manager-card-list-section .money-manager-content .money-manager-header-section p {
+    margin: 0;
+}
+.money-manager-card-list-section .money-manager-content .money-manager-header-section label {
+    font-weight: 700;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+.money-manager-card-list-section .money-manager-content .money-manager-body-section {
+    padding: 15px;
+}
+.money-manager-card-list-section .money-manager-content .money-manager-body-section .money-manager-body-content-element label {
+    font-weight: 700;
+}
+.money-manager-card-list-section .money-manager-content .money-manager-body-section .money-manager-body-content-element.marge-element {
+    display: flex;
+    gap: 10px;
+    /* border-top: 1.5px solid #adadad; */
+    border-bottom: 1.5px solid #adadad;
+    padding: 10px 0px;
+}
+.money-manager-card-list-section .money-manager-content .money-manager-body-section .money-manager-body-content-element.marge-element div {
+    width: 100%;
+}
+.money-manager-card-list-section .money-manager-content .money-manager-body-section .money-manager-body-content-element.marge-element:first-child {
+    border-top: 0px;
+}
+.money-manager-card-list-section .money-manager-content .money-manager-body-section .money-manager-body-content-element.marge-element:last-child {
+    border-bottom: 0px;
+}
+.money-manager-card-list-section .money-manager-content .money-manager-body-section .money-manager-body-content-element.marge-element .right-side-border {
+    border-right: 1px solid #adadad;
+    padding-right: 10px;
+}
+.money-manager-card-list-section .money-manager-content .money-manager-body-section .money-manager-body-content-element.marge-element div:nth-child(1) p {
+    margin: 0;
+}
+.money-manager-card-list-section .money-manager-content .money-manager-body-section .money-manager-body-content-element.marge-element div:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.money-manager-card-list-section .money-manager-content .money-manager-body-section .money-manager-body-content-element.marge-element div:nth-child(2) img {
+    width: 40px;
+}
+.money-manager-card-list-section .money-manager-content .money-manager-footer-action-section {
+    display: flex;
+}
+.money-manager-card-list-section .money-manager-content .money-manager-footer-action-section .third-view-button {
+    width: 100%;
+}
+.money-manager-card-list-section .money-manager-content .money-manager-footer-action-section button {
+    width: 100%;
+}
+.money-manager-card-list-section .money-manager-content .money-manager-footer-action-section button.success {
+    /* border-radius: 0 0 10px 0px; */
+    border: 0;
+    outline: 0;
+    height: 35px;
+    font-weight: bold;
+    color: #3d972f;
+    background-color: #d7ecd9;
+}
+.money-manager-card-list-section .money-manager-content .money-manager-footer-action-section button.success:hover{
+    background-color: #bddec0;
+}
+.money-manager-card-list-section .money-manager-content .money-manager-footer-action-section button.danger {
+    /* background-color: #ff2424; */
+    border: 0;
+    border-radius: 0 0 0 10px;
+    /* color: #fff; */
+    height: 35px;
+    outline: 0;
+    font-weight: bold;
+    background-color: #ebd7d7;
+    color: #972f2f
+}
+.money-manager-card-list-section .money-manager-content .money-manager-footer-action-section button.danger:hover{
+    background-color: #e2c6c6;
+}
+.myportfolio-card-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+.myportfolio-card-section .myportfolio-card-content {
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%);
+    background-color: #f3fdff;
+    border-radius: 10px;
+    width: auto;
+    margin-top: 10px;
+}
+.myportfolio-card-section .myportfolio-card-content .width-100-with-border {
+    display: flex;
+    justify-content: space-between;
+    gap: 70px;
+    border-bottom: 1px solid hsl(0deg 0% 0% / 15%);
+    padding-bottom: 10px;
+    padding: 5px 10px
+}
+.myportfolio-card-section .myportfolio-card-content .width-100-with-border.header-sction {
+    background-color: #243a6f;
+    border-radius: 10px 10px 0 0;
+    color: #fff;
+}
+.myportfolio-card-section .myportfolio-card-content .width-100-with-border div, .myportfolio-card-section .myportfolio-card-content .width-100-no-border div {
+    display: flex;
+    flex-direction: column;
+}
+.myportfolio-card-section .myportfolio-card-content .width-100-with-border .text-bold-700, .myportfolio-card-section .myportfolio-card-content .width-100-no-border .text-bold-700 {
+    font-weight: 700;
+}
+.portfolio-link-color {
+    color: skyblue!important;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+.myportfolio-card-section .myportfolio-card-content .width-100-no-border {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 15px;
+}
+.myportfolio-card-section .myportfolio-card-content .footer-action-button {
+    display: flex;
+}
+.myportfolio-card-section .myportfolio-card-content .footer-action-button button:nth-child(1) {
+    width: 100%;
+    border: 0px;
+    border-radius: 0 0 0 10px;
+    outline: 0;
+    background-color: #ebd7d7;
+    color: #972f2f;
+    font-weight: bold;
+    height: 35px;
+}
+.myportfolio-card-section .myportfolio-card-content .footer-action-button button:nth-child(1):hover{
+    background-color: #e2c6c6;
+}
+.myportfolio-card-section .myportfolio-card-content .footer-action-button button:nth-child(2) {
+    width: 100%;
+    border: 0px;
+    border-radius: 0 0 0px 0px;
+    outline: 0;
+    background-color: #d7ecd9;
+    font-weight: bold;
+    color: #3d972f;
+    height: 35px;
+}
+.myportfolio-card-section .myportfolio-card-content .footer-action-button button:nth-child(2):hover{
+    background-color: #bddec0;
+
+}
+.myportfolio-card-section .myportfolio-card-content .footer-action-button .third-view-button {
+    width: 100%;
+    background-color: #bfbfbf69;
+    border-radius: 0 0 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #555555 ;
+    font-weight: 700;
+}
+.myportfolio-card-section .myportfolio-card-content .footer-action-button .third-view-button:hover{
+    background-color: #dadada94;
+}
+.myportfolio-card-section .loader-section {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100px;
+    align-items: center;
+}
+.money-manager-footer-action-section .skyblue {
+    background-color: #d7ecd9;
+    border: 0;
+    outline: 0;
+    border-radius: 0 0 0px 10px;
+    height: 35px;
+    color: #3d972f;
+    font-weight: bold;
+}
+.money-manager-footer-action-section .skyblue:hover{
+    background-color: #bddec0;
+}
+.money-manager-footer-action-section .third-view-button {
+    width: 100%;
+    background-color: #bfbfbf69;    border-radius: 0 0 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #555555 !important;    font-weight: 700;
+}
+.money-manager-footer-action-section .third-view-button:hover{
+    background-color: #dadada94;
+}
+.text-bold-700 .material-icons:hover{
+color: #3d9730;
+cursor: pointer;
+}
+
+.spanportFolio{
+    font-size: 19px;
+    /* border-radius: 10px; */
+    font-weight: 700;
+    color: #972f2f;
+}
+.spanportFolio1{
+    width: 100% ;
+    height: 35px;
+    border-radius: 0px 0px 0px 10px;
+    display: flex;
+    justify-content: center;
+align-items: center;
+}
+.spanportFoliopading{
+    /* font-size: 19px; */
+    /* border-radius: 10px; */
+    font-weight: 700;
+    color: #af843a;
+}
+.money-manager-footer-action-section .skyblue1 {
+    background-color: #ebe5c1;
+    border: 0;
+    outline: 0;
+    border-radius: 0 0 0px 10px;
+    height: 35px;
+    color: #af843a;
+    font-weight: bold;
+}
+.navlink-color-white {
+    color: white !important;
+}
+.loader-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 500px;
+}
+.history-table__row.background-color-green {
+    background-color: #00ab251f;
+}
+.history-table__row.background-color-red {
+    background-color: #ff00001c;
+}
+.btn-history {
+    outline: 0 !important;
+}
+.money-manager-profile-section .master {
+    background-color: transparent;
+    padding: 0;
+    margin-bottom: 25px;
+}
+.money-manager-profile-section .master .master__wrapper {
+    padding: 0;
+}
+.money-manager-profile-section .master .master__wrapper, .money-manager-profile-section .master .master__wrapper .master__inner {
+    max-width: 100%;
+}
+.money-manager-profile-section .master .master__wrapper .master__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.money-manager-profile-section .master .master__wrapper .master__inner .master__section, .money-manager-profile-section .master .master__wrapper .master__inner .master__section_history {
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%);
+    border-radius: 10px;
+    margin-bottom: 0;
+    background-color: white;
+    justify-content: center;
+    display: flex;
+}
+.money-manager-profile-section .master .master__wrapper .master__inner .master__row {
+    margin: 0;
+}
+.money-manager-profile-section .master .master__wrapper .master__inner .master__row .master__section_performance, .money-manager-profile-section .master .master__wrapper .master__inner .master__row .master__section_account-details{
+    width: 49%;
+    background-color: white;
+    padding: 15px;
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%);
+    border-radius: 10px;
+}
+.money-manager-profile-section .master .master__wrapper .master__inner .master__section_history .history-table__row-section._loss {
+    color: #ff0000;
+    font-weight: 700;
+}
+.money-manager-profile-section .master .master__wrapper .master__inner .master__section_history .history-table__row-section._positive {
+    color: #007a04;
+    font-weight: 700;
+}
+.money-manager-profile-section .master .master__wrapper .master__inner .master__section_history .history-table__row-section._profit {
+    font-weight: 700;
+}
+.money-manager-profile-section .master .master__wrapper .master__inner .money-manager-profile-view-section {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+.money-manager-profile-section .master .master__wrapper .master__inner .master__section {
+    width: auto;
+}
+.money-manager-profile-section .master .master__wrapper .master__inner .master__section .m__profile__preview .m__ct-start-button {
+    background-color: #d7ecd9;
+    color: #3d972f;
+}
+.money-manager-profile-section .master .master__wrapper .master__inner .master__section .m__profile__preview .m__ct-start-button {
+    background-color: #d7ecd9;
+    color: #3d972f;
+}
+.money-manager-profile-section .master .master__wrapper .master__inner .master__section .m__profile__preview .m__ct-start-button .m__ct-start-button__main-text {
+    font-weight: 700;
+}
+.money-manager-profile-section .master .master__wrapper .master__inner .master__row .master__section_account-details .account-details__info .account-details__info-item {
+    margin-bottom: 0px;
+}
+.money-manager-profile-section .master .master__wrapper .master__inner .master__row .master__section_account-details .account-details__info .account-details__info-item .account-details__info-head {
+    margin-bottom: 0px;
+}
+.money-manager-profile-section .master .master__wrapper .master__inner .master__section_performance .performance__head {
+    margin-bottom: 15px;
+    border-bottom: 1px solid #e5e5e5;
+}
+.money-manager-profile-section .master .master__wrapper .master__inner .master__section_account-details .account-details__head {
+    margin-bottom: 15px;
+    border-bottom: 1px solid #e5e5e5;
+}
+.money-manager-profile-section .master .master__wrapper .master__inner .master__row {
+    gap: 5px;
+}
+.money-manager-profile-section .master .master__wrapper .master__inner .master__section_performance .performance__period {
+    flex-wrap: wrap;
+}
+.money-manager-profile-section .master .master__wrapper .master__inner .master__section_performance .performance__period .performance__period-info:nth-child(1),
+.money-manager-profile-section .master .master__wrapper .master__inner .master__section_performance .performance__period .performance__period-info:nth-child(2) {
+    width: 50%;
+}
+.money-manager-profile-section .master .master__wrapper .master__inner .master__section_performance .performance__period .performance__period-info:nth-child(3) {
+    width: 100%;
+}
+.money-manager-profile-section .master .master__wrapper .master__inner .master__section_performance .performance__period .performance__period-info {
+    margin-right: 0;
+}
+
+.portfolio-profile .master .master__inner .money-manager-profile-view-section .m__profile__preview .m__profile__id {
+    font-size: 14px;
+}
+.portfolio-profile .master .master__inner .money-manager-profile-view-section .m__profile__preview .profile__preview-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+}
+.portfolio-profile .master .master__inner .money-manager-profile-view-section .m__profile__preview .profile__preview-nav .portfolio-content-section {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #e5e5e5;
+    padding-top: 10px;
+}
+.portfolio-profile .master .master__inner .money-manager-profile-view-section .m__profile__preview .profile__preview-nav .portfolio-content-section .withdrawal-section {
+    display: flex;
+    flex-direction: column;
+}
+.portfolio-profile .master .master__inner .money-manager-profile-view-section .m__profile__preview .profile__preview-nav .portfolio-content-section .withdrawal-section .text-bold-700 {
+    font-weight: 700;
+}
+@media (min-width:768px)  {
+    .css-15pu0q5-MuiPopper-root-MuiTooltip-popper .MuiTooltip-tooltip{
+        max-width: 90px !important;
+    }
+}
+
+/* .tableforriskscroe table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  }
+  
+  .tableforriskscroe th,
+  .tableforriskscroe td {
+    padding: 15px;
+    background-color: rgba(255,255,255,0.2);
+    color: #fff;
+  }
+  
+  .tableforriskscroe th {
+    text-align: left;
+  }
+   */
+   .tableforriskscroe table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  .tableforriskscroe th, .tableforriskscroe td {
+    padding: 8px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .tableforriskscroe tr:hover {background-color: #d7ecd9;}
+
+  .icon_pammportfolio{
+    font-size: 15px;
+    position: absolute;
+    margin-top: 5px;
+    margin-left: 1px;
+    cursor: pointer;
+  }
+  .loderforChart
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    width: 100%;
+}
+.profitANDLOSS
+{
+    font-size: 20px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #e5e5e5;
+}
+.money-manager-profile-section .master .master__wrapper .master__inner .master__section .m__profile__preview .m__ct-start-button1{
+    background-color: #ebd7d7;
+    color: #972f2f;
+    margin-bottom: 0;
+}
+.money-manager-profile-section .master .master__wrapper .master__inner .master__section .m__profile__preview .m__ct-start-button2{
+    background-color: #d7ecd9;
+    color: #3d972f;
+    margin-bottom: 0;
+}
+@media (max-width: 450px) {
+    .myportfolio-card-section {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+    }
+    .myportfolio-card-section .myportfolio-card-content .width-100-with-border {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid hsl(0deg 0% 0% / 15%);
+        padding: 5px 10px;
+        gap: 8px;
+    }
+}

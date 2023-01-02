@@ -1,0 +1,72 @@
+.downline-table {
+    padding: 10px 20px;
+    overflow-y: auto;
+}
+
+.downline-table table {
+    width: 100%;
+}
+
+.downline-table table tbody tr {
+    border-bottom: 1px dashed slategray;
+}
+
+.downline-table table tr td {
+    padding: 10px;
+    font-size: 13px;
+    font-weight: 400;
+    color: rgba(0,0,0,0.87);
+}
+
+.text-center {
+    text-align: center;
+}
+
+.bankDetailsTabSection.getMyStructure .partnership-section .master-structure-section {
+    width: 100%;
+}
+
+.downline-table th {
+    padding: 10px;
+    text-align: center;
+    font-size: 13px !important;
+    color: #12aaeb!important;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+@media (max-width: 1099.98px) {
+    .main-section {
+        flex-wrap: wrap;
+    }
+}
+
+
+@media (max-width: 1099.98px) {
+    group-structure-section {
+        position: relative;
+    }
+}
+
+@media (max-width: 535px) {
+    .ib-structure.view-commission-content-section .main-section div:nth-child(1), .ib-structure.view-commission-content-section .pair-section .pair-data div:nth-child(1) {
+        width: 117px;
+    }
+    .ib-structure.view-commission-content-section .main-section input, .ib-structure.view-commission-content-section .pair-data .pair-data-title {
+        min-width: 80px;
+    }
+    .ib-structure.view-commission-content-section .main-section input, .ib-structure.view-commission-content-section .pair-data input {
+        width: 60px;
+    }
+}
+
+@media (max-width: 1099.98px) {
+    .ib-structure.view-commission-content-section .pair-section {
+        padding: 9px;
+    }
+}
+
+.colcolor{
+
+    border-right: 1px solid #a9a9a9;
+}

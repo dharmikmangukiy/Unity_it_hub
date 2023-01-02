@@ -1,0 +1,10 @@
+
+.ibcomhistory{
+    display: flex;
+    flex-flow: wrap;
+    justify-content: center;
+}
+.displayflxend{
+    display: flex;
+    justify-content: end;
+}

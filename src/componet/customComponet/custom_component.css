@@ -1,0 +1,32 @@
+.common-table-with-100 {
+    width: 100%;
+}
+.bMgaAx div:first-child{
+    white-space: normal;
+}
+.rdt_Table .rdt_TableHead .rdt_TableHeadRow {
+    background-color: transparent !important;
+    font-size: 13px !important;
+    color: #12aaeb!important;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+.eOtTIX{
+    background-color: #e4e6e8 !important;
+    font-size: 13px !important;
+}
+.dFsTSm{
+    white-space: unset !important;
+    overflow: initial !important;
+    text-transform: uppercase !important;
+    font-size: 12px;
+  }
+  .text-color-yellow {
+    color: #b1b122;
+  }
+  .text-color-green {
+    color: green;
+  }
+  .text-color-red {
+    color: red;
+  }

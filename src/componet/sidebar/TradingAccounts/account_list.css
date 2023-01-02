@@ -1,0 +1,9 @@
+.get-mt5-account-details {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 145px;
+}
+.filter-section-width-100 {
+    width: 100%;
+}
