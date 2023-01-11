@@ -1,0 +1,306 @@
+.trade-main-body {
+  width: 1066px;
+  min-height: 535px;
+  background: #ffffff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  padding: 35px 39px 43px;
+}
+.trade-main-heading {
+  font-family: "Poppins";
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 36px;
+  color: #000000;
+  margin: 0 0 6px 0;
+}
+.trade-link {
+  font-family: "Poppins";
+  font-weight: 400 !important;
+  font-size: 14px;
+  line-height: 21px;
+  letter-spacing: 0.1em;
+  color: #5d2067;
+}
+.trade-body {
+  margin-top: 52px;
+  display: flex;
+  gap: 60px;
+}
+.trade-tab-button {
+  display: flex;
+  flex-direction: column;
+  gap: 27px;
+}
+.trade-tab-button button {
+  width: 250px;
+  height: 60px;
+  font-family: "Poppins";
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  background: rgba(93, 32, 103, 0.1);
+  color: #5d2067;
+  border-radius: 30px;
+  outline: none;
+  border: none;
+}
+.trade-tab-button button:focus {
+  outline: none;
+}
+.trade-tab-button .active-tab {
+  background: #5d2067 !important;
+  color: #ffffff !important;
+}
+.trade-product-block {
+  display: flex;
+  justify-content: space-between;
+  gap: 35px;
+  flex-wrap: wrap;
+}
+.trade-product-card {
+  background: #ffffff;
+  border: 1px solid #dfdfdf;
+  box-shadow: 0px 0px 10px rgba(93, 32, 103, 0.1);
+  border-radius: 20px;
+  width: 200px;
+  height: 300px;
+  padding: 12px 15px;
+  cursor: pointer;
+}
+.product-img-block {
+  width: 150px;
+  height: 150px;
+  background: rgba(93, 32, 103, 0.1);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+.product-img-block img {
+  width: 104px;
+  height: 87px;
+}
+.product-name {
+  font-family: "Poppins";
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: #787878;
+  margin-top: 11px;
+  margin-bottom: 4px;
+}
+.product-lots-block {
+  display: flex;
+  justify-content: space-between;
+}
+.product-lots-block div {
+  display: flex;
+  gap: 8px;
+}
+.product-lots-block p {
+  font-family: "Poppins";
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  color: #000000;
+  margin: 0;
+}
+.product-add-btn {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+.product-add-btn button {
+  width: 150px;
+  height: 40px;
+  background: rgba(93, 32, 103, 0.1);
+  border-radius: 30px;
+  font-family: "Poppins";
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: #5d2067;
+  border: none;
+  outline: none;
+  z-index: 10;
+}
+.product-add-btn button:focus {
+  outline: none;
+}
+.trade-order-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.trade-order-body {
+  width: 650px;
+  height: 87px;
+  background: #ffffff;
+  border: 1px solid #dfdfdf;
+  box-shadow: 0px 0px 10px rgba(93, 32, 103, 0.1);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 27px 10px 30px;
+}
+.trade-order-img-block {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background: rgba(93, 32, 103, 0.1);
+}
+.trade-order-img-block img {
+  width: 34px;
+  height: 29px;
+}
+.trade-order-name {
+  width: 35%;
+}
+.trade-order-name p:first-child {
+  font-family: "Poppins";
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: #787878;
+  margin: 0;
+}
+.trade-order-name p:last-child {
+  font-family: "Poppins";
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  color: #000000;
+  margin: 0;
+}
+.trade-order-status {
+  font-family: "Poppins";
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: #38af00;
+  margin: 0;
+  width: 25%;
+}
+.trade-order-date {
+  font-family: "Poppins";
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: #787878;
+  margin: 0;
+  width: 15%;
+}
+.product-detail-modal .MuiPaper-root {
+  width: 600px;
+  height: 500px;
+  padding: 30px 32px 30px 52px;
+}
+.product-detail-main {
+  display: flex;
+  align-items: center;
+  gap: 43px;
+  margin: auto;
+}
+.product-sub-img {
+  display: flex;
+  justify-content: space-between;
+  margin: 25px 5px 23px;
+}
+.product-sub-img div {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(176, 176, 176, 0.1);
+  border-radius: 50%;
+}
+.product-sub-img img {
+  width: 27px;
+  height: 22px;
+}
+.product-detail-left {
+  text-align: center;
+}
+.product-detail-heading {
+  font-family: "Poppins";
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: #5d2067;
+  margin: 38px 0 12px 0;
+}
+.product-detail-description {
+  font-family: "Poppins";
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  color: #787878;
+  margin: 19px 0;
+}
+.product-detail-hr {
+  border: 1px solid #787878;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.product-modal-close {
+  position: absolute;
+  right: 22px;
+  top: 15px;
+  cursor: pointer;
+}
+
+/* prize lots */
+
+.prize-heading {
+  font-family: "Poppins";
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 36px;
+  color: #000000;
+}
+.prize-cards-block {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 65px;
+}
+.prize-card {
+  text-align: center;
+}
+.prize-icon {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin: auto;
+  background: #d9d9d9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.prize-icon p {
+  font-family: "Poppins";
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 36px;
+  letter-spacing: 0.1em;
+  color: #000000;
+  margin-bottom: 0;
+}
+.prize-description {
+  font-family: "Poppins";
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  text-align: center;
+  letter-spacing: 0.1em;
+  color: #787878;
+  max-width: 178px;
+  margin-top: 29px;
+}

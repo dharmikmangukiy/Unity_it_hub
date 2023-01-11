@@ -39,7 +39,7 @@ import { ReactComponent as My_documents } from "../../svg/My_documents.svg";
 import { ReactComponent as Notifications } from "../../svg/notifications.svg";
 import { ReactComponent as Tickits } from "../../svg/tickits.svg";
 import { ReactComponent as Profile } from "../../svg/profile.svg";
-import { ReactComponent as Setting } from "../../svg/setting.svg";
+// import { ReactComponent as Setting } from "../../svg/setting.svg";
 
 const languages = [
   {
@@ -338,7 +338,7 @@ const Header = (prop) => {
           <li className="headerMenu">
             <NavLink
               className="nav-link-simple d-flex "
-              to="/"
+              to="/trade-and-win"
               // onClick={CloseSidebar}
             >
               {/* <span className="material-icons  icon_Mar">
@@ -488,7 +488,7 @@ const Header = (prop) => {
           aria-expanded={open ? "true" : undefined}
           onClick={handleClick}
         >
-          <Setting className="hoverSidebar" style={{ width: "22px" }} />
+          {/* <Setting className="hoverSidebar" style={{ width: "22px" }} /> */}
 
           {/* <span className="MuiButton-label">
             <Avatar sx={{ bgcolor: "#2a3f73", fontSize: "18px" }}>
