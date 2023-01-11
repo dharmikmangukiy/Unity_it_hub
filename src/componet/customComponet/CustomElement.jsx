@@ -5,13 +5,13 @@ import { InputBase } from "@mui/material";
 
 const ColorButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText("#ff0000"),
-  backgroundColor: "#1e64b4",
+  backgroundColor: "#5D2067",
   textTransform: "initial",
-
-  fontSize: "14px",
+  borderRadius: "50px !important",
+  fontSize: "16px",
   padding: "10px 22px",
   "&:hover": {
-    backgroundColor: "rgb(25, 85, 153)",
+    backgroundColor: "rgb(62 25 69)",
   },
 }));
 const BootstrapInput = styled(InputBase)(({ theme }) => ({

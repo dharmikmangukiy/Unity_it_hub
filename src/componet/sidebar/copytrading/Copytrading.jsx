@@ -10,7 +10,7 @@ import TermsConditions from "./TermsConditions";
 import CopierArea from "./CopierArea";
 import MasterArea from "./MasterArea";
 import Example from "./MasterCopy";
-import {useParams,useNavigate} from 'react-router-dom';
+import { useParams, useNavigate } from "react-router-dom";
 import MasterCopy from "./MasterCopy";
 
 const AntTabs = styled(Tabs)({
@@ -72,17 +72,16 @@ function a11yProps(index) {
   };
 }
 const Copytrading = () => {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const [value, setValue] = React.useState(0);
   let { id } = useParams();
-  console.log(id)
+  console.log(id);
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    console.log("DFSDFa",newValue)
-    if(newValue==0){
-      navigate('/copytrading')
+    console.log("DFSDFa", newValue);
+    if (newValue == 0) {
+      navigate("/copytrading");
     }
-    
   };
   return (
     <div>
@@ -93,7 +92,7 @@ const Copytrading = () => {
               <Grid item sm={12}></Grid>
               <Grid item xl={1}></Grid>
               <Grid item xl={10} md={12} lg={12}>
-                <TopButton />
+                {/* <TopButton /> */}
                 <Grid container>
                   <Grid item md={12}>
                     <Paper
@@ -111,7 +110,11 @@ const Copytrading = () => {
                             allowScrollButtonsMobile
                             aria-label="scrollable force tabs example"
                           >
-                            <AntTab label="RATING" {...a11yProps(0)}  onClick={()=>navigate('/copytrading')}/>
+                            <AntTab
+                              label="RATING"
+                              {...a11yProps(0)}
+                              onClick={() => navigate("/copytrading")}
+                            />
                             <AntTab label="COPIER AREA" {...a11yProps(1)} />
                             <AntTab label="MASTER AREA" {...a11yProps(2)} />
                             <AntTab
@@ -121,17 +124,17 @@ const Copytrading = () => {
                           </AntTabs>
                         </Box>
                         <TabPanel value={value} index={0}>
-                          {id ? <MasterCopy id={id}/>:<Rating />}
+                          {id ? <MasterCopy id={id} /> : <Rating />}
                         </TabPanel>
                         <TabPanel value={value} index={1}>
-                          <CopierArea setValue={setValue}/>
+                          <CopierArea setValue={setValue} />
                         </TabPanel>
-                        <TabPanel value={value} index={2} >
-                          <MasterArea  />
+                        <TabPanel value={value} index={2}>
+                          <MasterArea />
                         </TabPanel>
                         <TabPanel value={value} index={3}>
                           {/* <TermsConditions /> */}
-                      <TermsConditions/>  
+                          <TermsConditions />
                         </TabPanel>
                       </Box>
                     </Paper>
@@ -142,7 +145,6 @@ const Copytrading = () => {
           </div>
         </div>
       </div>
-      
     </div>
   );
 };

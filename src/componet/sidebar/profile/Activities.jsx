@@ -9,35 +9,35 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Pagination from "@mui/material/Pagination";
 import CommonTable from "../../customComponet/CommonTable";
-import {Url} from '../../../global';
+import { Url } from "../../../global";
 
- const Activities = () => {
+const Activities = () => {
   function createData(activity: string, date: date & time) {
     return { activity, date };
   }
   const activityColumn = [
     {
-        name: 'SR NO',
-        selector: row => row.sr_no,
-        sortable: true,
-        reorder: true,
-        grow: 0.4,
+      name: "SR NO",
+      selector: (row) => row.sr_no,
+      sortable: true,
+      reorder: true,
+      grow: 0.4,
     },
     {
-        name: 'IP ADDRESS',
-        selector: row => row.ip_address,
-        sortable: true,
-        reorder: true,
-        grow: 1,
+      name: "IP ADDRESS",
+      selector: (row) => row.ip_address,
+      sortable: true,
+      reorder: true,
+      grow: 1,
     },
     {
-        name: 'DATETIME',
-        selector: row => row.added_datetime,
-        sortable: true,
-        reorder: true,
-        grow: 1,
-    }
-];
+      name: "DATETIME",
+      selector: (row) => row.added_datetime,
+      sortable: true,
+      reorder: true,
+      grow: 1,
+    },
+  ];
   const rows = [
     createData(
       "Logged in from ip 150.107.232.227 at 103 Apr 13 2022 10:01:07 GMT+0300",
@@ -90,7 +90,7 @@ import {Url} from '../../../global';
               <Grid item sm={12}></Grid>
               <Grid item xl={1}></Grid>
               <Grid item xl={10} md={12} lg={12}>
-                <TopButton />
+                {/* <TopButton /> */}
                 <Grid container>
                   <Grid item md={12}>
                     <Paper
@@ -160,7 +160,11 @@ import {Url} from '../../../global';
                                 className="my-3 justify-content-center d-flex "
                                 size="small"
                               /> */}
-                              <CommonTable url={`${Url}/datatable/login_activities.php`} column={activityColumn} sort='2' />
+                              <CommonTable
+                                url={`${Url}/datatable/login_activities.php`}
+                                column={activityColumn}
+                                sort="2"
+                              />
                             </Paper>
                           </Grid>
                         </Grid>
@@ -176,6 +180,5 @@ import {Url} from '../../../global';
     </div>
   );
 };
-
 
 export default Activities;

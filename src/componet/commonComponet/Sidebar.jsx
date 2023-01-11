@@ -17,6 +17,19 @@ import FormControl from "@mui/material/FormControl";
 import ConfirmationNumberOutlinedIcon from "@mui/icons-material/ConfirmationNumberOutlined";
 import Dashboard from "./Dashboard.svg";
 import { BorderBottom } from "@mui/icons-material";
+// import { ACCOUNTS } from "../../svg/DASHBORD.svg";
+import { ReactComponent as DASHBORD } from "../../svg/dashbord.svg";
+import { ReactComponent as Accounts } from "../../svg/accounts.svg";
+
+import { ReactComponent as Pamm } from "../../svg/pamm.svg";
+
+import { ReactComponent as Internal_transfer } from "../../svg/internal_transfer.svg";
+import { ReactComponent as Plateform } from "../../svg/plateform.svg";
+import { ReactComponent as Reports } from "../../svg/reports.svg";
+
+import { ReactComponent as Withdraw } from "../../svg/withdraw.svg";
+import { ReactComponent as Your_trnascation } from "../../svg/your_trnascation.svg";
+
 const style = {
   margin: "0 1.42857rem 0 0",
 };
@@ -136,13 +149,16 @@ const Sidebar = (prop) => {
           </Button>
         </div>
         {isSidebarOpen ? (
-          <Button
+          <>
+            {/* <Button
             title="Collapse Sidebar"
             className="collapse-sidebar-open-close"
+            sx={{ color: "#545454" }}
             onClick={handleSidebar}
           >
-            <i className="material-icons">adjust</i>
-          </Button>
+            <i className="material-icons">menu_open</i>
+          </Button> */}
+          </>
         ) : (
           <Button
             title="Expand Sidebar"
@@ -153,30 +169,34 @@ const Sidebar = (prop) => {
           </Button>
         )}
 
-        <div className="app-sidebar--content">
+        <div className="app-sidebar--content" style={{ marginTop: "26px" }}>
           <div>
             <div className="sidebar-navigation">
-              <ul className="pt-2">
+              <ul className="pt-2" style={{ paddingTop: "19px !important" }}>
                 <li>
                   <NavLink
                     className="nav-link-simple "
                     to="/dashboard"
                     onClick={CloseSidebar}
                   >
-                    <span className="material-icons  icon_Mar">dashboard</span>
+                    {/* <span className="material-icons  icon_Mar">dashboard</span> */}
+                    <DASHBORD className="hoverSidebar" />
                     {t("Dashboard")}
                   </NavLink>
                 </li>
-                <li>
+                {/* <li>
                   <a
                     className={`my_profile ${
                       open.my_profile ? "active" : null
                     }`}
                     onClick={handleClick}
                   >
-                    <span className="material-icons  icon_Mar">
-                      contact_mail
-                    </span>
+              
+                    <DASHBORD
+                      stroke="yellow"
+                      fill="yellow"
+                      className="hoverSidebar"
+                    />
 
                     {t("Profile")}
                     <span className="sidebar-icon-indicator">
@@ -217,15 +237,18 @@ const Sidebar = (prop) => {
                       </li>
                     </ul>
                   </Collapse>
-                </li>
+                </li> */}
                 <li>
                   <a
                     className={`trading ${open.trading ? "active" : ""}`}
                     onClick={handleClick}
                   >
-                    <span className="material-icons  icon_Mar">groups</span>
+                    <Accounts
+                      stroke="yellow"
+                      fill="yellow"
+                      className="hoverSidebar"
+                    />{" "}
                     {t("Accounts")}
-
                     <span className="sidebar-icon-indicator">
                       {/* {open.platforms ?  <ExpandMore /> : <ExpandLess/>} */}
                       {open.trading ? <ExpandMore /> : <ExpandLess />}{" "}
@@ -256,7 +279,7 @@ const Sidebar = (prop) => {
                     </ul>
                   </Collapse>
                 </li>
-                <li>
+                {/* <li>
                   <NavLink
                     className="nav-link-simple "
                     to="/deposit"
@@ -265,16 +288,17 @@ const Sidebar = (prop) => {
                     <span className="material-icons  icon_Mar">add</span>
                     {t("Deposit")}
                   </NavLink>
-                </li>
+                </li> */}
                 <li>
                   <NavLink
                     className="nav-link-simple "
                     to="/withdrawal"
                     onClick={CloseSidebar}
                   >
-                    <span className="material-icons  icon_Mar">
+                    {/* <span className="material-icons  icon_Mar">
                       file_upload
-                    </span>
+                    </span> */}
+                    <Withdraw className="hoverSidebar" />
 
                     {t("Withdrawal")}
                   </NavLink>
@@ -285,122 +309,20 @@ const Sidebar = (prop) => {
                     to="/internal_transfer"
                     onClick={CloseSidebar}
                   >
-                    <span className="material-icons  icon_Mar">sync_alt</span>
+                    {/* <span className="material-icons  icon_Mar">sync_alt</span> */}
+                    <Internal_transfer className="hoverSidebar" />
+
                     {t("Internal_Transfer")}
                   </NavLink>
                 </li>
                 <li>
                   <a
-                    className={`partnership ${
-                      open.partnership ? "active" : ""
-                    }`}
-                    onClick={handleClick}
-                  >
-                    <span className="material-icons  icon_Mar">handshake</span>
-                    IB Application
-                    <span className="sidebar-icon-indicator">
-                      {open.partnership ? <ExpandMore /> : <ExpandLess />}
-                    </span>
-                  </a>
-                  <Collapse in={open.partnership} timeout="auto" unmountOnExit>
-                    <ul>
-                      <li>
-                        <NavLink
-                          className="nav-link-simple "
-                          to="/partnership"
-                          onClick={CloseSidebar}
-                        >
-                          IB Request
-                        </NavLink>
-                      </li>
-                      {localStorage.getItem("is_ib_account") == "1" ? (
-                        <li>
-                          <NavLink
-                            className="nav-link-simple"
-                            to="/my_structure"
-                            onClick={CloseSidebar}
-                          >
-                            My Structure
-                          </NavLink>
-                        </li>
-                      ) : (
-                        ""
-                      )}
-                      {localStorage.getItem("is_ib_account") == "1" ? (
-                        <li>
-                          <NavLink
-                            className="nav-link-simple "
-                            to="/ib_commision_group"
-                            onClick={CloseSidebar}
-                          >
-                            IB Structure
-                          </NavLink>
-                        </li>
-                      ) : (
-                        ""
-                      )}
-                      {localStorage.getItem("is_ib_account") == "1" ? (
-                        <li>
-                          <NavLink
-                            className="nav-link-simple "
-                            to="/my_client"
-                            onClick={CloseSidebar}
-                          >
-                            My Client
-                          </NavLink>
-                        </li>
-                      ) : (
-                        ""
-                      )}
-                    </ul>
-                  </Collapse>
-                </li>
-                {localStorage.getItem("is_ib_account") == "1" ? (
-                  <li>
-                    <a
-                      className={`iBReport ${open.iBReport ? "active" : ""}`}
-                      onClick={handleClick}
-                    >
-                      <span className="material-icons  icon_Mar">
-                        handshake
-                      </span>
-                      IB Report
-                      <span className="sidebar-icon-indicator">
-                        {open.iBReport ? <ExpandMore /> : <ExpandLess />}
-                      </span>
-                    </a>
-                    <Collapse in={open.iBReport} timeout="auto" unmountOnExit>
-                      <ul>
-                        <li>
-                          <NavLink
-                            className="nav-link-simple "
-                            to="/ib_commission_history"
-                            onClick={CloseSidebar}
-                          >
-                            IB Commission History
-                          </NavLink>
-                        </li>
-                        <li>
-                          <NavLink
-                            className="nav-link-simple "
-                            to="/ib_withdraw_history"
-                            onClick={CloseSidebar}
-                          >
-                            IB Commissions Withdrawal Report
-                          </NavLink>
-                        </li>
-                      </ul>
-                    </Collapse>
-                  </li>
-                ) : (
-                  ""
-                )}
-                <li>
-                  <a
                     className={`operation ${open.operation ? "active" : ""}`}
                     onClick={handleClick}
                   >
-                    <span className="material-icons icon_Mar">people</span>
+                    {/* <span className="material-icons icon_Mar">people</span> */}
+                    <Your_trnascation className="hoverSidebar" />
+
                     {t("Your Transaction")}
                     {/* {open.operation ? <ExpandMore /> : <ExpandLess />} */}
 
@@ -436,7 +358,8 @@ const Sidebar = (prop) => {
                     to="/reports"
                     onClick={CloseSidebar}
                   >
-                    <span className="material-icons  icon_Mar">analytics</span>
+                    {/* <span className="material-icons  icon_Mar">analytics</span> */}
+                    <Reports className="hoverSidebar" />
                     {t("Reports")}{" "}
                   </NavLink>
                 </li>
@@ -445,7 +368,9 @@ const Sidebar = (prop) => {
                     className={`platforms ${open.platforms ? "active" : ""}`}
                     onClick={handleClick}
                   >
-                    <span className="material-icons  icon_Mar">computer</span>
+                    {/* <span className="material-icons  icon_Mar">computer</span> */}
+                    <Plateform className="hoverSidebar" />
+
                     {t("Platforms")}
 
                     <span className="sidebar-icon-indicator">
@@ -478,7 +403,9 @@ const Sidebar = (prop) => {
                       className={`pamm ${open.pamm ? "active" : ""}`}
                       onClick={handleClick}
                     >
-                      <span className="material-icons  icon_Mar">soap</span>
+                      <Pamm className="hoverSidebar" />
+
+                      {/* <span className="material-icons  icon_Mar">soap</span> */}
                       {t("pamm")}
 
                       <span className="sidebar-icon-indicator">
@@ -527,7 +454,7 @@ const Sidebar = (prop) => {
                 ) : (
                   ""
                 )}
-                <li>
+                {/* <li>
                   <NavLink
                     className="nav-link-simple "
                     to="/Web_Trader"
@@ -538,7 +465,7 @@ const Sidebar = (prop) => {
                     </span>
                     {t("Web_Trader")}{" "}
                   </NavLink>
-                </li>
+                </li> */}
                 {/* <li>
                   <a
                     className={`contests ${open.contests ? "active" : null}`}
@@ -574,27 +501,28 @@ const Sidebar = (prop) => {
                   </Collapse>
                 </li> */}
                 <li>
-                  <NavLink
+                  {/* <NavLink
                     className="nav-link-simple "
                     to="/Comingsoon"
                     onClick={CloseSidebar}
                   >
+                  <DASHBORD className="hoverSidebar" />
                     <span className="material-icons  icon_Mar">
                       military_tech
                     </span>
                     Contests
-                  </NavLink>
+                  </NavLink> */}
 
-                  <NavLink
+                  {/* <NavLink
                     className="nav-link-simple "
                     to="/copytrading"
                     onClick={CloseSidebar}
-                  >
-                    <span className="material-icons  icon_Mar">
+                  > */}
+                  {/* <span className="material-icons  icon_Mar">
                       candlestick_chart
-                    </span>
-                    {t("Copytrading")}{" "}
-                  </NavLink>
+                    </span> */}
+                  {/* {t("Copytrading")}{" "}
+                  </NavLink> */}
                 </li>
                 {/* <li>
                   <Button
@@ -677,7 +605,7 @@ const Sidebar = (prop) => {
                     </DialogContent>
                   </Dialog>
                 </li> */}
-                <li>
+                {/* <li>
                   <NavLink
                     className="nav-link-simple "
                     to="/ticket"
@@ -700,7 +628,7 @@ const Sidebar = (prop) => {
                     </span>
                     Notification
                   </NavLink>
-                </li>
+                </li> */}
               </ul>
             </div>
             <div

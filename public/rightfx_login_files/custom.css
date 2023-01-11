@@ -1333,11 +1333,13 @@ body .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
   --white: #fff;
   --gray: #d1d2db;
   --gray-dark: #7a7b97;
-  --primary: #3d9730;
+  --primary: #5d2067;
   --secondary: #f8f9ff;
   --success: #1bc943;
   /* --info: #3D9730; */
-  --info: #12a9eb;
+  /* --info: #12a9eb; */
+  --info: #5d2067;
+
   --warning: #f4772e;
   --danger: #f83245;
   --light: #f4f5fd;
@@ -1378,7 +1380,8 @@ section {
   display: block;
 }
 body {
-  font-family: 'Cairo', sans-serif;
+  /* font-family: 'Poppins'; */
+  font-family: "Poppins";
   margin: 0;
   font-size: 1rem;
   font-weight: 400;
@@ -1470,16 +1473,19 @@ sup {
   top: -0.5em;
 }
 a:not(.MuiButtonBase-root) {
-  color: #2a3f73;
+  /* color: #393a47; */
   text-decoration: none;
   background-color: transparent;
   font-weight: 800;
-
+  align-items: center;
 }
 a:not(.MuiButtonBase-root):hover {
-  color: #3D9730;
+  /* color: #3d9730; */
   text-decoration: none;
 }
+/* .icon_Mar:hover{
+  color: #5d2067 !important;
+} */
 a.card.card-box {
   background-color: #fff;
 }
@@ -5508,7 +5514,7 @@ a.text-success:hover {
   color: #12862d !important;
 }
 .text-info {
-  color: #12aaeb !important;
+  color: #5d2067 !important;
 }
 a.text-info:focus,
 a.text-info:hover {
@@ -9788,12 +9794,13 @@ svg.leaflet-image-layer.leaflet-interactive path {
     justify-content: flex-end;
   }
 }
-@media (max-width: 575.98px){
-.topButtons {
+@media (max-width: 575.98px) {
+  .topButtons {
     display: grid;
     grid-template-columns: 1fr 1fr;
     column-gap: 0px;
-}}
+  }
+}
 body .accordion > .card-box {
   border-radius: 0;
 }
@@ -10201,7 +10208,9 @@ body .MuiButtonBase-root:hover .btn-icon-transition {
   transform: scale(1.1);
 }
 body
-  .MuiButtonBase-root:not(.MuiListItem-button):not(.MuiTab-root):not(:disabled):not(.MuiCheckbox-root):not(.MuiSwitch-switchBase):hover {
+  .MuiButtonBase-root:not(.MuiListItem-button):not(.MuiTab-root):not(
+    :disabled
+  ):not(.MuiCheckbox-root):not(.MuiSwitch-switchBase):hover {
   transform: translateY(-2px);
 }
 body .MuiButtonBase-root.btn-transition-none:hover {
@@ -11915,7 +11924,7 @@ a.card-img-wrapper:hover .img-wrapper-overlay {
   background-image: url(/static/media/loginbox.7e2e6c8a.png);
   border-radius: 20px;
   width: 450px;
-    height: auto;
+  height: auto;
   margin-left: auto;
   margin-right: auto;
 }
@@ -15645,7 +15654,8 @@ body .MuiInputLabel-outlined {
   }
 }
 .app-header--shadow {
-  box-shadow: 3px 0px 52px rgb(42 63 115 / 22%);}
+  box-shadow: 3px 0px 52px rgb(42 63 115 / 22%);
+}
 .app-header--opacity-bg {
   background: hsla(0, 0%, 100%, 0.95);
 }
@@ -15796,9 +15806,9 @@ body .MuiInputLabel-outlined {
   position: relative;
 }
 @media (min-width: 1100px) {
-  .app-sidebar--shadow {
-    box-shadow: 3px 0px 52px rgb(42 63 115 / 11%) 
-  }
+  /* .app-sidebar--shadow {
+    box-shadow: 3px 0px 52px rgb(42 63 115 / 11%);
+  } */
 }
 .app-sidebar--content {
   overflow-y: auto;
@@ -15897,8 +15907,8 @@ body .MuiInputLabel-outlined {
 }
 .app-sidebar--header {
   padding: 0 1.5rem;
-  min-height: 110px;
-  height: 74px;
+  /* min-height: 110px; */
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -15935,6 +15945,7 @@ body .MuiInputLabel-outlined {
 
   .collapse-sidebar-open-close {
     display: none !important;
+    color: #4a4c4f !important;
   }
 }
 /* @media screen and (max-width: 1099px){
@@ -16208,8 +16219,9 @@ body .MuiInputLabel-outlined {
   display: flex;
   align-items: center;
   align-content: center;
-  height: 44px;
-  padding: 1.875rem 1.5rem;
+  height: 49px;
+  padding: 15px 10px;
+  padding-left: 37px;
   font-size: 0.96364rem;
   white-space: nowrap;
   font-weight: 400;
@@ -16404,8 +16416,8 @@ body .MuiInputLabel-outlined {
 }
 .app-sidebar--light .sidebar-navigation ul li > a.active,
 .app-sidebar--light .sidebar-navigation ul li > a:hover {
-  background: rgba(30, 100, 180, 0.05);
-  color: #3d9730;
+  background: rgb(93 32 103 / 10%);
+  color: #5d2067;
 }
 .app-sidebar--light
   .sidebar-navigation
@@ -16981,7 +16993,8 @@ body {
 }
 .app-content--inner {
   overflow: hidden;
-  padding: 1rem 3rem;
+  /* padding: 1rem 3rem; */
+  padding: 40px 100px 40px 27px;
   display: flex;
   flex: 1 1;
 }
@@ -17469,14 +17482,14 @@ body {
 }
 
 @media (max-width: 599px) {
-  .loader{
+  .loader {
     display: flex !important;
   }
   .trading-accounts-wrapper .card-body > div {
     margin-top: 0 !important;
     display: inline !important;
   }
-  .centerLoader{
+  .centerLoader {
     position: absolute;
     top: 50%;
     left: 0;
@@ -17486,7 +17499,7 @@ body {
     right: 0;
     width: 50%;
   }
-  .mflex{
+  .mflex {
     display: flex !important;
   }
   .trading-accounts-wrapper .card-body .MuiGrid-item {
@@ -17701,9 +17714,9 @@ hr {
   animation: rotate 2s linear infinite;
   z-index: 2;
   position: absolute;
- 
+
   width: 28px;
-  height: 28px; 
+  height: 28px;
 }
 
 .spinner .path {
@@ -17738,7 +17751,7 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-.dFsTSm{
+.dFsTSm {
   font-weight: 600;
   font-size: 15px;
 }
@@ -17822,7 +17835,7 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-input[type=number] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
 .rdt_Table .rdt_TableHead .rdt_TableHeadRow .rdt_TableCol > div > div {
@@ -17838,59 +17851,57 @@ input[type=number] {
 .custom-text-color {
   color: #1e64b4;
 }
-.css-1uwzc1h-MuiSelect-select-MuiInputBase-input.css-1uwzc1h-MuiSelect-select-MuiInputBase-input.css-1uwzc1h-MuiSelect-select-MuiInputBase-input 
-{
+.css-1uwzc1h-MuiSelect-select-MuiInputBase-input.css-1uwzc1h-MuiSelect-select-MuiInputBase-input.css-1uwzc1h-MuiSelect-select-MuiInputBase-input {
   font-weight: bold !important;
   color: #7a7b97 !important;
 }
-  /* font-weight: bold !important;
+/* font-weight: bold !important;
     color: #7a7b97 !important; */
-  
+
 .MuiPaper-root {
-  font-family: 'Cairo', sans-serif !important;
+  font-family: "Poppins" !important;
 }
-.MuiTypography-root{
-  font-family: 'Cairo', sans-serif !important;
+.MuiTypography-root {
+  font-family: "Poppins" !important;
 }
-.MuiDialogContent-root{
-  font-family: 'Cairo', sans-serif !important;
+.MuiDialogContent-root {
+  font-family: "Poppins" !important;
 }
-input.MuiInputBase-input{
+input.MuiInputBase-input {
   font-weight: bold !important;
   color: #7a7b97 !important;
-
 }
 .image-slider-for-dot-use .MuiMobileStepper-dots .MuiMobileStepper-dot {
   cursor: pointer;
 }
-.MuiButton-root{
-    font-family: 'Cairo', sans-serif !important; 
+.MuiButton-root {
+  font-family: "Poppins" !important;
 }
-.MuiAvatar-root{
-  font-family: 'Cairo', sans-serif !important; 
+.MuiAvatar-root {
+  font-family: "Poppins" !important;
 }
-.MuiStepLabel-label{
-  font-family: 'Cairo', sans-serif !important; 
+.MuiStepLabel-label {
+  font-family: "Poppins" !important;
 }
-.MuiFormHelperText-root{
-  font-family: 'Cairo', sans-serif !important; 
+.MuiFormHelperText-root {
+  font-family: "Poppins" !important;
   font-weight: 600 !important;
-  color:#D32F2F !important;
+  color: #d32f2f !important;
 }
 .MuiButton-root {
-  font-family: 'Cairo', sans-serif !important; 
+  font-family: "Poppins" !important;
 }
-@media screen and (min-width: 320px) and (max-width : 371px) {
+@media screen and (min-width: 320px) and (max-width: 371px) {
   .download_platform_btn {
     padding: 15px 9px !important;
   }
 }
-@media screen and (min-width: 320px) and (max-width : 768px) {
+@media screen and (min-width: 320px) and (max-width: 768px) {
   .invalid-tooltip {
     position: unset !important;
   }
 }
-@media screen and (min-width: 320px) and (max-width : 900px) {
+@media screen and (min-width: 320px) and (max-width: 900px) {
   .removeTopPadding {
     padding-top: 0 !important;
   }
@@ -17898,25 +17909,29 @@ input.MuiInputBase-input{
     margin-top: 0 !important;
   }
 }
-@media screen and (min-width: 320px) and (max-width : 877px) {
-  .common-table-with-100 .rdt_Table .rdt_TableBody .rdt_TableRow .rdt_TableCell .responsiveButton {
+@media screen and (min-width: 320px) and (max-width: 877px) {
+  .common-table-with-100
+    .rdt_Table
+    .rdt_TableBody
+    .rdt_TableRow
+    .rdt_TableCell
+    .responsiveButton {
     font-size: 11px;
     padding: 5px 6px !important;
   }
 }
 .MuiFormHelperText-root {
-  font-family: cairo,sans-serif !important;
+  font-family: cairo, sans-serif !important;
   font-weight: 600 !important;
   color: #fff !important;
-  background-color: rgba(220,53,69,.9) !important;
-  border-radius: .25rem;
+  background-color: rgba(220, 53, 69, 0.9) !important;
+  border-radius: 0.25rem;
   padding: 5px 5px;
   margin: 3px 0px !important;
 }
 
-@media screen and (max-width : 1100px) {
+@media screen and (max-width: 1100px) {
   .test {
     margin: unset !important;
   }
 }
-

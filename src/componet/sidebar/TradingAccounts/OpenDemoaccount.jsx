@@ -66,7 +66,7 @@ const OpenDemoaccount = () => {
             <Grid item sm={12}></Grid>
             <Grid item xl={1}></Grid>
             <Grid item xl={10} md={12} lg={12}>
-              <TopButton />
+              {/* <TopButton /> */}
               <div className="mb-4 align-items-center">
                 <div className="w-100 mb-4 display-4 font-weight-bold">
                   Open Demo Account

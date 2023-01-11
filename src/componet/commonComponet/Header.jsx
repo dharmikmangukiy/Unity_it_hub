@@ -17,13 +17,30 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import GppGoodIcon from "@mui/icons-material/GppGood";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "./comon.css";
 import { IsApprove, Url } from "../../global";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import axios from "axios";
-import { Badge, IconButton } from "@mui/material";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+import { Badge, Collapse, IconButton } from "@mui/material";
 import { ColorButton } from "../customComponet/CustomElement";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { ReactComponent as Deposit } from "../../svg/deposit.svg";
+import { ReactComponent as Web_trader } from "../../svg/web_trader.svg";
+import { ReactComponent as Bonus } from "../../svg/bonus.svg";
+import { ReactComponent as TradeAndWin } from "../../svg/tradeAndWin.svg";
+import { ReactComponent as Ib_application } from "../../svg/ib_application.svg";
+import { ReactComponent as Activities } from "../../svg/Activities.svg";
+import { ReactComponent as Bank_account } from "../../svg/Bank_account.svg";
+import { ReactComponent as Copy_trading } from "../../svg/Copy_trading.svg";
+import { ReactComponent as My_documents } from "../../svg/My_documents.svg";
+import { ReactComponent as Notifications } from "../../svg/notifications.svg";
+import { ReactComponent as Tickits } from "../../svg/tickits.svg";
+import { ReactComponent as Profile } from "../../svg/profile.svg";
+import { ReactComponent as Setting } from "../../svg/setting.svg";
+
 const languages = [
   {
     code: "en",
@@ -102,10 +119,21 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
 const Header = (prop) => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl2, setAnchorEl2] = React.useState(null);
+
   const [anchorEl1, setAnchorEl1] = React.useState(null);
   const open1 = Boolean(anchorEl1);
+  const open2 = Boolean(anchorEl2);
+
   const [notisLoader, setNotIsLoader] = useState(true);
   const open = Boolean(anchorEl);
+  const [open11, setOpen11] = React.useState({
+    operation: false,
+    trading: false,
+    platforms: false,
+    contests: false,
+    partnership: false,
+  });
   const [prefrence, setPrefrence] = useState({});
   const handleClick1 = (event) => {
     setAnchorEl1(event.currentTarget);
@@ -113,11 +141,27 @@ const Header = (prop) => {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  const handleClick2 = (event) => {
+    setAnchorEl2(event.currentTarget);
+  };
   const handleClose1 = () => {
     setAnchorEl1(null);
   };
+  const handleClose2 = () => {
+    setAnchorEl2(null);
+  };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const handleClick4 = (e) => {
+    const name = e.target.classList[0];
+    // console.log(name);
+    setOpen11((preValue) => {
+      return {
+        ...preValue,
+        [name]: !open11[name],
+      };
+    });
   };
   const [notedata, setNoteData] = useState([]);
   const notificationdata = () => {
@@ -219,7 +263,7 @@ const Header = (prop) => {
   console.log("Prefrence", prefrence);
   return (
     <div className="app-header app-header--shadow app-header--opacity-bg">
-      <div className="app-header--pane">
+      {/* <div className="app-header--pane">
         <button
           className="navbar-toggler hamburger hamburger--elastic toggle-mobile-sidebar-btn"
           onClick={() => prop.setSidebar(true)}
@@ -247,9 +291,183 @@ const Header = (prop) => {
             <MenuItem value="cn">CN</MenuItem>
           </Select>
         </FormControl>
-      </div>
+      </div> */}
       <div className="app-header--pane">
-        <IconButton
+        <ul style={{ marginBottom: "0", gap: "24px" }} className="d-flex">
+          <li className="headerMenu">
+            <NavLink
+              className="nav-link-simple d-flex "
+              to="/deposit"
+              // onClick={CloseSidebar}
+            >
+              <Deposit className="hoverSidebar" />
+
+              {/* <span className="material-icons  icon_Mar">add</span> */}
+
+              <span className="HeaderMenuColor">{t("Deposit")}</span>
+            </NavLink>
+          </li>
+          <li className="headerMenu">
+            <NavLink
+              className="nav-link-simple d-flex "
+              to="/Web_Trader"
+              // onClick={CloseSidebar}
+            >
+              {/* <span className="material-icons  icon_Mar">
+                data_thresholding
+              </span> */}
+              <Web_trader className="hoverSidebar" style={{ width: "20px" }} />
+
+              <span className="HeaderMenuColor">{t("Web_Trader")} </span>
+            </NavLink>
+          </li>
+          <li className="headerMenu">
+            <NavLink
+              className="nav-link-simple d-flex "
+              to="/"
+              // onClick={CloseSidebar}
+            >
+              {/* <span className="material-icons  icon_Mar">
+                data_thresholding
+              </span> */}
+              <Bonus className="hoverSidebar" />
+
+              <span className="HeaderMenuColor">Bonus </span>
+            </NavLink>
+          </li>
+          <li className="headerMenu">
+            <NavLink
+              className="nav-link-simple d-flex "
+              to="/"
+              // onClick={CloseSidebar}
+            >
+              {/* <span className="material-icons  icon_Mar">
+                data_thresholding
+              </span> */}
+              <TradeAndWin className="hoverSidebar" />
+
+              <span className="HeaderMenuColor">Trade & Win </span>
+            </NavLink>
+          </li>
+          <li className="headerMenu">
+            <a
+              className="nav-link-simple d-flex "
+              // to="/Web_Trader"
+              onClick={handleClick2}
+              // onClick={CloseSidebar}
+            >
+              {/* <span className="material-icons  icon_Mar">
+                data_thresholding
+              </span> */}
+              <span>
+                <Ib_application
+                  className="hoverSidebar"
+                  style={{ width: "24px" }}
+                />
+              </span>
+
+              <span className="HeaderMenuColor">IB Portal</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <Menu
+        id="demo-positioned-menu"
+        aria-labelledby="demo-positioned-button"
+        anchorEl={anchorEl2}
+        open={open2}
+        onClose={handleClose2}
+        className="menuHeder"
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        <MenuItem style={{ width: "199px" }}>
+          <NavLink
+            className="nav-link-simple "
+            to="/partnership"
+            onClick={handleClose2}
+          >
+            <Profile className="hoverSidebar1" />
+            IB Request
+          </NavLink>
+        </MenuItem>
+
+        <MenuItem>
+          {" "}
+          <NavLink to="/myDocuments" onClick={handleClose2}>
+            {" "}
+            <My_documents className="hoverSidebar1" />
+            {t("My_Documents")}{" "}
+          </NavLink>
+        </MenuItem>
+        <MenuItem>
+          <NavLink
+            className="nav-link-simple"
+            to="/my_structure"
+            onClick={handleClose2}
+          >
+            <Bank_account className="hoverSidebar1" />
+            My Structure
+          </NavLink>
+        </MenuItem>
+
+        <MenuItem>
+          {" "}
+          <NavLink
+            className="nav-link-simple "
+            to="/ib_commision_group"
+            onClick={handleClose2}
+          >
+            <Activities className="hoverSidebar1" />
+            IB Structure
+          </NavLink>
+        </MenuItem>
+
+        <MenuItem>
+          {" "}
+          <NavLink
+            className="nav-link-simple "
+            to="/my_client"
+            onClick={handleClose2}
+          >
+            <Tickits className="hoverSidebar1" />
+            My Client
+          </NavLink>
+        </MenuItem>
+        <MenuItem>
+          {" "}
+          <NavLink
+            className="nav-link-simple "
+            to="/ib_commission_history"
+            onClick={handleClose2}
+          >
+            <Notifications className="hoverSidebar1" />
+            IB Commission History
+          </NavLink>
+        </MenuItem>
+        <MenuItem>
+          {" "}
+          <NavLink
+            className="nav-link-simple "
+            to="/ib_commission_history"
+            onClick={handleClose2}
+          >
+            <Notifications className="hoverSidebar1" />
+            IB Commission History
+          </NavLink>
+          <NavLink
+            className="nav-link-simple "
+            to="/ib_withdraw_history"
+            onClick={handleClose2}
+          >
+            <Notifications className="hoverSidebar1" />
+            IB Commissions Withdrawal Report
+          </NavLink>
+        </MenuItem>
+      </Menu>
+      <div className="app-header--pane">
+        {/* <IconButton
           aria-label={100}
           sx={{ marginRight: "10px" }}
           onClick={(e) => {
@@ -263,22 +481,25 @@ const Header = (prop) => {
           >
             <NotificationsIcon />
           </Badge>
-        </IconButton>
+        </IconButton> */}
         <ButtonBase
           aria-controls={open ? "demo-positioned-menu" : undefined}
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
           onClick={handleClick}
         >
-          <span className="MuiButton-label">
+          <Setting className="hoverSidebar" style={{ width: "22px" }} />
+
+          {/* <span className="MuiButton-label">
             <Avatar sx={{ bgcolor: "#2a3f73", fontSize: "18px" }}>
-              <span>{str()}</span>{" "}
+              <AccountCircleIcon sx={{ fontSize: "xxx-large" }} />
             </Avatar>{" "}
           </span>
           <span className="d-none d-md-inline-block mx-2 capitalize">
             {prefrence.user_name}
-          </span>
-          <KeyboardArrowDownIcon />
+          </span> */}
+
+          {/* <KeyboardArrowDownIcon /> */}
         </ButtonBase>
         <Menu
           id="demo-positioned-menu"
@@ -286,65 +507,66 @@ const Header = (prop) => {
           anchorEl={anchorEl}
           open={open}
           onClose={handleClose}
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "left",
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "left",
+          className="menuHeder"
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
           }}
         >
-          <div className="dropdown-menu-xl overflow-hidden p-0">
-            <div className="d-flex p-4">
-              <Avatar sx={{ bgcolor: "#3D9730" }}>{str()}</Avatar>
-              <div className="mx-3">
-                <h6 className="font-weight-bold mb-1 text-black capitalize">
-                  {prefrence.user_name}
-                </h6>
-                <p className="text-black-50 mb-0">{prefrence.user_email}</p>
-              </div>
-            </div>
-            <div className="divider"></div>
-            <div className="divider"></div>
-            <div className="bg-secondary d-flex align-items-center flex-column py-4">
-              <div className="display-3 mb-0 text-center font-weight-bold">
-                <small className="opacity-6">$</small>
-                <span className="pl-1">
-                  <span> {prefrence.balance}</span>
-                </span>
-              </div>
-              <small className="text-center font-weight-bold opacity-6 text-uppercase">
-                {" "}
-                Total Wallet Balance
-              </small>
-            </div>
-            <div className="divider"></div>
-            <List
-              className="nav-neutral-first nav-pills-rounded flex-column p-3"
-              onClick={() => {
-                navigate("/userProfile");
-                handleClose();
-              }}
+          <MenuItem style={{ width: "199px" }}>
+            <NavLink to="/userProfile" ariaCurrent onClick={handleClose}>
+              {" "}
+              <Profile className="hoverSidebar1" />
+              {t("User_Profile")}{" "}
+            </NavLink>{" "}
+          </MenuItem>
+
+          <MenuItem>
+            {" "}
+            <NavLink to="/myDocuments" onClick={handleClose}>
+              {" "}
+              <My_documents className="hoverSidebar1" />
+              {t("My_Documents")}{" "}
+            </NavLink>
+          </MenuItem>
+          <MenuItem>
+            <NavLink to="/bankAccounts" onClick={handleClose}>
+              {" "}
+              <Bank_account className="hoverSidebar1" /> {t("Bank_Accounts")}{" "}
+            </NavLink>
+          </MenuItem>
+
+          <MenuItem>
+            {" "}
+            <NavLink to="/activities" onClick={handleClose}>
+              {" "}
+              <Activities className="hoverSidebar1" /> {t("Activities")}{" "}
+            </NavLink>
+          </MenuItem>
+
+          <MenuItem>
+            {" "}
+            <NavLink
+              className="nav-link-simple "
+              to="/ticket"
+              onClick={handleClose}
             >
-              <ListItem button={true}>
-                <div className="mr-2 ">
-                  <GppGoodIcon />
-                </div>
-                <span className="font-size-md">Profile</span>
-              </ListItem>
-            </List>
-            <div className="divider"></div>
-            <List className="nav-neutral-danger nav-pills-rounded flex-column p-3">
-              <ListItem button={true} onClick={onLogout}>
-                <div className="mr-2">
-                  <ExitToAppIcon />
-                </div>
-                <span className="font-size-md">Log out</span>
-              </ListItem>
-            </List>
-          </div>
+              <Tickits className="hoverSidebar1" />
+              Ticket
+            </NavLink>
+          </MenuItem>
+          <MenuItem>
+            {" "}
+            <NavLink
+              className="nav-link-simple "
+              to="/notification"
+              onClick={handleClose}
+            >
+              <Notifications className="hoverSidebar1" />
+              Notification
+            </NavLink>
+          </MenuItem>
         </Menu>
+
         <Menu
           id="demo-positioned-menu1"
           aria-labelledby="demo-positioned-button1"

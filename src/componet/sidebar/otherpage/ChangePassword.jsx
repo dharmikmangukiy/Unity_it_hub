@@ -210,7 +210,7 @@ export const ChangePassword = () => {
                 <Grid item sm={12}></Grid>
                 <Grid item xl={1}></Grid>
                 <Grid item xl={10} md={12} lg={12}>
-                  <TopButton />
+                  {/* <TopButton /> */}
                   <Grid container>
                     <Grid item md={12} className="d-flex">
                       <Grid container>

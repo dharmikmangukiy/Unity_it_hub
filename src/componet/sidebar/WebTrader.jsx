@@ -39,7 +39,7 @@ const WebTrader = () => {
                 {" "}
               </Grid>
               <Grid item xl={10} md={12} lg={12}>
-                <TopButton />
+                {/* <TopButton /> */}
                 <div
                   id="webterminal"
                   style={{ width: "100%", height: "600px" }}

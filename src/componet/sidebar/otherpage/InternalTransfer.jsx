@@ -331,7 +331,7 @@ const InternalTransfer = () => {
             <Grid item sm={12}></Grid>
             <Grid item xl={1}></Grid>
             <Grid item xl={10} md={12} lg={12}>
-              <TopButton />
+              {/* <TopButton /> */}
               <Grid container spacing={6}>
                 <Grid item md={12}>
                   <Paper
@@ -450,7 +450,11 @@ const InternalTransfer = () => {
                               )}
                             </div>
                           </Grid>
-                          <Grid item md={4} className="d-flex pb-0 removeTopPadding">
+                          <Grid
+                            item
+                            md={4}
+                            className="d-flex pb-0 removeTopPadding"
+                          >
                             <div className="from_account_section">
                               {form.from_account == "MT5" ? (
                                 <FormControl

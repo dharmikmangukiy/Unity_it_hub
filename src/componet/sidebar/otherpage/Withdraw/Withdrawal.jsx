@@ -59,15 +59,15 @@ export const Withdrawal = () => {
   const [walletbalance, setwalletbalance] = useState("");
   const [scriptRun, setScriptRun] = useState(false);
   useEffect(() => {
-    if (scriptRun) {
-      const script = document.createElement("script");
-      script.src = "/dimage/socket.js";
-      script.async = true;
-      document.body.appendChild(script);
-      return () => {
-        document.body.removeChild(script);
-      };
-    }
+    // if (scriptRun) {
+    //   const script = document.createElement("script");
+    //   script.src = "/dimage/socket.js";
+    //   script.async = true;
+    //   document.body.appendChild(script);
+    //   return () => {
+    //     document.body.removeChild(script);
+    //   };
+    // }
   }, [scriptRun]);
   const trueFalse = (event) => {
     var { name, value } = event.target;
@@ -592,7 +592,7 @@ export const Withdrawal = () => {
                 <Grid item sm={12}></Grid>
                 <Grid item xl={1}></Grid>
                 <Grid item xl={10} md={12} lg={12}>
-                  <TopButton />
+                  {/* <TopButton /> */}
                   <Grid container spacing={5}>
                     <Grid item md={6} className="mb-2 mb-md-5">
                       <Paper
@@ -694,17 +694,17 @@ export const Withdrawal = () => {
                                         id="fullWidth"
                                         onBlur={trueFalse}
                                       >
-                                        <MenuItem
+                                        {/* <MenuItem
                                           value=""
                                           onClick={() => setOption("")}
                                         >
                                           Select Option
-                                        </MenuItem>
+                                        </MenuItem> */}
                                         <MenuItem
                                           value="Bank"
                                           onClick={() => setOption("bank")}
                                         >
-                                          BANK
+                                          Bank{" "}
                                         </MenuItem>
                                         <MenuItem
                                           value="UPI"
@@ -716,13 +716,13 @@ export const Withdrawal = () => {
                                           value="Cash"
                                           onClick={() => setOption("Cash")}
                                         >
-                                          CASH
+                                          Exchange
                                         </MenuItem>
                                         <MenuItem
                                           value="Crypto"
                                           onClick={() => setOption("Crypto")}
                                         >
-                                          CRYPTO
+                                          Crypto{" "}
                                         </MenuItem>
                                       </Select>
                                       {age.payment_method == "" &&
@@ -997,10 +997,10 @@ export const Withdrawal = () => {
                           <Grid container spacing={6}>
                             <Grid item md={12} className="p-md-5">
                               <h5 className="text-center text-danger font-weight-bold">
-                                <i>Important Notice</i>
+                                <span>Important Notice</span>
                               </h5>
                               <div className="text-dark pt-4 text-align-justify">
-                                <i className="text-align-justify">
+                                <span className="text-align-justify">
                                   Right Fx, in accordance with international
                                   laws on combating terrorist financing and
                                   money laundering, does not accept payments
@@ -1018,7 +1018,7 @@ export const Withdrawal = () => {
                                   original source of funding. any profits on
                                   your account must be retumed to you via bank
                                   transfer.
-                                </i>
+                                </span>
                               </div>
                             </Grid>
                           </Grid>

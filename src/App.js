@@ -162,6 +162,7 @@ const App = () => {
                 <Route exact path="/reports" element={<Report />} />
                 <Route exact path="/deposit/:id" element={<Deposite />} />
                 <Route exact path="/deposit/" element={<Deposite />} />
+                {/* <Route exact path="/depositTest/" element={<DepositeTest />} /> */}
 
                 <Route
                   exact

@@ -141,7 +141,7 @@ const PammDashboard = () => {
                 <Grid item sm={12}></Grid>
                 <Grid item xl={1}></Grid>
                 <Grid item xl={10} md={12} lg={12}>
-                  <TopButton />
+                  {/* <TopButton /> */}
                   <h4 className="font-weight-bold mb-3">Pamm Dashboard</h4>
 
                   <Grid container spacing={6}>

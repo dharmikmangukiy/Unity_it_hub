@@ -12,7 +12,7 @@ const Android = () => {
               <Grid item sm={12}></Grid>
               <Grid item xl={1}></Grid>
               <Grid item xl={10} md={12} lg={12}>
-                <TopButton />
+                {/* <TopButton /> */}
 
                 <Grid container spacing={6}>
                   <Grid item md={12}>
@@ -39,12 +39,11 @@ const Android = () => {
                                 MT5 PLATFORMS
                               </h3>
                               <h4 className="text-info font-weight-bold pt-3 d-flex align-items-center justify-content-center">
-                              Android MOBILE TRADING
+                                Android MOBILE TRADING
                               </h4>
                               <p className="text-dark pt-3 mx-500 mx-auto">
-                                MT5 Prime is available on Android
-                                device, for traders who want access to Mobile
-                                Trading.
+                                MT5 Prime is available on Android device, for
+                                traders who want access to Mobile Trading.
                                 <br />
                                 <br />
                                 Please click on the button for the mobile
@@ -57,10 +56,12 @@ const Android = () => {
                                 />
                               </p>
                               <div className="text-info font-weight-bold pt-3 pb-5 d-flex align-items-center justify-content-center">
-                                <a href="https://download.mql5.com/cdn/mobile/mt5/android?server=RightGroup-Live" target="_blank">
+                                <a
+                                  href="https://download.mql5.com/cdn/mobile/mt5/android?server=RightGroup-Live"
+                                  target="_blank"
+                                >
                                   <img
                                     src="./image/androidStore.png"
-                                    
                                     className="image-responsive"
                                   />
                                 </a>

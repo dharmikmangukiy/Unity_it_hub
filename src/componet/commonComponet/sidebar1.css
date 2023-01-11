@@ -241,17 +241,17 @@ app-sidebar--light .sidebar-navigation ul li > a.active,
     opacity: 0;
   } */
 
-
   .app-sidebar {
     width: 4rem;
     border-radius: 0 45px 0px 0;
     transition: all 0.5s ease-out 100ms;
   }
   .app-sidebar--header {
-    border-radius: 0 45px 0 0;
+    border-radius: 0 0 0 0;
     transition: all 0.5s ease-out 100ms;
   }
-  .app-sidebar:hover, .sidebar-with-4rem .app-sidebar {
+  .app-sidebar:hover,
+  .sidebar-with-4rem .app-sidebar {
     width: 15rem;
     /* border-radius: 0 0px 0px 0; */
   }
@@ -263,7 +263,8 @@ app-sidebar--light .sidebar-navigation ul li > a.active,
     margin: 0 0 0 -18px;
     transition: all 0.5s ease-out 100ms;
   }
-  .app-sidebar:hover .app-sidebar-logo img, .sidebar-with-4rem .app-sidebar-logo img{
+  .app-sidebar:hover .app-sidebar-logo img,
+  .sidebar-with-4rem .app-sidebar-logo img {
     width: 144px !important;
     margin: 0;
   }
@@ -273,10 +274,12 @@ app-sidebar--light .sidebar-navigation ul li > a.active,
   .app-main .app-content {
     transition: all 0.5s ease-out 100ms;
   }
-  .main-sidebar-content:hover + .app-main .app-content, .main-sidebar-content.sidebar-with-4rem + .app-main .app-content {
+  .main-sidebar-content:hover + .app-main .app-content,
+  .main-sidebar-content.sidebar-with-4rem + .app-main .app-content {
     padding-left: 15rem;
   }
-  .main-sidebar-content:hover + .app-main .app-header, .main-sidebar-content.sidebar-with-4rem + .app-main .app-header {
+  .main-sidebar-content:hover + .app-main .app-header,
+  .main-sidebar-content.sidebar-with-4rem + .app-main .app-header {
     left: 14rem;
   }
   .main-sidebar-content + .app-main .app-header {
@@ -284,10 +287,12 @@ app-sidebar--light .sidebar-navigation ul li > a.active,
     transition: all 0.5s ease-out 100ms;
   }
 
-  .app-sidebar:hover .open-sidebar-logo-image, .sidebar-with-4rem .open-sidebar-logo-image {
+  .app-sidebar:hover .open-sidebar-logo-image,
+  .sidebar-with-4rem .open-sidebar-logo-image {
     opacity: 1;
   }
-  .app-sidebar:hover .close-sidebar-logo-image, .sidebar-with-4rem .close-sidebar-logo-image {
+  .app-sidebar:hover .close-sidebar-logo-image,
+  .sidebar-with-4rem .close-sidebar-logo-image {
     opacity: 0;
   }
   .app-sidebar:hover .sidebar-open-close {
@@ -312,4 +317,35 @@ app-sidebar--light .sidebar-navigation ul li > a.active,
   .close-sidebar-logo-image {
     opacity: 0;
   }
+}
+.hoverSidebar {
+  width: 22px;
+  filter: grayscale(1);
+  height: auto;
+  margin-right: 8px;
+}
+.hoverSidebar1 {
+  width: 18px;
+  filter: grayscale(1);
+  height: auto;
+  margin-right: 16px;
+}
+
+.app-sidebar--light .sidebar-navigation ul li > a:hover .hoverSidebar {
+  filter: none;
+}
+.app-sidebar--light .sidebar-navigation ul li > a.active .hoverSidebar {
+  filter: none;
+}
+a:not(.MuiButtonBase-root):hover .hoverSidebar {
+  filter: none;
+}
+.app-sidebar--light .sidebar-navigation ul li > a:hover .hoverSidebar1 {
+  filter: none;
+}
+.app-sidebar--light .sidebar-navigation ul li > a.active .hoverSidebar1 {
+  filter: none;
+}
+a:not(.MuiButtonBase-root):hover .hoverSidebar1 {
+  filter: none;
 }

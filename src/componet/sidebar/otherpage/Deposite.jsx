@@ -324,6 +324,9 @@ export const Deposite = () => {
         // setDepositType(type);
         console.log(res.data);
         setMT5AccountList(res.data.mt5_accounts);
+        if (res.data.mt5_accounts.length != 0) {
+          setSelectedMT5AccountList(res.data.mt5_accounts[0].mt5_acc_no);
+        }
       }
     });
   };
@@ -346,64 +349,14 @@ export const Deposite = () => {
           className="card-body position-relative scrolldown"
           style={{ display: showData }}
         >
-          <div style={{ marginBottom: "20px" }}>
+          {/* <div style={{ marginBottom: "20px" }}>
             <h5 className="font-weight-bold mb-0 text-dark ">
               Specify the deposit amount
             </h5>
-          </div>
-          <div className="bordernet">
+          </div> */}
+          <div>
             <div className="deposit-section">
               <Grid container spacing={3}>
-                <Grid item md={4}>
-                  <FormControl className="w-100">
-                    <label className="text-info font-weight-bold form-label-head w-100 required">
-                      Deposit To
-                    </label>
-                    <Select
-                      onChange={(e) => {
-                        setDepositType(e.target.value);
-                        // getMt5AccountList(e.target.value);
-                      }}
-                      displayEmpty
-                      value={depositType}
-                      inputProps={{ "aria-label": "Without label" }}
-                      input={<BootstrapInput />}
-                    >
-                      <MenuItem value="wallet">Wallet</MenuItem>
-                      <MenuItem value="MT5">MT5</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-
-                {depositType == "MT5" ? (
-                  <Grid item md={4}>
-                    <FormControl className="w-100">
-                      <label className="text-info font-weight-bold form-label-head w-100 required">
-                        MT5 Account
-                      </label>
-                      <Select
-                        onChange={(e) => {
-                          setSelectedMT5AccountList(e.target.value);
-                        }}
-                        displayEmpty
-                        value={selectedMT5AccountList}
-                        inputProps={{ "aria-label": "Without label" }}
-                        input={<BootstrapInput />}
-                      >
-                        {mt5AccountList.map((item) => {
-                          return (
-                            <MenuItem value={item.mt5_acc_no}>
-                              {item.mt5_name} ({item.mt5_acc_no})
-                            </MenuItem>
-                          );
-                        })}
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                ) : (
-                  ""
-                )}
-
                 <Grid item md={4}>
                   <label className="text-info font-weight-bold form-label-head w-100 required">
                     Amount in USD
@@ -568,7 +521,7 @@ export const Deposite = () => {
             <div className="card-body position-relative">
               <div style={{ marginBottom: "20px" }}>
                 <h5 className="font-weight-bold mb-0 text-dark ">
-                  Specify the deposit amount
+                  Specify the deposit amount1
                 </h5>
               </div>
 
@@ -581,7 +534,7 @@ export const Deposite = () => {
                         error={depositType == "" ? true : false}
                       >
                         <label className="text-info font-weight-bold form-label-head w-100 required">
-                          Deposit To
+                          Deposit
                         </label>
                         <Select
                           onChange={(e) => {
@@ -857,9 +810,9 @@ export const Deposite = () => {
               <Grid item sm={12}></Grid>
               <Grid item xl={1}></Grid>
               <Grid item xl={10} md={12} lg={12}>
-                <TopButton />
+                {/* <TopButton /> */}
                 <div className="webView">
-                  <Grid container>
+                  <Grid container spacing={3}>
                     <Grid item md={12} className="d-flex">
                       <Paper
                         elevation={1}
@@ -874,9 +827,6 @@ export const Deposite = () => {
                                   Make a Deposit
                                   {/* {useCountdown()} */}
                                 </h5>
-                                <h5 className="font-weight-bold mb-0 text-dark ">
-                                  {modalData}
-                                </h5>
                               </div>
                             </Grid>
                             {/* <Grid item md={6} xs={6}>
@@ -885,6 +835,34 @@ export const Deposite = () => {
                           </Grid>
                         </div>
                         <div className="divider"></div>
+                        <Grid
+                          item
+                          md={4}
+                          style={{ margin: "9px 0px 0px 16px" }}
+                        >
+                          <FormControl className="w-100">
+                            <label className="text-info font-weight-bold form-label-head w-100 required">
+                              Deposit To
+                            </label>
+                            <Select
+                              onChange={(e) => {
+                                setSelectedMT5AccountList(e.target.value);
+                              }}
+                              displayEmpty
+                              value={selectedMT5AccountList}
+                              inputProps={{ "aria-label": "Without label" }}
+                              input={<BootstrapInput />}
+                            >
+                              {mt5AccountList.map((item) => {
+                                return (
+                                  <MenuItem value={item.mt5_acc_no}>
+                                    {item.mt5_name} ({item.mt5_acc_no})
+                                  </MenuItem>
+                                );
+                              })}
+                            </Select>
+                          </FormControl>
+                        </Grid>
 
                         <div>
                           <ul className="pd-0 gridDeposit">
@@ -894,10 +872,10 @@ export const Deposite = () => {
                               }`}
                             >
                               <a href="/deposit#depositDetails">
-                                <Button
+                                <div
                                   title="Net Banking"
                                   onClick={modalopen}
-                                  className="w-100"
+                                  className=""
                                 >
                                   <img
                                     src="./rightfx_login_files/Credit&DebitCard.png"
@@ -908,7 +886,7 @@ export const Deposite = () => {
                                       objectFit: "contain",
                                     }}
                                   ></img>
-                                </Button>
+                                </div>
                               </a>
                             </li>
                             <li
@@ -917,9 +895,9 @@ export const Deposite = () => {
                               }`}
                             >
                               <a href="/deposit#depositDetails">
-                                <Button
+                                <div
                                   title="Wire Transfer"
-                                  className="w-100"
+                                  className=""
                                   onClick={modalopen}
                                 >
                                   <img
@@ -929,7 +907,7 @@ export const Deposite = () => {
                                     className="w-100 h-80 m-auto imageDeposite"
                                     style={{ objectFit: "contain" }}
                                   ></img>
-                                </Button>
+                                </div>
                               </a>
                             </li>
                             <li
@@ -939,7 +917,7 @@ export const Deposite = () => {
                               onClick={modalopen}
                             >
                               <a href="/deposit#depositDetails">
-                                <Button
+                                <div
                                   className=" w-100 false"
                                   title="Cash"
                                   onClick={modalopen}
@@ -951,7 +929,7 @@ export const Deposite = () => {
                                     className="w-100 h-80 m-auto imageDeposite"
                                     style={{ objectFit: "contain" }}
                                   ></img>
-                                </Button>
+                                </div>
                               </a>
                             </li>
                             <li
@@ -966,11 +944,14 @@ export const Deposite = () => {
                                   onClick={modalopen}
                                 >
                                   <img
-                                    src="./dimage/skrill.png"
+                                    src="./dimage/skrill.jpg"
                                     title="Skrill"
                                     alt="Skrill"
-                                    className="w-100 h-80 m-auto imageDeposite"
-                                    style={{ objectFit: "contain" }}
+                                    style={{
+                                      objectFit: "contain",
+                                      width: " ",
+                                    }}
+                                    className=" h-80 m-auto imageDeposite"
                                   ></img>
                                 </Button>
                               </a>
@@ -990,23 +971,23 @@ export const Deposite = () => {
                                     src="./dimage/Neteller.png"
                                     alt="Nettler"
                                     title="Nettler"
-                                    className="w-100 h-80 m-auto imageDeposite"
+                                    className="gpayimage h-80 m-auto "
                                     style={{ objectFit: "contain" }}
                                   ></img>
                                 </Button>
                               </a>
                             </li>
-                          </ul>
-                          <ul className="pd-0 gridDeposit">
+                            {/* </ul> */}
+                            {/* <ul className="pd-0 gridDeposit"> */}
                             <li
                               className={`lideposit mar-10 ${
                                 modalData == "Bitcoin" ? "active" : ""
                               }`}
                             >
                               <a href="/deposit#depositDetails">
-                                <Button
+                                <div
                                   title="Bitcoin"
-                                  className="w-100"
+                                  className=""
                                   onClick={modalopen}
                                 >
                                   <img
@@ -1016,7 +997,7 @@ export const Deposite = () => {
                                     className="w-100 h-80 m-auto imageDeposite"
                                     style={{ objectFit: "contain" }}
                                   ></img>
-                                </Button>
+                                </div>
                               </a>
                             </li>
                             <li
@@ -1025,8 +1006,8 @@ export const Deposite = () => {
                               }`}
                             >
                               <a href="/deposit#depositDetails">
-                                <Button
-                                  className="w-100 false"
+                                <div
+                                  className="false"
                                   title="Ethereum"
                                   onClick={modalopen}
                                 >
@@ -1037,7 +1018,7 @@ export const Deposite = () => {
                                     className="w-100 h-80 m-auto imageDeposite"
                                     style={{ objectFit: "contain" }}
                                   ></img>
-                                </Button>
+                                </div>
                               </a>
                             </li>
                             <li
@@ -1046,8 +1027,8 @@ export const Deposite = () => {
                               }`}
                             >
                               <a href="/deposit#depositDetails">
-                                <Button
-                                  className="w-100 false"
+                                <div
+                                  className="false"
                                   title="USDT"
                                   onClick={modalopen}
                                 >
@@ -1058,7 +1039,7 @@ export const Deposite = () => {
                                     className="w-100 h-80 m-auto imageDeposite"
                                     style={{ objectFit: "contain" }}
                                   ></img>
-                                </Button>
+                                </div>
                               </a>
                             </li>
                             <li
@@ -1067,8 +1048,8 @@ export const Deposite = () => {
                               }`}
                             >
                               <a href="/deposit#depositDetails">
-                                <Button
-                                  className="w-100 false"
+                                <div
+                                  className="false"
                                   title="Litecoin"
                                   onClick={modalopen}
                                 >
@@ -1080,7 +1061,7 @@ export const Deposite = () => {
                                     style={{ objectFit: "contain" }}
                                     ref={myRef}
                                   />
-                                </Button>
+                                </div>
                               </a>
                             </li>
                           </ul>
@@ -1097,7 +1078,8 @@ export const Deposite = () => {
                 >
                   <div className="card-header d-flex align-items-center abcde justify-content-between card-header-alt p-3">
                     <h5 className="font-weight-bold mb-0 text-dark ">
-                      {modalData}
+                      {/* {modalData} */}
+                      Specify the deposit amount
                     </h5>
                   </div>
                   <div className="divider"></div>

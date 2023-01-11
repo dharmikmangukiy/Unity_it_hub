@@ -12,7 +12,7 @@ const Desktop = () => {
               <Grid item sm={12}></Grid>
               <Grid item xl={1}></Grid>
               <Grid item xl={10} md={12} lg={12}>
-                <TopButton />
+                {/* <TopButton /> */}
 
                 <Grid container spacing={6}>
                   <Grid item md={12}>
@@ -54,14 +54,17 @@ const Desktop = () => {
                                 Please click on the link below to download the
                                 Right Fx MT5 Prime Platform
                               </p>
-                              <p className="p-4" >
+                              <p className="p-4">
                                 <img
                                   src="./image/Laptop.png"
                                   className="w-100"
                                 />
                               </p>
                               <div className="pb-5">
-                                <a href="https://download.mql5.com/cdn/web/right.group.financial/mt5/rightgroup5setup.exe" target="_blank">
+                                <a
+                                  href="https://download.mql5.com/cdn/web/right.group.financial/mt5/rightgroup5setup.exe"
+                                  target="_blank"
+                                >
                                   <ColorButton style={{ borderRadius: "50px" }}>
                                     DOWNLOAD MT5 PLATFORM
                                   </ColorButton>

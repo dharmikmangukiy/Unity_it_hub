@@ -507,7 +507,7 @@ const Report = () => {
               <Grid item sm={12}></Grid>
               <Grid item xl={1}></Grid>
               <Grid item md={12} lg={12} xl={10}>
-                <TopButton />
+                {/* <TopButton /> */}
                 <Paper elevation={2} style={{ borderRadius: "10px" }}>
                   <div className="card-header font-weight-bold text-dark border-bottom py-2">
                     {" "}

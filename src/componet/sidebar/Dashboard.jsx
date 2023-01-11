@@ -469,20 +469,20 @@ const Dashboard = (prop) => {
           ) : (
             <div style={{ opacity: 1 }}>
               <Grid container>
-                <Grid item sm={12}></Grid>
+                <Grid item sm={11}></Grid>
                 <Grid item xl={1}></Grid>
                 <Grid item xl={10} md={12} lg={12}>
-                  <TopButton />
-                  <ProgresBar step={prefrence.step_number} />
-                  <div
+                  {/* <TopButton />
+                  <ProgresBar step={prefrence.step_number} /> */}
+                  {/* <div
                     className={`w-100 mb-4 display-4 font-weight-bold margin-bottom-zero main-heading ${
                       prefrence.is_ib_account == 0 ? "marginBottom10px" : ""
                     }`}
                   >
                     {t("Dashboard")}
-                  </div>
+                  </div> */}
                   <div>
-                    <Grid container sx={{ justifyContent: "center" }}>
+                    {/* <Grid container sx={{ justifyContent: "center" }}>
                       <Grid item md={12}>
                         <div className="row1 boxSection">
                           {prefrence.is_ib_account == "1" ? (
@@ -529,10 +529,95 @@ const Dashboard = (prop) => {
                           )}
                         </div>
                       </Grid>
-                    </Grid>
+                    </Grid> */}
                   </div>
                   <Grid container spacing={6}>
-                    <Grid item md={6} className="trading-accounts-wrapper">
+                    <Grid item md={12} sx={{ paddingTop: "15px !important" }}>
+                      <Paper
+                        elevation={2}
+                        sx={{
+                          width: "100%",
+                          height: "100%",
+                          borderRadius: "10px",
+                          // backgroundImage:"url(/image/screenImage.jpg)"
+                        }}
+                      >
+                        <Box
+                          className="image-slider-for-dot-use"
+                          sx={{
+                            width: "100%",
+                            flexGrow: 1,
+                            hight: "100%",
+                            borderRadius: "10px",
+                          }}
+                        >
+                          <AutoPlaySwipeableViews
+                            axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+                            index={activeStep}
+                            onChangeIndex={handleStepChange}
+                            onClick={selsectImage}
+                            enableMouseEvents
+                          >
+                            {bonusImage.map((step, index) => (
+                              <div key={step.bonus_title}>
+                                {Math.abs(activeStep - index) <= 2 ? (
+                                  <Box
+                                    component="img"
+                                    sx={{
+                                      height: 228,
+                                      display: "flex",
+                                      borderRadius: "10px",
+                                      // maxWidth: 2200,
+                                      overflow: "hidden",
+                                      width: "100%",
+                                    }}
+                                    src={step.bonus_offer_image}
+                                    alt={step.bonus_title}
+                                  />
+                                ) : null}
+                              </div>
+                            ))}
+                          </AutoPlaySwipeableViews>
+                          <MobileStepper
+                            steps={maxSteps}
+                            sx={{ height: "39px", borderRadius: "10px" }}
+                            position="static"
+                            activeStep={activeStep}
+                            nextButton={
+                              <Button
+                                size="small"
+                                onClick={handleNext}
+                                sx={{ color: "#1e64b4" }}
+                                disabled={activeStep === maxSteps - 1}
+                              >
+                                Next
+                                {theme.direction === "rtl" ? (
+                                  <KeyboardArrowLeft />
+                                ) : (
+                                  <KeyboardArrowRight />
+                                )}
+                              </Button>
+                            }
+                            backButton={
+                              <Button
+                                size="small"
+                                onClick={handleBack}
+                                disabled={activeStep === 0}
+                                sx={{ color: "#1e64b4" }}
+                              >
+                                {theme.direction === "rtl" ? (
+                                  <KeyboardArrowRight />
+                                ) : (
+                                  <KeyboardArrowLeft />
+                                )}
+                                Back
+                              </Button>
+                            }
+                          />
+                        </Box>
+                      </Paper>
+                    </Grid>
+                    <Grid item md={12} className="trading-accounts-wrapper">
                       <Paper
                         elevation={1}
                         style={{ borderRadius: "10px" }}
@@ -541,7 +626,7 @@ const Dashboard = (prop) => {
                         <div className="card-header d-flex align-items-center justify-content-between card-header-alt p-3">
                           <div>
                             <h5 className="font-weight-bold mb-0 text-dark">
-                              {t("Live_Account")}
+                              My Account
                             </h5>
                           </div>
                         </div>
@@ -836,7 +921,7 @@ const Dashboard = (prop) => {
                         )}
                       </Paper>
                     </Grid>
-                    <Grid item md={6} className="trading-accounts-wrapper ">
+                    {/* <Grid item md={6} className="trading-accounts-wrapper ">
                       <Paper
                         elevation={2}
                         style={{ borderRadius: "10px" }}
@@ -895,7 +980,6 @@ const Dashboard = (prop) => {
                                 className="remove-pending-top-0"
                               >
                                 <FormControl className="form-control py-3 cust-select remove-pending-0">
-                                  {/* <InputLabel htmlFor="account_no">ACCOUNT NO</InputLabel> */}
                                   <label
                                     htmlFor="accountNo"
                                     className="text-info font-weight-bold form-label-head w-100"
@@ -926,7 +1010,6 @@ const Dashboard = (prop) => {
                                       );
                                     })}
 
-                                    {/* <MenuItem value="JP">23123</MenuItem> */}
                                   </Select>
                                 </FormControl>
                               </Grid>
@@ -936,7 +1019,6 @@ const Dashboard = (prop) => {
                                 className="remove-pending-top-0"
                               >
                                 <FormControl className="form-control py-3 remove-pending-0">
-                                  {/* <InputLabel htmlFor="account_no">ACCOUNT NO</InputLabel> */}
                                   <label
                                     htmlFor="accountNo"
                                     className="text-info font-weight-bold form-label-head w-100"
@@ -963,7 +1045,6 @@ const Dashboard = (prop) => {
                                 className="remove-pending-top-0"
                               >
                                 <FormControl className="form-control py-3 remove-pending-0">
-                                  {/* <InputLabel htmlFor="account_no">ACCOUNT NO</InputLabel> */}
                                   <label
                                     htmlFor="accountNo"
                                     className="text-info font-weight-bold form-label-head w-100"
@@ -1116,7 +1197,7 @@ const Dashboard = (prop) => {
                           </div>
                         )}
                       </Paper>
-                    </Grid>
+                    </Grid> */}
                   </Grid>
                   <Grid
                     container
@@ -1171,7 +1252,7 @@ const Dashboard = (prop) => {
                         </div>
                       </Paper>
                     </Grid>
-                    <Grid item md={8}>
+                    {/* <Grid item md={8}>
                       <Paper
                         elevation={2}
                         sx={{
@@ -1181,29 +1262,7 @@ const Dashboard = (prop) => {
                           // backgroundImage:"url(/image/screenImage.jpg)"
                         }}
                       >
-                        {/* <div
-                          className="w-100 h-100 cursor-pointer screenimage"
-                          onClick={bonusOpen}
-                          style={{
-                            backgroundImage: "url(./image/screenImage.jpg)",
-                            backgroundRepeat: " no-repeat",
-                            backgroundSize: "cover",
-                            backgroundPosition: "left center",
-                          }}
-                        ></div>
-                        <Box
-                          sx={{
-                            width: "100%",
-                            flexGrow: 1,
-                            hight: "100%",
-                            borderRadius: "10px",
-                          }}
-                        >
-                       
-                        </Box> */}
-
-                        {/* <img src="https://images.unsplash.com/photo-1647899186076-7dc8b84c2b8b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1026&q=80"  /> */}
-                        <Box
+                           <Box
                           className="image-slider-for-dot-use"
                           sx={{
                             width: "100%",
@@ -1277,7 +1336,7 @@ const Dashboard = (prop) => {
                           />
                         </Box>
                       </Paper>
-                    </Grid>
+                    </Grid> */}
                   </Grid>
                   <Grid container spacing={6} className="paddind-43">
                     <Grid item md={12}>
