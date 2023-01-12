@@ -17549,7 +17549,7 @@ body {
   font-size: 14px !important;
   width: 100%;
   margin-bottom: 5px;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
 }
 .form-label-head2 {
   font-size: 12px !important;
@@ -17849,7 +17849,7 @@ input[type="number"] {
   margin-bottom: 10px !important;
 }
 .custom-text-color {
-  color: #1e64b4;
+  color: #5d2067;
 }
 .css-1uwzc1h-MuiSelect-select-MuiInputBase-input.css-1uwzc1h-MuiSelect-select-MuiInputBase-input.css-1uwzc1h-MuiSelect-select-MuiInputBase-input {
   font-weight: bold !important;

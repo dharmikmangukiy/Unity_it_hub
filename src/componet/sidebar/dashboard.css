@@ -1,244 +1,339 @@
 .app-sidebar-fixed .app-content {
-    padding-left: 15rem;
+  padding-left: 15rem;
 }
 
 .app-content {
-    flex: 1 1;
-    display: flex;
-    padding: 0;
-    flex-direction: column;
-    transition: all .5s cubic-bezier(.685, .0473, .346, 1);
+  flex: 1 1;
+  display: flex;
+  padding: 0;
+  flex-direction: column;
+  transition: all 0.5s cubic-bezier(0.685, 0.0473, 0.346, 1);
 }
 
 .app-main {
-    display: flex;
-    flex: 1 1 auto;
-    min-width: 0;
-    flex-direction: column;
-    position: relative;
-    min-height: 100vh;
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+  flex-direction: column;
+  position: relative;
+  min-height: 100vh;
 }
 
 .loader,
 .loader .loader-icon {
-    display: flex;
-    align-items: center;
-    align-content: center;
+  display: flex;
+  align-items: center;
+  align-content: center;
 }
 
 .loader {
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
 
-    border-radius: 1px 10px 10px 10px;
-    background-color: hsla(0, 0%, 100%, .9);
-    z-index: 9;
-    justify-content: center;
+  border-radius: 1px 10px 10px 10px;
+  background-color: hsla(0, 0%, 100%, 0.9);
+  z-index: 9;
+  justify-content: center;
 }
 
 .MuiMobileStepper-dotActive {
-    background-color: #1976d2 !important;
+  background-color: #1976d2 !important;
 }
 
 .filter-submit {
-    padding-top: 25px;
+  padding-top: 25px;
 }
 
 .ribbon {
-    position: absolute;
-    right: 0;
-    top: 0;
-    z-index: 1;
-}
-
-
-.platforms .mx-500 {
-    max-width: 500px;
-}
-
-.platforms p {
-    font-size: 13px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1;
 }
 
 .platforms .mx-500 {
-    max-width: 500px;
+  max-width: 500px;
 }
 
 .platforms p {
-    font-size: 13px;
+  font-size: 13px;
+}
+
+.platforms .mx-500 {
+  max-width: 500px;
+}
+
+.platforms p {
+  font-size: 13px;
 }
 
 .pb-5 {
-    padding-bottom: 3rem !important;
+  padding-bottom: 3rem !important;
 }
 
 .MuiPaper-rounded {
-    border-radius: 13px;
+  border-radius: 13px;
 }
 
 .skipButton {
-    background-color: #e0e0e0 !important;
-    width: 50%;
-    color: black;
+  background-color: #e0e0e0 !important;
+  width: 50%;
+  color: black;
 }
 
 .continueButton {
-    /* background-color: #666666!important; */
-    width: 50%;
+  /* background-color: #666666!important; */
+  width: 50%;
 }
 
 .col .row1 {
-    margin-right: -0.75rem;
-    margin-left: -0.75rem;
+  margin-right: -0.75rem;
+  margin-left: -0.75rem;
 }
 
 .boxSection {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    column-gap: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 6px;
 }
 
 .row1 {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .boxSection .boxsize {
-    width: 220px;
-    margin-right: 11px;
-    margin-left: 11px;
-    cursor: pointer;
-    border-radius: 10px;
-    padding: 15px !important;
+  width: 220px;
+  margin-right: 11px;
+  margin-left: 11px;
+  cursor: pointer;
+  border-radius: 10px;
+  padding: 15px !important;
 }
 
 .boxSection .boxsize > div.row {
-    margin-bottom: 0 !important;
+  margin-bottom: 0 !important;
 }
 
 .card {
-    margin: 1rem 0;
+  margin: 1rem 0;
 }
 
 .padding-9 {
-    padding: 5px 23px!important;
+  padding: 5px 23px !important;
 }
 
 .card {
-    -webkit-transition: box-shadow .25s;
-    transition: box-shadow .25s;
+  -webkit-transition: box-shadow 0.25s;
+  transition: box-shadow 0.25s;
 }
 
 .card,
 .card-panel {
-    margin: 0.5rem 0 1rem;
-    border-radius: 2px;
-    background-color: #fff;
+  margin: 0.5rem 0 1rem;
+  border-radius: 2px;
+  background-color: #fff;
 }
 
 .card,
 .card.large,
 .card.medium,
 .card.small {
-    position: relative;
+  position: relative;
 }
 
 .card {
-    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%);
+  box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%),
+    0 1px 5px 0 rgb(0 0 0 / 20%);
 }
 
 .col .row1 {
-    margin-right: -0.75rem;
-    margin-left: -0.75rem;
+  margin-right: -0.75rem;
+  margin-left: -0.75rem;
 }
 
 .row1 {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .boxSection .boxsize .text-align-center {
-    text-align: center;
+  text-align: center;
 }
 
 .boxSection .boxsize .text-align-center h5 {
-    font-size: 1.2rem;
-    font-weight: 500;
-    letter-spacing: 1px;
-    line-height: 1.2;
-    display: inline-block;
-    vertical-align: middle;
-    word-break: break-all;
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  line-height: 1.2;
+  display: inline-block;
+  vertical-align: middle;
+  word-break: break-all;
 }
 
 .mb-0 {
-    margin-bottom: 0 !important;
+  margin-bottom: 0 !important;
 }
 
 h5.mb-0 {
-    font-size: 1.25rem;
-    /* margin: 0.82rem 0 0.656rem; */
+  font-size: 1.25rem;
+  /* margin: 0.82rem 0 0.656rem; */
 }
 
 .boxSection .boxsize .text-align-center {
-    text-align: center;
+  text-align: center;
 }
 
 .boxSection .boxsize .text-align-center p {
-    text-transform: none;
-    font-size: 0.99rem;
-    letter-spacing: 0px;
-    display: block;
-    font-size: 0.9rem;
-    color: rgba(0, 0, 0, 0.4);
-    letter-spacing: 1px;
+  text-transform: none;
+  font-size: 0.99rem;
+  letter-spacing: 0px;
+  display: block;
+  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.4);
+  letter-spacing: 1px;
 }
 
 .no-margin {
-    margin: 0 !important;
+  margin: 0 !important;
 }
 
 .boxSection .boxsize:hover {
-    box-shadow: 28px 30px 20px rgba(105, 91, 91, 0.2);
+  box-shadow: 28px 30px 20px rgba(105, 91, 91, 0.2);
 }
 
 .boxSection .boxsize:hover h5 {
-    transform: scale(1.1) translateY(-3px);
-    color: #2A3F73;
+  transform: scale(1.1) translateY(-3px);
+  color: #2a3f73;
 }
 
 .boxSection .boxsize:hover p {
-    transform: translateY(-2px);
-    color: #3d9730 !important;
+  transform: translateY(-2px);
+  color: #3d9730 !important;
 }
 
 .commingsoon h1 {
-    color: red;
-    font-size: 50px;
-    background: white;
-    padding: 51px 5px;
+  color: red;
+  font-size: 50px;
+  background: white;
+  padding: 51px 5px;
 }
 .account_dropdown_list .MuiInputBase-input {
-    font-weight: 700;
-    color: #7a7b97;
+  font-weight: 700;
+  color: #7a7b97;
 }
 .remove-pending-top-0 {
-    padding-top: 0 !important;
+  padding-top: 0 !important;
 }
 .remove-pending-0 {
-    padding: 0 !important;
+  padding: 0 !important;
 }
 .margin-bottom-zero {
-    margin-bottom: 0 !important;
+  margin-bottom: 0 !important;
 }
 .text-uppercase {
-    text-transform: uppercase;
+  text-transform: uppercase;
 }
 .font-weight-700 {
-    font-weight: 700;
+  font-weight: 700;
 }
 .marginBottom10px {
-    margin-bottom: 10px !important;
+  margin-bottom: 10px !important;
+}
+.account-data-main {
+  border: 1px solid #cdcdcd;
+  align-items: center;
+  margin: 10px 0px;
+  padding: 35px 12px;
+}
+
+.accunt-data1 {
+  display: flex;
+  align-items: center;
+}
+
+.accunt-data1 div {
+  margin: 3px;
+}
+
+.accunt-data2 {
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  height: 36px;
+}
+
+.accunt-data2 .item1 {
+  width: 30%;
+  font-size: 1.5rem;
+  height: 100%;
+}
+
+.accunt-data2 .item2 {
+  width: auto;
+  height: 100%;
+}
+
+.accunt-data2 .item2 .item2-item1 {
+  height: 100%;
+  min-width: 195px;
+  border: 1px solid #a7a7a7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.accunt-data2 .item2 .item2-item1:hover {
+  border: 1px solid black;
+}
+
+.accunt-data2 .item2 .item2-item2 {
+  height: 100%;
+  min-width: 195px;
+  border: 1px solid #a7a7a7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px !important;
+}
+
+.accunt-data2 .item2 .item2-item3 .css-1869usk-MuiFormControl-root {
+  min-width: auto;
+  max-width: auto;
+  margin: 0 !important;
+}
+
+.btn-costom {
+  background: none;
+  border-radius: 5px;
+  border: 1px solid #a7a7a7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+}
+
+.btn-costom:hover {
+  background-color: rgb(93, 32, 103);
+  font-weight: 500;
+  color: white;
+}
+
+.wiblack {
+  color: black;
+}
+
+.btn-costom:hover .wiblack {
+  color: white !important;
+}
+.accunt-data1 span {
+  font-size: 14px;
+}
+.MuiTabs-flexContainer .Mui-selected {
+  color: #5d2067 !important;
+}
+.MuiTabs-indicator {
+  background-color: #5d2067 !important;
 }

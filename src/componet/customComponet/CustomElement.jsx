@@ -7,7 +7,7 @@ const ColorButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText("#ff0000"),
   backgroundColor: "#5D2067",
   textTransform: "initial",
-  borderRadius: "50px !important",
+  borderRadius: "5px !important",
   fontSize: "16px",
   padding: "10px 22px",
   "&:hover": {

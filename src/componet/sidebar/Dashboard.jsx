@@ -17,7 +17,7 @@ import SwipeableViews from "react-swipeable-views";
 import { autoPlay } from "react-swipeable-views-utils";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
-
+import DownloadIcon from "@mui/icons-material/Download";
 import { useTranslation } from "react-i18next";
 import ProgresBar from "../customComponet/ProgresBar";
 import { BootstrapInput, ColorButton } from "../customComponet/CustomElement";
@@ -33,7 +33,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { DialogContent, DialogTitle } from "@mui/material";
 import ConfirmationNumberOutlinedIcon from "@mui/icons-material/ConfirmationNumberOutlined";
 import MobileStepper from "@mui/material/MobileStepper";
-
+import SettingsIcon from "@mui/icons-material/Settings";
+import InputLabel from "@mui/material/InputLabel";
+import { NavLink } from "react-router-dom";
+import { Tab, Tabs, Typography } from "@mui/material";
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const GreenButton = styled(Button)(({ theme }) => ({
@@ -136,7 +139,12 @@ const Dashboard = (prop) => {
   const [mainLoader, setMainLoader] = useState(true);
   const [bonusImage, setBonusImage] = useState([]);
   const maxSteps = bonusImage.length;
-
+  const [changeleverageLoader, setChangeleverageLoader] = React.useState(false);
+  const [checkAccountType, setCheckAccountType] = useState({
+    real: true,
+    demo: "",
+  });
+  const [accountSelect, setAccountSelect] = useState("");
   const [bonusMt5, setBonusMt5] = useState({
     mt5: [],
     isLoder: false,
@@ -152,8 +160,56 @@ const Dashboard = (prop) => {
   const [demoMT5AccountList, setDemoMT5AccountList] = React.useState({
     data: [],
   });
-
+  const [leveragesList, setLeveragesList] = React.useState({
+    data: [],
+  });
+  const [clOpen, setCLOpen] = React.useState(false);
   const [age, setAge] = React.useState("");
+  const [mt5Account, setMT5Account] = React.useState("");
+  const [value, setValue] = useState(0);
+  var [myPortfolio, setMyPortfolio] = useState([]);
+  var [portfolioLoader, setPortfolioLoader] = useState(true);
+
+  const BootstrapInputs = styled(InputBase)(({ theme }) => ({
+    "label + &": {
+      marginTop: theme.spacing(3),
+    },
+    "& .MuiInputBase-input": {
+      borderRadius: 4,
+      position: "relative",
+      border: "1px solid #ced4da",
+      fontSize: 16,
+      border: 0,
+      padding: "10px 26px 10px 12px",
+      transition: theme.transitions.create(["border-color", "box-shadow"]),
+      // Use the system font instead of the default Roboto font.
+      fontFamily: [
+        "-apple-system",
+        "BlinkMacSystemFont",
+        '"Segoe UI"',
+        "Roboto",
+        '"Helvetica Neue"',
+        "Arial",
+        "sans-serif",
+        '"Apple Color Emoji"',
+        '"Segoe UI Emoji"',
+        '"Segoe UI Symbol"',
+      ].join(","),
+      "&:focus": {
+        borderRadius: 4,
+        borderColor: "white",
+        boxShadow: "0 0 0 0.2rem rgba(0,123,255,.25)",
+      },
+    },
+  }));
+  // React.useEffect(() => {
+  //   if (clOpen) {
+  //     const { current: descriptionElement } = descriptionElementRef;
+  //     if (descriptionElement !== null) {
+  //       descriptionElement.focus();
+  //     }
+  //   }
+  // }, [clOpen]);
   // console.log("verifyModal", verifyModal);
   const [prefrence, setPrefrence] = useState({
     balance: "",
@@ -175,6 +231,34 @@ const Dashboard = (prop) => {
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
+  interface TabPanelProps {
+    children?: React.ReactNode;
+    dir?: string;
+    index: number;
+    value: number;
+  }
+
+  function TabPanel(props) {
+    const { children, value, index, ...other } = props;
+
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`full-width-tabpanel-${index}`}
+        aria-labelledby={`full-width-tab-${index}`}
+        {...other}
+        className="panding-left-right-0 tabpanel"
+      >
+        {value === index && (
+          <Box sx={{ p: 3 }}>
+            <Typography>{children}</Typography>
+          </Box>
+        )}
+      </div>
+    );
+  }
+
   const continueButton = () => {
     setVerifyModal(false);
     localStorage.setItem("setModel", false);
@@ -227,7 +311,6 @@ const Dashboard = (prop) => {
     // handleStepChange(indexId);
     setActiveStep(Number(indexId));
   };
-
   useEffect(() => {
     getBonusFunc();
   }, []);
@@ -255,6 +338,61 @@ const Dashboard = (prop) => {
           setBonusImage(res.data.mt5_bonus_offers);
         }
       });
+  };
+  const getLeverage = async () => {
+    const param = new FormData();
+    param.append("action", "get_leverages");
+    if (IsApprove !== "") {
+      param.append("is_app", IsApprove.is_app);
+      param.append("user_id", IsApprove.user_id);
+      param.append("auth_key", IsApprove.auth);
+    }
+    await axios.post(`${Url}/ajaxfiles/account_list.php`, param).then((res) => {
+      if (res.data.message == "Session has been expired") {
+        navigate("/");
+      }
+      if (res.data.status == "error") {
+        toast.error(res.data.message);
+      } else {
+        leveragesList.data = res.data.leverages;
+        setLeveragesList({ ...leveragesList });
+      }
+    });
+    setCLOpen(true);
+  };
+  const changeLeverage = async () => {
+    if (age == "") {
+      toast.error("Please select leverage");
+    } else {
+      setChangeleverageLoader(true);
+      const param = new FormData();
+      param.append("action", "change_mt5_leverage");
+      param.append("mt5_id", mt5Account);
+      param.append("new_leverage", age);
+      if (IsApprove !== "") {
+        param.append("is_app", IsApprove.is_app);
+        param.append("user_id", IsApprove.user_id);
+        param.append("auth_key", IsApprove.auth);
+      }
+      setDrefresh(true);
+
+      await axios
+        .post(`${Url}/ajaxfiles/account_list.php`, param)
+        .then((res) => {
+          if (res.data.message == "Session has been expired") {
+            navigate("/");
+          }
+          setChangeleverageLoader(false);
+          if (res.data.status == "error") {
+            toast.error(res.data.message);
+          } else {
+            setAge("");
+            setDrefresh(false);
+            toast.success(res.data.message);
+            setCLOpen(false);
+          }
+        });
+    }
   };
   const getDashboardData = async () => {
     const param = new FormData();
@@ -302,10 +440,55 @@ const Dashboard = (prop) => {
         }
       });
   };
-
-  const handleChange = (event) => {
-    setAge(event.target.value);
+  const getMyPortfolio = () => {
+    setPortfolioLoader(true);
+    const param = new FormData();
+    if (IsApprove !== "") {
+      param.append("is_app", IsApprove.is_app);
+      param.append("user_id", IsApprove.user_id);
+      param.append("auth_key", IsApprove.auth);
+    }
+    param.append("action", "my_portfolios");
+    axios
+      .post(Url + "/ajaxfiles/pamm/portfolio_manage.php", param)
+      .then((res) => {
+        if (res.data.message == "Session has been expired") {
+          localStorage.setItem("login", true);
+          navigate("/");
+        }
+        setPortfolioLoader(false);
+        if (res.data.status == "error") {
+          toast.error(res.data.message);
+        } else {
+          myPortfolio = res.data.data;
+          setMyPortfolio([...myPortfolio]);
+        }
+      });
   };
+  const checkAccount = (e) => {
+    if (e == "real") {
+      checkAccountType.real = true;
+      checkAccountType.demo = "";
+    } else {
+      checkAccountType.demo = true;
+      checkAccountType.real = "";
+    }
+    setCheckAccountType({ ...checkAccountType });
+  };
+  const handleChange = (event, newValue) => {
+    setAccountSelect(event.target.value);
+    if (event.target.value == "change_max_leverage") {
+      getLeverage();
+    }
+    setValue(newValue);
+    if (newValue == 1) {
+      getMyPortfolio();
+    }
+  };
+  const handleChangeIndex = (index) => {
+    setValue(index);
+  };
+  console.log("accont", accountSelect);
   const selsectImage = (e) => {
     console.log(e.target.currentSrc);
     const res = bonusImage.filter(
@@ -401,7 +584,7 @@ const Dashboard = (prop) => {
       }
     });
   };
-
+  console.log("liveMT5AccountList.data", liveMT5AccountList);
   const fetchMT5AccountDetaiils = async (mt5_acc_no = "", type = "") => {
     // console.log('mt5Account', mt5Account);
     if (type == "live") {
@@ -564,7 +747,7 @@ const Dashboard = (prop) => {
                                   <Box
                                     component="img"
                                     sx={{
-                                      height: 228,
+                                      height: 141,
                                       display: "flex",
                                       borderRadius: "10px",
                                       // maxWidth: 2200,
@@ -629,6 +812,47 @@ const Dashboard = (prop) => {
                               My Account
                             </h5>
                           </div>
+                          <div item className="textCenter remove-pending-top-0">
+                            <ColorButton
+                              variant="contained"
+                              size="large"
+                              onClick={() => {
+                                setDOpen(true);
+                                setAccountType(1);
+                                setDrefresh(true);
+                              }}
+                            >
+                              {/* {t("Open Additional Demo Account")} */}
+                              Open Real Account
+                            </ColorButton>
+                          </div>
+                        </div>
+                        <div className="px-3">
+                          <Tabs
+                            value={value}
+                            onChange={handleChange}
+                            variant="scrollable"
+                            scrollButtons="auto"
+                            aria-label="scrollable auto tabs example"
+                            className="tabsBar"
+                          >
+                            <Tab label="real" />
+                            <Tab label="demo" />
+                          </Tabs>
+                          {/* <Button
+                            onClick={() => {
+                              checkAccount("real");
+                            }}
+                          >
+                            Real
+                          </Button>
+                          <Button
+                            onClick={() => {
+                              checkAccount("demo");
+                            }}
+                          >
+                            Demo
+                          </Button> */}
                         </div>
                         <div className="divider"></div>
                         {liveMT5AccountLoader ? (
@@ -645,278 +869,651 @@ const Dashboard = (prop) => {
                             </svg>
                           </div>
                         ) : (
-                          <div className="card-body position-relative pt-0">
-                            {liveMT5AccountList.data.length == 0 ? (
-                              <div className="loader">
-                                <ColorButton
-                                  variant="contained"
-                                  size="large"
-                                  className="centerLoader"
-                                  onClick={() => {
-                                    setDOpen(true);
-                                    setAccountType(1);
-                                    setDrefresh(true);
-                                  }}
-                                >
-                                  {t("Open_Live_Account")}
-                                </ColorButton>
-                              </div>
-                            ) : (
-                              ""
-                            )}
-
-                            <Grid
-                              container
-                              spacing={3}
-                              sx={{ marginTop: "12px" }}
+                          <div className="p-3">
+                            <SwipeableViews
+                              axis={
+                                theme.direction === "rtl" ? "x-reverse" : "x"
+                              }
+                              index={value}
+                              onChangeIndex={handleChangeIndex}
                             >
-                              <Grid
-                                item
-                                md={3}
-                                sm={6}
-                                className="remove-pending-top-0"
+                              <TabPanel
+                                value={value}
+                                index={0}
+                                dir={theme.direction}
                               >
-                                <FormControl className="form-control py-3 cust-select remove-pending-0">
-                                  {/* <InputLabel htmlFor="account_no">ACCOUNT NO</InputLabel> */}
-                                  <label
-                                    htmlFor="accountNo"
-                                    className="text-info font-weight-bold form-label-head w-100"
-                                  >
-                                    {t("ACCOUNT NO")}
-                                  </label>
-                                  <Select
-                                    className="account_dropdown_list"
-                                    value={liveMT5Account}
-                                    onChange={(e) => {
-                                      setLiveMT5Account(e.target.value);
-                                      fetchMT5AccountDetaiils(
-                                        e.target.value,
-                                        "live"
-                                      );
-                                    }}
-                                    displayEmpty
-                                    inputProps={{
-                                      "aria-label": "Without label",
-                                    }}
-                                    input={<BootstrapInput1 />}
-                                  >
-                                    {liveMT5AccountList.data.map((item) => {
-                                      return (
-                                        <MenuItem value={item.mt_code}>
-                                          {item.mt_code}
-                                        </MenuItem>
-                                      );
+                                {checkAccountType.real ? (
+                                  <>
+                                    {liveMT5AccountList.data.map((val, ind) => {
+                                      if (val.account_type == "Live")
+                                        return (
+                                          <>
+                                            <div className="account-data-main w-100">
+                                              <div className="accunt-data1 mb-3">
+                                                <div
+                                                  style={{
+                                                    backgroundColor: "#5D2067",
+                                                    borderRadius: "2px",
+                                                    fontWeight: "500",
+                                                    color: "white",
+                                                  }}
+                                                  className="px-2"
+                                                >
+                                                  {val.account_type}
+                                                </div>
+                                                <div
+                                                  style={{
+                                                    backgroundColor:
+                                                      "rgb(84 82 82)",
+                                                    borderRadius: "2px",
+                                                    fontWeight: "500",
+                                                    color: "white",
+                                                  }}
+                                                  className="px-2"
+                                                >
+                                                  {val.platform}
+                                                </div>
+                                                <div className="mx-3">
+                                                  <span
+                                                    style={{
+                                                      fontWeight: "700",
+                                                    }}
+                                                  >
+                                                    Standard
+                                                  </span>
+
+                                                  <span> : {val.mt_code}</span>
+                                                </div>
+                                                <div className="mx-3">
+                                                  <span
+                                                    style={{
+                                                      fontWeight: "700",
+                                                    }}
+                                                  >
+                                                    Leverage
+                                                  </span>{" "}
+                                                  <span> : (1:500)</span>
+                                                </div>
+                                                <div className="mx-3">
+                                                  <span
+                                                    style={{
+                                                      fontWeight: "700",
+                                                    }}
+                                                  >
+                                                    Credit
+                                                  </span>
+                                                  <span> : 0.00 USD</span>
+                                                </div>
+                                                <div className="mx-3">
+                                                  <span
+                                                    style={{
+                                                      fontWeight: "700",
+                                                    }}
+                                                  >
+                                                    Free Margin
+                                                  </span>
+                                                  <span> : 0.00 USD</span>
+                                                </div>
+                                              </div>
+                                              <div className="accunt-data2 d-flex w-100">
+                                                <div className="item1">
+                                                  0.00 USD
+                                                </div>
+                                                <div className="item2 d-flex">
+                                                  <button className="item2-item1 d-flex mx-1 btn-costom">
+                                                    <div>
+                                                      <DownloadIcon />
+                                                    </div>
+                                                    <div className="mx-2">
+                                                      <NavLink
+                                                        to="/internal_transfer"
+                                                        className="wiblack"
+                                                        style={{
+                                                          fontWeight: "500",
+                                                        }}
+                                                      >
+                                                        Deposit
+                                                      </NavLink>
+                                                    </div>
+                                                  </button>
+                                                  {/* <button className="item2-item2 mx-1 btn-costom">
+                                                    Trade
+                                                  </button> */}
+                                                  <ColorButton className="item2-item2 mx-1 btn-costom">
+                                                    Trade
+                                                  </ColorButton>
+                                                  <div className="item2-item3 mx-2">
+                                                    <FormControl
+                                                      variant="standard"
+                                                      sx={{
+                                                        m: 1,
+                                                        minWidth: 120,
+                                                      }}
+                                                      className="d-flex"
+                                                    >
+                                                      {/* <InputLabel id="demo-customized-select-label">
+                                          <SettingsIcon />
+                                          </InputLabel> */}
+                                                      <i class="material-icons position-absolute">
+                                                        settings
+                                                      </i>
+                                                      <Select
+                                                        className="px-1"
+                                                        id="demo-simple-select-standard"
+                                                        onChange={handleChange}
+                                                        label="Account Select"
+                                                        value=""
+                                                        input={
+                                                          <BootstrapInputs />
+                                                        }
+                                                      >
+                                                        <MenuItem
+                                                          value={"withdraw"}
+                                                        >
+                                                          <NavLink
+                                                            to="/withdrawal"
+                                                            style={{
+                                                              color: "black",
+                                                              fontWeight: "500",
+                                                            }}
+                                                          >
+                                                            Withdraw
+                                                          </NavLink>
+                                                        </MenuItem>
+                                                        <MenuItem
+                                                          value={
+                                                            "transfer_funds"
+                                                          }
+                                                        >
+                                                          <NavLink
+                                                            to="/internal_transfer"
+                                                            style={{
+                                                              color: "black",
+                                                              fontWeight: "500",
+                                                            }}
+                                                          >
+                                                            Transfer funds
+                                                          </NavLink>
+                                                        </MenuItem>
+                                                        <MenuItem
+                                                          value={
+                                                            "change_max_leverage"
+                                                          }
+                                                          onClick={getLeverage}
+                                                          style={{
+                                                            color: "black",
+                                                            fontWeight: "500",
+                                                          }}
+                                                        >
+                                                          Change max leverage
+                                                        </MenuItem>
+                                                        <MenuItem
+                                                          value={
+                                                            "account_information"
+                                                          }
+                                                          style={{
+                                                            color: "black",
+                                                            fontWeight: "500",
+                                                          }}
+                                                        >
+                                                          Account information
+                                                        </MenuItem>
+                                                        <MenuItem
+                                                          value={
+                                                            "change_trading_password"
+                                                          }
+                                                        >
+                                                          <NavLink
+                                                            to="/change_password"
+                                                            style={{
+                                                              color: "black",
+                                                              fontWeight: "500",
+                                                            }}
+                                                          >
+                                                            Change trading
+                                                            password
+                                                          </NavLink>
+                                                        </MenuItem>
+                                                      </Select>
+                                                    </FormControl>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </>
+                                        );
                                     })}
+                                  </>
+                                ) : (
+                                  <>
+                                    {liveMT5AccountList.data.map((val, ind) => {
+                                      if (val.account_type == "Demo")
+                                        return (
+                                          <>
+                                            <div className="account-data-main w-100">
+                                              <div className="accunt-data1 mb-3">
+                                                <div
+                                                  style={{
+                                                    backgroundColor: "#5D2067",
+                                                    borderRadius: "2px",
+                                                    fontWeight: "500",
+                                                    color: "white",
+                                                  }}
+                                                  className="px-2"
+                                                >
+                                                  {val.account_type}
+                                                </div>
+                                                <div
+                                                  style={{
+                                                    backgroundColor: "#b1b1b1",
+                                                    borderRadius: "2px",
+                                                    fontWeight: "500",
+                                                    color: "white",
+                                                  }}
+                                                  className="px-2"
+                                                >
+                                                  {val.platform}
+                                                </div>
+                                                <div className="mx-3">
+                                                  <span>Standard</span>/
+                                                  <span>{val.mt_code}</span>
+                                                </div>
+                                                <div className="mx-3">
+                                                  <span>Leverage</span>/
+                                                  <span>0.00$</span>
+                                                </div>
+                                                <div className="mx-3">
+                                                  <span>Credit</span>/
+                                                  <span>0.00$</span>
+                                                </div>
+                                                <div className="mx-3">
+                                                  <span>MARGIN FREE</span>/
+                                                  <span>0.00$</span>
+                                                </div>
+                                              </div>
+                                              <div className="accunt-data2 d-flex w-100">
+                                                <div className="item1">
+                                                  0.00 USD
+                                                </div>
+                                                <div className="item2 d-flex">
+                                                  <button className="item2-item1 d-flex mx-1 btn-costom">
+                                                    <div>
+                                                      <DownloadIcon />
+                                                    </div>
+                                                    <div className="mx-2">
+                                                      <NavLink
+                                                        to="/internal_transfer"
+                                                        className="wiblack"
+                                                        style={{
+                                                          fontWeight: "500",
+                                                        }}
+                                                      >
+                                                        Deposit
+                                                      </NavLink>
+                                                    </div>
+                                                  </button>
+                                                  <button className="item2-item2 mx-1 btn-costom">
+                                                    Trade
+                                                  </button>
+                                                  <div className="item2-item3 mx-2">
+                                                    <FormControl
+                                                      variant="standard"
+                                                      sx={{
+                                                        m: 1,
+                                                        minWidth: 120,
+                                                      }}
+                                                      className="d-flex"
+                                                    >
+                                                      {/* <InputLabel id="demo-customized-select-label">
+                                        <SettingsIcon />
+                                      </InputLabel> */}
+                                                      <i class="material-icons position-absolute">
+                                                        settings
+                                                      </i>
+                                                      <Select
+                                                        className="px-1"
+                                                        id="demo-simple-select-standard"
+                                                        onChange={handleChange}
+                                                        label="Account Select"
+                                                        value=""
+                                                        input={
+                                                          <BootstrapInputs />
+                                                        }
+                                                      >
+                                                        <MenuItem value="">
+                                                          <em>None</em>
+                                                        </MenuItem>
+                                                        <MenuItem
+                                                          value={"withdraw"}
+                                                        >
+                                                          <NavLink
+                                                            to="/withdrawal"
+                                                            style={{
+                                                              color: "black",
+                                                              fontWeight: "500",
+                                                            }}
+                                                          >
+                                                            Withdraw
+                                                          </NavLink>
+                                                        </MenuItem>
+                                                        <MenuItem
+                                                          value={
+                                                            "transfer_funds"
+                                                          }
+                                                        >
+                                                          <NavLink
+                                                            to="/internal_transfer"
+                                                            style={{
+                                                              color: "black",
+                                                              fontWeight: "500",
+                                                            }}
+                                                          >
+                                                            Transfer funds
+                                                          </NavLink>
+                                                        </MenuItem>
+                                                        <MenuItem
+                                                          value={
+                                                            "change_max_leverage"
+                                                          }
+                                                          onClick={getLeverage}
+                                                          style={{
+                                                            color: "black",
+                                                            fontWeight: "500",
+                                                          }}
+                                                        >
+                                                          Change max leverage
+                                                        </MenuItem>
+                                                        <MenuItem
+                                                          value={
+                                                            "account_information"
+                                                          }
+                                                          style={{
+                                                            color: "black",
+                                                            fontWeight: "500",
+                                                          }}
+                                                        >
+                                                          Account information
+                                                        </MenuItem>
+                                                        <MenuItem
+                                                          value={
+                                                            "change_trading_password"
+                                                          }
+                                                        >
+                                                          <NavLink
+                                                            to="/change_password"
+                                                            style={{
+                                                              color: "black",
+                                                              fontWeight: "500",
+                                                            }}
+                                                          >
+                                                            Change trading
+                                                            password
+                                                          </NavLink>
+                                                        </MenuItem>
+                                                      </Select>
+                                                    </FormControl>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              <Dialog
+                                                open={clOpen}
+                                                onClose={() => {
+                                                  console.log(
+                                                    "dssfasdd",
+                                                    clOpen
+                                                  );
 
-                                    {/* <MenuItem value="JP">23123</MenuItem> */}
-                                  </Select>
-                                </FormControl>
-                              </Grid>
-                              <Grid
-                                item
-                                md={3}
-                                sm={6}
-                                className="remove-pending-top-0"
+                                                  setCLOpen(false);
+                                                }}
+                                                scroll="paper"
+                                                maxWidth="xs"
+                                                fullWidth={true}
+                                                // aria-labelledby="scroll-dialog-title"
+                                                // aria-describedby="scroll-dialog-description"
+                                              >
+                                                <div
+                                                  id="form-dialog-title"
+                                                  className="d-flex align-items-center p-3"
+                                                >
+                                                  <h5 className="w-100 text-center custom-text-color m-0 font-weight-bold">
+                                                    Change Leverage
+                                                  </h5>
+                                                  <Button
+                                                    onClick={() =>
+                                                      setCLOpen(false)
+                                                    }
+                                                    sx={{ color: "#2A3F73" }}
+                                                  >
+                                                    <CloseIcon />
+                                                  </Button>
+                                                </div>
+                                                <div className="divider"></div>
+                                                <DialogContent>
+                                                  <Grid container spacing={6}>
+                                                    <Grid item md={12}>
+                                                      <form>
+                                                        <Grid
+                                                          container
+                                                          spacing={3}
+                                                        >
+                                                          <Grid item md={12}>
+                                                            <FormControl className="w-100">
+                                                              {/* <InputLabel htmlFor="account_no">ACCOUNT NO</InputLabel> */}
+                                                              <label
+                                                                htmlFor="accountNo"
+                                                                className="text-info font-weight-bold form-label-head w-100 required"
+                                                              >
+                                                                Leverage
+                                                              </label>
+                                                              <Select
+                                                                value={age}
+                                                                onChange={
+                                                                  handleChange
+                                                                }
+                                                                displayEmpty
+                                                                inputProps={{
+                                                                  "aria-label":
+                                                                    "Without label",
+                                                                }}
+                                                                input={
+                                                                  <BootstrapInput />
+                                                                }
+                                                              >
+                                                                <MenuItem value="">
+                                                                  Select Option
+                                                                </MenuItem>
+                                                                {leveragesList.data.map(
+                                                                  (item) => {
+                                                                    return (
+                                                                      <MenuItem
+                                                                        value={
+                                                                          item.leverage_value
+                                                                        }
+                                                                      >
+                                                                        {
+                                                                          item.leverage_data
+                                                                        }
+                                                                      </MenuItem>
+                                                                    );
+                                                                  }
+                                                                )}
+                                                              </Select>
+                                                            </FormControl>
+                                                          </Grid>
+                                                        </Grid>
+                                                        <Grid
+                                                          container
+                                                          spacing={3}
+                                                        >
+                                                          <Grid
+                                                            item
+                                                            md={12}
+                                                            className="text-center my-3"
+                                                          >
+                                                            {changeleverageLoader ? (
+                                                              <ColorButton
+                                                                variant="contained"
+                                                                className="m-auto p-3 text-center text-capitalize disabled-transfar-button"
+                                                                sx={{
+                                                                  padding:
+                                                                    "23px 91px !important",
+                                                                }}
+                                                                disabled
+                                                              >
+                                                                <svg
+                                                                  class="spinner"
+                                                                  viewBox="0 0 50 50"
+                                                                >
+                                                                  <circle
+                                                                    class="path"
+                                                                    cx="25"
+                                                                    cy="25"
+                                                                    r="20"
+                                                                    fill="none"
+                                                                    stroke-width="5"
+                                                                  ></circle>
+                                                                </svg>
+                                                              </ColorButton>
+                                                            ) : (
+                                                              <ColorButton
+                                                                onClick={
+                                                                  changeLeverage
+                                                                }
+                                                              >
+                                                                {" "}
+                                                                Change Leverage
+                                                              </ColorButton>
+                                                            )}
+                                                          </Grid>
+                                                        </Grid>
+                                                      </form>
+                                                    </Grid>
+                                                  </Grid>
+                                                </DialogContent>
+                                              </Dialog>
+                                            </div>
+                                          </>
+                                        );
+                                    })}
+                                  </>
+                                )}
+                              </TabPanel>
+                            </SwipeableViews>
+                            <Dialog
+                              open={clOpen}
+                              onClose={() => {
+                                console.log("dssfasdd", clOpen);
+
+                                setCLOpen(false);
+                              }}
+                              scroll="paper"
+                              maxWidth="xs"
+                              fullWidth={true}
+                              // aria-labelledby="scroll-dialog-title"
+                              // aria-describedby="scroll-dialog-description"
+                            >
+                              <div
+                                id="form-dialog-title"
+                                className="d-flex align-items-center p-3"
                               >
-                                <FormControl className="form-control py-3 remove-pending-0">
-                                  {/* <InputLabel htmlFor="account_no">ACCOUNT NO</InputLabel> */}
-                                  <label
-                                    htmlFor="accountNo"
-                                    className="text-info font-weight-bold form-label-head w-100"
-                                  >
-                                    {t("ACCOUNT TYPE")}
-                                  </label>
-                                  <label
-                                    htmlFor=""
-                                    className="text-dark font-weight-bold w-100 text-uppercase"
-                                  >
-                                    {liveMT5AccountList.data[
-                                      liveMT5AccountIndex
-                                    ]
-                                      ? liveMT5AccountList.data[
-                                          liveMT5AccountIndex
-                                        ].account_type
-                                      : ""}
-                                  </label>
-                                </FormControl>
-                              </Grid>
-                              <Grid
-                                item
-                                md={3}
-                                sm={6}
-                                className="remove-pending-top-0"
-                              >
-                                <FormControl className="form-control py-3 remove-pending-0">
-                                  {/* <InputLabel htmlFor="account_no">ACCOUNT NO</InputLabel> */}
-                                  <label
-                                    htmlFor="accountNo"
-                                    className="text-info font-weight-bold form-label-head w-100"
-                                  >
-                                    {t("LEVERAGE")}
-                                  </label>
-                                  <label
-                                    htmlFor=""
-                                    className="text-dark font-weight-bold w-100 text-uppercase"
-                                  >
-                                    {liveAccountDetails.leverage}
-                                  </label>
-                                </FormControl>
-                              </Grid>
-                              <Grid
-                                item
-                                md={3}
-                                sm={6}
-                                className="remove-pending-top-0"
-                              >
-                                <FormControl className="form-control py-3 remove-pending-0">
-                                  <label
-                                    htmlFor="accountNo"
-                                    className="text-info font-weight-bold form-label-head w-100"
-                                  >
-                                    {t("PLATFORM")}
-                                  </label>
-                                  <label
-                                    htmlFor=""
-                                    className="text-dark font-weight-bold w-100 text-uppercase"
-                                  >
-                                    {liveMT5AccountList.data[
-                                      liveMT5AccountIndex
-                                    ]
-                                      ? liveMT5AccountList.data[
-                                          liveMT5AccountIndex
-                                        ].platform
-                                      : ""}
-                                  </label>
-                                </FormControl>
-                              </Grid>
-                              <hr style={{ marginLeft: "21px" }} />
-                              <Grid
-                                item
-                                md={3}
-                                sm={6}
-                                className="remove-pending-top-0"
-                              >
-                                <FormControl className="form-control">
-                                  <label
-                                    htmlFor="accountNo"
-                                    className=" text-info font-weight-bold form-label-head w-100"
-                                  >
-                                    {t("BALANCE")}
-                                  </label>
-                                  <label
-                                    htmlFor=""
-                                    className="text-dark font-weight-bold w-100 text-uppercase"
-                                  >
-                                    {liveAccountDetails.mt_balance}
-                                  </label>
-                                </FormControl>
-                              </Grid>
-                              <Grid
-                                item
-                                md={3}
-                                sm={6}
-                                className="remove-pending-top-0"
-                              >
-                                <FormControl className="form-control">
-                                  <label
-                                    htmlFor="accountNo"
-                                    className=" text-info font-weight-bold form-label-head w-100"
-                                  >
-                                    {t("EQUITY")}
-                                  </label>
-                                  <label
-                                    htmlFor=""
-                                    className="l text-dark font-weight-bold w-100 text-uppercase"
-                                  >
-                                    {liveAccountDetails.mt_equity}
-                                  </label>
-                                </FormControl>
-                              </Grid>
-                              <Grid
-                                item
-                                md={3}
-                                sm={6}
-                                className="remove-pending-top-0"
-                              >
-                                <FormControl className="form-control">
-                                  <label
-                                    htmlFor="accountNo"
-                                    className="text-info font-weight-bold form-label-head w-100"
-                                  >
-                                    {t("CREDIT")}
-                                  </label>
-                                  <label
-                                    htmlFor=""
-                                    className="text-dark font-weight-bold w-100 text-uppercase"
-                                  >
-                                    {liveAccountDetails.mt_credit}
-                                  </label>
-                                </FormControl>
-                              </Grid>
-                              <Grid
-                                item
-                                md={3}
-                                sm={6}
-                                className="remove-pending-top-0"
-                              >
-                                <FormControl className="form-control">
-                                  <label
-                                    htmlFor="accountNo"
-                                    className="text-info font-weight-bold form-label-head w-100"
-                                  >
-                                    {t("MARGIN FREE")}
-                                  </label>
-                                  <label
-                                    htmlFor=""
-                                    className="text-dark font-weight-bold w-100 text-uppercase"
-                                  >
-                                    {liveAccountDetails.mt_free_margin}
-                                  </label>
-                                </FormControl>
-                              </Grid>
-                              <hr style={{ marginLeft: "21px" }} />
-                              <Grid
-                                item
-                                md={12}
-                                className="textCenter remove-pending-top-0"
-                              >
-                                <ColorButton
-                                  variant="contained"
-                                  size="large"
-                                  onClick={() => {
-                                    setDOpen(true);
-                                    setAccountType(1);
-                                    setDrefresh(true);
-                                  }}
+                                <h5 className="w-100 text-center custom-text-color m-0 font-weight-bold">
+                                  Change Leverage
+                                </h5>
+                                <Button
+                                  onClick={() => setCLOpen(false)}
+                                  sx={{ color: "#2A3F73" }}
                                 >
-                                  {/* {t("Open Additional Demo Account")} */}
-                                  Open Additional Live Account
-                                </ColorButton>
-                              </Grid>
-                            </Grid>
-                            {/* <Dialog
-                                open={Dopen}
-                                onClose={()=>setDOpen(false)}
-                                maxWidth="lg"
-                                fullWidth={true}
-                                scroll="paper"
-                                aria-labelledby="scroll-dialog-title"
-                                aria-describedby="scroll-dialog-description"
-                              >
-                             <div id="form-dialog-title" className="d-flex align-items-center p-3 create-account-header">
-                                 <h5 className="w-100 text-center text-primary m-0 font-weight-bold">CREATE A TRADING ACCOUNT</h5>
-                                 <Button onClick={()=>setDOpen(false)} sx={{color:"#ff0000"}}><CloseIcon/></Button>
-                             </div>
-                                <DialogContent className="create-account-content">
-                                    <Grid container spacing={2} className="MuiGrid-justify-xs-space-between">
-                                    <Card1/>
-
-                                    </Grid>
-
-                            
-                                </DialogContent>
-                             
-                              </Dialog> */}
+                                  <CloseIcon />
+                                </Button>
+                              </div>
+                              <div className="divider"></div>
+                              <DialogContent>
+                                <Grid container spacing={6}>
+                                  <Grid item md={12}>
+                                    <form>
+                                      <Grid container spacing={3}>
+                                        <Grid item md={12}>
+                                          <FormControl className="w-100">
+                                            {/* <InputLabel htmlFor="account_no">ACCOUNT NO</InputLabel> */}
+                                            <label
+                                              htmlFor="accountNo"
+                                              className="text-info font-weight-bold form-label-head w-100 required"
+                                            >
+                                              Leverage
+                                            </label>
+                                            <Select
+                                              value={age}
+                                              onChange={handleChange}
+                                              displayEmpty
+                                              inputProps={{
+                                                "aria-label": "Without label",
+                                              }}
+                                              input={<BootstrapInput />}
+                                            >
+                                              <MenuItem value="">
+                                                Select Option
+                                              </MenuItem>
+                                              {leveragesList.data.map(
+                                                (item) => {
+                                                  return (
+                                                    <MenuItem
+                                                      value={
+                                                        item.leverage_value
+                                                      }
+                                                    >
+                                                      {item.leverage_data}
+                                                    </MenuItem>
+                                                  );
+                                                }
+                                              )}
+                                            </Select>
+                                          </FormControl>
+                                        </Grid>
+                                      </Grid>
+                                      <Grid container spacing={3}>
+                                        <Grid
+                                          item
+                                          md={12}
+                                          className="text-center my-3"
+                                        >
+                                          {changeleverageLoader ? (
+                                            <ColorButton
+                                              variant="contained"
+                                              className="m-auto p-3 text-center text-capitalize disabled-transfar-button"
+                                              sx={{
+                                                padding: "23px 91px !important",
+                                              }}
+                                              disabled
+                                            >
+                                              <svg
+                                                class="spinner"
+                                                viewBox="0 0 50 50"
+                                              >
+                                                <circle
+                                                  class="path"
+                                                  cx="25"
+                                                  cy="25"
+                                                  r="20"
+                                                  fill="none"
+                                                  stroke-width="5"
+                                                ></circle>
+                                              </svg>
+                                            </ColorButton>
+                                          ) : (
+                                            <ColorButton
+                                              onClick={changeLeverage}
+                                            >
+                                              {" "}
+                                              Change Leverage
+                                            </ColorButton>
+                                          )}
+                                        </Grid>
+                                      </Grid>
+                                    </form>
+                                  </Grid>
+                                </Grid>
+                              </DialogContent>
+                            </Dialog>
                           </div>
                         )}
                       </Paper>
@@ -1217,36 +1814,37 @@ const Dashboard = (prop) => {
                         <div className="divider"></div>
                         <div className="card-body">
                           <Grid container>
-                            <Grid item md={12}>
-                              <FormControl>
-                                <Avatar
-                                  style={{
-                                    width: "50px",
-                                    height: "50px",
-                                    margin: "10px auto",
-                                  }}
-                                />
-                                <label className="text-center">
-                                  {prefrence.manager_details.manager_name}
-                                </label>
-                              </FormControl>
-                            </Grid>
-                            <Grid className="mt-2 mb-3" item md={12}></Grid>
-                            <Grid
-                              className="mt-2 mb-3"
-                              item
-                              md={12}
-                              sx={{ width: "100%" }}
-                            >
-                              <FormControl>
-                                <a
-                                  className="text-center text-dark"
-                                  href={`mailto:${prefrence.manager_details.manager_email}}`}
-                                >
-                                  <MailOutlineIcon />
-                                  {prefrence.manager_details.manager_email}
-                                </a>
-                              </FormControl>
+                            <Grid item md={12} className="d-flex">
+                              <Grid item md={3}>
+                                <FormControl>
+                                  <Avatar
+                                    style={{
+                                      width: "50px",
+                                      height: "50px",
+                                      margin: "10px auto",
+                                    }}
+                                  />
+                                  <label className="text-center">
+                                    {prefrence.manager_details.manager_name}
+                                  </label>
+                                </FormControl>
+                              </Grid>
+                              <Grid
+                                className="d-flex justify-content-center align-items-center"
+                                item
+                                md={9}
+                                sx={{ width: "100%" }}
+                              >
+                                <FormControl>
+                                  <a
+                                    className="text-center text-dark"
+                                    href={`mailto:${prefrence.manager_details.manager_email}}`}
+                                  >
+                                    <MailOutlineIcon />
+                                    {prefrence.manager_details.manager_email}
+                                  </a>
+                                </FormControl>
+                              </Grid>
                             </Grid>
                           </Grid>
                         </div>
