@@ -59,6 +59,8 @@ import { ThemeProvider, createTheme } from "@mui/material";
 import TradeAndWin from "./componet/sidebar/otherpage/tradeAndWin";
 import PrizeLots from "./componet/sidebar/otherpage/prizeLots";
 import DepositeTest from "./componet/sidebar/otherpage/DepositeTest";
+import Cart from "./componet/sidebar/otherpage/cart";
+import Shipping from "./componet/sidebar/otherpage/shipping";
 
 function useScrollToTop() {
   const { pathname } = useLocation();
@@ -167,6 +169,8 @@ const App = () => {
                 <Route exact path="/deposit/" element={<Deposite />} />
                 <Route exact path="/trade-and-win" element={<TradeAndWin />} />
                 <Route exact path="/prize-lots" element={<PrizeLots />} />
+                <Route exact path="/cart" element={<Cart />} />
+                <Route exact path="/shipping" element={<Shipping />} />
                 {/* <Route exact path="/depositTest/" element={<DepositeTest />} /> */}
                 <Route exact path="/depositTest" element={<DepositeTest />} />
 

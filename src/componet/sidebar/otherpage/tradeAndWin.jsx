@@ -69,6 +69,7 @@ const TradeAndWin = () => {
       let data = await axios.post(`${Url}/ajaxfiles/trade_and_win.php`, param);
       if (data.status === 200) {
         fetchCart();
+        fetchAvailableLots();
       }
     } catch (err) {
       console.log(err);
