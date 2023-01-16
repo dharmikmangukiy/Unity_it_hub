@@ -7,5 +7,10 @@ const IsApprove = {
   auth: "adc68b-b3aaa4-699c76",
   user_id: "1",
 };
+// const IsApprove = {
+//   is_app: 1,
+//   auth: "wswsw-fwf23-swwc",
+//   user_id: "6025",
+// };
 // const IsApprove = "";
 export { Url, IsApprove };

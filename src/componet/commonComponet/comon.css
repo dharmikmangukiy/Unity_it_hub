@@ -38,6 +38,7 @@
 }
 .headerMenu {
   padding: 17px;
+  cursor: pointer;
 }
 .headerMenu:hover {
   background: rgb(93 32 103 / 10%);
@@ -66,4 +67,25 @@
   color: #393a47;
 }
 .menuHeder li {
+}
+.autoComplte-textfild label {
+  display: none;
+}
+.autoComplte-textfild legend {
+  display: none;
+}
+.autoComplte-textfild .Mui-focused .MuiOutlinedInput-notchedOutline {
+  /* border-width: 2px; */
+  border-color: #5d2067 !important;
+  border-radius: 9px !important;
+}
+.autoComplte-textfild fieldset {
+  border-radius: 9px !important;
+}
+
+.autoComplte-textfild input {
+  padding: 1px !important;
+}
+.autoComplte-textfild {
+  margin-top: 5px !important;
 }

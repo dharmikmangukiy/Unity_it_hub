@@ -20,6 +20,7 @@ import { IsApprove, Url } from "../../../../global";
 import axios from "axios";
 import { use } from "i18next";
 import Counter from "../../../customComponet/Counter";
+import Verification from "../../../customComponet/Verification";
 
 export const Withdrawal = () => {
   const [option, setOption] = useState("");

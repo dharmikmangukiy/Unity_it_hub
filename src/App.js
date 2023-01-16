@@ -61,6 +61,7 @@ import PrizeLots from "./componet/sidebar/otherpage/prizeLots";
 import DepositeTest from "./componet/sidebar/otherpage/DepositeTest";
 import Cart from "./componet/sidebar/otherpage/cart";
 import Shipping from "./componet/sidebar/otherpage/shipping";
+import IBDashboard from "./ibdashbord/IBDashboard";
 
 function useScrollToTop() {
   const { pathname } = useLocation();
@@ -78,6 +79,7 @@ const App = () => {
   useScrollToTop();
   const [login, setLogin] = useState(localStorage.getItem("login"));
   const [login1, setLogin1] = useState(false);
+  const [moveToib, SetMoveToib] = useState(false);
 
   // const[User,setUser]=useState(localStorage.getItem('login'))
 
@@ -132,12 +134,18 @@ const App = () => {
               : "app-wrapper app-sidebar-fixed app-header-fixed"
           }
         >
-          <Sidebar cside={sidebar} setSidebar={setSidebar} />
+          <Sidebar
+            cside={sidebar}
+            setSidebar={setSidebar}
+            moveToib={moveToib}
+          />
           <div className="app-main">
             <Header
               setSidebar={setSidebar}
               setClang={setClang}
               setLogin={setLogin}
+              setMoveToib={SetMoveToib}
+              moveToib={moveToib}
             />
             <div className="app-content">
               <Routes>
@@ -173,6 +181,7 @@ const App = () => {
                 <Route exact path="/shipping" element={<Shipping />} />
                 {/* <Route exact path="/depositTest/" element={<DepositeTest />} /> */}
                 <Route exact path="/depositTest" element={<DepositeTest />} />
+                <Route path="/partnership" element={<Partnership />} />
 
                 <Route
                   exact
@@ -218,7 +227,6 @@ const App = () => {
                 <Route exact path="/copytrading" element={<Copytrading />} />
                 <Route path="/copytrading/:id" element={<Copytrading />} />
                 <Route path="/copytrading/:id" element={<Copytrading />} />
-                <Route path="/my_client" element={<MyClient />} />
 
                 <Route
                   path="/open_real_account"
@@ -228,27 +236,14 @@ const App = () => {
                   path="/open_demo_account"
                   element={<OpenDemoaccount />}
                 />
-                <Route path="/partnership" element={<Partnership />} />
-                <Route
-                  path="/ib_commision_group"
-                  element={<IBCommisionGroup />}
-                />
 
                 <Route
                   path="/Open_Champion_Demo_Contest_account"
                   element={<OpenChampionDemo />}
                 />
                 <Route path="/Manage_Bonuses" element={<ManageBonuses />} />
-                <Route
-                  path="/ib_commission_history"
-                  element={<IBCommissionHistory />}
-                />
-                <Route
-                  path="/ib_withdraw_history"
-                  element={<IBWithdrawalReport />}
-                />
+
                 <Route path="/ticket" element={<Ticket />} />
-                <Route path="/my_structure" element={<MyStructure />} />
 
                 <Route path="/view_ticket/:id" element={<ViewTicket />} />
                 <Route path="/pamm_dashboard" element={<PammDashboard />} />
@@ -273,7 +268,33 @@ const App = () => {
                   path="/portfolio_profile/:id"
                   element={<PammPortfolioProfile />}
                 />
+
+                <Route
+                  exact
+                  path="/IBdashboard"
+                  element={<IBDashboard setLogin={setLogin} />}
+                />
+                {/* <Route
+                    path="*"
+                    element={<Navigate to="/dashboard" replace />}
+                  /> */}
+                <Route
+                  path="/ib_commission_history"
+                  element={<IBCommissionHistory />}
+                />
+                <Route
+                  path="/ib_withdraw_history"
+                  element={<IBWithdrawalReport />}
+                />
+                <Route path="/partnership" element={<Partnership />} />
+                <Route
+                  path="/ib_commision_group"
+                  element={<IBCommisionGroup />}
+                />
+                <Route path="/my_client" element={<MyClient />} />
+                <Route path="/my_structure" element={<MyStructure />} />
               </Routes>
+
               <Footer />
             </div>
           </div>

@@ -18,10 +18,11 @@ import { styled, useTheme } from "@mui/material/styles";
 import MenuItem from "@mui/material/MenuItem";
 import { toast } from "react-toastify";
 import InfoIcon from "@mui/icons-material/Info";
-import CheckIcon from "@mui/icons-material/Check";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CheckIcon from "@mui/icons-material/Check";
 import CancelIcon from "@mui/icons-material/Cancel";
+import "./ibcss.css";
 import {
   BootstrapInput,
   ColorButton,
@@ -35,6 +36,12 @@ import { useNavigate } from "react-router-dom";
 import CommonTable from "../../../customComponet/CommonTable";
 import { ViewAgendaSharp } from "@mui/icons-material";
 import NewDate from "../../../commonComponet/NewDate";
+import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
+import MobileFriendlyIcon from "@mui/icons-material/MobileFriendly";
+import DocumentScannerIcon from "@mui/icons-material/DocumentScanner";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import Verification from "../../../customComponet/Verification";
+
 const BootstrapInput1 = styled(TextField)(({ theme }) => ({
   "label + &": {
     marginTop: theme.spacing(0),
@@ -920,6 +927,12 @@ const MenuProps = {
 export const Partnership = () => {
   const theme = useTheme();
   const [ibstatus, setIbStatus] = useState("");
+  const [varification, setVarification] = useState({
+    kyc_status: 0,
+    email_status: 0,
+    mobile_status: 0,
+  });
+
   const [mainLoader, setMainLoader] = useState(true);
   const [countryData, setCountryData] = useState({
     data: [],
@@ -930,10 +943,6 @@ export const Partnership = () => {
   const [scroll, setScroll] = useState("paper");
   const [status, setStatus] = useState();
 
-  const handleClickOpen = (scrollType) => () => {
-    setOpen(true);
-    setScroll(scrollType);
-  };
   const handleClose = () => {
     setOpen(false);
   };
@@ -1065,7 +1074,6 @@ export const Partnership = () => {
         });
     }
   }, [ageErrors, isSubmit]);
-  console.log("ibData", ibData);
 
   const fatchKycStatus = async () => {
     const param = new FormData();
@@ -1109,8 +1117,11 @@ export const Partnership = () => {
           toast.error(res.data.message);
         } else {
           setIbStatus(res.data);
+
+          // setIbStatus(res.data);
           if (res.data.ib_data) {
             setPartnership(false);
+
             setIBData({ ...res.data.ib_data });
           }
           setMainLoader(false);
@@ -1130,6 +1141,28 @@ export const Partnership = () => {
       }
     });
   }, []);
+  // const handleClickOpen = (scrollType) => () => {
+  //   console.log("SAdaSDFDf");
+  //   setOpen(true);
+  //   setScroll(scrollType);
+  // };
+  const handleClickOpen = (prop) => {
+    console.log("444");
+    setOpen(true);
+    setScroll(prop);
+  };
+  const verifySubmit = () => {
+    if (ibstatus.email_status == 0 || ibstatus.mobile_status == 0) {
+      navigate("/userProfile");
+      console.log("1111");
+    } else if (ibstatus.kyc_status == 0 || ibstatus.kyc_status == 2) {
+      navigate("/myDocuments");
+      console.log("2222");
+    } else {
+      handleClickOpen("paper");
+      console.log("333");
+    }
+  };
   const partner = () => {
     console.log(
       "ibstatus.ib_applied_status",
@@ -1143,7 +1176,121 @@ export const Partnership = () => {
             You have not applied for IB User, Please click below to apply for IB
             User
           </h5>
-          <div className="text-center pb-5">
+          {/* <div className="verification-main">
+            <div>
+              <div className="verication-icon-Section">
+                <div
+                  className="vericatiaron-icon-sub"
+                  style={
+                    ibstatus.email_status == 1
+                      ? { backgroundColor: "#5d2027" }
+                      : {}
+                  }
+                >
+                  {ibstatus.email_status == 1 ? (
+                    <CheckIcon sx={{ color: "white" }} />
+                  ) : (
+                    ""
+                  )}
+                </div>
+                <RocketLaunchIcon
+                  className="verificationBarIcon"
+                  style={ibstatus.email_status == 0 ? { color: "#cfcfcf" } : {}}
+                />
+              </div>
+              <div className="verify-textCenter">Email Verification</div>
+            </div>
+            <div>
+              <div className="verication-icon-Section">
+                <div
+                  className="vericatiaron-icon-sub"
+                  style={
+                    ibstatus.mobile_status == 1
+                      ? { backgroundColor: "#5d2027" }
+                      : {}
+                  }
+                >
+                  {ibstatus.mobile_status == 1 ? (
+                    <CheckIcon sx={{ color: "white" }} />
+                  ) : (
+                    ""
+                  )}
+                </div>
+
+                <MobileFriendlyIcon
+                  className="verificationBarIcon"
+                  style={
+                    ibstatus.mobile_status == 0 ? { color: "#cfcfcf" } : {}
+                  }
+                />
+              </div>
+              <div className="verify-textCenter">Phone Verification</div>
+            </div>
+            <div>
+              <div className="verication-icon-Section">
+                <div
+                  className="vericatiaron-icon-sub"
+                  style={
+                    ibstatus.kyc_status == 1
+                      ? { backgroundColor: "#5d2027" }
+                      : {}
+                  }
+                >
+                  {ibstatus.kyc_status == 1 ? (
+                    <CheckIcon sx={{ color: "white" }} />
+                  ) : (
+                    ""
+                  )}
+                </div>
+
+                <DocumentScannerIcon
+                  className="verificationBarIcon"
+                  style={
+                    ibstatus.kyc_status == 0 || ibstatus.kyc_status == 2
+                      ? { color: "#cfcfcf" }
+                      : {}
+                  }
+                />
+              </div>
+              <div className="verify-textCenter">Document Verification</div>
+            </div>
+            <div>
+              <div className="verication-icon-Section">
+                <div className="vericatiaron-icon-sub"></div>
+
+                <HelpOutlineIcon
+                  className="verificationBarIcon"
+                  style={
+                    ibstatus.ib_applied_status == 0 ||
+                    ibstatus.ib_applied_status == 2
+                      ? { color: "#cfcfcf" }
+                      : {}
+                  }
+                />
+              </div>
+              <div className="verify-textCenter">IB Request</div>
+            </div>
+          </div>
+          <div className="verification-button">
+            <div>
+              <ColorButton onClick={verifySubmit}>
+                {ibstatus.email_status == 0
+                  ? "Verify Email"
+                  : ibstatus.mobile_status == 0
+                  ? "Verify Phone"
+                  : ibstatus.kyc_status == 0
+                  ? "Verify Document"
+                  : ibstatus.kyc_status == 2
+                  ? "Rejected Document"
+                  : ibstatus.ib_applied_status == 0
+                  ? "IB Request"
+                  : ""}
+              </ColorButton>
+            </div>
+          </div> */}
+          <Verification ibstatus={ibstatus} />
+
+          {/* <div className="text-center pb-5">
             {status == "1" ? (
               <Button
                 type="submit"
@@ -1169,11 +1316,11 @@ export const Partnership = () => {
                 </ColorButton>
               </div>
             )}
-          </div>
+          </div> */}
         </div>
       );
     } else {
-      if (ibstatus.ib_applied_status == "1" && ibstatus.ib_status == "0") {
+      if (ibstatus.ib_applied_status == 1 && ibstatus.ib_status == "0") {
         return (
           <div className="card-body position-relative">
             <Grid container spacing={3}>
@@ -1198,8 +1345,8 @@ export const Partnership = () => {
           </div>
         );
       } else if (
-        (ibstatus.ib_applied_status == "2" && ibstatus.ib_status == "0") ||
-        (ibstatus.ib_applied_status == "1" && ibstatus.ib_status == "2")
+        (ibstatus.ib_applied_status == 2 && ibstatus.ib_status == 0) ||
+        (ibstatus.ib_applied_status == 1 && ibstatus.ib_status == 2)
       ) {
         return (
           <div className="card-body position-relative">
@@ -1218,19 +1365,19 @@ export const Partnership = () => {
                     </div>
                     Your request has been rejected.
                     <br />
-                    {ibstatus.ib_data.remarks}
+                    {/* {ibstatus.ib_data.remarks} */}
                   </h5>
                   <div className="text-center pb-5">
-                    <Button
+                    <ColorButton
                       type="submit"
                       variant="contained"
                       size="small"
                       sx={{ padding: "10px" }}
                       className="text-center text-capitalize rounded-pill"
-                      onClick={handleClickOpen("paper")}
+                      onClick={() => handleClickOpen("paper")}
                     >
                       Request For IB User
-                    </Button>
+                    </ColorButton>
                   </div>
                 </div>
               </Grid>
@@ -1256,7 +1403,7 @@ export const Partnership = () => {
                       </div>
                       We have rejected your IB Request.
                     </h5>
-                    <Button
+                    <ColorButton
                       type="submit"
                       variant="contained"
                       sx={{ padding: "10px" }}
@@ -1265,7 +1412,7 @@ export const Partnership = () => {
                       onClick={handleClickOpen("paper")}
                     >
                       Request For IB User
-                    </Button>
+                    </ColorButton>
                   </div>
                 </div>
               </Grid>
@@ -1292,11 +1439,13 @@ export const Partnership = () => {
                 <Grid item xl={1}></Grid>
                 <Grid item xl={10} md={12} lg={12}>
                   {/* <TopButton /> */}
+                  <Verification ibstatus={ibstatus} />
+
                   <Grid container>
                     <Grid item md={12} className="d-flex"></Grid>
                     <Grid item md={12}>
-                      {ibstatus.ib_applied_status == "1" &&
-                      ibstatus.ib_status == "1" ? (
+                      {ibstatus.ib_applied_status == 1 &&
+                      ibstatus.ib_status == 1 ? (
                         <Ibasign />
                       ) : (
                         <Paper
@@ -1691,7 +1840,7 @@ export const Partnership = () => {
                                   </svg>
                                 </ColorButton>
                               ) : (
-                                <Button
+                                <ColorButton
                                   type="submit"
                                   variant="contained"
                                   size="small"
@@ -1699,7 +1848,7 @@ export const Partnership = () => {
                                   className="text-center text-capitalize rounded-pill"
                                 >
                                   Request For IB User
-                                </Button>
+                                </ColorButton>
                               )}
                             </div>
                           </form>

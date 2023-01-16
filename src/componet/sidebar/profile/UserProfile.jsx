@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from "react";
 import "./profile.css";
 import {
+  Autocomplete,
+  FormControlLabel,
   FormHelperText,
+  FormLabel,
   Grid,
   InputAdornment,
   InputBase,
   InputLabel,
   MenuItem,
   OutlinedInput,
+  Radio,
+  RadioGroup,
   Select,
+  TextField,
 } from "@mui/material";
 import TopButton from "../../customComponet/TopButton";
 import { Paper } from "@mui/material";
@@ -35,9 +41,9 @@ import Counter from "../../customComponet/Counter";
 
 const UserProfile = () => {
   const navigate = useNavigate();
-  const [countryData, setCountryData] = useState({
-    data: [],
-  });
+  // const [countryData, setCountryData] = useState({
+  //   data: [],
+  // });
   const [mainLoader, setMainLoader] = useState(true);
   const [onEdit1, setOnEdit1] = useState(false);
   const [timer, setTimer] = useState(true);
@@ -67,7 +73,17 @@ const UserProfile = () => {
     user_first_name: "",
     user_last_name: "",
     isLoder: false,
+    dob: "",
+    gender: "",
+    city: "",
+    country: "",
+    state: "",
+    phone: "",
+    email: "",
+    add: "",
+    ladmark: "",
   });
+  console.log(onEdit, "onEdit");
   const inputedit = (event) => {
     const { name, value } = event.target;
     setOnEdit((prevalue) => {
@@ -84,6 +100,15 @@ const UserProfile = () => {
     old_password: "",
     new_password: "",
     confirm_password: "",
+    dob: "",
+    gender: "",
+    city: "",
+    country: "",
+    state: "",
+    phone: "",
+    email: "",
+    add: "",
+    ladmark: "",
   });
 
   const trueFalse = (event) => {
@@ -95,13 +120,39 @@ const UserProfile = () => {
       };
     });
   };
+  const [countryData, setCountryData] = useState({
+    country: [],
+    city: [],
+    state: [],
+  });
   const onEditsubmit = () => {
-    if (onEdit.user_title == "" || onEdit.user_title == null) {
+    if (onEdit.email == "") {
+      toast.error("Email is required");
+    } else if (
+      !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(onEdit.email)
+    ) {
+      toast.error("Enter a valid email");
+    } else if (onEdit.phone == "") {
+      toast.error("Mobile Number is required");
+    } else if (
+      onEdit.phone.toString().length < 4 ||
+      onEdit.phone.toString().length > 12
+    ) {
+      toast.error("Mobile number is not valid");
+    } else if (onEdit.user_title == "" || onEdit.user_title == null) {
       toast.error("User Title is required");
     } else if (onEdit.user_first_name == "") {
       toast.error("First Name is required");
     } else if (onEdit.user_last_name == "") {
       toast.error("Last Name is required");
+    } else if (onEdit.country == "") {
+      toast.error("Country is required");
+    } else if (onEdit.state == "") {
+      toast.error("State is required");
+    } else if (onEdit.city == "") {
+      toast.error("City is required");
+    } else if (onEdit.add == "") {
+      toast.error("Address is required");
     } else {
       const param = new FormData();
       param.append("user_title", onEdit.user_title);
@@ -135,7 +186,87 @@ const UserProfile = () => {
             old_password: "",
             new_password: "",
             confirm_password: "",
+            dob: "",
+            gender: "",
+            city: "",
+            country: "",
+            state: "",
+            phone: "",
+            email: "",
+            add: "",
+            ladmark: "",
           });
+        }
+      });
+    }
+  };
+  const getStateData = (prop) => {
+    if (prop == null) {
+      countryData.state = [];
+      setCountryData({ ...countryData });
+      onEdit.state = "";
+      onEdit.city = "";
+      setOnEdit({ ...onEdit });
+    } else {
+      const param = new FormData();
+      param.append("action", "get_states");
+      param.append("country", prop.nicename);
+      if (IsApprove !== "") {
+        param.append("is_app", IsApprove.is_app);
+        param.append("user_id", IsApprove.user_id);
+        param.append("auth_key", IsApprove.auth);
+      }
+      axios.post(Url + "/ajaxfiles/common_api.php", param).then((res) => {
+        if (res.data.message == "Session has been expired") {
+          localStorage.setItem("login", true);
+          navigate("/login");
+        }
+        if (res.data.status == "error") {
+          // toast.error(res.data.message);
+        } else {
+          // if (id == undefined || id == null || id == "") {
+          //   onEdit.state = "";
+          //   onEdit.city = "";
+          //   setOnEdit({ ...onEdit });
+          // }
+
+          countryData.state = res.data.data;
+          setCountryData({ ...countryData });
+        }
+      });
+    }
+  };
+  const getCityData = (prop) => {
+    if (prop == null) {
+      countryData.city = [];
+      setCountryData({ ...countryData });
+      onEdit.state = "";
+      onEdit.city = "";
+      setOnEdit({ ...onEdit });
+    } else {
+      const param = new FormData();
+      param.append("action", "get_cities");
+      if (IsApprove !== "") {
+        param.append("is_app", IsApprove.is_app);
+        param.append("user_id", IsApprove.user_id);
+        param.append("auth_key", IsApprove.auth);
+      }
+      param.append("state", prop);
+      axios.post(Url + "/ajaxfiles/common_api.php", param).then((res) => {
+        if (res.data.message == "Session has been expired") {
+          localStorage.setItem("login", true);
+          navigate("/login");
+        }
+        if (res.data.status == "error") {
+          // toast.error(res.data.message);
+        } else {
+          // if (id == undefined || id == null || id == "") {
+          //   info.onEdit = "";
+          //   setOnEdit({ ...onEdit });
+          // }
+
+          countryData.city = res.data.data;
+          setCountryData({ ...countryData });
         }
       });
     }
@@ -200,6 +331,15 @@ const UserProfile = () => {
             old_password: "",
             new_password: "",
             confirm_password: "",
+            dob: "",
+            gender: "",
+            city: "",
+            country: "",
+            state: "",
+            phone: "",
+            email: "",
+            add: "",
+            ladmark: "",
           });
         }
       });
@@ -227,6 +367,15 @@ const UserProfile = () => {
           user_title: res.data.user_title,
           user_first_name: res.data.user_first_name,
           user_last_name: res.data.user_last_name,
+          dob: "",
+          gender: "",
+          city: "",
+          country: "",
+          state: "",
+          phone: "",
+          email: "",
+          add: "",
+          ladmark: "",
           isLoder: false,
         });
       });
@@ -235,7 +384,24 @@ const UserProfile = () => {
     fetchUserPref();
   }, []);
   toast.configure();
+  const getContry = () => {
+    const param = new FormData();
 
+    axios.post(Url + "/datatable/get_countries.php", param).then((res) => {
+      if (res.data.status == "error") {
+        toast.error(res.data.message);
+      } else {
+        countryData.country = res.data.aaData;
+        setCountryData({ ...countryData });
+        // info.countryResidency = res.data.user_country;
+        // setinfo({ ...info });
+        // setCountryCode(
+        //   countryData.data.filter((x) => x.nicename == res.data.user_country)[0]
+        //     .phonecode
+        // );
+      }
+    });
+  };
   const submitMobileMail = async () => {
     console.log(
       "changeMobileNumber.ismobile.toString().length",
@@ -321,6 +487,15 @@ const UserProfile = () => {
             old_password: "",
             new_password: "",
             confirm_password: "",
+            dob: "",
+            gender: "",
+            city: "",
+            country: "",
+            state: "",
+            phone: "",
+            email: "",
+            add: "",
+            ladmark: "",
           });
           setChangeMobileNumber({
             mobile: "",
@@ -333,19 +508,19 @@ const UserProfile = () => {
         }
       });
   };
-  const getCountries = () => {
-    const param = new FormData();
+  // const getCountries = () => {
+  //   const param = new FormData();
 
-    axios.post(Url + "/datatable/get_countries.php", param).then((res) => {
-      if (res.data.status == "error") {
-        toast.error(res.data.message);
-      } else {
-        countryData.data = res.data.aaData;
-        setCountryData({ ...countryData });
-        console.log("countryData", countryData);
-      }
-    });
-  };
+  //   axios.post(Url + "/datatable/get_countries.php", param).then((res) => {
+  //     if (res.data.status == "error") {
+  //       toast.error(res.data.message);
+  //     } else {
+  //       countryData.data = res.data.aaData;
+  //       setCountryData({ ...countryData });
+  //       console.log("countryData", countryData);
+  //     }
+  //   });
+  // };
 
   const checkValidation = (value) => {
     if (value == "") {
@@ -498,6 +673,24 @@ const UserProfile = () => {
                           <ColorButton
                             onClick={() => {
                               setOnEdit1(true);
+                              setinfoTrue({
+                                user_title: "",
+                                user_first_name: "",
+                                user_last_name: "",
+                                old_password: "",
+                                new_password: "",
+                                confirm_password: "",
+                                dob: "",
+                                gender: "",
+                                city: "",
+                                country: "",
+                                state: "",
+                                phone: "",
+                                email: "",
+                                add: "",
+                                ladmark: "",
+                              });
+                              getContry();
                             }}
                           >
                             Edit
@@ -650,6 +843,8 @@ const UserProfile = () => {
                   onClose={() => {
                     setOnEdit1(false);
                   }}
+                  fullWidth
+                  maxWidth="md"
                 >
                   <div className="d-flex align-items-center p-3">
                     <h5 className="w-100 text-center text-primary m-0 font-weight-bold">
@@ -668,121 +863,458 @@ const UserProfile = () => {
                       <CloseIcon />
                     </Button>
                   </div>
-                  <DialogContent
-                    className="customscroll"
-                    sx={{ width: "400px" }}
-                  >
+                  <DialogContent className="customscroll">
                     <Grid container spacing={6}>
                       <Grid item md={12}>
                         <form>
-                          <div className="mb-4">
-                            <div className="font-weight-bold mb-2">Title</div>
-                            <FormControl
-                              className="w-100"
-                              error={onEdit.user_title == "" ? true : false}
-                            >
-                              <Select
-                                name="user_title"
-                                value={onEdit.user_title}
-                                onChange={inputedit}
-                                displayempty
-                                inputProps={{
-                                  "aria-label": "Without label",
-                                }}
-                                input={<BootstrapInput />}
-                                className="mt-0 ml-0"
-                                id="fullWidth"
-                                onBlur={trueFalse}
+                          <Grid container spacing={2}>
+                            <Grid item md={4}>
+                              <div className="font-weight-bold mb-2">Email</div>
+                              <FormControl
+                                className="w-100"
+                                error={
+                                  (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+                                    onEdit.email
+                                  ) ||
+                                    onEdit.email == "") &&
+                                  infoTrue.email == true
+                                    ? true
+                                    : false
+                                }
                               >
-                                <MenuItem value="">Select Option</MenuItem>
-                                <MenuItem value="Mr.">Mr.</MenuItem>
-                                <MenuItem value="Mrs">Mrs</MenuItem>
-                                <MenuItem value="Miss">Miss</MenuItem>
-                                <MenuItem value="Ms">Ms</MenuItem>
-                                <MenuItem value="Dr">Dr</MenuItem>
-                              </Select>
-                              {onEdit.user_title == "" &&
-                              infoTrue.user_title == true ? (
-                                <FormHelperText>
-                                  Please Select Title
-                                </FormHelperText>
-                              ) : (
-                                ""
-                              )}
-                            </FormControl>
-                          </div>
-                          <div className="mb-4">
-                            <div className="font-weight-bold mb-2">
-                              First Name
-                            </div>
-                            <FormControl
-                              className="w-100"
-                              error={
-                                onEdit.user_first_name == "" ? true : false
-                              }
-                            >
-                              <BootstrapInput
-                                value={onEdit.user_first_name}
-                                name="user_first_name"
-                                onChange={inputedit}
-                                onBlur={trueFalse}
-                                displayempty
+                                <BootstrapInput
+                                  value={onEdit.email}
+                                  name="email"
+                                  onChange={inputedit}
+                                  onBlur={trueFalse}
+                                  displayempty
+                                />
+                                {onEdit.email == "" &&
+                                infoTrue.email == true ? (
+                                  <FormHelperText>
+                                    Please Enter Email
+                                  </FormHelperText>
+                                ) : !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+                                    onEdit.email
+                                  ) && infoTrue.email == true ? (
+                                  <FormHelperText>
+                                    Enter a valid email
+                                  </FormHelperText>
+                                ) : (
+                                  ""
+                                )}
+                              </FormControl>
+                            </Grid>
+                            <Grid item md={4}>
+                              <div className="font-weight-bold mb-2">
+                                Mobile Number
+                              </div>
+                              <FormControl
+                                className="w-100"
+                                error={
+                                  (onEdit.phone.toString().length < 4 ||
+                                    onEdit.phone.toString().length > 12 ||
+                                    onEdit.phone == "") &&
+                                  infoTrue.phone
+                                    ? true
+                                    : false
+                                }
+                              >
+                                <BootstrapInput
+                                  value={onEdit.phone}
+                                  name="phone"
+                                  // onChange={inputedit}
+                                  onChange={(e) => {
+                                    if (!isNaN(Number(e.target.value))) {
+                                      if (prefrence.user_country == "India") {
+                                        if (e.target.value.length <= 20)
+                                          inputedit(e);
+                                      } else {
+                                        inputedit(e);
+                                      }
+                                    }
+                                  }}
+                                  onBlur={trueFalse}
+                                  displayempty
+                                />
+                                {onEdit.phone == "" && infoTrue.phone ? (
+                                  <FormHelperText>
+                                    Mobile Number is required
+                                  </FormHelperText>
+                                ) : (onEdit.phone.toString().length < 4 ||
+                                    onEdit.phone.toString().length > 12) &&
+                                  infoTrue.phone ? (
+                                  <FormHelperText>
+                                    Mobile Number is not valid
+                                  </FormHelperText>
+                                ) : (
+                                  ""
+                                )}
+                              </FormControl>
+                            </Grid>
+                            <Grid item md={4}>
+                              <div className="font-weight-bold mb-2">Title</div>
+                              <FormControl
+                                className="w-100"
+                                error={onEdit.user_title == "" ? true : false}
+                              >
+                                <Select
+                                  name="user_title"
+                                  value={onEdit.user_title}
+                                  onChange={inputedit}
+                                  displayempty
+                                  inputProps={{
+                                    "aria-label": "Without label",
+                                  }}
+                                  input={<BootstrapInput />}
+                                  className="mt-0 ml-0"
+                                  id="fullWidth"
+                                  onBlur={trueFalse}
+                                >
+                                  <MenuItem value="">Select Option</MenuItem>
+                                  <MenuItem value="Mr.">Mr.</MenuItem>
+                                  <MenuItem value="Mrs">Mrs</MenuItem>
+                                  <MenuItem value="Miss">Miss</MenuItem>
+                                  <MenuItem value="Ms">Ms</MenuItem>
+                                  <MenuItem value="Dr">Dr</MenuItem>
+                                </Select>
+                                {onEdit.user_title == "" &&
+                                infoTrue.user_title == true ? (
+                                  <FormHelperText>
+                                    Please Select Title
+                                  </FormHelperText>
+                                ) : (
+                                  ""
+                                )}
+                              </FormControl>
+                            </Grid>
+                            <Grid item md={4}>
+                              <FormControl>
+                                <div className="font-weight-bold mb-2">
+                                  Gender
+                                </div>
+
+                                <RadioGroup
+                                  aria-labelledby="demo-radio-buttons-group-label"
+                                  name="radio-buttons-group"
+                                  value={onEdit.gender}
+                                  row
+                                >
+                                  <FormControlLabel
+                                    value="female"
+                                    control={<Radio />}
+                                    label="Female"
+                                  />
+                                  <FormControlLabel
+                                    value="male"
+                                    control={<Radio />}
+                                    label="Male"
+                                  />
+                                  <FormControlLabel
+                                    value="other"
+                                    control={<Radio />}
+                                    label="Other"
+                                  />
+                                </RadioGroup>
+                              </FormControl>
+                            </Grid>
+                            <Grid item md={4}>
+                              <div className="font-weight-bold mb-2">
+                                First Name
+                              </div>
+                              <FormControl
+                                className="w-100"
+                                error={
+                                  onEdit.user_first_name == "" ? true : false
+                                }
+                              >
+                                <BootstrapInput
+                                  value={onEdit.user_first_name}
+                                  name="user_first_name"
+                                  onChange={inputedit}
+                                  onBlur={trueFalse}
+                                  displayempty
+                                />
+                                {onEdit.user_first_name == "" &&
+                                infoTrue.user_first_name == true ? (
+                                  <FormHelperText>
+                                    Please Enter First Name
+                                  </FormHelperText>
+                                ) : (
+                                  ""
+                                )}
+                              </FormControl>
+                            </Grid>
+                            <Grid item md={4}>
+                              <div className="font-weight-bold mb-2">
+                                Last Name
+                              </div>
+                              <FormControl
+                                className="w-100"
+                                error={
+                                  onEdit.user_last_name == "" ? true : false
+                                }
+                              >
+                                <BootstrapInput
+                                  name="user_last_name"
+                                  value={onEdit.user_last_name}
+                                  onChange={inputedit}
+                                  onBlur={trueFalse}
+                                  displayempty
+                                />
+                                {onEdit.user_last_name == "" &&
+                                infoTrue.user_last_name == true ? (
+                                  <FormHelperText>
+                                    Please Enter Last Name
+                                  </FormHelperText>
+                                ) : (
+                                  ""
+                                )}
+                              </FormControl>
+                            </Grid>
+                            <Grid item md={4}>
+                              <div className="font-weight-bold mb-2">
+                                Date of Birth
+                              </div>
+                              <FormControl
+                                className="w-100"
+                                error={onEdit.dob == "" ? true : false}
+                              >
+                                <BootstrapInput
+                                  name="dob"
+                                  type="date"
+                                  value={onEdit.dob}
+                                  onChange={inputedit}
+                                  onBlur={trueFalse}
+                                  displayempty
+                                />
+                                {onEdit.dob == "" && infoTrue.dob == true ? (
+                                  <FormHelperText>
+                                    Please Enter Date
+                                  </FormHelperText>
+                                ) : (
+                                  ""
+                                )}
+                              </FormControl>
+                            </Grid>
+                            <Grid item md={4}>
+                              <div className="font-weight-bold mb-2">
+                                Country
+                              </div>
+                              <Autocomplete
+                                disablePortal
+                                options={countryData.country}
+                                value={onEdit.country}
+                                getOptionLabel={(option) =>
+                                  option ? option.nicename : ""
+                                }
+                                onChange={(event, newValue) => {
+                                  getStateData(newValue);
+                                  if (newValue == null) {
+                                    onEdit.country = newValue;
+                                    setOnEdit({ ...onEdit });
+                                  } else {
+                                    onEdit.country = newValue;
+                                    setOnEdit({ ...onEdit });
+                                  }
+                                }}
+                                sx={{ padding: "0px" }}
+                                className="w-100"
+                                renderInput={(params) => (
+                                  <TextField
+                                    {...params}
+                                    label=""
+                                    // variant="standard"
+                                    size="small"
+                                    onBlur={trueFalse}
+                                    name="country"
+                                    className="autoComplte-textfild"
+                                    helperText={
+                                      (onEdit.country == null ||
+                                        onEdit.country == "") &&
+                                      infoTrue.country
+                                        ? "Country is required"
+                                        : ""
+                                    }
+                                    error={
+                                      (onEdit.country == null ||
+                                        onEdit.country == "") &&
+                                      onEdit.country
+                                        ? true
+                                        : false
+                                    }
+                                    sx={{ padding: "0px" }}
+                                  />
+                                )}
                               />
-                              {onEdit.user_first_name == "" &&
-                              infoTrue.user_first_name == true ? (
-                                <FormHelperText>
-                                  Please Enter First Name
-                                </FormHelperText>
-                              ) : (
-                                ""
-                              )}
-                            </FormControl>
-                          </div>
-                          <div className="mb-4">
-                            <div className="font-weight-bold mb-2">
-                              Last Name
-                            </div>
-                            <FormControl
-                              className="w-100"
-                              error={onEdit.user_last_name == "" ? true : false}
-                            >
-                              <BootstrapInput
-                                name="user_last_name"
-                                value={onEdit.user_last_name}
-                                onChange={inputedit}
-                                onBlur={trueFalse}
-                                displayempty
+                            </Grid>
+                            <Grid item md={4}>
+                              <div className="font-weight-bold mb-2">State</div>
+                              <Autocomplete
+                                disablePortal
+                                options={countryData.state}
+                                value={onEdit.state}
+                                getOptionLabel={(option) =>
+                                  option ? option : ""
+                                }
+                                onChange={(event, newValue) => {
+                                  getCityData(newValue);
+                                  if (newValue == null) {
+                                    onEdit.state = newValue;
+                                    setOnEdit({ ...onEdit });
+                                  } else {
+                                    onEdit.state = newValue;
+                                    setOnEdit({ ...onEdit });
+                                  }
+                                }}
+                                sx={{ padding: "0px" }}
+                                className="w-100"
+                                renderInput={(params) => (
+                                  <TextField
+                                    {...params}
+                                    label="State"
+                                    onBlur={trueFalse}
+                                    className="autoComplte-textfild"
+                                    helperText={
+                                      (onEdit.state == null ||
+                                        onEdit.state == "") &&
+                                      infoTrue.state
+                                        ? "State is required"
+                                        : ""
+                                    }
+                                    error={
+                                      (onEdit.state == null ||
+                                        onEdit.state == "") &&
+                                      infoTrue.state
+                                        ? true
+                                        : false
+                                    }
+                                    name="state"
+                                    size="small"
+                                    sx={{ padding: "0px" }}
+                                    variant="outlined"
+                                  />
+                                )}
                               />
-                              {onEdit.user_last_name == "" &&
-                              infoTrue.user_last_name == true ? (
-                                <FormHelperText>
-                                  Please Enter Last Name
-                                </FormHelperText>
+                            </Grid>{" "}
+                            <Grid item md={4}>
+                              <div className="font-weight-bold mb-2">City</div>
+                              <Autocomplete
+                                disablePortal
+                                options={countryData.city}
+                                value={onEdit.city}
+                                getOptionLabel={(option) =>
+                                  option ? option : ""
+                                }
+                                onChange={(event, newValue) => {
+                                  if (newValue == null) {
+                                    onEdit.city = newValue;
+                                    setOnEdit({ ...onEdit });
+                                  } else {
+                                    onEdit.city = newValue;
+                                    setOnEdit({ ...onEdit });
+                                  }
+                                }}
+                                sx={{ padding: "0px" }}
+                                className="w-100"
+                                renderInput={(params) => (
+                                  <TextField
+                                    {...params}
+                                    label="City"
+                                    size="small"
+                                    className="autoComplte-textfild"
+                                    onBlur={trueFalse}
+                                    helperText={
+                                      (onEdit.city == null ||
+                                        onEdit.city == "") &&
+                                      infoTrue.city
+                                        ? "City is required"
+                                        : ""
+                                    }
+                                    error={
+                                      (onEdit.city == null ||
+                                        onEdit.city == "") &&
+                                      infoTrue.city
+                                        ? true
+                                        : false
+                                    }
+                                    name="city"
+                                    sx={{ padding: "0px" }}
+                                    variant="outlined"
+                                  />
+                                )}
+                              />
+                            </Grid>
+                            <Grid item md={4}>
+                              <div className="font-weight-bold mb-2">
+                                Address
+                              </div>
+                              <FormControl
+                                className="w-100"
+                                error={onEdit.add == "" ? true : false}
+                              >
+                                <BootstrapInput
+                                  value={onEdit.add}
+                                  name="add"
+                                  onChange={inputedit}
+                                  onBlur={trueFalse}
+                                  displayempty
+                                />
+                                {onEdit.add == "" && infoTrue.add == true ? (
+                                  <FormHelperText>
+                                    Please Enter Address
+                                  </FormHelperText>
+                                ) : (
+                                  ""
+                                )}
+                              </FormControl>
+                            </Grid>
+                            <Grid item md={4}>
+                              <div className="font-weight-bold mb-2">
+                                Landmark (Optional)
+                              </div>
+                              <FormControl
+                                className="w-100"
+                                error={onEdit.ladmark == "" ? true : false}
+                              >
+                                <BootstrapInput
+                                  value={onEdit.ladmark}
+                                  name="ladmark"
+                                  onChange={inputedit}
+                                  onBlur={trueFalse}
+                                  displayempty
+                                />
+                                {onEdit.ladmark == "" &&
+                                infoTrue.ladmark == true ? (
+                                  <FormHelperText>
+                                    Please Enter Landmark
+                                  </FormHelperText>
+                                ) : (
+                                  ""
+                                )}
+                              </FormControl>
+                            </Grid>
+                            <Grid item md={12}>
+                              {onEdit.isLoder ? (
+                                <ColorButton type="submit" disabled>
+                                  <svg class="spinner" viewBox="0 0 50 50">
+                                    <circle
+                                      class="path"
+                                      cx="25"
+                                      cy="25"
+                                      r="20"
+                                      fill="none"
+                                      stroke-width="5"
+                                    ></circle>
+                                  </svg>
+                                </ColorButton>
                               ) : (
-                                ""
+                                <ColorButton onClick={onEditsubmit}>
+                                  Save
+                                </ColorButton>
                               )}
-                            </FormControl>
-                          </div>
-                          <div className="mb-4 text-center">
-                            {onEdit.isLoder ? (
-                              <ColorButton type="submit" disabled>
-                                <svg class="spinner" viewBox="0 0 50 50">
-                                  <circle
-                                    class="path"
-                                    cx="25"
-                                    cy="25"
-                                    r="20"
-                                    fill="none"
-                                    stroke-width="5"
-                                  ></circle>
-                                </svg>
-                              </ColorButton>
-                            ) : (
-                              <ColorButton onClick={onEditsubmit}>
-                                Save
-                              </ColorButton>
-                            )}
-                          </div>
+                            </Grid>
+                          </Grid>
                         </form>
                       </Grid>
                     </Grid>

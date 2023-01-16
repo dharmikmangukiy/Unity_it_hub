@@ -39,7 +39,8 @@ import { ReactComponent as My_documents } from "../../svg/My_documents.svg";
 import { ReactComponent as Notifications } from "../../svg/notifications.svg";
 import { ReactComponent as Tickits } from "../../svg/tickits.svg";
 import { ReactComponent as Profile } from "../../svg/profile.svg";
-// import { ReactComponent as Setting } from "../../svg/setting.svg";
+import { ReactComponent as Setting } from "../../svg/setting.svg";
+import { ReactComponent as User } from "../../svg/user.svg";
 
 const languages = [
   {
@@ -120,7 +121,7 @@ const Header = (prop) => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [anchorEl2, setAnchorEl2] = React.useState(null);
-
+  // const [moveToib, SetMoveToib] = useState(false);
   const [anchorEl1, setAnchorEl1] = React.useState(null);
   const open1 = Boolean(anchorEl1);
   const open2 = Boolean(anchorEl2);
@@ -262,17 +263,10 @@ const Header = (prop) => {
 
   console.log("Prefrence", prefrence);
   return (
-    <div className="app-header app-header--shadow app-header--opacity-bg">
-      {/* <div className="app-header--pane">
-        <button
-          className="navbar-toggler hamburger hamburger--elastic toggle-mobile-sidebar-btn"
-          onClick={() => prop.setSidebar(true)}
-        >
-          <span className="hamburger-box">
-            <span className="hamburger-inner"></span>
-          </span>
-        </button>
-        <FormControl sx={{ m: 1, minWidth: 70 }}>
+    <div className="app-header app-header--shadow app-header--opacity-bg mobileHeader">
+      {/* <div className="app-header--pane"> */}
+
+      {/* <FormControl sx={{ m: 1, minWidth: 70 }}>
           <Select
             value={age}
             onChange={handleChange}
@@ -290,182 +284,136 @@ const Header = (prop) => {
             <MenuItem value="fa">FA</MenuItem>
             <MenuItem value="cn">CN</MenuItem>
           </Select>
-        </FormControl>
-      </div> */}
-      <div className="app-header--pane">
-        <ul style={{ marginBottom: "0", gap: "24px" }} className="d-flex">
-          <li className="headerMenu">
-            <NavLink
-              className="nav-link-simple d-flex "
-              to="/deposit"
-              // onClick={CloseSidebar}
-            >
-              <Deposit className="hoverSidebar" />
+        </FormControl> */}
+      {/* </div> */}
+      <div className="app-header--pane ">
+        <button
+          className="navbar-toggler hamburger hamburger--elastic toggle-mobile-sidebar-btn"
+          onClick={() => prop.setSidebar(true)}
+        >
+          <span className="hamburger-box">
+            <span className="hamburger-inner"></span>
+          </span>
+        </button>
 
-              {/* <span className="material-icons  icon_Mar">add</span> */}
+        <ul style={{ marginBottom: "0", gap: "24px" }} className="d-flex ">
+          {prop.moveToib == false ? (
+            <>
+              {" "}
+              <li className="headerMenu webViewHeader">
+                <NavLink
+                  className="nav-link-simple d-flex "
+                  to="/deposit"
+                  // onClick={CloseSidebar}
+                >
+                  <Deposit className="hoverSidebar" />
 
-              <span className="HeaderMenuColor">{t("Deposit")}</span>
-            </NavLink>
-          </li>
-          <li className="headerMenu">
-            <NavLink
-              className="nav-link-simple d-flex "
-              to="/Web_Trader"
-              // onClick={CloseSidebar}
-            >
-              {/* <span className="material-icons  icon_Mar">
+                  {/* <span className="material-icons  icon_Mar">add</span> */}
+
+                  <span className="HeaderMenuColor">{t("Deposit")}</span>
+                </NavLink>
+              </li>
+              <li className="headerMenu webViewHeader">
+                <NavLink
+                  className="nav-link-simple d-flex "
+                  to="/Web_Trader"
+                  // onClick={CloseSidebar}
+                >
+                  {/* <span className="material-icons  icon_Mar">
                 data_thresholding
               </span> */}
-              <Web_trader className="hoverSidebar" style={{ width: "20px" }} />
+                  <Web_trader
+                    className="hoverSidebar"
+                    style={{ width: "20px" }}
+                  />
 
-              <span className="HeaderMenuColor">{t("Web_Trader")} </span>
-            </NavLink>
-          </li>
-          <li className="headerMenu">
-            <NavLink
-              className="nav-link-simple d-flex "
-              to="/"
-              // onClick={CloseSidebar}
-            >
-              {/* <span className="material-icons  icon_Mar">
+                  <span className="HeaderMenuColor">{t("Web_Trader")} </span>
+                </NavLink>
+              </li>
+              <li className="headerMenu webViewHeader">
+                <NavLink
+                  className="nav-link-simple d-flex "
+                  to="/"
+                  // onClick={CloseSidebar}
+                >
+                  {/* <span className="material-icons  icon_Mar">
                 data_thresholding
               </span> */}
-              <Bonus className="hoverSidebar" />
+                  <Bonus className="hoverSidebar" />
 
-              <span className="HeaderMenuColor">Bonus </span>
-            </NavLink>
-          </li>
-          <li className="headerMenu">
-            <NavLink
-              className="nav-link-simple d-flex "
-              to="/trade-and-win"
-              // onClick={CloseSidebar}
-            >
-              {/* <span className="material-icons  icon_Mar">
+                  <span className="HeaderMenuColor">Bonus</span>
+                </NavLink>
+              </li>
+              <li className="headerMenu webViewHeader">
+                <NavLink
+                  className="nav-link-simple d-flex "
+                  to="/trade-and-win"
+                  // onClick={CloseSidebar}
+                >
+                  {/* <span className="material-icons  icon_Mar">
                 data_thresholding
               </span> */}
-              <TradeAndWin className="hoverSidebar" />
+                  <TradeAndWin className="hoverSidebar" />
 
-              <span className="HeaderMenuColor">Trade & Win </span>
-            </NavLink>
-          </li>
-          <li className="headerMenu">
-            <a
-              className="nav-link-simple d-flex "
-              // to="/Web_Trader"
-              onClick={handleClick2}
-              // onClick={CloseSidebar}
-            >
-              {/* <span className="material-icons  icon_Mar">
+                  <span className="HeaderMenuColor">Trade & Win </span>
+                </NavLink>
+              </li>{" "}
+              <li className="headerMenu">
+                <a
+                  className="nav-link-simple d-flex "
+                  onClick={() => {
+                    prop.setMoveToib(true);
+                    navigate("/IBdashboard");
+                  }}
+                >
+                  <span>
+                    <Ib_application
+                      className="hoverSidebar"
+                      style={{ width: "24px" }}
+                    />
+                  </span>
+
+                  <span className="HeaderMenuColor">IB Portal</span>
+                </a>
+                {/* <NavLink
+                  className="nav-link-simple d-flex "
+                  to="/partnership"
+                >
+              
+                  <TradeAndWin className="hoverSidebar" />
+
+                  <span className="HeaderMenuColor">IB Request</span>
+                </NavLink> */}
+              </li>
+            </>
+          ) : (
+            <li className="headerMenu">
+              <a
+                className="nav-link-simple d-flex "
+                // to="/Web_Trader"
+                // onClick={handleClick2}
+                onClick={() => {
+                  prop.setMoveToib(false);
+                  navigate("/dashboard");
+                }}
+              >
+                {/* <span className="material-icons  icon_Mar">
                 data_thresholding
               </span> */}
-              <span>
-                <Ib_application
-                  className="hoverSidebar"
-                  style={{ width: "24px" }}
-                />
-              </span>
+                <span>
+                  <Ib_application
+                    className="hoverSidebar"
+                    style={{ width: "24px" }}
+                  />
+                </span>
 
-              <span className="HeaderMenuColor">IB Portal</span>
-            </a>
-          </li>
+                <span className="HeaderMenuColor">Cilent Portal</span>
+              </a>
+            </li>
+          )}
         </ul>
       </div>
-      <Menu
-        id="demo-positioned-menu"
-        aria-labelledby="demo-positioned-button"
-        anchorEl={anchorEl2}
-        open={open2}
-        onClose={handleClose2}
-        className="menuHeder"
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-      >
-        <MenuItem style={{ width: "199px" }}>
-          <NavLink
-            className="nav-link-simple "
-            to="/partnership"
-            onClick={handleClose2}
-          >
-            <Profile className="hoverSidebar1" />
-            IB Request
-          </NavLink>
-        </MenuItem>
 
-        <MenuItem>
-          {" "}
-          <NavLink to="/myDocuments" onClick={handleClose2}>
-            {" "}
-            <My_documents className="hoverSidebar1" />
-            {t("My_Documents")}{" "}
-          </NavLink>
-        </MenuItem>
-        <MenuItem>
-          <NavLink
-            className="nav-link-simple"
-            to="/my_structure"
-            onClick={handleClose2}
-          >
-            <Bank_account className="hoverSidebar1" />
-            My Structure
-          </NavLink>
-        </MenuItem>
-
-        <MenuItem>
-          {" "}
-          <NavLink
-            className="nav-link-simple "
-            to="/ib_commision_group"
-            onClick={handleClose2}
-          >
-            <Activities className="hoverSidebar1" />
-            IB Structure
-          </NavLink>
-        </MenuItem>
-
-        <MenuItem>
-          {" "}
-          <NavLink
-            className="nav-link-simple "
-            to="/my_client"
-            onClick={handleClose2}
-          >
-            <Tickits className="hoverSidebar1" />
-            My Client
-          </NavLink>
-        </MenuItem>
-        <MenuItem>
-          {" "}
-          <NavLink
-            className="nav-link-simple "
-            to="/ib_commission_history"
-            onClick={handleClose2}
-          >
-            <Notifications className="hoverSidebar1" />
-            IB Commission History
-          </NavLink>
-        </MenuItem>
-        <MenuItem>
-          {" "}
-          <NavLink
-            className="nav-link-simple "
-            to="/ib_commission_history"
-            onClick={handleClose2}
-          >
-            <Notifications className="hoverSidebar1" />
-            IB Commission History
-          </NavLink>
-          <NavLink
-            className="nav-link-simple "
-            to="/ib_withdraw_history"
-            onClick={handleClose2}
-          >
-            <Notifications className="hoverSidebar1" />
-            IB Commissions Withdrawal Report
-          </NavLink>
-        </MenuItem>
-      </Menu>
       <div className="app-header--pane">
         {/* <IconButton
           aria-label={100}
@@ -485,10 +433,11 @@ const Header = (prop) => {
         <ButtonBase
           aria-controls={open ? "demo-positioned-menu" : undefined}
           aria-haspopup="true"
+          sx={{ padding: "18px" }}
           aria-expanded={open ? "true" : undefined}
           onClick={handleClick}
         >
-          {/* <Setting className="hoverSidebar" style={{ width: "22px" }} /> */}
+          <Setting className="hoverSidebar" style={{ width: "22px" }} />
 
           {/* <span className="MuiButton-label">
             <Avatar sx={{ bgcolor: "#2a3f73", fontSize: "18px" }}>
@@ -512,6 +461,25 @@ const Header = (prop) => {
             "aria-labelledby": "basic-button",
           }}
         >
+          <MenuItem style={{ width: "199px" }}>
+            <div className="avtar-main">
+              <div>
+                <Avatar
+                  alt="Remy Sharp"
+                  sx={{ background: "#fdf0ff", width: "50px", height: "50px" }}
+                >
+                  <User className="useLogoSize" />
+                </Avatar>
+              </div>
+              <div>
+                <div className="avatar-logo">{prefrence.user_name}</div>
+                <div>
+                  <span className="verifyText">Verifyed</span>{" "}
+                </div>
+              </div>
+            </div>
+          </MenuItem>
+
           <MenuItem style={{ width: "199px" }}>
             <NavLink to="/userProfile" ariaCurrent onClick={handleClose}>
               {" "}

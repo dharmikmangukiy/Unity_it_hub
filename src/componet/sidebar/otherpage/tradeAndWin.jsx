@@ -114,168 +114,177 @@ const TradeAndWin = () => {
     <>
       <div className="app-content--inner">
         <div className="app-content--inner__wrapper mh-100-vh">
-          <div className="trade-main-body">
-            <h1 className="trade-main-heading">Traded lots: {availableLot}</h1>
-            <NavLink to="/prize-lots" className="trade-link">
-              WHAT ARE PRIZE LOTS?
-            </NavLink>
-            <div className="trade-body">
-              <div className="trade-tab-button">
-                <button
-                  className={tab === "product" ? "active-tab" : ""}
-                  onClick={() => setTab("product")}
-                >
-                  {`CART: ${cartData?.cart_items} ITEMS, ${cartData?.total_added_lots} LOTS`}
-                </button>
-                <button
-                  className={tab === "order" ? "active-tab" : ""}
-                  onClick={() => setTab("order")}
-                >
-                  ORDER HISTORY
-                </button>
-              </div>
-              {tab === "product" ? (
-                <div className="trade-product-block">
-                  {productList.map((product) => {
-                    let isAdded = cartData?.data?.filter(
-                      (item) => item.item_id === product.item_id
-                    );
-                    return (
-                      <div
-                        className="trade-product-card"
-                        key={product?.item_id}
-                      >
+          <div style={{ opacity: 1 }}>
+            <div className="trade-main-body">
+              <h1 className="trade-main-heading">
+                Traded lots: {availableLot}
+              </h1>
+              <NavLink to="/prize-lots" className="trade-link">
+                WHAT ARE PRIZE LOTS?
+              </NavLink>
+              <div className="trade-body">
+                <div className="trade-tab-button">
+                  <button
+                    className={tab === "product" ? "active-tab" : ""}
+                    onClick={() => setTab("product")}
+                  >
+                    {`CART: ${cartData?.cart_items} ITEMS, ${cartData?.total_added_lots} LOTS`}
+                  </button>
+                  <button
+                    className={tab === "order" ? "active-tab" : ""}
+                    onClick={() => setTab("order")}
+                  >
+                    ORDER HISTORY
+                  </button>
+                </div>
+                {tab === "product" ? (
+                  <div className="trade-product-block">
+                    {productList.map((product) => {
+                      let isAdded = cartData?.data?.filter(
+                        (item) => item.item_id === product.item_id
+                      );
+                      return (
                         <div
-                          onClick={() => {
-                            setOpen(true);
-                            setProductDetail(product);
-                          }}
+                          className="trade-product-card"
+                          key={product?.item_id}
                         >
-                          <div className="product-img-block">
-                            <img src={product?.item_image} alt="product" />
-                          </div>
-                          <h1 className="product-name">{product?.item_name}</h1>
-                          <div className="product-lots-block">
-                            <p>{`${product?.item_lot_size} lots`}</p>
-                            <div>
-                              <Star />
-                              <p>5</p>
+                          <div
+                            onClick={() => {
+                              setOpen(true);
+                              setProductDetail(product);
+                            }}
+                          >
+                            <div className="product-img-block">
+                              <img src={product?.item_image} alt="product" />
+                            </div>
+                            <h1 className="product-name">
+                              {product?.item_name}
+                            </h1>
+                            <div className="product-lots-block">
+                              <p>{`${product?.item_lot_size} lots`}</p>
+                              <div>
+                                <Star />
+                                <p>5</p>
+                              </div>
                             </div>
                           </div>
+                          <div className="product-add-btn">
+                            {isAdded?.length > 0 ? (
+                              <button
+                                onClick={() =>
+                                  handleAddToCart(product, "remove_cart_item")
+                                }
+                              >
+                                REMOVE
+                              </button>
+                            ) : (
+                              <button
+                                onClick={() =>
+                                  handleAddToCart(product, "add_to_cart")
+                                }
+                              >
+                                ADD TO CART
+                              </button>
+                            )}
+                          </div>
                         </div>
-                        <div className="product-add-btn">
-                          {isAdded?.length > 0 ? (
-                            <button
-                              onClick={() =>
-                                handleAddToCart(product, "remove_cart_item")
-                              }
-                            >
-                              REMOVE
-                            </button>
-                          ) : (
-                            <button
-                              onClick={() =>
-                                handleAddToCart(product, "add_to_cart")
-                              }
-                            >
-                              ADD TO CART
-                            </button>
-                          )}
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <div className="trade-order-list">
+                    {orderList?.map((order) => (
+                      <div className="trade-order-body">
+                        <div className="trade-order-img-block">
+                          <img src={order?.item_image} alt="order" />
                         </div>
+                        <div className="trade-order-name">
+                          <p>{order.item_name}</p>
+                          <p>{`${order.item_lot_size} lots`}</p>
+                        </div>
+                        <p className="trade-order-status">Delivered</p>
+                        <p className="trade-order-date">01-01-2023</p>
                       </div>
-                    );
-                  })}
-                </div>
-              ) : (
-                <div className="trade-order-list">
-                  {orderList?.map((order) => (
-                    <div className="trade-order-body">
-                      <div className="trade-order-img-block">
-                        <img src={order?.item_image} alt="order" />
-                      </div>
-                      <div className="trade-order-name">
-                        <p>{order.item_name}</p>
-                        <p>{`${order.item_lot_size} lots`}</p>
-                      </div>
-                      <p className="trade-order-status">Delivered</p>
-                      <p className="trade-order-date">01-01-2023</p>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-            <Dialog
-              open={open}
-              onClose={() => {
-                setOpen(false);
-                setProductDetail(null);
-              }}
-              className="product-detail-modal"
-            >
-              <CloseIcon
-                onClick={() => {
+                    ))}
+                  </div>
+                )}
+              </div>
+              <Dialog
+                open={open}
+                onClose={() => {
                   setOpen(false);
                   setProductDetail(null);
                 }}
-                className="product-modal-close"
-              />
-              <div className="product-detail-main">
-                <div className="product-detail-left">
-                  <div className="product-img-block">
-                    <img src={productDetail?.item_image} alt="product" />
-                  </div>
-                  <div className="product-sub-img">
-                    <div>
+                className="product-detail-modal"
+              >
+                <CloseIcon
+                  onClick={() => {
+                    setOpen(false);
+                    setProductDetail(null);
+                  }}
+                  className="product-modal-close"
+                />
+                <div className="product-detail-main">
+                  <div className="product-detail-left">
+                    <div className="product-img-block">
                       <img src={productDetail?.item_image} alt="product" />
                     </div>
-                    <div>
-                      <img src={productDetail?.item_image} alt="product" />
+                    <div className="product-sub-img">
+                      <div>
+                        <img src={productDetail?.item_image} alt="product" />
+                      </div>
+                      <div>
+                        <img src={productDetail?.item_image} alt="product" />
+                      </div>
+                      <div>
+                        <img src={productDetail?.item_image} alt="product" />
+                      </div>
                     </div>
-                    <div>
-                      <img src={productDetail?.item_image} alt="product" />
+                    <h1
+                      className="product-name"
+                      style={{ marginBottom: "12px" }}
+                    >
+                      {productDetail?.item_name}
+                    </h1>
+                    <div className="product-lots-block">
+                      <p>{`${productDetail?.item_lot_size} lots`}</p>
+                      <div>
+                        <Star />
+                        <p>5</p>
+                      </div>
+                    </div>
+                    <div className="product-add-btn">
+                      {cartData?.data?.filter(
+                        (item) => item.item_id === productDetail?.item_id
+                      ).length > 0 ? (
+                        <button
+                          onClick={() =>
+                            handleAddToCart(productDetail, "remove_cart_item")
+                          }
+                        >
+                          REMOVE
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() =>
+                            handleAddToCart(productDetail, "add_to_cart")
+                          }
+                        >
+                          ADD TO CART
+                        </button>
+                      )}
                     </div>
                   </div>
-                  <h1 className="product-name" style={{ marginBottom: "12px" }}>
-                    {productDetail?.item_name}
-                  </h1>
-                  <div className="product-lots-block">
-                    <p>{`${productDetail?.item_lot_size} lots`}</p>
-                    <div>
-                      <Star />
-                      <p>5</p>
-                    </div>
-                  </div>
-                  <div className="product-add-btn">
-                    {cartData?.data?.filter(
-                      (item) => item.item_id === productDetail?.item_id
-                    ).length > 0 ? (
-                      <button
-                        onClick={() =>
-                          handleAddToCart(productDetail, "remove_cart_item")
-                        }
-                      >
-                        REMOVE
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() =>
-                          handleAddToCart(productDetail, "add_to_cart")
-                        }
-                      >
-                        ADD TO CART
-                      </button>
-                    )}
+                  <div>
+                    <h1 className="product-detail-heading">DESCRIPTION</h1>
+                    <hr className="product-detail-hr" />
+                    <h6 className="product-detail-description">
+                      {productDetail?.item_full_description}
+                    </h6>
                   </div>
                 </div>
-                <div>
-                  <h1 className="product-detail-heading">DESCRIPTION</h1>
-                  <hr className="product-detail-hr" />
-                  <h6 className="product-detail-description">
-                    {productDetail?.item_full_description}
-                  </h6>
-                </div>
-              </div>
-            </Dialog>
+              </Dialog>
+            </div>
           </div>
         </div>
       </div>

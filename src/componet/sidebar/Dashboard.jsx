@@ -643,7 +643,7 @@ const Dashboard = (prop) => {
     <div>
       <div className="app-content--inner">
         <div className="app-content--inner__wrapper mh-100-vh">
-          {mainLoader == true ? (
+          {mainLoader !== true ? (
             <div className="loader1">
               <div className="clock">
                 <div className="pointers"></div>
@@ -715,7 +715,12 @@ const Dashboard = (prop) => {
                     </Grid> */}
                   </div>
                   <Grid container spacing={6}>
-                    <Grid item md={12} sx={{ paddingTop: "15px !important" }}>
+                    <Grid
+                      item
+                      md={12}
+                      sx={{ paddingTop: "15px" }}
+                      className="dashboard-imageSize"
+                    >
                       <Paper
                         elevation={2}
                         sx={{
