@@ -4,6 +4,8 @@ import { Dialog } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { ReactComponent as Star } from "../../../svg/star.svg";
 import { Url } from "../../../global";
 
@@ -15,6 +17,8 @@ const TradeAndWin = () => {
   const [orderList, setOrderList] = useState([]);
   const [cartData, setCartData] = useState([]);
   const [availableLot, setAvailableLot] = useState(null);
+
+  toast.configure();
 
   useEffect(() => {
     fetchProduct();
@@ -70,6 +74,11 @@ const TradeAndWin = () => {
       if (data.status === 200) {
         fetchCart();
         fetchAvailableLots();
+        if (data.data.status === "error") {
+          toast.error(data.data.message);
+        } else {
+          toast.success(data.data.message);
+        }
       }
     } catch (err) {
       console.log(err);

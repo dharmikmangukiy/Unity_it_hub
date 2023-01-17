@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./tradeAndWin.css";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Url } from "../../../global";
 import { ReactComponent as Warn } from "../../../svg/warn.svg";
 import { ReactComponent as Delete } from "../../../svg/delete.svg";
@@ -9,6 +11,8 @@ import { useNavigate } from "react-router-dom";
 const Cart = () => {
   const navigate = useNavigate();
   const [cartData, setCartData] = useState([]);
+
+  toast.configure();
 
   useEffect(() => {
     fetchCart();
@@ -43,6 +47,11 @@ const Cart = () => {
       let data = await axios.post(`${Url}/ajaxfiles/trade_and_win.php`, param);
       if (data.status === 200) {
         fetchCart();
+        if (data.data.status === "error") {
+          toast.error(data.data.message);
+        } else {
+          toast.success(data.data.message);
+        }
       }
     } catch (err) {
       console.log(err);

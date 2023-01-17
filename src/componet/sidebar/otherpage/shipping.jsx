@@ -9,6 +9,8 @@ import {
   InputLabel,
 } from "@mui/material";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Url } from "../../../global";
 import { ReactComponent as Warn } from "../../../svg/warn.svg";
 import { useNavigate } from "react-router-dom";
@@ -25,11 +27,24 @@ const Shipping = () => {
     pin: "",
     note: "",
   });
+  const [error, setError] = useState({
+    fullName: "",
+    email: "",
+    addOne: "",
+    addTwo: "",
+    country: "",
+    city: "",
+    pin: "",
+  });
   const [countryList, setCountryList] = useState([]);
   const [cityList, setCityList] = useState([]);
 
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
+    setError((prevState) => ({
+      ...prevState,
+      [e.target.name]: "",
+    }));
   };
   useEffect(() => {
     fetchCountry();
@@ -73,40 +88,119 @@ const Shipping = () => {
     }
   };
 
-  const handlePlaceOrder = async () => {
-    try {
-      const param = new FormData();
-      param.append("user_id", 15);
-      param.append("auth_key", "dsadsad-asdas-dsad-a");
-      param.append("is_app", 1);
-      param.append("action", "place_order");
-      param.append("order_notes", data?.note);
-      param.append(
-        "shipping_address",
-        `${data?.addOne}, ${data?.addTwo}, ${data?.city}, ${data?.country}-${data?.pin}`
-      );
+  const handleValidation = () => {
+    let flag = true;
+    const emailReg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const pinReg = /^(?=[0-9]*$)(?:.{6})$/;
 
-      let adata = await axios.post(`${Url}/ajaxfiles/trade_and_win.php`, param);
-      if (adata.status === 200) {
-        navigate("/trade-and-win");
+    if (data.fullName === "") {
+      flag = false;
+      setError((prevState) => ({
+        ...prevState,
+        fullName: "Fullname is required!",
+      }));
+    }
+
+    if (data.email === "") {
+      flag = false;
+      setError((prevState) => ({
+        ...prevState,
+        email: "Email is required!",
+      }));
+    } else if (!emailReg.test(data.email)) {
+      flag = false;
+      setError((prevState) => ({
+        ...prevState,
+        email: "Email is invalid!",
+      }));
+    }
+
+    if (data.addOne === "") {
+      flag = false;
+      setError((prevState) => ({
+        ...prevState,
+        addOne: "Address1 is required!",
+      }));
+    }
+
+    if (data.addTwo === "") {
+      flag = false;
+      setError((prevState) => ({
+        ...prevState,
+        addTwo: "Address2 is required!",
+      }));
+    }
+
+    if (data.country === "") {
+      flag = false;
+      setError((prevState) => ({
+        ...prevState,
+        country: "Country is required!",
+      }));
+    }
+
+    if (data.city === "") {
+      flag = false;
+      setError((prevState) => ({
+        ...prevState,
+        city: "City is required!",
+      }));
+    }
+
+    if (data.pin === "") {
+      flag = false;
+      setError((prevState) => ({
+        ...prevState,
+        pin: "Pincode is required!",
+      }));
+    } else if (!pinReg.test(data?.pin)) {
+      flag = false;
+      setError((prevState) => ({
+        ...prevState,
+        pin: "Pin code should be 6 digit number",
+      }));
+    }
+
+    return flag;
+  };
+
+  const handlePlaceOrder = async () => {
+    if (handleValidation()) {
+      try {
+        const param = new FormData();
+        param.append("user_id", 15);
+        param.append("auth_key", "dsadsad-asdas-dsad-a");
+        param.append("is_app", 1);
+        param.append("action", "place_order");
+        param.append("order_notes", data?.note);
+        param.append(
+          "shipping_address",
+          `${data?.addOne}, ${data?.addTwo}, ${data?.city}, ${data?.country}-${data?.pin}`
+        );
+
+        let adata = await axios.post(
+          `${Url}/ajaxfiles/trade_and_win.php`,
+          param
+        );
+        if (adata.status === 200) {
+          if (adata.data.status === "error") {
+            toast.error(adata.data.message);
+          } else {
+            navigate("/trade-and-win");
+            toast.success(adata.data.message);
+          }
+        }
+      } catch (err) {
+        console.log(err);
       }
-    } catch (err) {
-      console.log(err);
     }
   };
-  console.log(
-    "data",
-    data,
-    countryList,
-    cityList,
-    `${data?.addOne}, ${data?.addTwo}, ${data?.city}, ${data?.country}-${data?.pin}`
-  );
 
   return (
     <div className="app-content--inner">
       <div className="app-content--inner__wrapper mh-100-vh">
         <div className="trade-main-body">
-          <div className="cart-warn" style={{ height: "60px" }}>
+          <div className="cart-warn" style={{ minHeight: "60px" }}>
             <Warn />
             <p>
               If something is inaccurate, the delivery service will return your
@@ -117,7 +211,7 @@ const Shipping = () => {
           </div>
           <h1 className="cart-heading">Shipping address</h1>
           <Grid container spacing={2}>
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 label="Full name"
                 variant="standard"
@@ -126,8 +220,11 @@ const Shipping = () => {
                 value={data?.fullName}
                 onChange={(e) => handleChange(e)}
               />
+              {error?.fullName !== "" && (
+                <span className="error">{error?.fullName}</span>
+              )}
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 label="Email"
                 variant="standard"
@@ -136,8 +233,11 @@ const Shipping = () => {
                 value={data?.email}
                 onChange={(e) => handleChange(e)}
               />
+              {error?.email !== "" && (
+                <span className="error">{error?.email}</span>
+              )}
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 label="Address line 1"
                 variant="standard"
@@ -146,8 +246,11 @@ const Shipping = () => {
                 value={data?.addOne}
                 onChange={(e) => handleChange(e)}
               />
+              {error?.addOne !== "" && (
+                <span className="error">{error?.addOne}</span>
+              )}
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 label="Address line 2"
                 variant="standard"
@@ -156,8 +259,11 @@ const Shipping = () => {
                 value={data?.addTwo}
                 onChange={(e) => handleChange(e)}
               />
+              {error?.addTwo !== "" && (
+                <span className="error">{error?.addTwo}</span>
+              )}
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12} sm={4}>
               <FormControl variant="standard" sx={{ width: "100%" }}>
                 <InputLabel id="country">Country</InputLabel>
                 <Select
@@ -175,9 +281,12 @@ const Shipping = () => {
                     <MenuItem value={item?.name}>{item?.name}</MenuItem>
                   ))}
                 </Select>
+                {error?.country !== "" && (
+                  <span className="error">{error?.country}</span>
+                )}
               </FormControl>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12} sm={4}>
               <FormControl variant="standard" sx={{ width: "100%" }}>
                 <InputLabel id="city">City</InputLabel>
                 <Select
@@ -194,9 +303,12 @@ const Shipping = () => {
                     <MenuItem value={item}>{item}</MenuItem>
                   ))}
                 </Select>
+                {error?.city !== "" && (
+                  <span className="error">{error?.city}</span>
+                )}
               </FormControl>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12} sm={4}>
               <TextField
                 label="Pincode"
                 variant="standard"
@@ -205,6 +317,7 @@ const Shipping = () => {
                 value={data?.pin}
                 onChange={(e) => handleChange(e)}
               />
+              {error?.pin !== "" && <span className="error">{error?.pin}</span>}
             </Grid>
             <Grid item xs={12}>
               <TextField
