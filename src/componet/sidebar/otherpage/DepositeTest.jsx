@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
+  FormHelperText,
   FormLabel,
   Grid,
   Input,
@@ -30,6 +31,7 @@ import { IsApprove, Url } from "../../../global";
 import { useNavigate } from "react-router-dom";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 const DepositeTest = () => {
+  const { id } = useParams();
   const [dataArray, setDataArray] = useState({
     accountList: [],
     paymentOption: [],
@@ -76,7 +78,13 @@ const DepositeTest = () => {
   useEffect(() => {
     getPaymentOption();
     getMt5AccountList();
+    if (id) {
+      info.depositTo = id;
+      setInfo({ ...info });
+    }
   }, []);
+  toast.configure();
+
   const onsubmit = async () => {
     const param = new FormData();
     if (IsApprove !== "") {
@@ -91,7 +99,7 @@ const DepositeTest = () => {
       toast.error("Please select mt5 account");
       console.log("nikunj1");
     } else if (info.amount == "") {
-      toast.error("amount required");
+      toast.error("Amount is required");
       console.log("nikunj2", info);
     } else if (
       (info.selectPaymentOption == "UPI" ||
@@ -106,10 +114,19 @@ const DepositeTest = () => {
     } else {
       param.append("deposit_method", info.selectPaymentOption);
       param.append("amount", info.amount);
-      param.append("deposit_to", "MT5");
+      // param.append("bonus_percentage", info.selsectRadio);
+      if (info.depositTo == "wallet") {
+        param.append("deposit_to", "wallet");
+      } else {
+        param.append("deposit_to", "MT5");
+        param.append("mt5_acc_no", info.depositTo);
+      }
+      param.append("bonus_percentage", info.selsectRadio);
 
-      param.append("mt5_acc_no", info.depositTo);
+      param.append("utr_number", info.utn);
+
       console.log("nikunj4");
+
       info.isLoader = true;
       setInfo({ ...info });
       await axios
@@ -131,6 +148,8 @@ const DepositeTest = () => {
               //   setShowData("none");
               info.cryptoData = res.data.data;
               setInfo({ ...info });
+            } else {
+              navigate(`/deposit/${info.amount}/${info.depositTo}`);
             }
             toast.success(res.data.message);
           }
@@ -155,8 +174,11 @@ const DepositeTest = () => {
       } else {
         dataArray.accountList = res.data.mt5_accounts;
         if (res.data.mt5_accounts.length != 0) {
-          info.depositTo = res.data.mt5_accounts[0].mt5_acc_no;
-          setInfo({ ...info });
+          if (id) {
+          } else {
+            info.depositTo = res.data.mt5_accounts[0].mt5_acc_no;
+            setInfo({ ...info });
+          }
         }
         setDataArray({ ...dataArray });
         // setDepositType(type);
@@ -164,6 +186,9 @@ const DepositeTest = () => {
         setMainLoader({ ...mainLoader });
       }
     });
+  };
+  const onCyptoSubmit = () => {
+    navigate(navigate(`/deposit/${info.amount}/${info.depositTo}`));
   };
   const getPaymentOption = () => {
     const param = new FormData();
@@ -194,7 +219,7 @@ const DepositeTest = () => {
         <div className="app-content--inner__wrapper mh-100-vh">
           {mainLoader.accountList == true ||
           mainLoader.paymentOption == true ? (
-            <span class="loader2"></span>
+            <span className="loader2"></span>
           ) : (
             <div style={{ opacity: 1 }}>
               <Grid container>
@@ -250,6 +275,7 @@ const DepositeTest = () => {
                                       </MenuItem>
                                     );
                                   })}
+                                  <MenuItem value="wallet">Wallet</MenuItem>
                                 </Select>
                               </FormControl>
                             </Grid>
@@ -264,36 +290,53 @@ const DepositeTest = () => {
                                   <label className="text-info font-weight-bold form-label-head w-100 required">
                                     Amount in USD
                                   </label>
-                                  <BootstrapInput
-                                    value={info.amount}
-                                    name="otp"
-                                    type="text"
+                                  <FormControl
                                     className="w-100"
-                                    onChange={(e) => {
-                                      if (!isNaN(Number(e.target.value))) {
-                                        // setAmount(e.target.value);
-                                        info.amount = e.target.value;
-                                        setInfo({ ...info });
-                                      }
-                                    }}
-                                    displayEmpty
-                                    inputProps={{
-                                      "aria-label": "Without label",
-                                    }}
-                                    //   startAdornment={
-                                    //     <InputAdornment position="start">
-                                    //       $
-                                    //     </InputAdornment>
-                                    //   }
+                                    error={
+                                      info.amount == "" && infoTrue == true
+                                        ? true
+                                        : false
+                                    }
+                                  >
+                                    <BootstrapInput
+                                      value={info.amount}
+                                      name="amount"
+                                      type="text"
+                                      className="w-100"
+                                      onBlur={trueFalse}
+                                      onChange={(e) => {
+                                        if (!isNaN(Number(e.target.value))) {
+                                          // setAmount(e.target.value);
+                                          info.amount = e.target.value;
+                                          setInfo({ ...info });
+                                        }
+                                      }}
+                                      displayEmpty
+                                      inputProps={{
+                                        "aria-label": "Without label",
+                                      }}
+                                      //   startAdornment={
+                                      //     <InputAdornment position="start">
+                                      //       $
+                                      //     </InputAdornment>
+                                      //   }
 
-                                    //   InputProps={{
-                                    //     startAdornment: (
-                                    //       <InputAdornment position="start">
-                                    //         <AccountCircle />
-                                    //       </InputAdornment>
-                                    //     ),
-                                    //   }}
-                                  />
+                                      //   InputProps={{
+                                      //     startAdornment: (
+                                      //       <InputAdornment position="start">
+                                      //         <AccountCircle />
+                                      //       </InputAdornment>
+                                      //     ),
+                                      //   }}
+                                    />
+                                    {info.amount == "" && infoTrue.amount ? (
+                                      <FormHelperText>
+                                        Amount is required
+                                      </FormHelperText>
+                                    ) : (
+                                      ""
+                                    )}
+                                  </FormControl>
                                 </Grid>
                                 <Grid item md={4}>
                                   <label className="text-info font-weight-bold form-label-head w-100">
@@ -353,6 +396,10 @@ const DepositeTest = () => {
                                     <li
                                       onClick={() => {
                                         info.selectPaymentOption = item.title;
+                                        info.image = "";
+                                        info.utn = "";
+                                        info.cryptoData = "";
+
                                         setInfo({ ...info });
                                       }}
                                       className={`lideposit mar-10 ${
@@ -361,12 +408,15 @@ const DepositeTest = () => {
                                           : ""
                                       }`}
                                     >
-                                      <a href="/depositTest#depositDetails">
+                                      <a href="/deposit#depositDetails">
                                         <div
                                           title={item.title}
                                           onClick={() => {
                                             info.selectPaymentOption =
                                               item.title;
+                                            info.image = "";
+                                            info.utn = "";
+                                            info.cryptoData = "";
                                             setInfo({ ...info });
                                           }}
                                           //   onClick={modalopen}
@@ -380,6 +430,7 @@ const DepositeTest = () => {
                                             style={{
                                               objectFit: "contain",
                                               width: "100px",
+                                              height: "40px",
                                             }}
                                           ></img>
                                         </div>
@@ -393,109 +444,110 @@ const DepositeTest = () => {
                         </Paper>
                       </Grid>
                     </Grid>
-                    <Grid container spacing={3}>
-                      <Grid item md={12} className="d-flex">
-                        <Paper
-                          elevation={1}
-                          style={{ borderRadius: "10px" }}
-                          className="w-100 mb-3"
-                        >
-                          <div
-                            className="card-header d-flex align-items-center justify-content-between card-header-alt p-3"
-                            style={
-                              hideBonus == false
-                                ? { borderRadius: "4.65rem 4.65rem 0 0" }
-                                : { borderRadius: "4.65rem" }
-                            }
+                    {info.depositTo !== "wallet" ? (
+                      <Grid container spacing={3}>
+                        <Grid item md={12} className="d-flex">
+                          <Paper
+                            elevation={1}
+                            style={{ borderRadius: "10px" }}
+                            className="w-100 mb-3"
                           >
-                            <Grid container spacing={3}>
-                              <Grid item md={12} xs={12} sm={12}>
-                                <div
-                                  className=""
-                                  style={{
-                                    justifyContent: "space-between",
-                                    display: "flex",
-                                  }}
-                                >
-                                  <h5
-                                    className="font-weight-bold mb-0 text-dark text-align-center "
-                                    //   style={{ textAlign: "center" }}
-                                  >
-                                    Advantages of Bonus
-                                  </h5>
-
-                                  <span>
-                                    <ColorButton
-                                      sx={{ padding: "0px 12px" }}
-                                      onClick={() => {
-                                        setHideBonus(!hideBonus);
-                                      }}
-                                    >
-                                      {hideBonus == true ? (
-                                        <ArrowDropDownIcon />
-                                      ) : (
-                                        <ArrowDropUpIcon />
-                                      )}
-                                    </ColorButton>
-                                  </span>
-                                </div>
-                              </Grid>
-                            </Grid>
-                          </div>
-                          {hideBonus == true ? (
-                            ""
-                          ) : (
-                            <>
-                              {" "}
-                              <div className="divider"></div>
+                            <div
+                              className="card-header d-flex align-items-center justify-content-between card-header-alt p-3"
+                              style={
+                                hideBonus == false
+                                  ? { borderRadius: "4.65rem 4.65rem 0 0" }
+                                  : { borderRadius: "4.65rem" }
+                              }
+                            >
                               <Grid container spacing={3}>
-                                <Grid item md={12}>
-                                  <div>
-                                    <div
-                                      style={{
-                                        padding: "10px",
-                                        textAlign: "center",
-                                      }}
+                                <Grid item md={12} xs={12} sm={12}>
+                                  <div
+                                    className=""
+                                    style={{
+                                      justifyContent: "space-between",
+                                      display: "flex",
+                                    }}
+                                  >
+                                    <h5
+                                      className="font-weight-bold mb-0 text-dark text-align-center "
+                                      //   style={{ textAlign: "center" }}
                                     >
-                                      <ul
-                                        style={{
-                                          display: "flex",
-                                          gap: "30px",
-                                          paddingLeft: "0",
-                                          justifyContent: "center",
+                                      Advantages of Bonus
+                                    </h5>
+
+                                    <span>
+                                      <ColorButton
+                                        sx={{ padding: "0px 12px" }}
+                                        onClick={() => {
+                                          setHideBonus(!hideBonus);
                                         }}
                                       >
-                                        <li className={`bounsBox mar-10 `}>
-                                          <img
-                                            src="https://admin.rightfx.com/uploads/bonus_offer_image/bonus_offer_1673360159_50.png"
-                                            alt="50%"
-                                            style={{
-                                              width: "100%",
-                                              borderRadius: "10px",
-                                            }}
-                                          />
-                                        </li>
-                                        <li className={`bounsBox mar-10`}>
-                                          <img
-                                            src="https://admin.rightfx.com/uploads/bonus_offer_image/bonus_offer_1673360159_50.png"
-                                            alt="50%"
-                                            style={{
-                                              width: "100%",
-                                              borderRadius: "10px",
-                                            }}
-                                          />
-                                        </li>{" "}
-                                        <li className={`bounsBox mar-10 `}>
-                                          <img
-                                            src="https://admin.rightfx.com/uploads/bonus_offer_image/bonus_offer_1673360159_50.png"
-                                            alt="50%"
-                                            style={{
-                                              width: "100%",
-                                              borderRadius: "10px",
-                                            }}
-                                          />
-                                        </li>
-                                        {/* <li className={`bounsBox mar-10 `}>
+                                        {hideBonus == true ? (
+                                          <ArrowDropDownIcon />
+                                        ) : (
+                                          <ArrowDropUpIcon />
+                                        )}
+                                      </ColorButton>
+                                    </span>
+                                  </div>
+                                </Grid>
+                              </Grid>
+                            </div>
+                            {hideBonus == true ? (
+                              ""
+                            ) : (
+                              <>
+                                {" "}
+                                <div className="divider"></div>
+                                <Grid container spacing={3}>
+                                  <Grid item md={12}>
+                                    <div>
+                                      <div
+                                        style={{
+                                          padding: "10px",
+                                          textAlign: "center",
+                                        }}
+                                      >
+                                        <ul
+                                          style={{
+                                            display: "flex",
+                                            gap: "30px",
+                                            paddingLeft: "0",
+                                            justifyContent: "center",
+                                          }}
+                                        >
+                                          <li className={`bounsBox mar-10 `}>
+                                            <img
+                                              src="https://admin.rightfx.com/uploads/bonus_offer_image/bonus_offer_1673360159_50.png"
+                                              alt="50%"
+                                              style={{
+                                                width: "100%",
+                                                borderRadius: "10px",
+                                              }}
+                                            />
+                                          </li>
+                                          <li className={`bounsBox mar-10`}>
+                                            <img
+                                              src="https://admin.rightfx.com/uploads/bonus_offer_image/bonus_offer_1673360159_50.png"
+                                              alt="50%"
+                                              style={{
+                                                width: "100%",
+                                                borderRadius: "10px",
+                                              }}
+                                            />
+                                          </li>{" "}
+                                          <li className={`bounsBox mar-10 `}>
+                                            <img
+                                              src="https://admin.rightfx.com/uploads/bonus_offer_image/bonus_offer_1673360159_50.png"
+                                              alt="50%"
+                                              style={{
+                                                width: "100%",
+                                                borderRadius: "10px",
+                                              }}
+                                            />
+                                          </li>
+                                          {/* <li className={`bounsBox mar-10 `}>
                                     <img
                                       src="https://admin.rightfx.com/uploads/bonus_offer_image/bonus_offer_1673360159_50.png"
                                       alt="50%"
@@ -505,65 +557,65 @@ const DepositeTest = () => {
                                       }}
                                     />
                                   </li> */}
-                                      </ul>
-                                      <h5
-                                        className="font-weight-bold mb-0 "
-                                        style={{
-                                          marginTop: "30px",
-                                          color: "#5d2067",
-                                        }}
-                                      >
-                                        Select Bonus Amount
-                                      </h5>
-                                      <div>
-                                        <FormControl>
-                                          <RadioGroup
-                                            row
-                                            aria-labelledby="demo-row-radio-buttons-group-label"
-                                            name="row-radio-buttons-group"
-                                            value={info.selsectRadio}
-                                            onChange={(e) => {
-                                              info.selsectRadio =
-                                                e.target.value;
-                                              setInfo({ ...info });
-                                              console.log(
-                                                "radio",
-                                                e.target.value
-                                              );
-                                            }}
-                                          >
-                                            <FormControlLabel
-                                              value="10"
-                                              control={<Radio size="small" />}
-                                              label="10%"
-                                            />
-                                            <FormControlLabel
-                                              value="20"
-                                              control={<Radio size="small" />}
-                                              label="20%"
-                                            />
-                                            <FormControlLabel
-                                              value="30"
-                                              control={<Radio size="small" />}
-                                              label="30%"
-                                            />
-                                            <FormControlLabel
-                                              value="40"
-                                              control={<Radio size="small" />}
-                                              label="40%"
-                                            />
-                                            <FormControlLabel
-                                              value="50"
-                                              control={<Radio size="small" />}
-                                              label="50%"
-                                            />
-                                          </RadioGroup>
-                                        </FormControl>
+                                        </ul>
+                                        <h5
+                                          className="font-weight-bold mb-0 "
+                                          style={{
+                                            marginTop: "30px",
+                                            color: "#5d2067",
+                                          }}
+                                        >
+                                          Select Bonus Amount
+                                        </h5>
+                                        <div>
+                                          <FormControl>
+                                            <RadioGroup
+                                              row
+                                              aria-labelledby="demo-row-radio-buttons-group-label"
+                                              name="row-radio-buttons-group"
+                                              value={info.selsectRadio}
+                                              onChange={(e) => {
+                                                info.selsectRadio =
+                                                  e.target.value;
+                                                setInfo({ ...info });
+                                                console.log(
+                                                  "radio",
+                                                  e.target.value
+                                                );
+                                              }}
+                                            >
+                                              <FormControlLabel
+                                                value="10"
+                                                control={<Radio size="small" />}
+                                                label="10%"
+                                              />
+                                              <FormControlLabel
+                                                value="20"
+                                                control={<Radio size="small" />}
+                                                label="20%"
+                                              />
+                                              <FormControlLabel
+                                                value="30"
+                                                control={<Radio size="small" />}
+                                                label="30%"
+                                              />
+                                              <FormControlLabel
+                                                value="40"
+                                                control={<Radio size="small" />}
+                                                label="40%"
+                                              />
+                                              <FormControlLabel
+                                                value="50"
+                                                control={<Radio size="small" />}
+                                                label="50%"
+                                              />
+                                            </RadioGroup>
+                                          </FormControl>
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
-                                </Grid>
-                                {/* <Grid item md={4}>
+                                  </Grid>
+                                  {/* <Grid item md={4}>
                             <div className="w-100">
                               <img
                                 src="./rightfx_login_files/bonus30.png"
@@ -572,12 +624,16 @@ const DepositeTest = () => {
                               />
                             </div>
                           </Grid> */}
-                              </Grid>
-                            </>
-                          )}
-                        </Paper>
+                                </Grid>
+                              </>
+                            )}
+                          </Paper>
+                        </Grid>
                       </Grid>
-                    </Grid>
+                    ) : (
+                      ""
+                    )}
+
                     {info.selectPaymentOption == "UPI" ||
                     info.selectPaymentOption == "PhonePe" ||
                     info.selectPaymentOption == "Paytm" ||
@@ -759,21 +815,39 @@ const DepositeTest = () => {
                                     <label className="text-info font-weight-bold form-label-head w-100 required">
                                       Enter UTR Number
                                     </label>
-                                    <BootstrapInput
-                                      value={info.utn}
-                                      name="otp"
-                                      type="text"
+                                    <FormControl
                                       className="w-100"
-                                      onChange={(e) => {
-                                        // setAmount(e.target.value);
-                                        info.utn = e.target.value;
-                                        setInfo({ ...info });
-                                      }}
-                                      displayEmpty
-                                      inputProps={{
-                                        "aria-label": "Without label",
-                                      }}
-                                    />
+                                      error={
+                                        info.utn == "" && infoTrue.utn == true
+                                          ? true
+                                          : false
+                                      }
+                                    >
+                                      <BootstrapInput
+                                        value={info.utn}
+                                        name="utn"
+                                        type="text"
+                                        onBlur={trueFalse}
+                                        className="w-100"
+                                        onChange={(e) => {
+                                          // setAmount(e.target.value);
+                                          info.utn = e.target.value;
+                                          setInfo({ ...info });
+                                        }}
+                                        displayEmpty
+                                        inputProps={{
+                                          "aria-label": "Without label",
+                                        }}
+                                      />
+                                      {info.utn == "" &&
+                                      infoTrue.utn == true ? (
+                                        <FormHelperText>
+                                          UTR Number is required
+                                        </FormHelperText>
+                                      ) : (
+                                        ""
+                                      )}
+                                    </FormControl>
                                   </div>
                                   <div
                                     style={{
@@ -787,11 +861,11 @@ const DepositeTest = () => {
                                         disabled
                                       >
                                         <svg
-                                          class="spinner"
+                                          className="spinner"
                                           viewBox="0 0 50 50"
                                         >
                                           <circle
-                                            class="path"
+                                            className="path"
                                             cx="25"
                                             cy="25"
                                             r="20"
@@ -829,9 +903,9 @@ const DepositeTest = () => {
                                   className="makeapaymentbutoon"
                                   disabled
                                 >
-                                  <svg class="spinner" viewBox="0 0 50 50">
+                                  <svg className="spinner" viewBox="0 0 50 50">
                                     <circle
-                                      class="path"
+                                      className="path"
                                       cx="25"
                                       cy="25"
                                       r="20"
@@ -981,28 +1055,72 @@ const DepositeTest = () => {
                                     }}
                                   >
                                     <ol className="instUpi">
-                                      <li>Scan code to make payment.</li>
                                       <li>
-                                        You Need to take a screenshot of
-                                        successful payment where UTR Number is
-                                        clearly visible.
+                                        Use Below Give QR Code to make payment
+                                        from your Wallet.
                                       </li>
                                       <li>
-                                        Upload screenshot in given upload field.
+                                        Enter Amount that you want to transfer
+                                        and make payment.
                                       </li>
                                       <li>
                                         Press submit button to submit your
                                         deposit request.
                                       </li>
                                       <li>
-                                        UPI transaction limit can be very as per
-                                        your bank.
+                                        Your payment will be credited into
+                                        respective account once reflected in
+                                        company's account.
                                       </li>
                                       <li>
-                                        Maximum amount per transaction is
-                                        1,00,000 INR.
+                                        Do not make any mistake while entering
+                                        wallet address, if you make any mistake
                                       </li>
+                                      <li>your funds can be lost forever.</li>
                                     </ol>
+                                  </div>
+                                </div>
+                              </Grid>
+                              <Grid
+                                item
+                                md={12}
+                                sx={{ paddingTop: "0px !important" }}
+                              >
+                                <div
+                                  style={{
+                                    padding: "0px 59px 17px 59px",
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      textAlign: "center",
+                                      marginTop: "20px",
+                                    }}
+                                  >
+                                    {info.isLoader == true ? (
+                                      <ColorButton
+                                        className="makeapaymentbutoon"
+                                        disabled
+                                      >
+                                        <svg
+                                          className="spinner"
+                                          viewBox="0 0 50 50"
+                                        >
+                                          <circle
+                                            className="path"
+                                            cx="25"
+                                            cy="25"
+                                            r="20"
+                                            fill="none"
+                                            stroke-width="5"
+                                          ></circle>
+                                        </svg>
+                                      </ColorButton>
+                                    ) : (
+                                      <ColorButton onClick={onCyptoSubmit}>
+                                        Submit
+                                      </ColorButton>
+                                    )}
                                   </div>
                                 </div>
                               </Grid>
@@ -1013,7 +1131,7 @@ const DepositeTest = () => {
                     ) : (
                       ""
                     )}
-                    {info.selectPaymentOption == "India Cash" ? (
+                    {info.selectPaymentOption == "Bank" ? (
                       <Grid container spacing={3}>
                         <Grid item md={12} className="d-flex">
                           <Paper
@@ -1080,6 +1198,9 @@ const DepositeTest = () => {
                                             navigator.clipboard.writeText(
                                               "hdfc"
                                             );
+                                            toast.success(
+                                              "Copied to clipboard was successful!"
+                                            );
                                           }}
                                         >
                                           <span className="blinking">
@@ -1109,6 +1230,9 @@ const DepositeTest = () => {
                                           onClick={(e) => {
                                             navigator.clipboard.writeText(
                                               "MR Gray"
+                                            );
+                                            toast.success(
+                                              "Copied to clipboard was successful!"
                                             );
                                           }}
                                         >
@@ -1140,6 +1264,9 @@ const DepositeTest = () => {
                                             navigator.clipboard.writeText(
                                               "12345678901234"
                                             );
+                                            toast.success(
+                                              "Copied to clipboard was successful!"
+                                            );
                                           }}
                                         >
                                           <span className="blinking">
@@ -1167,6 +1294,9 @@ const DepositeTest = () => {
                                           onClick={(e) => {
                                             navigator.clipboard.writeText(
                                               "BARB0SARSUR"
+                                            );
+                                            toast.success(
+                                              "Copied to clipboard was successful!"
                                             );
                                           }}
                                         >
@@ -1209,11 +1339,13 @@ const DepositeTest = () => {
                                     }}
                                   >
                                     <ol className="instUpi">
-                                      <li>Scan code to make payment.</li>
+                                      <li>
+                                        Use Given bank details to make payment
+                                      </li>
                                       <li>
                                         You Need to take a screenshot of
-                                        successful payment where UTR Number is
-                                        clearly visible.
+                                        successful payment where UTR /
+                                        transaction Number is clearly visible.
                                       </li>
                                       <li>
                                         Upload screenshot in given upload field.
@@ -1223,12 +1355,13 @@ const DepositeTest = () => {
                                         deposit request.
                                       </li>
                                       <li>
-                                        UPI transaction limit can be very as per
-                                        your bank.
+                                        Your payment will be credited into
+                                        respective account once reflected in our
+                                        bank account.
                                       </li>
                                       <li>
-                                        Maximum amount per transaction is
-                                        1,00,000 INR.
+                                        Transaction limit can be very as per
+                                        your bank.
                                       </li>
                                     </ol>
                                   </div>
@@ -1302,21 +1435,39 @@ const DepositeTest = () => {
                                     <label className="text-info font-weight-bold form-label-head w-100 required">
                                       Enter UTR Number
                                     </label>
-                                    <BootstrapInput
-                                      value={info.utn}
-                                      name="otp"
-                                      type="text"
+                                    <FormControl
                                       className="w-100"
-                                      onChange={(e) => {
-                                        // setAmount(e.target.value);
-                                        info.utn = e.target.value;
-                                        setInfo({ ...info });
-                                      }}
-                                      displayEmpty
-                                      inputProps={{
-                                        "aria-label": "Without label",
-                                      }}
-                                    />
+                                      error={
+                                        info.utn == "" && infoTrue.utn == true
+                                          ? true
+                                          : false
+                                      }
+                                    >
+                                      <BootstrapInput
+                                        value={info.utn}
+                                        name="utn"
+                                        type="text"
+                                        onBlur={trueFalse}
+                                        className="w-100"
+                                        onChange={(e) => {
+                                          // setAmount(e.target.value);
+                                          info.utn = e.target.value;
+                                          setInfo({ ...info });
+                                        }}
+                                        displayEmpty
+                                        inputProps={{
+                                          "aria-label": "Without label",
+                                        }}
+                                      />
+                                      {info.utn == "" &&
+                                      infoTrue.utn == true ? (
+                                        <FormHelperText>
+                                          UTR Number is required
+                                        </FormHelperText>
+                                      ) : (
+                                        ""
+                                      )}
+                                    </FormControl>
                                   </div>
                                   <div
                                     style={{
@@ -1330,11 +1481,11 @@ const DepositeTest = () => {
                                         disabled
                                       >
                                         <svg
-                                          class="spinner"
+                                          className="spinner"
                                           viewBox="0 0 50 50"
                                         >
                                           <circle
-                                            class="path"
+                                            className="path"
                                             cx="25"
                                             cy="25"
                                             r="20"

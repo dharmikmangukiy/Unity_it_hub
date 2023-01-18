@@ -10,7 +10,7 @@ import { styled } from "@mui/material/styles";
 import MenuItem from "@mui/material/MenuItem";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -23,6 +23,7 @@ import Counter from "../../../customComponet/Counter";
 import Verification from "../../../customComponet/Verification";
 
 export const Withdrawal = () => {
+  const { id } = useParams();
   const [option, setOption] = useState("");
   const [disable, setDisable] = useState(false);
   const [checked, setChecked] = useState();
@@ -34,6 +35,8 @@ export const Withdrawal = () => {
   const [timer, setTimer] = useState(true);
   const [cryptoType, setCryptoType] = useState("");
   const [bankMenu, setBankMenu] = useState([]);
+  const [mt5AccountList, setMt5AccountList] = useState([]);
+
   const [infoTrue, setinfoTrue] = useState({
     amount: false,
     payment_method: false,
@@ -44,6 +47,7 @@ export const Withdrawal = () => {
   });
   const [age, setAge] = useState({
     amount: "",
+    withdraw_from: "",
     payment_method: "",
     upi_crypto_ac_number: "",
     upi_name: "",
@@ -79,7 +83,25 @@ export const Withdrawal = () => {
       };
     });
   };
-
+  const fetchMT5AccountList = async () => {
+    const param = new FormData();
+    param.append("action", "get_mt5_ac_list");
+    if (IsApprove !== "") {
+      param.append("is_app", IsApprove.is_app);
+      param.append("user_id", IsApprove.user_id);
+      param.append("auth_key", IsApprove.auth);
+    }
+    await axios.post(`${Url}/ajaxfiles/account_list.php`, param).then((res) => {
+      if (res.data.message == "Session has been expired") {
+        navigate("/");
+      }
+      if (res.data.status == "error") {
+        toast.error(res.data.message);
+      } else {
+        setMt5AccountList(res.data.mt5_accounts);
+      }
+    });
+  };
   const handleChange = (event) => {
     const { name, value } = event.target;
     setAge((prevalue) => {
@@ -142,6 +164,12 @@ export const Withdrawal = () => {
     } else if (age.payment_method == "cash") {
       // param.append("username", info.email);
     }
+    if (age.withdraw_from == "wallte") {
+      param.append("withdrawal_from", "wallte");
+    } else {
+      param.append("withdrawal_from", "MT5");
+      param.append("mt5_acc_no", age.withdraw_from);
+    }
     if (IsApprove !== "") {
       param.append("is_app", IsApprove.is_app);
       param.append("user_id", IsApprove.user_id);
@@ -165,6 +193,7 @@ export const Withdrawal = () => {
           payment_method: "",
           upi_crypto_ac_number: "",
           upi_name: "",
+          withdraw_from: "",
           user_bank_id: "",
           crypto_name: "",
         });
@@ -213,7 +242,10 @@ export const Withdrawal = () => {
   };
   const validate = (values) => {
     const errors = {};
-    if (!values.payment_method) {
+    if (!values.withdraw_from) {
+      errors.payment_method = "Transaction getway required";
+      notify("Withdraw From is required");
+    } else if (!values.payment_method) {
       errors.payment_method = "Transaction getway required";
       notify("Transaction getway required");
     } else if (values.payment_method == "Bank") {
@@ -287,8 +319,13 @@ export const Withdrawal = () => {
       });
   };
   useEffect(() => {
+    fetchMT5AccountList();
     fatchKycStatus();
     walletbalancefun();
+    if (id) {
+      age.withdraw_from = id;
+      setAge({ ...age });
+    }
   }, []);
 
   useEffect(() => {
@@ -310,6 +347,12 @@ export const Withdrawal = () => {
         // param.append("username", info.email);
       }
 
+      if (age.withdraw_from == "wallte") {
+        param.append("withdrawal_from", "wallte");
+      } else {
+        param.append("withdrawal_from", "MT5");
+        param.append("mt5_acc_no", age.withdraw_from);
+      }
       param.append("amount", age.amount);
       param.append("action", "send_withdraw_otp");
       if (IsApprove !== "") {
@@ -606,7 +649,7 @@ export const Withdrawal = () => {
                             Withdrawal
                           </h5>
                           <h5 className="walltebalcss">
-                            Wallet Balance : {`$${walletbalance}`}
+                            Balance : {`$${walletbalance}`}
                           </h5>
                         </div>
                         <div className="divider"></div>
@@ -670,6 +713,67 @@ export const Withdrawal = () => {
                                   >
                                     <FormControl
                                       className="py-4 w-100 "
+                                      error={
+                                        age.payment_method == "" ? true : false
+                                      }
+                                    >
+                                      {/* <InputLabel htmlFor="account_no">ACCOUNT NO</InputLabel> */}
+                                      <label
+                                        htmlFor="transactionGateway"
+                                        className="text-info font-weight-bold form-label-head w-100 mt-4 required"
+                                      >
+                                        Withdraw From
+                                      </label>
+                                      <Select
+                                        value={age.withdraw_from}
+                                        name="withdraw_from"
+                                        onChange={handleChange}
+                                        disabled={!sendOtp}
+                                        displayEmpty
+                                        inputProps={{
+                                          "aria-label": "Without label",
+                                        }}
+                                        input={<BootstrapInput />}
+                                        className="mt-0 ml-0"
+                                        id="fullWidth"
+                                        onBlur={trueFalse}
+                                      >
+                                        <MenuItem value="wallte">
+                                          Wallet
+                                        </MenuItem>
+                                        {mt5AccountList.map((item) => {
+                                          return (
+                                            <MenuItem value={item.mt5_acc_no}>
+                                              {item.mt5_acc_no}
+                                            </MenuItem>
+                                          );
+                                        })}
+                                        {/* <MenuItem
+                                          value=""
+                                          onClick={() => setOption("")}
+                                        >
+                                          Select Option
+                                        </MenuItem> */}
+                                      </Select>
+                                      {age.withdraw_from == "" &&
+                                      infoTrue.withdraw_from == true ? (
+                                        <FormHelperText>
+                                          Please Select Withdraw From
+                                        </FormHelperText>
+                                      ) : (
+                                        ""
+                                      )}
+                                    </FormControl>
+                                  </Grid>
+                                  <hr className="my-2"></hr>
+                                  <Grid
+                                    item
+                                    md={12}
+                                    className="py-0"
+                                    style={{ padding: "12px" }}
+                                  >
+                                    <FormControl
+                                      className="w-100 "
                                       error={
                                         age.payment_method == "" ? true : false
                                       }

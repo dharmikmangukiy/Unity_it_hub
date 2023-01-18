@@ -11906,7 +11906,7 @@ a.card-img-wrapper:hover .img-wrapper-overlay {
   }
 }
 .loginbg {
-  background-image: url("003.jpg");
+  background-image: url("003.png");
   background-position: 50%;
   height: 100%;
   width: 100%;
@@ -11937,6 +11937,7 @@ a.card-img-wrapper:hover .img-wrapper-overlay {
   padding: 40px 20px;
   /* background-image: linear-gradient(#2a3f73  20%, rgb(61 151 48)); */
   border-radius: 20px;
+  background: white;
   width: 100%;
   -webkit-box-shadow: 0 0 65px 0 rgb(203 203 203 / 50%);
   box-shadow: 0 0 65px 0 rgb(203 203 203 / 50%);
@@ -16296,9 +16297,9 @@ body .MuiInputLabel-outlined {
   fill: var(--primary);
 }
 
-.sidebar-navigation ul li > a.active .sidebar-icon-indicator {
+/* .sidebar-navigation ul li > a.active .sidebar-icon-indicator {
   transform: rotate(-90deg);
-}
+} */
 .sidebar-navigation
   ul
   li
@@ -17885,7 +17886,7 @@ input.MuiInputBase-input {
 }
 .MuiFormHelperText-root {
   font-family: "Poppins" !important;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
   color: #d32f2f !important;
 }
 .MuiButton-root {
@@ -17921,8 +17922,8 @@ input.MuiInputBase-input {
   }
 }
 .MuiFormHelperText-root {
-  font-family: cairo, sans-serif !important;
-  font-weight: 600 !important;
+  /* font-family: cairo, sans-serif !important;
+  font-weight: 600 !important; */
   color: #fff !important;
   background-color: rgba(220, 53, 69, 0.9) !important;
   border-radius: 0.25rem;
@@ -18033,4 +18034,7 @@ input.MuiInputBase-input {
   100% {
     transform: translate(0, 0);
   }
+}
+.main-color{
+  color: #5d2067;
 }

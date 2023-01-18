@@ -19,7 +19,7 @@ import axios from "axios";
 import { IsApprove, Url } from "../../../global";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
   "label + &": {
@@ -59,6 +59,7 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
 }));
 
 export const ChangePassword = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
   const [isSubmit, setisSubmit] = useState(false);
   const [mainLoader, setMainLoader] = useState(true);
@@ -112,6 +113,11 @@ export const ChangePassword = () => {
 
   useEffect(() => {
     fetchMT5AccountList();
+    if (id) {
+      age.account = id;
+      age.type = "main";
+      setAge({ ...age });
+    }
   }, []);
 
   const fetchMT5AccountList = async () => {

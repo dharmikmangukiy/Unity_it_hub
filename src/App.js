@@ -62,6 +62,15 @@ import DepositeTest from "./componet/sidebar/otherpage/DepositeTest";
 import Cart from "./componet/sidebar/otherpage/cart";
 import Shipping from "./componet/sidebar/otherpage/shipping";
 import IBDashboard from "./ibdashbord/IBDashboard";
+import RegisterTest from "./componet/forms/RegisterTest";
+import { IsApprove, Url } from "./global";
+import axios from "axios";
+import EarnReport from "./componet/sidebar/OperationAccount/EarnReport";
+import AffiliateDashboard from "./ibdashbord/AffiliateDashboard";
+import Order_chart from "./componet/sidebar/fantastic/Order_chart";
+import How_to_participate from "./componet/sidebar/fantastic/How_to_participate";
+import Fantastic_tour from "./componet/sidebar/fantastic/Fantastic_tour";
+import Deposite_in_Progress from "./componet/sidebar/deposit/Deposite_in_Progress";
 
 function useScrollToTop() {
   const { pathname } = useLocation();
@@ -82,13 +91,35 @@ const App = () => {
   const [moveToib, SetMoveToib] = useState(false);
 
   // const[User,setUser]=useState(localStorage.getItem('login'))
+  const [firstCall, setFirstCall] = useState(true);
 
   const currentLanguageCode = cookies.get("i18next") || "en";
   // console.log(currentLanguageCode)
   const ref = useRef();
   const [sidebar, setSidebar] = useState(false);
-  // console.log("login 123",login)
+  const [permission, setPermission] = useState({});
 
+  // console.log("login 123",login)
+  const fetchUserPref = async () => {
+    if (firstCall) {
+      const param = new FormData();
+      if (IsApprove !== "") {
+        param.append("is_app", IsApprove.is_app);
+        param.append("user_id", IsApprove.user_id);
+        param.append("auth_key", IsApprove.auth);
+      }
+      await axios
+        .post(`${Url}/ajaxfiles/get_user_prefrence.php`, param)
+        .then((res) => {
+          if (res.data.message == "Session has been expired") {
+            setLogin("true");
+          }
+          setFirstCall(false);
+
+          setPermission(res.data);
+        });
+    }
+  };
   const [clang, setClang] = useState();
   if (login == "true" || localStorage.getItem("login") == null) {
     return (
@@ -107,8 +138,11 @@ const App = () => {
               path="/login"
               element={<Login setLogin={setLogin} />}
             />
-            <Route exact path="/register" element={<Register />} />
-            <Route exact path="/register/:id/:id1" element={<Register />} />
+            <Route exact path="/register" element={<RegisterTest />} />
+            <Route exact path="/RegisterTest" element={<RegisterTest />} />
+
+            <Route exact path="/register/:id/:id1" element={<RegisterTest />} />
+
             <Route
               exact
               path="/login_as/:id"
@@ -125,6 +159,7 @@ const App = () => {
       </ThemeProvider>
     );
   } else {
+    fetchUserPref();
     return (
       <div className={clang == "rtl" ? "dir-ar-ae" : "dir-en-gb"}>
         <div
@@ -138,6 +173,7 @@ const App = () => {
             cside={sidebar}
             setSidebar={setSidebar}
             moveToib={moveToib}
+            permission={permission}
           />
           <div className="app-main">
             <Header
@@ -145,24 +181,49 @@ const App = () => {
               setClang={setClang}
               setLogin={setLogin}
               setMoveToib={SetMoveToib}
+              permission={permission}
               moveToib={moveToib}
             />
             <div className="app-content">
               <Routes>
-                <Route
-                  exact
-                  path="/"
-                  element={<Dashboard setLogin={setLogin} />}
-                />
-                <Route
-                  path="*"
-                  element={<Navigate to="/dashboard" replace />}
-                />
-                <Route
-                  exact
-                  path="/dashboard"
-                  element={<Dashboard setLogin={setLogin} />}
-                />
+                {permission.is_affiliate == "1" ? (
+                  <>
+                    {" "}
+                    <Route
+                      exact
+                      path="/"
+                      element={<AffiliateDashboard setLogin={setLogin} />}
+                    />
+                    <Route
+                      path="*"
+                      element={<Navigate to="/dashboard" replace />}
+                    />
+                    <Route
+                      exact
+                      path="/dashboard"
+                      element={<AffiliateDashboard setLogin={setLogin} />}
+                    />
+                  </>
+                ) : (
+                  <>
+                    {" "}
+                    <Route
+                      exact
+                      path="/"
+                      element={<Dashboard setLogin={setLogin} />}
+                    />
+                    <Route
+                      path="*"
+                      element={<Navigate to="/dashboard" replace />}
+                    />
+                    <Route
+                      exact
+                      path="/dashboard"
+                      element={<Dashboard setLogin={setLogin} />}
+                    />
+                  </>
+                )}
+
                 <Route
                   exact
                   path="/login_as/:id"
@@ -173,26 +234,59 @@ const App = () => {
                 <Route exact path="/notification" element={<Notification />} />
                 <Route exact path="/Comingsoon" element={<ComingSoon />} />
                 <Route exact path="/reports" element={<Report />} />
-                <Route exact path="/deposit/:id" element={<Deposite />} />
-                <Route exact path="/deposit/" element={<Deposite />} />
+                <Route exact path="/deposit/:id" element={<DepositeTest />} />
+                {/* <Route exact path="/deposit/" element={<Deposite />} /> */}
                 <Route exact path="/trade-and-win" element={<TradeAndWin />} />
                 <Route exact path="/prize-lots" element={<PrizeLots />} />
                 <Route exact path="/cart" element={<Cart />} />
                 <Route exact path="/shipping" element={<Shipping />} />
                 {/* <Route exact path="/depositTest/" element={<DepositeTest />} /> */}
-                <Route exact path="/depositTest" element={<DepositeTest />} />
+                <Route exact path="/deposit" element={<DepositeTest />} />
                 <Route path="/partnership" element={<Partnership />} />
+                <Route path="/earnReport" element={<EarnReport />} />
+                <Route
+                  exact
+                  path="/Order_chart/:id"
+                  element={<Order_chart />}
+                />
+                <Route
+                  exact
+                  path="/How_to_participate"
+                  element={<How_to_participate />}
+                />
+                <Route
+                  exact
+                  path="/Fantastic_tour"
+                  element={<Fantastic_tour />}
+                />
 
                 <Route
                   exact
                   path="/change_password"
                   element={<ChangePassword />}
                 />
+                <Route
+                  exact
+                  path="/change_password/:id"
+                  element={<ChangePassword />}
+                />
+                <Route
+                  exact
+                  path="/deposit/:id/:id1"
+                  element={<Deposite_in_Progress />}
+                />
                 <Route exact path="/withdrawal" element={<Withdrawal />} />
+                <Route exact path="/withdrawal/:id" element={<Withdrawal />} />
+
                 {/* <Route exact path="/BankAccount" element={<BankAccount/>} /> */}
                 <Route
                   exact
                   path="/internal_transfer"
+                  element={<InternalTransfer />}
+                />
+                <Route
+                  exact
+                  path="/internal_transfer/:id"
                   element={<InternalTransfer />}
                 />
                 <Route

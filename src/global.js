@@ -4,9 +4,14 @@
 const Url = "https://user.rightfx.com";
 const IsApprove = {
   is_app: 1,
-  auth: "adc68b-b3aaa4-699c76",
-  user_id: "1",
+  auth: "w433",
+  user_id: "6023",
 };
+// const IsApprove = {
+//   is_app: 1,
+//   auth: "sasdasd-dasdas-sad-a",
+//   user_id: "6034",
+// };
 // const IsApprove = {
 //   is_app: 1,
 //   auth: "wswsw-fwf23-swwc",

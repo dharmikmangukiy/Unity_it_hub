@@ -22,10 +22,12 @@ import { IsApprove, Url } from "../../../global";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./otherpage.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Counter from "../../customComponet/Counter";
+import { useEffect } from "react";
 
 const InternalTransfer = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
   const [age, setAge] = React.useState("");
   const [isInputWallet, setIsInputWallet] = React.useState(false);
@@ -56,7 +58,16 @@ const InternalTransfer = () => {
       };
     });
   };
-
+  useEffect(() => {
+    if (id) {
+      fetchMT5AccountList();
+      form.from_account = "MT5";
+      form.from_account_mt5 = id;
+      setForm({ ...form });
+      setIsInputMT5(true);
+      fetchFromAccountMt5Details();
+    }
+  }, []);
   const [form, setForm] = React.useState({
     from_account: "",
     from_account_mt5: "",

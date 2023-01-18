@@ -16,7 +16,6 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import GppGoodIcon from "@mui/icons-material/GppGood";
-import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./comon.css";
 import { IsApprove, Url } from "../../global";
@@ -39,9 +38,9 @@ import { ReactComponent as My_documents } from "../../svg/My_documents.svg";
 import { ReactComponent as Notifications } from "../../svg/notifications.svg";
 import { ReactComponent as Tickits } from "../../svg/tickits.svg";
 import { ReactComponent as Profile } from "../../svg/profile.svg";
-// import { ReactComponent as Setting } from "../../svg/setting.svg";
+import { ReactComponent as Setting } from "../../svg/setting123.svg";
 import { ReactComponent as User } from "../../svg/user.svg";
-
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 const languages = [
   {
     code: "en",
@@ -207,12 +206,12 @@ const Header = (prop) => {
   }, [currentLanguage]);
   useEffect(() => {
     if (open) {
-      fetchUserPref();
+      // fetchUserPref();
     }
   }, [open]);
-  useEffect(() => {
-    fetchUserPref();
-  }, []);
+  // useEffect(() => {
+  //   fetchUserPref();
+  // }, []);
   const [age, setAge] = React.useState("en");
   const handleChange = (event) => {
     setAge(event.target.value);
@@ -220,30 +219,30 @@ const Header = (prop) => {
     i18next.changeLanguage(event.target.value);
   };
 
-  const fetchUserPref = async () => {
-    const param = new FormData();
-    if (IsApprove !== "") {
-      param.append("is_app", IsApprove.is_app);
-      param.append("user_id", IsApprove.user_id);
-      param.append("auth_key", IsApprove.auth);
-    }
-    await axios
-      .post(`${Url}/ajaxfiles/get_user_prefrence.php`, param)
-      .then((res) => {
-        if (res.data.message == "Session has been expired") {
-          localStorage.setItem("login", true);
-          prop.setLogin("true");
-          navigate("/login");
-        }
-        setPrefrence(res.data);
-        localStorage.setItem("is_ib_account", res.data.is_ib_account);
-        localStorage.setItem("step", res.data.step_number);
-        localStorage.setItem("is_pamm", res.data.is_pamm);
-      });
-  };
+  // const fetchUserPref = async () => {
+  //   const param = new FormData();
+  //   if (IsApprove !== "") {
+  //     param.append("is_app", IsApprove.is_app);
+  //     param.append("user_id", IsApprove.user_id);
+  //     param.append("auth_key", IsApprove.auth);
+  //   }
+  //   await axios
+  //     .post(`${Url}/ajaxfiles/get_user_prefrence.php`, param)
+  //     .then((res) => {
+  //       if (res.data.message == "Session has been expired") {
+  //         localStorage.setItem("login", true);
+  //         prop.setLogin("true");
+  //         navigate("/login");
+  //       }
+  //       setPrefrence(res.data);
+  //       localStorage.setItem("is_ib_account", res.data.is_ib_account);
+  //       localStorage.setItem("step", res.data.step_number);
+  //       localStorage.setItem("is_pamm", res.data.is_pamm);
+  //     });
+  // };
   const str = () => {
-    if (prefrence.user_name) {
-      const str = prefrence.user_name.split(" ");
+    if (prop.permission.user_name) {
+      const str = prop.permission.user_name.split(" ");
       const firstname = str[0].charAt(0);
       const lastname = str[1].charAt(0);
       console.log("lastname", firstname + lastname);
@@ -261,7 +260,7 @@ const Header = (prop) => {
   //   }
   // }
 
-  console.log("Prefrence", prefrence);
+  // console.log("Prefrence", prefrence);
   return (
     <div className="app-header app-header--shadow app-header--opacity-bg mobileHeader">
       {/* <div className="app-header--pane"> */}
@@ -295,77 +294,112 @@ const Header = (prop) => {
             <span className="hamburger-inner"></span>
           </span>
         </button>
+        {prop.permission.is_affiliate == "1" ? (
+          ""
+        ) : (
+          <ul style={{ marginBottom: "0", gap: "24px" }} className="d-flex ">
+            {prop.moveToib == false ? (
+              <>
+                {" "}
+                <li className="headerMenu webViewHeader">
+                  <NavLink
+                    className="nav-link-simple d-flex "
+                    to="/deposit"
+                    // onClick={CloseSidebar}
+                  >
+                    <Deposit className="hoverSidebar" />
 
-        <ul style={{ marginBottom: "0", gap: "24px" }} className="d-flex ">
-          {prop.moveToib == false ? (
-            <>
-              {" "}
-              <li className="headerMenu webViewHeader">
-                <NavLink
-                  className="nav-link-simple d-flex "
-                  to="/deposit"
-                  // onClick={CloseSidebar}
-                >
-                  <Deposit className="hoverSidebar" />
+                    {/* <span className="material-icons  icon_Mar">add</span> */}
 
-                  {/* <span className="material-icons  icon_Mar">add</span> */}
-
-                  <span className="HeaderMenuColor">{t("Deposit")}</span>
-                </NavLink>
-              </li>
-              <li className="headerMenu webViewHeader">
-                <NavLink
-                  className="nav-link-simple d-flex "
-                  to="/Web_Trader"
-                  // onClick={CloseSidebar}
-                >
-                  {/* <span className="material-icons  icon_Mar">
+                    <span className="HeaderMenuColor">{t("Deposit")}</span>
+                  </NavLink>
+                </li>
+                <li className="headerMenu webViewHeader">
+                  <NavLink
+                    className="nav-link-simple d-flex "
+                    to="/Web_Trader"
+                    // onClick={CloseSidebar}
+                  >
+                    {/* <span className="material-icons  icon_Mar">
                 data_thresholding
               </span> */}
-                  <Web_trader
-                    className="hoverSidebar"
-                    style={{ width: "20px" }}
-                  />
+                    <Web_trader
+                      className="hoverSidebar"
+                      style={{ width: "20px" }}
+                    />
 
-                  <span className="HeaderMenuColor">{t("Web_Trader")} </span>
-                </NavLink>
-              </li>
-              <li className="headerMenu webViewHeader">
-                <NavLink
-                  className="nav-link-simple d-flex "
-                  to="/"
-                  // onClick={CloseSidebar}
-                >
-                  {/* <span className="material-icons  icon_Mar">
+                    <span className="HeaderMenuColor">{t("Web_Trader")} </span>
+                  </NavLink>
+                </li>
+                <li className="headerMenu webViewHeader">
+                  <NavLink
+                    className="nav-link-simple d-flex "
+                    to="/"
+                    // onClick={CloseSidebar}
+                  >
+                    <Bonus className="hoverSidebar" />
+
+                    <span className="HeaderMenuColor">Bonus</span>
+                  </NavLink>
+                </li>
+                <li className="headerMenu webViewHeader">
+                  <NavLink
+                    className="nav-link-simple d-flex "
+                    to="/trade-and-win"
+                    // onClick={CloseSidebar}
+                  >
+                    {/* <span className="material-icons  icon_Mar">
                 data_thresholding
               </span> */}
-                  <Bonus className="hoverSidebar" />
+                    <TradeAndWin className="hoverSidebar" />
 
-                  <span className="HeaderMenuColor">Bonus</span>
-                </NavLink>
-              </li>
-              <li className="headerMenu webViewHeader">
-                <NavLink
-                  className="nav-link-simple d-flex "
-                  to="/trade-and-win"
-                  // onClick={CloseSidebar}
-                >
-                  {/* <span className="material-icons  icon_Mar">
-                data_thresholding
-              </span> */}
-                  <TradeAndWin className="hoverSidebar" />
+                    <span className="HeaderMenuColor">Trade & Win </span>
+                  </NavLink>
+                </li>{" "}
+                <li className="headerMenu">
+                  {prop.permission.is_ib_account == "1" ? (
+                    <a
+                      className="nav-link-simple d-flex "
+                      onClick={() => {
+                        prop.setMoveToib(true);
+                        navigate("/IBdashboard");
+                      }}
+                    >
+                      <span>
+                        <Ib_application
+                          className="hoverSidebar"
+                          style={{ width: "24px" }}
+                        />
+                      </span>
 
-                  <span className="HeaderMenuColor">Trade & Win </span>
-                </NavLink>
-              </li>{" "}
+                      <span className="HeaderMenuColor">IB Portal</span>
+                    </a>
+                  ) : (
+                    <NavLink
+                      className="nav-link-simple d-flex "
+                      to="/partnership"
+                    >
+                      <TradeAndWin className="hoverSidebar" />
+
+                      <span className="HeaderMenuColor">IB Request</span>
+                    </NavLink>
+                  )}
+                </li>
+              </>
+            ) : (
               <li className="headerMenu">
                 <a
                   className="nav-link-simple d-flex "
+                  // to="/Web_Trader"
+                  // onClick={handleClick2}
                   onClick={() => {
-                    prop.setMoveToib(true);
-                    navigate("/IBdashboard");
+                    prop.setMoveToib(false);
+                    navigate("/dashboard");
                   }}
                 >
+                  {/* <span className="material-icons  icon_Mar">
+                data_thresholding
+              </span> */}
                   <span>
                     <Ib_application
                       className="hoverSidebar"
@@ -373,45 +407,12 @@ const Header = (prop) => {
                     />
                   </span>
 
-                  <span className="HeaderMenuColor">IB Portal</span>
+                  <span className="HeaderMenuColor">Cilent Portal</span>
                 </a>
-                {/* <NavLink
-                  className="nav-link-simple d-flex "
-                  to="/partnership"
-                >
-              
-                  <TradeAndWin className="hoverSidebar" />
-
-                  <span className="HeaderMenuColor">IB Request</span>
-                </NavLink> */}
               </li>
-            </>
-          ) : (
-            <li className="headerMenu">
-              <a
-                className="nav-link-simple d-flex "
-                // to="/Web_Trader"
-                // onClick={handleClick2}
-                onClick={() => {
-                  prop.setMoveToib(false);
-                  navigate("/dashboard");
-                }}
-              >
-                {/* <span className="material-icons  icon_Mar">
-                data_thresholding
-              </span> */}
-                <span>
-                  <Ib_application
-                    className="hoverSidebar"
-                    style={{ width: "24px" }}
-                  />
-                </span>
-
-                <span className="HeaderMenuColor">Cilent Portal</span>
-              </a>
-            </li>
-          )}
-        </ul>
+            )}
+          </ul>
+        )}
       </div>
 
       <div className="app-header--pane">
@@ -437,7 +438,7 @@ const Header = (prop) => {
           aria-expanded={open ? "true" : undefined}
           onClick={handleClick}
         >
-          {/* <Setting className="hoverSidebar" style={{ width: "22px" }} /> */}
+          <Setting className="hoverSidebar" style={{ width: "22px" }} />
 
           {/* <span className="MuiButton-label">
             <Avatar sx={{ bgcolor: "#2a3f73", fontSize: "18px" }}>
@@ -472,7 +473,7 @@ const Header = (prop) => {
                 </Avatar>
               </div>
               <div>
-                <div className="avatar-logo">{prefrence.user_name}</div>
+                <div className="avatar-logo">{prop.permission?.user_name}</div>
                 <div>
                   <span className="verifyText">Verifyed</span>{" "}
                 </div>
@@ -533,10 +534,17 @@ const Header = (prop) => {
               Notification
             </NavLink>
           </MenuItem>
+          <MenuItem>
+            {" "}
+            <a className="nav-link-simple " onClick={() => onLogout()}>
+              <ExitToAppIcon className="hoverSidebar1" />
+              Log Out
+            </a>
+          </MenuItem>
         </Menu>
 
         <Menu
-          id="demo-positioned-menu1"
+          id="demo- positioned-menu1"
           aria-labelledby="demo-positioned-button1"
           anchorEl={anchorEl1}
           open={open1}

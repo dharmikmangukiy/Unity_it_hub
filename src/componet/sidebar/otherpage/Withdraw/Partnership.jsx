@@ -1176,7 +1176,7 @@ export const Partnership = () => {
             You have not applied for IB User, Please click below to apply for IB
             User
           </h5>
-          {/* <div className="verification-main">
+          <div className="verification-main">
             <div>
               <div className="verication-icon-Section">
                 <div
@@ -1287,8 +1287,8 @@ export const Partnership = () => {
                   : ""}
               </ColorButton>
             </div>
-          </div> */}
-          <Verification ibstatus={ibstatus} />
+          </div>
+          {/* <Verification ibstatus={ibstatus} /> */}
 
           {/* <div className="text-center pb-5">
             {status == "1" ? (
@@ -1439,7 +1439,7 @@ export const Partnership = () => {
                 <Grid item xl={1}></Grid>
                 <Grid item xl={10} md={12} lg={12}>
                   {/* <TopButton /> */}
-                  <Verification ibstatus={ibstatus} />
+                  {/* <Verification ibstatus={ibstatus} /> */}
 
                   <Grid container>
                     <Grid item md={12} className="d-flex"></Grid>

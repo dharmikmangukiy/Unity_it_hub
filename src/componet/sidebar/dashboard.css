@@ -251,7 +251,7 @@ h5.mb-0 {
 
 .accunt-data1 {
   display: flex;
-  align-items: center;
+  margin-bottom: 1rem;
 }
 
 .accunt-data1 div {
@@ -260,13 +260,11 @@ h5.mb-0 {
 
 .accunt-data2 {
   justify-content: space-between;
-  align-items: center;
   box-sizing: border-box;
-  height: 36px;
+  height: auto;
 }
 
 .accunt-data2 .item1 {
-  width: 30%;
   font-size: 1.5rem;
   height: 100%;
 }
@@ -276,16 +274,17 @@ h5.mb-0 {
   height: 100%;
 }
 
-.accunt-data2 .item2 .item2-item1 {
-  height: 100%;
+.accunt-data2 .item2 .b-hover {
+  /* height: 100%;
   min-width: 195px;
   border: 1px solid #a7a7a7;
   display: flex;
   justify-content: center;
   align-items: center;
+    */
 }
 
-.accunt-data2 .item2 .item2-item1:hover {
+.accunt-data2 .item2 .b-hover:hover {
   border: 1px solid black;
 }
 
@@ -297,6 +296,7 @@ h5.mb-0 {
   justify-content: center;
   align-items: center;
   border-radius: 5px !important;
+  margin-right: 8px;
 }
 
 .accunt-data2 .item2 .item2-item3 .css-1869usk-MuiFormControl-root {
@@ -304,7 +304,9 @@ h5.mb-0 {
   max-width: auto;
   margin: 0 !important;
 }
-
+.btn-36 {
+  height: 36px !important;
+}
 .btn-costom {
   background: none;
   border-radius: 5px;
@@ -336,4 +338,340 @@ h5.mb-0 {
 }
 .MuiTabs-indicator {
   background-color: #5d2067 !important;
+}
+
+.item2-item3 .css-1ccrwnh-MuiInputBase-root .MuiInputBase-input {
+  padding: 0px 24px 2px 7px !important;
+}
+
+.btn-px {
+  padding: 0rem .5rem;
+}
+
+.react-swipeable-view-container .carousel-control-next,
+.carousel-control-prev {
+  width: 8% !important;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+button {
+  border-radius: 0;
+}
+
+button,
+input {
+  overflow: visible;
+}
+
+button,
+select {
+  text-transform: none;
+}
+
+.carousel-control-next,
+.carousel-control-prev {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 15%;
+  padding: 0;
+  color: #fff;
+  text-align: center;
+  background: 0 0;
+  border: 0;
+  opacity: .5;
+  transition: opacity .15s ease;
+}
+
+.carousel-control-prev {
+  left: 0;
+}
+
+[type=button],
+[type=reset],
+[type=submit],
+button {
+  -webkit-appearance: button;
+}
+
+.react-swipeable-view-container .carousel-control-next,
+.carousel-control-prev {
+  width: 8% !important;
+}
+
+.carousel-control-prev-icon i {
+  opacity: .6;
+}
+
+.carousel-control-prev-icon i:hover {
+  opacity: 1;
+  color: white;
+}
+
+.carousel-control-next-icon,
+.carousel-control-prev-icon {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: 100% 100%;
+}
+
+.visually-hidden,
+.visually-hidden-focusable:not(:focus):not(:focus-within) {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
+
+*,
+.close:active,
+.close:focus {
+  outline: none;
+}
+
+.carousel-control-next,
+.carousel-control-prev {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 15%;
+  padding: 0;
+  color: #fff;
+  text-align: center;
+  background: 0 0;
+  border: 0;
+  opacity: .5;
+  transition: opacity .15s ease;
+}
+
+.carousel-control-next {
+  right: 0;
+}
+
+.carousel-control-next,
+.carousel-control-prev {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 15%;
+  padding: 0;
+  color: #fff;
+  text-align: center;
+  background: 0 0;
+  border: 0;
+  opacity: .5;
+  transition: opacity .15s ease;
+}
+
+.carousel-control-next-icon,
+.carousel-control-prev-icon {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: 100% 100%;
+}
+
+.carousel-control-next-icon i {
+  opacity: .6;
+}
+
+.carousel-control-next-icon i:hover {
+  opacity: 1;
+  color: white;
+}
+
+.carousel-control-next-icon,
+.carousel-control-prev-icon {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: 100% 100%;
+}
+
+.btn-success {
+  color: #fff;
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+/* .MuiDialogContent-root  {
+  border: 2px dotted #e3e4e5;
+  padding: 14px;
+} */
+.DropWindow {
+  margin-left: 24px !important;
+  padding: 6px 13px !important;
+  margin-top: 24px !important;
+  align-items: center;
+}
+
+.trade-MetaTrader {
+  border: 1px solid rgb(161, 161, 161);
+  border-radius: 2px;
+}
+
+.trade-MetaTrader:hover {
+  border: 1px solid rgb(0, 0, 0);
+}
+
+@media only screen and (max-width: 1170px) {
+  .s_mx {
+    margin: 0px .5rem !important;
+  }
+}
+
+@media only screen and (max-width: 878px) {
+
+
+  .accunt-data2 {
+    flex-direction: column;
+  }
+
+  .item2 {
+    margin-top: 5px;
+  }
+
+  .accunt-data2 .item2 .item2-item2 {
+    min-width: 39%;
+  }
+
+  .item2-item3 .css-1ccrwnh-MuiInputBase-root .MuiInputBase-input {
+    font-size: 1rem;
+    padding: 0px 11px 2px 7px !important;
+  }
+
+  .accunt-data1 {
+    flex-direction: column;
+    margin-bottom: .7rem !important;
+
+  }
+
+  .accunt-data1 div {
+    margin: 0;
+  }
+
+  .btn-px {
+    padding: 3px 13px;
+    margin: 3px !important;
+  }
+
+  .s_mx {
+    min-width: 48%;
+    margin: 0% !important;
+    margin-right: 4px !important;
+  }
+
+  .accunt-data1 span {
+    font-size: 1rem;
+  }
+
+  .accunt-data1 div {
+    flex-wrap: wrap;
+  }
+
+  .account-data-main {
+    padding: 25px 12px;
+  }
+}
+
+@media only screen and (max-width: 520px) {
+  .account-data-main {
+    padding: 19px 12px;
+  }
+
+  .btn-36 {
+    height: 30px !important;
+  }
+
+  .card-header h5 {
+    font-size: .9rem
+  }
+
+  .textCenter button {
+    font-size: .6rem !important;
+  }
+
+  .btn-px {
+    padding: 3px 10px;
+    margin: 3px;
+  }
+
+  .accunt-data1 span {
+    font-size: 13px;
+  }
+
+  .accunt-data1 {
+    margin-bottom: .4rem !important;
+  }
+
+
+
+  .b-hover svg {
+    font-size: 1.2rem;
+  }
+
+  .item2 button {
+    padding: 7px !important;
+    font-size: .8rem;
+
+  }
+
+  .accunt-data2 .item1 {
+    font-size: 1.2rem;
+  }
+
+  .textCenter button {
+    font-size: .8rem;
+    padding: 10px !important;
+  }
+}
+
+@media only screen and (max-width: 430px) {
+  .btn-px {
+    padding: 0 .5rem;
+  }
+
+  /* .s_mx {
+    width: 100%;
+  } */
 }

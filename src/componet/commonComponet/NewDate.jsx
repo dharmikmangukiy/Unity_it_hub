@@ -1,7 +1,7 @@
 const NewDate = (prop) => {
   const today = new Date(prop.newDate);
   const yyyy = today.getFullYear();
-  let mm = today.getMonth();
+  let mm = today.getMonth() + 1;
   let dd = today.getDate();
 
   if (dd < 10) dd = "0" + dd;

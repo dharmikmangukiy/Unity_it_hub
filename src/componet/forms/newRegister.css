@@ -1,0 +1,15 @@
+.reg-textField {
+  margin: 10px 0px;
+}
+.reg-textField label {
+  font-weight: 700 !important;
+  font-size: 17px !important;
+}
+.mobile-code {
+  top: 16px;
+}
+.loginButton-main {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+}

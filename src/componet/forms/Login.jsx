@@ -80,13 +80,7 @@ export default function Login1(prop) {
     const errors = {};
     if (!values.email) {
       errors.email = "Email is requied";
-      notify("Email is requied");
-    } else if (
-      !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(values.email)
-    ) {
-      console.log(values.email);
-      notify("Email format is invaild ");
-      errors.email = "Email format is invaild";
+      notify("Email or Mobile is requied");
     } else if (!values.password) {
       errors.password = " password is requied";
       notify("Password is requied");
@@ -167,7 +161,7 @@ export default function Login1(prop) {
               <div className="my-4">
                 <CssTextField
                   id="standard-search"
-                  label="Email address"
+                  label="Email or Mobile"
                   sx={{ width: "100%" }}
                   variant="standard"
                   name="email"
@@ -191,7 +185,7 @@ export default function Login1(prop) {
               </div>
 
               <div className="text-right pb-4">
-                <NavLink className="" to="/ForgotPassword">
+                <NavLink className="main-color" to="/ForgotPassword">
                   Forgot Password ?
                 </NavLink>
               </div>
@@ -244,14 +238,17 @@ export default function Login1(prop) {
                 )}
               </div>
 
-              <div className="centerflexjus mt-3 logblock">
+              <div
+                className="centerflexjus mt-3 logblock"
+                style={{ fontSize: "13px" }}
+              >
                 <div>
                   <span style={{ color: "rgb(124 120 120)" }}>
                     Don't have an account?{" "}
                   </span>
                 </div>
                 <div>
-                  <NavLink to="/register" className="logblock1">
+                  <NavLink to="/register" className="logblock1 main-color">
                     Apply for a live account
                   </NavLink>
                 </div>

@@ -349,7 +349,9 @@ a:not(.MuiButtonBase-root):hover .hoverSidebar {
 a:not(.MuiButtonBase-root):hover .hoverSidebar1 {
   filter: none;
 }
-
+.webViewSidebar {
+  display: none !important;
+}
 @media screen and (max-width: 1099.98px) {
   .webViewHeader {
     display: none !important;
@@ -358,7 +360,11 @@ a:not(.MuiButtonBase-root):hover .hoverSidebar1 {
     display: flex;
     justify-content: end;
   } */
+  .webViewSidebar {
+    display: flex !important;
+  }
 }
+
 @media screen and (max-width: 768px) {
   .dashboard-imageSize {
     padding-top: 48px !important;

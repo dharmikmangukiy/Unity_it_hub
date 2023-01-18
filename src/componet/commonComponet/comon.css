@@ -45,7 +45,8 @@
   color: #5d2067;
 }
 .HeaderMenuColor {
-  color: #393a47 !important;
+  color: rgba(7, 9, 25, 0.8) !important;
+  font-weight: 400;
 }
 .profile_dropdown a {
   color: #393a47 !important;
