@@ -62,7 +62,7 @@ BootstrapDialogTitle.propTypes = {
   children: PropTypes.node,
   onClose: PropTypes.func.isRequired,
 };
-const Bonus_dashbord = () => {
+const Bonus_dashbord = (props) => {
   const navigate = useNavigate();
   const [checkpop, setCheckPop] = useState(false);
   const [open, setOpen] = React.useState(false);
@@ -75,7 +75,7 @@ const Bonus_dashbord = () => {
     radioButton: 10,
   });
   toast.configure();
-
+  const [mainLoader, setMainLoader] = useState(true);
   const [popData, setPopData] = useState({
     pop1: false,
     pop2: false,
@@ -114,6 +114,7 @@ const Bonus_dashbord = () => {
           data.isLoder = false;
           data.arrayData = res.data?.aaData;
           setData({ ...data });
+          setMainLoader(false);
         }
       });
   };
@@ -149,6 +150,7 @@ const Bonus_dashbord = () => {
           toast.success(res.data.message);
           setOpen(false);
           getBonusList();
+          setMainLoader(false);
         }
       });
   };
@@ -425,139 +427,147 @@ const Bonus_dashbord = () => {
   };
   return (
     <>
-      <div>
-        {matches && (
-          <>
-            <Grid container>
-              <Grid item md={12}>
-                {/* <div className="head_up">
+      {mainLoader == true ? (
+        <span className="loader2"></span>
+      ) : (
+        <div>
+          {matches && (
+            <>
+              <Grid container>
+                <Grid item md={12}>
+                  {/* <div className="head_up">
                 <span></span>
                   <span className="Deposit_Amount">Deposit Amount</span>
                   <span className="d_block">MT5</span>
                   <span className="d_block">Deposit Date</span>
                 </div> */}
-                <div className="hederbordeer3">
-                  <div style={{ width: "7%" }}></div>
-                  <div className="flex_items">
-                    <span className="Deposit_Amount"> Amount</span>
-                    <span className="d_block">MT5 Account Number</span>
-                    <span className="d_block"> Deposit Date</span>
-                    <span className="d_block">Action</span>
+                  <div className="hederbordeer3">
+                    {/* <div style={{ width: "7%" }}></div> */}
+                    <div className="flex_items">
+                      <span className="Deposit_Amount"> Amount</span>
+                      <span className="d_block">MT5 Account Number</span>
+                      <span className="d_block"> Deposit Date</span>
+                      <span className="d_block">Action</span>
+                    </div>
                   </div>
-                </div>
+                  {data.arrayData.map((item, index) => {
+                    return (
+                      <div className="bordeer3">
+                        <div style={{ width: "7%" }}>
+                          <h1 className="text_left1">
+                            <StarIcon
+                              style={{
+                                color: "#FFC121",
+                                margin: "0 8px",
+                              }}
+                            />
+                          </h1>
+                        </div>
+                        <div className="flex_items">
+                          <div>
+                            <span className="money_doll">{item.amount}</span>
+                          </div>
+
+                          <div>
+                            <span className="margin_lft">
+                              {item.mt5_acc_no}
+                            </span>
+                          </div>
+                          <div>
+                            <span className="margin_lft">
+                              <NewDate newDate={item.date} />
+                            </span>
+                          </div>
+                          <div>
+                            {" "}
+                            <ColorButton
+                              id="btn_11"
+                              onClick={() => {
+                                data.popData = item;
+                                handleClickOpen();
+                              }}
+                            >
+                              CHOOSE BONUS AMOUNT
+                            </ColorButton>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </Grid>
+              </Grid>
+            </>
+          )}
+          {!matches && (
+            <>
+              <Grid container>
                 {data.arrayData.map((item, index) => {
                   return (
-                    <div className="bordeer3">
-                      <div style={{ width: "7%" }}>
-                        <h1 className="text_left1">
-                          <StarIcon
-                            style={{
-                              color: "#FFC121",
-                              margin: "0 8px",
-                            }}
-                          />
-                        </h1>
-                      </div>
-                      <div className="flex_items">
+                    <Grid item md={12}>
+                      <div className="bordeer3">
                         <div>
-                          <span className="money_doll">{item.amount}</span>
+                          <h1 className="text_left1">
+                            <StarIcon
+                              style={{
+                                color: "#FFC121",
+                                margin: "0 8px",
+                              }}
+                            />
+                          </h1>
                         </div>
+                        <div className="flex_items">
+                          <div>
+                            <span className="money_doll">{item.amount}</span>
+                          </div>
 
-                        <div>
-                          <span className="margin_lft">{item.mt5_acc_no}</span>
-                        </div>
-                        <div>
-                          <span className="margin_lft">
-                            <NewDate newDate={item.date} />
-                          </span>
-                        </div>
-                        <div>
-                          {" "}
-                          <ColorButton
-                            id="btn_11"
-                            onClick={() => {
-                              data.popData = item;
-                              handleClickOpen();
-                            }}
-                          >
-                            CHOOSE BONUS AMOUNT
-                          </ColorButton>
+                          <div className="d-flex justify-content-between">
+                            <span className="d_block">MT5</span>
+                            <span className="margin_lft">
+                              {item.mt5_acc_no}
+                            </span>
+                          </div>
+                          <div className="d-flex justify-content-between">
+                            <span className="d_block">Deposit Date</span>
+                            <span className="margin_lft2">
+                              <NewDate newDate={item.date} />
+                            </span>
+                          </div>
+                          <div>
+                            {" "}
+                            <ColorButton
+                              id="btn_11"
+                              onClick={() => {
+                                data.popData = item;
+                                handleClickOpen();
+                              }}
+                            >
+                              CHOOSE BONUS AMOUNT
+                            </ColorButton>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    </Grid>
                   );
                 })}
               </Grid>
-            </Grid>
-          </>
-        )}
-        {!matches && (
-          <>
-            <Grid container>
-              {data.arrayData.map((item, index) => {
-                return (
-                  <Grid item md={12}>
-                    <div className="bordeer3">
-                      <div>
-                        <h1 className="text_left1">
-                          <StarIcon
-                            style={{
-                              color: "#FFC121",
-                              margin: "0 8px",
-                            }}
-                          />
-                        </h1>
-                      </div>
-                      <div className="flex_items">
-                        <div>
-                          <span className="money_doll">{item.amount}</span>
-                        </div>
-
-                        <div className="d-flex justify-content-between">
-                          <span className="d_block">MT5</span>
-                          <span className="margin_lft">{item.mt5_acc_no}</span>
-                        </div>
-                        <div className="d-flex justify-content-between">
-                          <span className="d_block">Deposit Date</span>
-                          <span className="margin_lft2">
-                            <NewDate newDate={item.date} />
-                          </span>
-                        </div>
-                        <div>
-                          {" "}
-                          <ColorButton
-                            id="btn_11"
-                            onClick={() => {
-                              data.popData = item;
-                              handleClickOpen();
-                            }}
-                          >
-                            CHOOSE BONUS AMOUNT
-                          </ColorButton>
-                        </div>
-                      </div>
-                    </div>
-                  </Grid>
-                );
-              })}
-            </Grid>
-          </>
-        )}
-        <BootstrapDialog
-          onClose={handleClose}
-          // aria-labelledby="customized-dialog-title"
-          fullWidth={true}
-          maxWidth="sm"
-          open={open}
-        >
-          <BootstrapDialogTitle
-            // id="customized-dialog-title"
+            </>
+          )}
+          <BootstrapDialog
             onClose={handleClose}
+            // aria-labelledby="customized-dialog-title"
+            fullWidth={true}
+            maxWidth="sm"
+            open={open}
           >
-            {manageContent()}
-          </BootstrapDialogTitle>
-        </BootstrapDialog>
-      </div>
+            <BootstrapDialogTitle
+              // id="customized-dialog-title"
+              onClose={handleClose}
+            >
+              {manageContent()}
+            </BootstrapDialogTitle>
+          </BootstrapDialog>
+        </div>
+      )}
     </>
   );
 };

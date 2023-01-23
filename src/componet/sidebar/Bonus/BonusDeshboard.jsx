@@ -71,49 +71,6 @@ const BonusDeshboard = () => {
   };
 
   console.log("value", value);
-  // const manageContent2 = () => {
-  //   if (open == true) {
-  //     return (
-  //       <>
-  //         <Grid
-  //           item
-  //           sx={12}
-  //           className="d-flex p-3"
-  //           style={{ marginBottom: "6px" }}
-  //         >
-  //           <Grid item md={9}>
-  //             <div>
-  //               Active a bonus for deposit <span> $100 </span>
-  //             </div>
-  //           </Grid>
-  //           <Grid item md={3}>
-  //             <IconButton
-  //               aria-label="close"
-  //               onClick={handleClose}
-  //               sx={{
-  //                 position: "absolute",
-  //                 right: 8,
-  //                 top: 0,
-  //                 color: (theme) => theme.palette.grey[500],
-  //               }}
-  //             >
-  //               {" "}
-  //               <CloseIcon />
-  //             </IconButton>
-  //           </Grid>
-  //         </Grid>
-  //         <Grid item md={12} className="d-flex p-3">
-  //           <Grid container spacing={3}>
-  //             <Grid item md={6}></Grid>
-  //             <Grid item md={6}>
-  //               {" "}
-  //             </Grid>
-  //           </Grid>
-  //         </Grid>
-  //       </>
-  //     );
-  //   }
-  // };
   const handleChanges = (e, newValue) => {
     setValue(newValue);
   };

@@ -45,128 +45,160 @@ const MyStructure = () => {
     <div>
       <div className="app-content--inner">
         <div className="app-content--inner__wrapper mh-100-vh">
-        {mainLoader == true ? (
-            <div className="loader1">
-              <div className="clock">
-                <div className="pointers"></div>
-              </div>
-            </div>
-          ):
-          <div style={{ opacity: 1 }}>
-            <Grid container>
-              <Grid item sm={12}></Grid>
-              <Grid item xl={1}></Grid>
-              <Grid item xl={10} md={12} lg={12}>
-                <Grid container>
-                  <Grid item md={12}>
-                    <p className="main-heading">My Structure</p>
-                    <Paper
-                      elevation={1}
-                      style={{ borderRadius: "10px" }}
-                      className="w-100 mb-5"
-                    >
-                      <div className="main-content-input .partnership-main-section">
-                        <div className="ib-structure view-commission-content-section">
-                          {updateDate.structure_data.map((item, index) => {
-                            return (
-                              <div className="group-structure-section">
-                                <div className="main-section">
-                                  <div className="main-section-title">
-                                    {item.ib_group_name}
-                                  </div>
-                                  <div className="main-section-input-element">
-                                    <div>
-                                      {/* <span>Rebate</span> */}
-                                      <input
-                                        type="number"
-                                        className="Rebate_amount"
-                                        placeholder="Rebate"
-                                        value={item.group_rebate}
-                                        disabled
-                                        onChange={(e) => {
-                                          var floatNumber = (e.target.value).split('.');
-                                          if (!isNaN(Number(e.target.value))) {
-                                            if (floatNumber.length == 1 || floatNumber.length == 2 && floatNumber[1].length <= 3) {
+          {mainLoader == true ? (
+            // <div className="loader1">
+            //   <div className="clock">
+            //     <div className="pointers"></div>
+            //   </div>
+            // </div>
+            <span className="loader2"></span>
+          ) : (
+            <div style={{ opacity: 1 }}>
+              <Grid container>
+                <Grid item sm={12}></Grid>
+                <Grid item xl={1}></Grid>
+                <Grid item xl={10} md={12} lg={12}>
+                  <Grid container>
+                    <Grid item md={12}>
+                      <p className="main-heading">My Structure</p>
+                      <Paper
+                        elevation={1}
+                        style={{ borderRadius: "10px" }}
+                        className="w-100 mb-5"
+                      >
+                        <div className="main-content-input .partnership-main-section">
+                          <div className="ib-structure view-commission-content-section">
+                            {updateDate.structure_data.map((item, index) => {
+                              return (
+                                <div className="group-structure-section">
+                                  <div className="main-section">
+                                    <div className="main-section-title">
+                                      {item.ib_group_name}
+                                    </div>
+                                    <div className="main-section-input-element">
+                                      <div>
+                                        {/* <span>Rebate</span> */}
+                                        <input
+                                          type="number"
+                                          className="Rebate_amount"
+                                          placeholder="Rebate"
+                                          value={item.group_rebate}
+                                          disabled
+                                          onChange={(e) => {
+                                            var floatNumber =
+                                              e.target.value.split(".");
+                                            if (
+                                              !isNaN(Number(e.target.value))
+                                            ) {
+                                              if (
+                                                floatNumber.length == 1 ||
+                                                (floatNumber.length == 2 &&
+                                                  floatNumber[1].length <= 3)
+                                              ) {
+                                                updateDate.structure_data[
+                                                  index
+                                                ]["group_rebate"] =
+                                                  e.target.value;
+                                                updateDate.structure_data[
+                                                  index
+                                                ]["pair_data"].forEach(
+                                                  (value, valueIndex) => {
+                                                    updateDate.structure_data[
+                                                      index
+                                                    ]["pair_data"][valueIndex][
+                                                      "rebate"
+                                                    ] = e.target.value;
+                                                  }
+                                                );
+                                                setUpdateDate({
+                                                  ...updateDate,
+                                                });
+                                              }
+                                            } else if (
+                                              e.target.value == "" ||
+                                              e.target.value == 0
+                                            ) {
                                               updateDate.structure_data[index][
                                                 "group_rebate"
-                                              ] = e.target.value;
+                                              ] = 0;
                                               updateDate.structure_data[index][
                                                 "pair_data"
                                               ].forEach((value, valueIndex) => {
-                                                updateDate.structure_data[index][
-                                                  "pair_data"
-                                                ][valueIndex]["rebate"] =
-                                                  e.target.value;
+                                                updateDate.structure_data[
+                                                  index
+                                                ]["pair_data"][valueIndex][
+                                                  "rebate"
+                                                ] = 0;
                                               });
                                               setUpdateDate({
                                                 ...updateDate,
                                               });
                                             }
-                                          } else if (e.target.value == "" || e.target.value == 0) {
-                                            updateDate.structure_data[index][
-                                              "group_rebate"
-                                            ] = 0;
-                                            updateDate.structure_data[index][
-                                              "pair_data"
-                                            ].forEach((value, valueIndex) => {
-                                              updateDate.structure_data[index][
-                                                "pair_data"
-                                              ][valueIndex]["rebate"] = 0;
-                                            });
-                                            setUpdateDate({
-                                              ...updateDate,
-                                            });
-                                          }
-                                        }}
-                                      />
-                                    </div>
-                                    <div>
-                                      {/* <span>Commission</span> */}
-                                      <input
-                                        type="number"
-                                        className="commission_amount"
-                                        placeholder="Commission"
-                                        value={item.group_commission}
-                                        disabled
-                                        onChange={(e) => {
-                                          var floatNumber = (e.target.value).split('.');
-                                          if (!isNaN(Number(e.target.value))) {
-                                            if (floatNumber.length == 1 || floatNumber.length == 2 && floatNumber[1].length <= 3) {
+                                          }}
+                                        />
+                                      </div>
+                                      <div>
+                                        {/* <span>Commission</span> */}
+                                        <input
+                                          type="number"
+                                          className="commission_amount"
+                                          placeholder="Commission"
+                                          value={item.group_commission}
+                                          disabled
+                                          onChange={(e) => {
+                                            var floatNumber =
+                                              e.target.value.split(".");
+                                            if (
+                                              !isNaN(Number(e.target.value))
+                                            ) {
+                                              if (
+                                                floatNumber.length == 1 ||
+                                                (floatNumber.length == 2 &&
+                                                  floatNumber[1].length <= 3)
+                                              ) {
+                                                updateDate.structure_data[
+                                                  index
+                                                ]["group_commission"] =
+                                                  e.target.value;
+                                                updateDate.structure_data[
+                                                  index
+                                                ]["pair_data"].forEach(
+                                                  (value, valueIndex) => {
+                                                    updateDate.structure_data[
+                                                      index
+                                                    ]["pair_data"][valueIndex][
+                                                      "commission"
+                                                    ] = e.target.value;
+                                                  }
+                                                );
+                                                setUpdateDate({
+                                                  ...updateDate,
+                                                });
+                                              }
+                                            } else if (
+                                              e.target.value == "" ||
+                                              e.target.value == 0
+                                            ) {
                                               updateDate.structure_data[index][
                                                 "group_commission"
-                                              ] = e.target.value;
+                                              ] = 0;
                                               updateDate.structure_data[index][
                                                 "pair_data"
                                               ].forEach((value, valueIndex) => {
-                                                updateDate.structure_data[index][
-                                                  "pair_data"
-                                                ][valueIndex]["commission"] =
-                                                  e.target.value;
+                                                updateDate.structure_data[
+                                                  index
+                                                ]["pair_data"][valueIndex][
+                                                  "commission"
+                                                ] = 0;
                                               });
                                               setUpdateDate({
                                                 ...updateDate,
                                               });
                                             }
-                                          } else if (e.target.value == "" || e.target.value == 0) {
-                                            updateDate.structure_data[index][
-                                              "group_commission"
-                                            ] = 0;
-                                            updateDate.structure_data[index][
-                                              "pair_data"
-                                            ].forEach((value, valueIndex) => {
-                                              updateDate.structure_data[index][
-                                                "pair_data"
-                                              ][valueIndex]["commission"] =
-                                                0;
-                                            });
-                                            setUpdateDate({
-                                              ...updateDate,
-                                            });
-                                          }
-                                        }}
-                                      />
-                                    </div>
-                                    {/* <div>
+                                          }}
+                                        />
+                                      </div>
+                                      {/* <div>
                                     {
                                       (item.ibGroup != undefined) ?
                                         <Autocomplete
@@ -188,118 +220,145 @@ const MyStructure = () => {
                                         /> : ''
                                     }
                                   </div> */}
+                                    </div>
+                                    <div className="action-section">
+                                      <span
+                                        onClick={(e) => {
+                                          updateDate.structure_data[index][
+                                            "is_visible"
+                                          ] = !item.is_visible;
+                                          setUpdateDate({ ...updateDate });
+                                        }}
+                                      >
+                                        <i
+                                          class={`fa ${
+                                            item.is_visible
+                                              ? "fa-angle-up"
+                                              : "fa-angle-down"
+                                          }`}
+                                          aria-hidden="true"
+                                        ></i>
+                                      </span>
+                                    </div>
                                   </div>
-                                  <div className="action-section">
-                                    <span
-                                      onClick={(e) => {
-                                        updateDate.structure_data[index][
-                                          "is_visible"
-                                        ] = !item.is_visible;
-                                        setUpdateDate({ ...updateDate });
-                                      }}
-                                    >
-                                      <i
-                                        class={`fa ${
-                                          item.is_visible
-                                            ? "fa-angle-up"
-                                            : "fa-angle-down"
-                                        }`}
-                                        aria-hidden="true"
-                                      ></i>
-                                    </span>
-                                  </div>
-                                </div>
-                                <div
-                                  className={`pair-section ${
-                                    item.is_visible
-                                      ? "child-section-visible"
-                                      : ""
-                                  }`}
-                                >
-                                  {item.pair_data.map((item1, index1) => {
-                                    return (
-                                      <div className="pair-data">
-                                        <div className="pair-data-title">
-                                          {item1.pair_name}
-                                        </div>
-                                        <div>
-                                          <input
-                                            type="number"
-                                            disabled
-                                            className="rebert_amount"
-                                            placeholder="Rebert"
-                                            value={item1.rebate}
-                                            onChange={(e) => {
-                                              var floatNumber = (e.target.value).split('.');
-                                              if (!isNaN(Number(e.target.value))) {
-                                                if (floatNumber.length == 1 || floatNumber.length == 2 && floatNumber[1].length <= 3) {
-                                                  updateDate.structure_data[index][
-                                                    "pair_data"
-                                                  ][index1]["rebate"] =
-                                                    e.target.value;
+                                  <div
+                                    className={`pair-section ${
+                                      item.is_visible
+                                        ? "child-section-visible"
+                                        : ""
+                                    }`}
+                                  >
+                                    {item.pair_data.map((item1, index1) => {
+                                      return (
+                                        <div className="pair-data">
+                                          <div className="pair-data-title">
+                                            {item1.pair_name}
+                                          </div>
+                                          <div>
+                                            <input
+                                              type="number"
+                                              disabled
+                                              className="rebert_amount"
+                                              placeholder="Rebert"
+                                              value={item1.rebate}
+                                              onChange={(e) => {
+                                                var floatNumber =
+                                                  e.target.value.split(".");
+                                                if (
+                                                  !isNaN(Number(e.target.value))
+                                                ) {
+                                                  if (
+                                                    floatNumber.length == 1 ||
+                                                    (floatNumber.length == 2 &&
+                                                      floatNumber[1].length <=
+                                                        3)
+                                                  ) {
+                                                    updateDate.structure_data[
+                                                      index
+                                                    ]["pair_data"][index1][
+                                                      "rebate"
+                                                    ] = e.target.value;
+                                                    setUpdateDate({
+                                                      ...updateDate,
+                                                    });
+                                                  }
+                                                } else if (
+                                                  e.target.value == "" ||
+                                                  e.target.value == 0
+                                                ) {
+                                                  updateDate.structure_data[
+                                                    index
+                                                  ]["pair_data"][index1][
+                                                    "rebate"
+                                                  ] = 0;
                                                   setUpdateDate({
                                                     ...updateDate,
                                                   });
                                                 }
-                                              } else if (e.target.value == "" || e.target.value == 0) {
-                                                updateDate.structure_data[index][
-                                                  "pair_data"
-                                                ][index1]["rebate"] = 0;
-                                                setUpdateDate({
-                                                  ...updateDate,
-                                                });
-                                              }
-                                            }}
-                                          />
-                                        </div>
-                                        <div>
-                                          <input
-                                            type="number"
-                                            className="commission_amount"
-                                            placeholder="Commission"
-                                            disabled
-                                            value={item1.commission}
-                                            onChange={(e) => {
-                                              var floatNumber = (e.target.value).split('.');
-                                              if (!isNaN(Number(e.target.value))) {
-                                                if (floatNumber.length == 1 || floatNumber.length == 2 && floatNumber[1].length <= 3) {
-                                                  updateDate.structure_data[index][
-                                                    "pair_data"
-                                                  ][index1]["commission"] =
-                                                    e.target.value;
+                                              }}
+                                            />
+                                          </div>
+                                          <div>
+                                            <input
+                                              type="number"
+                                              className="commission_amount"
+                                              placeholder="Commission"
+                                              disabled
+                                              value={item1.commission}
+                                              onChange={(e) => {
+                                                var floatNumber =
+                                                  e.target.value.split(".");
+                                                if (
+                                                  !isNaN(Number(e.target.value))
+                                                ) {
+                                                  if (
+                                                    floatNumber.length == 1 ||
+                                                    (floatNumber.length == 2 &&
+                                                      floatNumber[1].length <=
+                                                        3)
+                                                  ) {
+                                                    updateDate.structure_data[
+                                                      index
+                                                    ]["pair_data"][index1][
+                                                      "commission"
+                                                    ] = e.target.value;
+                                                    setUpdateDate({
+                                                      ...updateDate,
+                                                    });
+                                                  }
+                                                } else if (
+                                                  e.target.value == "" ||
+                                                  e.target.value == 0
+                                                ) {
+                                                  updateDate.structure_data[
+                                                    index
+                                                  ]["pair_data"][index1][
+                                                    "commission"
+                                                  ] = 0;
                                                   setUpdateDate({
                                                     ...updateDate,
                                                   });
                                                 }
-                                              }  else if (e.target.value == "" || e.target.value == 0) {
-                                                updateDate.structure_data[index][
-                                                  "pair_data"
-                                                ][index1]["commission"] = 0;
-                                                setUpdateDate({
-                                                  ...updateDate,
-                                                });
-                                              }
-                                              
-                                            }}
-                                          />
+                                              }}
+                                            />
+                                          </div>
                                         </div>
-                                      </div>
-                                    );
-                                  })}
+                                      );
+                                    })}
+                                  </div>
                                 </div>
-                              </div>
-                            );
-                          })}
+                              );
+                            })}
+                          </div>
+                          <div></div>
                         </div>
-                        <div></div>
-                      </div>
-                    </Paper>
+                      </Paper>
+                    </Grid>
                   </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-          </div>
-        }
+            </div>
+          )}
         </div>
       </div>
     </div>

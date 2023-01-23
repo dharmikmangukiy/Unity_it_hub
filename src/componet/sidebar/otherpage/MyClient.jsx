@@ -340,11 +340,12 @@ const MyClient = () => {
       <div className="app-content--inner">
         <div className="app-content--inner__wrapper mh-100-vh">
           {mainLoader == true ? (
-            <div className="loader1">
-              <div className="clock">
-                <div className="pointers"></div>
-              </div>
-            </div>
+            // <div className="loader1">
+            //   <div className="clock">
+            //     <div className="pointers"></div>
+            //   </div>
+            // </div>
+            <span className="loader2"></span>
           ) : (
             <div style={{ opacity: 1 }}>
               <Grid container>

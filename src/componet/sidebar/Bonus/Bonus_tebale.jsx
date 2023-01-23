@@ -108,7 +108,7 @@ const Bonus_tebale = () => {
       selector: (row) => {
         return (
           <span title={row.bonus_claim_datetime}>
-            {row.bonus_claim_datetime}
+            <NewDate newDate={row.bonus_claim_datetime} />
           </span>
         );
       },
