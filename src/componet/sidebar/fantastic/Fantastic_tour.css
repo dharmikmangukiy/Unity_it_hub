@@ -36,6 +36,8 @@
   color: #dfdfdf;
 }
 .round_1 {
+  display: none;
+
   width: 77px;
   height: 77px;
   left: 1199px;
@@ -50,6 +52,7 @@
   margin-top: -5.5%;
 }
 .round_2 {
+  display: none;
   position: sticky;
   width: 84px;
   height: 84px;
@@ -138,7 +141,7 @@
 .image2 {
   border-radius: 20px;
   width: 100%;
-  height: fit-content;
+  height: auto;
 }
 
 #btn_1 {

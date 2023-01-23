@@ -47,7 +47,7 @@ export const Withdrawal = () => {
   });
   const [age, setAge] = useState({
     amount: "",
-    withdraw_from: "",
+    withdraw_from: "wallte",
     payment_method: "",
     upi_crypto_ac_number: "",
     upi_name: "",
@@ -102,6 +102,26 @@ export const Withdrawal = () => {
       }
     });
   };
+  const fetchMT5AccountDetaiils = (prop) => {
+    const param = new FormData();
+    param.append("action", "get_mt5_ac_details");
+    param.append("mt5_acc_no", prop);
+
+    if (IsApprove !== "") {
+      param.append("is_app", IsApprove.is_app);
+      param.append("user_id", IsApprove.user_id);
+      param.append("auth_key", IsApprove.auth);
+    }
+    axios.post(`${Url}/ajaxfiles/account_list.php`, param).then((res) => {
+      if (res.data.message == "Session has been expired") {
+        navigate("/");
+      }
+      if (res.data.status == "ok") {
+        setwalletbalance(res.data.data.mt_free_margin);
+      } else {
+      }
+    });
+  };
   const handleChange = (event) => {
     const { name, value } = event.target;
     setAge((prevalue) => {
@@ -133,7 +153,7 @@ export const Withdrawal = () => {
         localStorage.setItem("login", true);
         navigate("/");
       }
-      setwalletbalance(res.data.wallet_balance);
+      setwalletbalance(`$${res.data.wallet_balance}`);
     });
   };
   const input = (event) => {
@@ -185,6 +205,7 @@ export const Withdrawal = () => {
         notify(res.data.message);
         setIsLoader1(false);
       } else {
+        navigate("/withdraw_history");
         setIsLoader1(false);
         toast.success(res.data.message);
 
@@ -649,7 +670,7 @@ export const Withdrawal = () => {
                             Withdrawal
                           </h5>
                           <h5 className="walltebalcss">
-                            Balance : {`$${walletbalance}`}
+                            Balance : {`${walletbalance}`}
                           </h5>
                         </div>
                         <div className="divider"></div>
@@ -672,7 +693,7 @@ export const Withdrawal = () => {
                             </div>
                           )}
 
-                          {walletbalance == 0 && status == "1" ? (
+                          {/* {walletbalance == 0 && status == "1" ? (
                             <div
                               className="loader"
                               style={{ flexDirection: "column" }}
@@ -695,7 +716,7 @@ export const Withdrawal = () => {
                             </div>
                           ) : (
                             ""
-                          )}
+                          )} */}
 
                           <Grid container spacing={6}>
                             <Grid item md={12} className="pt-1">
@@ -727,7 +748,16 @@ export const Withdrawal = () => {
                                       <Select
                                         value={age.withdraw_from}
                                         name="withdraw_from"
-                                        onChange={handleChange}
+                                        onChange={(e) => {
+                                          if (e.target.value == "wallte") {
+                                            walletbalancefun();
+                                          } else {
+                                            fetchMT5AccountDetaiils(
+                                              e.target.value
+                                            );
+                                          }
+                                          handleChange(e);
+                                        }}
                                         disabled={!sendOtp}
                                         displayEmpty
                                         inputProps={{

@@ -299,11 +299,11 @@ h5.mb-0 {
   margin-right: 8px;
 }
 
-.accunt-data2 .item2 .item2-item3 .css-1869usk-MuiFormControl-root {
+/* .accunt-data2 .item2 .item2-item3 .css-1869usk-MuiFormControl-root {
   min-width: auto;
   max-width: auto;
   margin: 0 !important;
-}
+} */
 .btn-36 {
   height: 36px !important;
 }
@@ -340,12 +340,12 @@ h5.mb-0 {
   background-color: #5d2067 !important;
 }
 
-.item2-item3 .css-1ccrwnh-MuiInputBase-root .MuiInputBase-input {
+/* .item2-item3 .css-1ccrwnh-MuiInputBase-root .MuiInputBase-input {
   padding: 0px 24px 2px 7px !important;
-}
+} */
 
 .btn-px {
-  padding: 0rem .5rem;
+  padding: 0rem 0.5rem;
 }
 
 .react-swipeable-view-container .carousel-control-next,
@@ -393,17 +393,17 @@ select {
   text-align: center;
   background: 0 0;
   border: 0;
-  opacity: .5;
-  transition: opacity .15s ease;
+  opacity: 0.5;
+  transition: opacity 0.15s ease;
 }
 
 .carousel-control-prev {
   left: 0;
 }
 
-[type=button],
-[type=reset],
-[type=submit],
+[type="button"],
+[type="reset"],
+[type="submit"],
 button {
   -webkit-appearance: button;
 }
@@ -414,7 +414,7 @@ button {
 }
 
 .carousel-control-prev-icon i {
-  opacity: .6;
+  opacity: 0.6;
 }
 
 .carousel-control-prev-icon i:hover {
@@ -472,8 +472,8 @@ button {
   text-align: center;
   background: 0 0;
   border: 0;
-  opacity: .5;
-  transition: opacity .15s ease;
+  opacity: 0.5;
+  transition: opacity 0.15s ease;
 }
 
 .carousel-control-next {
@@ -495,8 +495,8 @@ button {
   text-align: center;
   background: 0 0;
   border: 0;
-  opacity: .5;
-  transition: opacity .15s ease;
+  opacity: 0.5;
+  transition: opacity 0.15s ease;
 }
 
 .carousel-control-next-icon,
@@ -510,7 +510,7 @@ button {
 }
 
 .carousel-control-next-icon i {
-  opacity: .6;
+  opacity: 0.6;
 }
 
 .carousel-control-next-icon i:hover {
@@ -556,13 +556,11 @@ button {
 
 @media only screen and (max-width: 1170px) {
   .s_mx {
-    margin: 0px .5rem !important;
+    margin: 0px 0.5rem !important;
   }
 }
 
 @media only screen and (max-width: 878px) {
-
-
   .accunt-data2 {
     flex-direction: column;
   }
@@ -582,8 +580,7 @@ button {
 
   .accunt-data1 {
     flex-direction: column;
-    margin-bottom: .7rem !important;
-
+    margin-bottom: 0.7rem !important;
   }
 
   .accunt-data1 div {
@@ -624,11 +621,11 @@ button {
   }
 
   .card-header h5 {
-    font-size: .9rem
+    font-size: 0.9rem;
   }
 
   .textCenter button {
-    font-size: .6rem !important;
+    font-size: 0.6rem !important;
   }
 
   .btn-px {
@@ -641,10 +638,8 @@ button {
   }
 
   .accunt-data1 {
-    margin-bottom: .4rem !important;
+    margin-bottom: 0.4rem !important;
   }
-
-
 
   .b-hover svg {
     font-size: 1.2rem;
@@ -652,8 +647,7 @@ button {
 
   .item2 button {
     padding: 7px !important;
-    font-size: .8rem;
-
+    font-size: 0.8rem;
   }
 
   .accunt-data2 .item1 {
@@ -661,17 +655,25 @@ button {
   }
 
   .textCenter button {
-    font-size: .8rem;
+    font-size: 0.8rem;
     padding: 10px !important;
   }
 }
 
 @media only screen and (max-width: 430px) {
   .btn-px {
-    padding: 0 .5rem;
+    padding: 0 0.5rem;
   }
 
   /* .s_mx {
     width: 100%;
   } */
+}
+.DashBordsetting {
+  min-width: auto !important;
+  max-width: auto !important;
+  margin: 0 !important;
+}
+.setinginputPadding div:first-child {
+  padding: 0px 24px 2px 7px !important;
 }

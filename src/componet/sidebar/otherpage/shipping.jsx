@@ -7,26 +7,31 @@ import {
   Select,
   MenuItem,
   InputLabel,
+  Autocomplete,
 } from "@mui/material";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Url } from "../../../global";
+import { IsApprove, Url } from "../../../global";
 import { ReactComponent as Warn } from "../../../svg/warn.svg";
 import { useNavigate } from "react-router-dom";
+import { ColorButton } from "../../customComponet/CustomElement";
 
-const Shipping = () => {
+const Shipping = (prop) => {
   const navigate = useNavigate();
   const [data, setData] = useState({
-    fullName: "",
-    email: "",
+    fullName: prop.permission?.user_name,
+    email: prop.permission?.user_email,
     addOne: "",
     addTwo: "",
     country: "",
     city: "",
     pin: "",
     note: "",
+    isLoder: false,
   });
+  console.log("s", prop.permission?.user_name, prop, data);
+
   const [error, setError] = useState({
     fullName: "",
     email: "",
@@ -38,7 +43,17 @@ const Shipping = () => {
   });
   const [countryList, setCountryList] = useState([]);
   const [cityList, setCityList] = useState([]);
-
+  const [countryData, setCountryData] = useState({
+    country: [],
+    city: [],
+    state: [],
+  });
+  useEffect(() => {
+    data.fullName = prop.permission?.user_name;
+    data.email = prop.permission?.user_email;
+    setData({ ...data });
+    console.log("ss", prop);
+  }, [prop]);
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
     setError((prevState) => ({
@@ -47,31 +62,75 @@ const Shipping = () => {
     }));
   };
   useEffect(() => {
-    fetchCountry();
+    // fetchCountry();
+    getContry();
   }, []);
-
-  useEffect(() => {
-    if (data?.country !== "") {
-      fetchState(data?.country);
-    } else {
-      setCityList([]);
-      setData({ ...data, city: "" });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data?.country]);
-
-  const fetchCountry = async () => {
-    try {
-      let data = await axios.get(
-        `https://test.rightqinfotech.com/ajaxfiles/get_countries.php`
-      );
-      if (data?.data?.status === "ok") {
-        setCountryList(data?.data?.data);
+  toast.configure();
+  const getContry = () => {
+    const param = new FormData();
+    axios.post(Url + "/datatable/get_countries.php", param).then((res) => {
+      if (res.data.status == "error") {
+        toast.error(res.data.message);
+      } else {
+        countryData.country = res.data.aaData;
+        setCountryData({ ...countryData });
       }
-    } catch (err) {
-      console.log(err);
+    });
+  };
+  const getStateData = (prop) => {
+    if (prop == null) {
+      countryData.state = [];
+      setCountryData({ ...countryData });
+      data.city = "";
+      setData({ ...data });
+    } else {
+      const param = new FormData();
+      param.append("action", "get_states");
+      param.append("country", prop.nicename);
+      if (IsApprove !== "") {
+        param.append("is_app", IsApprove.is_app);
+        param.append("user_id", IsApprove.user_id);
+        param.append("auth_key", IsApprove.auth);
+      }
+      axios.post(Url + "/ajaxfiles/common_api.php", param).then((res) => {
+        if (res.data.message == "Session has been expired") {
+          localStorage.setItem("login", true);
+          navigate("/login");
+        }
+        if (res.data.status == "error") {
+          // toast.error(res.data.message);
+        } else {
+          // if (id == undefined || id == null || id == "") {
+
+          // }
+
+          countryData.state = res.data.data;
+          setCountryData({ ...countryData });
+        }
+      });
     }
   };
+  // useEffect(() => {
+  //   if (data?.country !== "") {
+  //     fetchState(data?.country);
+  //   } else {
+  //     setCityList([]);
+  //     setData({ ...data, city: "" });
+  //   }
+  // }, [data?.country]);
+
+  // const fetchCountry = async () => {
+  //   try {
+  //     let data = await axios.get(
+  //       `https://test.rightqinfotech.com/ajaxfiles/get_countries.php`
+  //     );
+  //     if (data?.data?.status === "ok") {
+  //       setCountryList(data?.data?.data);
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   const fetchState = async (country) => {
     try {
@@ -131,7 +190,7 @@ const Shipping = () => {
       }));
     }
 
-    if (data.country === "") {
+    if (data.country === "" || data.country === null) {
       flag = false;
       setError((prevState) => ({
         ...prevState,
@@ -139,11 +198,11 @@ const Shipping = () => {
       }));
     }
 
-    if (data.city === "") {
+    if (data.city === "" || data.city === null) {
       flag = false;
       setError((prevState) => ({
         ...prevState,
-        city: "City is required!",
+        city: "State is required!",
       }));
     }
 
@@ -168,16 +227,19 @@ const Shipping = () => {
     if (handleValidation()) {
       try {
         const param = new FormData();
-        param.append("user_id", 15);
-        param.append("auth_key", "dsadsad-asdas-dsad-a");
-        param.append("is_app", 1);
+        if (IsApprove !== "") {
+          param.append("is_app", IsApprove.is_app);
+          param.append("user_id", IsApprove.user_id);
+          param.append("auth_key", IsApprove.auth);
+        }
         param.append("action", "place_order");
         param.append("order_notes", data?.note);
         param.append(
           "shipping_address",
-          `${data?.addOne}, ${data?.addTwo}, ${data?.city}, ${data?.country}-${data?.pin}`
+          `${data?.addOne}, ${data?.addTwo}, ${data?.city}, ${data?.country.nicename}-${data?.pin}`
         );
-
+        data.isLoder = true;
+        setData({ ...data });
         let adata = await axios.post(
           `${Url}/ajaxfiles/trade_and_win.php`,
           param
@@ -185,9 +247,13 @@ const Shipping = () => {
         if (adata.status === 200) {
           if (adata.data.status === "error") {
             toast.error(adata.data.message);
+            data.isLoder = false;
+            setData({ ...data });
           } else {
             navigate("/trade-and-win");
             toast.success(adata.data.message);
+            data.isLoder = false;
+            setData({ ...data });
           }
         }
       } catch (err) {
@@ -264,49 +330,74 @@ const Shipping = () => {
               )}
             </Grid>
             <Grid item xs={12} sm={4}>
-              <FormControl variant="standard" sx={{ width: "100%" }}>
-                <InputLabel id="country">Country</InputLabel>
-                <Select
-                  labelId="country"
-                  id="demo-simple-select-standard"
-                  label="Country"
-                  name="country"
-                  value={data?.country}
-                  onChange={(e) => handleChange(e)}
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  {countryList?.map((item) => (
-                    <MenuItem value={item?.name}>{item?.name}</MenuItem>
-                  ))}
-                </Select>
-                {error?.country !== "" && (
-                  <span className="error">{error?.country}</span>
+              <Autocomplete
+                disablePortal
+                options={countryData.country}
+                value={data.country}
+                getOptionLabel={(option) => (option ? option.nicename : "")}
+                onChange={(event, newValue) => {
+                  getStateData(newValue);
+
+                  if (newValue == null) {
+                    data.country = newValue;
+                    data.city = "";
+                    setData({ ...data });
+                  } else {
+                    data.country = newValue;
+                    data.city = "";
+                    setData({ ...data });
+                  }
+                }}
+                sx={{ padding: "0px" }}
+                className="w-100"
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Country"
+                    // variant="standard"
+                    size="small"
+                    name="country"
+                    variant="standard"
+                    sx={{ padding: "0px" }}
+                  />
                 )}
-              </FormControl>
+              />
+              {error?.country !== "" && (
+                <span className="error">{error?.country}</span>
+              )}
             </Grid>
             <Grid item xs={12} sm={4}>
-              <FormControl variant="standard" sx={{ width: "100%" }}>
-                <InputLabel id="city">City</InputLabel>
-                <Select
-                  labelId="city"
-                  label="City"
-                  name="city"
-                  value={data?.city}
-                  onChange={(e) => handleChange(e)}
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  {cityList?.map((item) => (
-                    <MenuItem value={item}>{item}</MenuItem>
-                  ))}
-                </Select>
-                {error?.city !== "" && (
-                  <span className="error">{error?.city}</span>
+              <Autocomplete
+                disablePortal
+                options={countryData.state}
+                value={data.city}
+                getOptionLabel={(option) => (option ? option : "")}
+                onChange={(event, newValue) => {
+                  if (newValue == null) {
+                    data.city = newValue;
+                    setData({ ...data });
+                  } else {
+                    data.city = newValue;
+                    setData({ ...data });
+                  }
+                }}
+                sx={{ padding: "0px" }}
+                className="w-100"
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="States"
+                    // variant="standard"
+                    size="small"
+                    name="city"
+                    variant="standard"
+                    sx={{ padding: "0px" }}
+                  />
                 )}
-              </FormControl>
+              />
+              {error?.city !== "" && (
+                <span className="error">{error?.city}</span>
+              )}
             </Grid>
             <Grid item xs={12} sm={4}>
               <TextField
@@ -315,7 +406,13 @@ const Shipping = () => {
                 sx={{ width: "100%" }}
                 name="pin"
                 value={data?.pin}
-                onChange={(e) => handleChange(e)}
+                onChange={(e) => {
+                  if (!isNaN(Number(e.target.value))) {
+                    handleChange(e);
+                  } else if (e.target.value == "") {
+                    handleChange(e);
+                  }
+                }}
               />
               {error?.pin !== "" && <span className="error">{error?.pin}</span>}
             </Grid>
@@ -331,12 +428,27 @@ const Shipping = () => {
             </Grid>
           </Grid>
           <div className="cart-btn">
-            <button
-              style={{ background: "#5D2067", color: "#fff" }}
-              onClick={() => handlePlaceOrder()}
-            >
-              Continue
-            </button>
+            {data.isLoder == true ? (
+              <ColorButton disabled>
+                <svg class="spinner" viewBox="0 0 50 50">
+                  <circle
+                    class="path"
+                    cx="25"
+                    cy="25"
+                    r="20"
+                    fill="none"
+                    stroke-width="5"
+                  ></circle>
+                </svg>
+              </ColorButton>
+            ) : (
+              <button
+                style={{ background: "#5D2067", color: "#fff" }}
+                onClick={() => handlePlaceOrder()}
+              >
+                Continue
+              </button>
+            )}
           </div>
         </div>
       </div>

@@ -83,10 +83,10 @@ const DepositHistory = () => {
       // wrap: true,
       sortable: true,
       reorder: true,
-      grow: 0.4,
+      grow: 0.3,
     },
     {
-      name: "WALLET CODE",
+      name: "WALLET/MT5",
       selector: (row) => {
         return <span title={row.wallet_code}>{row.wallet_code}</span>;
       },

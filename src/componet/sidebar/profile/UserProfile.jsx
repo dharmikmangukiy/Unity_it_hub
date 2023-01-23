@@ -46,9 +46,15 @@ const UserProfile = () => {
   // });
   const [mainLoader, setMainLoader] = useState(true);
   const [onEdit1, setOnEdit1] = useState(false);
-  const [timer, setTimer] = useState(true);
+  // const [timer, setTimer] = useState(true);
   const [changePassword, setChangePassword] = useState(false);
   const [changeNumber, setChangeNumber] = useState(false);
+  const [otp, setOtp] = useState({
+    send_otp: false,
+    resend_otp: false,
+    verify_otp: "",
+    isLoder: false,
+  });
   const [changeMobileNumber, setChangeMobileNumber] = useState({
     mobile: "",
     code: "",
@@ -64,6 +70,8 @@ const UserProfile = () => {
     confirm_password: "",
     isLoder: false,
   });
+  const [timer, setTimer] = useState(true);
+
   const [viewPassword, setViewPassword] = useState({
     old: false,
     new: false,
@@ -82,8 +90,8 @@ const UserProfile = () => {
     email: "",
     add: "",
     ladmark: "",
+    mobileCode: "",
   });
-  console.log(onEdit, "onEdit");
   const inputedit = (event) => {
     const { name, value } = event.target;
     setOnEdit((prevalue) => {
@@ -126,7 +134,17 @@ const UserProfile = () => {
     state: [],
   });
   const onEditsubmit = () => {
-    if (onEdit.email == "") {
+    if (onEdit.user_title == "" || onEdit.user_title == null) {
+      toast.error("User Title is required");
+    } else if (onEdit.user_first_name == "") {
+      toast.error("First Name is required");
+    } else if (onEdit.user_last_name == "") {
+      toast.error("Last Name is required");
+    } else if (onEdit.gender == "") {
+      toast.error("Gender is required");
+    } else if (onEdit.dob == "") {
+      toast.error("Date of Birth is required");
+    } else if (onEdit.email == "") {
       toast.error("Email is required");
     } else if (
       !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(onEdit.email)
@@ -139,17 +157,11 @@ const UserProfile = () => {
       onEdit.phone.toString().length > 12
     ) {
       toast.error("Mobile number is not valid");
-    } else if (onEdit.user_title == "" || onEdit.user_title == null) {
-      toast.error("User Title is required");
-    } else if (onEdit.user_first_name == "") {
-      toast.error("First Name is required");
-    } else if (onEdit.user_last_name == "") {
-      toast.error("Last Name is required");
-    } else if (onEdit.country == "") {
+    } else if (onEdit.country == "" || onEdit.country == null) {
       toast.error("Country is required");
-    } else if (onEdit.state == "") {
+    } else if (onEdit.state == "" || onEdit.state == null) {
       toast.error("State is required");
-    } else if (onEdit.city == "") {
+    } else if (onEdit.city == "" || onEdit.city == null) {
       toast.error("City is required");
     } else if (onEdit.add == "") {
       toast.error("Address is required");
@@ -158,27 +170,69 @@ const UserProfile = () => {
       param.append("user_title", onEdit.user_title);
       param.append("user_first_name", onEdit.user_first_name);
       param.append("user_last_name", onEdit.user_last_name);
+      param.append("user_email_address", onEdit.email);
+      param.append("user_phone", onEdit.phone);
+      param.append("user_country_code", onEdit.country.phonecode);
+      param.append("user_dob", onEdit.dob);
+      param.append("user_gender", onEdit.gender);
+      param.append("user_state", onEdit.state);
+      param.append("user_city", onEdit.city);
+      param.append("user_address_1", onEdit.add);
+      param.append("user_address_2", onEdit.ladmark);
+
+      if (otp.send_otp == true && otp.resend_otp == false) {
+        param.append("otp", otp.verify_otp);
+      }
       if (IsApprove !== "") {
         param.append("is_app", IsApprove.is_app);
         param.append("user_id", IsApprove.user_id);
         param.append("auth_key", IsApprove.auth);
       }
-      onEdit.isLoder = true;
-      setOnEdit({ ...onEdit });
+      if (otp.resend_otp == false) {
+        onEdit.isLoder = true;
+        setOnEdit({ ...onEdit });
+      } else {
+        otp.isLoder = true;
+        setOtp({ ...otp });
+      }
+
       axios.post(Url + "/ajaxfiles/profile_update.php", param).then((res) => {
         if (res.data.message == "Session has been expired") {
           navigate("/");
         }
         if (res.data.status == "error") {
           toast.error(res.data.message);
-          onEdit.isLoder = false;
-          setOnEdit({ ...onEdit });
+          if (otp.resend_otp == false) {
+            onEdit.isLoder = false;
+            setOnEdit({ ...onEdit });
+          } else {
+            otp.isLoder = false;
+            setOtp({ ...otp });
+          }
+          // onEdit.isLoder = false;
+          // setOnEdit({ ...onEdit });
         } else {
           toast.success(res.data.message);
-          fetchUserPref();
-          onEdit.isLoder = false;
-          setOnEdit({ ...onEdit });
-          setOnEdit1(false);
+          if (otp.resend_otp == false) {
+            onEdit.isLoder = false;
+            setOnEdit({ ...onEdit });
+          } else {
+            otp.isLoder = false;
+            setOtp({ ...otp });
+            setTimer(true);
+          }
+          if (res.data.message == "Profile updated successfully") {
+            fetchUserPref();
+            setOnEdit1(false);
+          }
+
+          otp.send_otp = true;
+          otp.resend_otp = false;
+
+          setOtp({ ...otp });
+
+          // setOnEdit1(false);
+
           setinfoTrue({
             user_title: "",
             user_first_name: "",
@@ -193,6 +247,7 @@ const UserProfile = () => {
             state: "",
             phone: "",
             email: "",
+            mobileCode: "",
             add: "",
             ladmark: "",
           });
@@ -225,9 +280,7 @@ const UserProfile = () => {
           // toast.error(res.data.message);
         } else {
           // if (id == undefined || id == null || id == "") {
-          //   onEdit.state = "";
-          //   onEdit.city = "";
-          //   setOnEdit({ ...onEdit });
+
           // }
 
           countryData.state = res.data.data;
@@ -279,7 +332,6 @@ const UserProfile = () => {
         [name]: value,
       };
     });
-    console.log(data);
   };
   const onSubmit = () => {
     if (!data.old_password) {
@@ -363,26 +415,29 @@ const UserProfile = () => {
 
         setPrefrence(res.data);
         setMainLoader(false);
-        setOnEdit({
-          user_title: res.data.user_title,
-          user_first_name: res.data.user_first_name,
-          user_last_name: res.data.user_last_name,
-          dob: "",
-          gender: "",
-          city: "",
-          country: "",
-          state: "",
-          phone: "",
-          email: "",
-          add: "",
-          ladmark: "",
-          isLoder: false,
-        });
+        // setOnEdit({
+        //   user_title: res.data.user_title,
+        //   user_first_name: res.data.user_first_name,
+        //   user_last_name: res.data.user_last_name,
+        //   dob: res.data.user_dob,
+        //   gender: res.data.user_gender,
+        //   city: res.data.user_city,
+        //   country: onEdit.country,
+        //   state: res.data.user_state,
+        //   phone: res.data.user_phone,
+        //   mobileCode: onEdit.country,
+        //   email: res.data.user_email,
+        //   add: res.data.user_address_1,
+        //   ladmark: res.data.user_address_2,
+        //   isLoder: false,
+        // });
       });
   };
   useEffect(() => {
+    // getContry();
     fetchUserPref();
   }, []);
+  console.log("user_dob", prefrence, onEdit);
   toast.configure();
   const getContry = () => {
     const param = new FormData();
@@ -399,14 +454,21 @@ const UserProfile = () => {
         //   countryData.data.filter((x) => x.nicename == res.data.user_country)[0]
         //     .phonecode
         // );
+        let test = countryData.country.filter(
+          (x) => x.nicename == prefrence.user_country
+        )[0];
+        onEdit.country = test;
+        onEdit.mobileCode = test;
+        setOnEdit({ ...onEdit });
+        getStateData(test);
+        if (onEdit.state == "" || onEdit.state == null) {
+        } else {
+          getCityData(onEdit.state);
+        }
       }
     });
   };
   const submitMobileMail = async () => {
-    console.log(
-      "changeMobileNumber.ismobile.toString().length",
-      changeMobileNumber.ismobile.toString().length
-    );
     if (changeMobileNumber.mobile == "") {
       toast.error("Please Enter Mobile Number");
     } else if (
@@ -615,9 +677,6 @@ const UserProfile = () => {
                                           )
                                           .then(
                                             function () {
-                                              console.log(
-                                                "Async: Copying to clipboard was successful!"
-                                              );
                                               toast.success(
                                                 "The sponsor link has been successfully copying"
                                               );
@@ -670,31 +729,74 @@ const UserProfile = () => {
                           <h5 className="font-weight-bold mb-0 text-dark">
                             My Profile
                           </h5>
-                          <ColorButton
-                            onClick={() => {
-                              setOnEdit1(true);
-                              setinfoTrue({
-                                user_title: "",
-                                user_first_name: "",
-                                user_last_name: "",
-                                old_password: "",
-                                new_password: "",
-                                confirm_password: "",
-                                dob: "",
-                                gender: "",
-                                city: "",
-                                country: "",
-                                state: "",
-                                phone: "",
-                                email: "",
-                                add: "",
-                                ladmark: "",
-                              });
-                              getContry();
-                            }}
-                          >
-                            Edit
-                          </ColorButton>
+                          {prefrence?.profile_verified == "1" ? (
+                            ""
+                          ) : (
+                            <ColorButton
+                              onClick={() => {
+                                onEdit.user_title = prefrence.user_title;
+                                onEdit.user_first_name =
+                                  prefrence.user_first_name;
+                                onEdit.user_last_name =
+                                  prefrence.user_last_name;
+                                onEdit.dob = prefrence.user_dob;
+                                onEdit.gender = prefrence.user_gender;
+                                onEdit.city = prefrence.user_city;
+                                // onEdit.country=
+                                onEdit.state = prefrence.user_state;
+                                onEdit.phone = prefrence.user_phone;
+                                onEdit.mobileCode = onEdit.country;
+                                onEdit.email = prefrence.user_email;
+                                onEdit.add = prefrence.user_address_1;
+                                onEdit.ladmark = prefrence.user_address_2;
+                                onEdit.isLoder = false;
+                                setOnEdit({ ...onEdit });
+                                // setOnEdit({
+                                //   user_title: prefrence.user_title,
+                                //   user_first_name: prefrence.user_first_name,
+                                //   user_last_name: prefrence.user_last_name,
+                                //   dob: prefrence.user_dob,
+                                //   gender: prefrence.user_gender,
+                                //   city: prefrence.user_city,
+                                //   country: onEdit.country,
+                                //   state: prefrence.user_state,
+                                //   phone: prefrence.user_phone,
+                                //   mobileCode: onEdit.country,
+                                //   email: prefrence.user_email,
+                                //   add: prefrence.user_address_1,
+                                //   ladmark: prefrence.user_address_2,
+                                //   isLoder: false,
+                                // });
+                                getContry();
+                                setOtp({
+                                  send_otp: false,
+                                  resend_otp: false,
+                                  verify_otp: "",
+                                  isLoder: false,
+                                });
+                                setOnEdit1(true);
+                                setinfoTrue({
+                                  user_title: "",
+                                  user_first_name: "",
+                                  user_last_name: "",
+                                  old_password: "",
+                                  new_password: "",
+                                  confirm_password: "",
+                                  dob: "",
+                                  gender: "",
+                                  city: "",
+                                  country: "",
+                                  state: "",
+                                  phone: "",
+                                  email: "",
+                                  add: "",
+                                  ladmark: "",
+                                });
+                              }}
+                            >
+                              Edit
+                            </ColorButton>
+                          )}
                         </div>
                         <div className="divider"></div>
                         <div className="card-body position-relative">
@@ -869,90 +971,6 @@ const UserProfile = () => {
                         <form>
                           <Grid container spacing={2}>
                             <Grid item md={4}>
-                              <div className="font-weight-bold mb-2">Email</div>
-                              <FormControl
-                                className="w-100"
-                                error={
-                                  (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
-                                    onEdit.email
-                                  ) ||
-                                    onEdit.email == "") &&
-                                  infoTrue.email == true
-                                    ? true
-                                    : false
-                                }
-                              >
-                                <BootstrapInput
-                                  value={onEdit.email}
-                                  name="email"
-                                  onChange={inputedit}
-                                  onBlur={trueFalse}
-                                  displayempty
-                                />
-                                {onEdit.email == "" &&
-                                infoTrue.email == true ? (
-                                  <FormHelperText>
-                                    Please Enter Email
-                                  </FormHelperText>
-                                ) : !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
-                                    onEdit.email
-                                  ) && infoTrue.email == true ? (
-                                  <FormHelperText>
-                                    Enter a valid email
-                                  </FormHelperText>
-                                ) : (
-                                  ""
-                                )}
-                              </FormControl>
-                            </Grid>
-                            <Grid item md={4}>
-                              <div className="font-weight-bold mb-2">
-                                Mobile Number
-                              </div>
-                              <FormControl
-                                className="w-100"
-                                error={
-                                  (onEdit.phone.toString().length < 4 ||
-                                    onEdit.phone.toString().length > 12 ||
-                                    onEdit.phone == "") &&
-                                  infoTrue.phone
-                                    ? true
-                                    : false
-                                }
-                              >
-                                <BootstrapInput
-                                  value={onEdit.phone}
-                                  name="phone"
-                                  // onChange={inputedit}
-                                  onChange={(e) => {
-                                    if (!isNaN(Number(e.target.value))) {
-                                      if (prefrence.user_country == "India") {
-                                        if (e.target.value.length <= 20)
-                                          inputedit(e);
-                                      } else {
-                                        inputedit(e);
-                                      }
-                                    }
-                                  }}
-                                  onBlur={trueFalse}
-                                  displayempty
-                                />
-                                {onEdit.phone == "" && infoTrue.phone ? (
-                                  <FormHelperText>
-                                    Mobile Number is required
-                                  </FormHelperText>
-                                ) : (onEdit.phone.toString().length < 4 ||
-                                    onEdit.phone.toString().length > 12) &&
-                                  infoTrue.phone ? (
-                                  <FormHelperText>
-                                    Mobile Number is not valid
-                                  </FormHelperText>
-                                ) : (
-                                  ""
-                                )}
-                              </FormControl>
-                            </Grid>
-                            <Grid item md={4}>
                               <div className="font-weight-bold mb-2">Title</div>
                               <FormControl
                                 className="w-100"
@@ -986,36 +1004,6 @@ const UserProfile = () => {
                                 ) : (
                                   ""
                                 )}
-                              </FormControl>
-                            </Grid>
-                            <Grid item md={4}>
-                              <FormControl>
-                                <div className="font-weight-bold mb-2">
-                                  Gender
-                                </div>
-
-                                <RadioGroup
-                                  aria-labelledby="demo-radio-buttons-group-label"
-                                  name="radio-buttons-group"
-                                  value={onEdit.gender}
-                                  row
-                                >
-                                  <FormControlLabel
-                                    value="female"
-                                    control={<Radio />}
-                                    label="Female"
-                                  />
-                                  <FormControlLabel
-                                    value="male"
-                                    control={<Radio />}
-                                    label="Male"
-                                  />
-                                  <FormControlLabel
-                                    value="other"
-                                    control={<Radio />}
-                                    label="Other"
-                                  />
-                                </RadioGroup>
                               </FormControl>
                             </Grid>
                             <Grid item md={4}>
@@ -1073,6 +1061,37 @@ const UserProfile = () => {
                               </FormControl>
                             </Grid>
                             <Grid item md={4}>
+                              <FormControl>
+                                <div className="font-weight-bold mb-2">
+                                  Gender
+                                </div>
+
+                                <RadioGroup
+                                  aria-labelledby="demo-radio-buttons-group-label"
+                                  name="gender"
+                                  value={onEdit.gender}
+                                  onChange={inputedit}
+                                  row
+                                >
+                                  <FormControlLabel
+                                    value="female"
+                                    control={<Radio />}
+                                    label="Female"
+                                  />
+                                  <FormControlLabel
+                                    value="male"
+                                    control={<Radio />}
+                                    label="Male"
+                                  />
+                                  <FormControlLabel
+                                    value="other"
+                                    control={<Radio />}
+                                    label="Other"
+                                  />
+                                </RadioGroup>
+                              </FormControl>
+                            </Grid>
+                            <Grid item md={4}>
                               <div className="font-weight-bold mb-2">
                                 Date of Birth
                               </div>
@@ -1098,6 +1117,142 @@ const UserProfile = () => {
                               </FormControl>
                             </Grid>
                             <Grid item md={4}>
+                              <div className="font-weight-bold mb-2">Email</div>
+                              <FormControl
+                                className="w-100"
+                                error={
+                                  (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+                                    onEdit.email
+                                  ) ||
+                                    onEdit.email == "") &&
+                                  infoTrue.email == true
+                                    ? true
+                                    : false
+                                }
+                              >
+                                <BootstrapInput
+                                  value={onEdit.email}
+                                  name="email"
+                                  disabled={
+                                    prefrence.email_verified == 1 ? true : false
+                                  }
+                                  onChange={inputedit}
+                                  onBlur={trueFalse}
+                                  displayempty
+                                />
+                                {onEdit.email == "" &&
+                                infoTrue.email == true ? (
+                                  <FormHelperText>
+                                    Please Enter Email
+                                  </FormHelperText>
+                                ) : !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+                                    onEdit.email
+                                  ) && infoTrue.email == true ? (
+                                  <FormHelperText>
+                                    Enter a valid email
+                                  </FormHelperText>
+                                ) : (
+                                  ""
+                                )}
+                              </FormControl>
+                            </Grid>
+                            <Grid item md={4}>
+                              <div className="font-weight-bold mb-2">
+                                Mobile Number
+                              </div>
+                              <div style={{ display: "flex", gap: "10px" }}>
+                                <div style={{ width: "40%" }}>
+                                  <Autocomplete
+                                    disablePortal
+                                    options={countryData.country}
+                                    value={onEdit.country}
+                                    disabled={
+                                      prefrence.phone_verified == 1
+                                        ? true
+                                        : false
+                                    }
+                                    getOptionLabel={(option) =>
+                                      option ? option.phonecode : ""
+                                    }
+                                    onChange={(event, newValue) => {
+                                      if (newValue !== null) {
+                                        getStateData(newValue);
+                                        onEdit.city = "";
+                                        onEdit.state = "";
+                                        onEdit.country = newValue;
+                                        setOnEdit({ ...onEdit });
+                                      }
+                                    }}
+                                    sx={{ padding: "0px" }}
+                                    className="w-100"
+                                    renderInput={(params) => (
+                                      <TextField
+                                        {...params}
+                                        onBlur={trueFalse}
+                                        className="autoComplte-textfild mobileCode"
+                                        name="state"
+                                        size="small"
+                                        sx={{ padding: "0px" }}
+                                        variant="outlined"
+                                      />
+                                    )}
+                                  />
+                                </div>
+                                <div style={{ width: "60%" }}>
+                                  {" "}
+                                  <FormControl
+                                    className="w-100"
+                                    error={
+                                      (onEdit.phone.toString().length < 4 ||
+                                        onEdit.phone.toString().length > 12 ||
+                                        onEdit.phone == "") &&
+                                      infoTrue.phone
+                                        ? true
+                                        : false
+                                    }
+                                  >
+                                    <BootstrapInput
+                                      value={onEdit.phone}
+                                      name="phone"
+                                      disabled={
+                                        prefrence.phone_verified == 1
+                                          ? true
+                                          : false
+                                      }
+                                      // onChange={inputedit}
+                                      onChange={(e) => {
+                                        if (!isNaN(Number(e.target.value))) {
+                                          if (
+                                            prefrence.user_country == "India"
+                                          ) {
+                                            if (e.target.value.length <= 20)
+                                              inputedit(e);
+                                          } else {
+                                            inputedit(e);
+                                          }
+                                        }
+                                      }}
+                                      onBlur={trueFalse}
+                                      displayempty
+                                    />
+                                    {onEdit.phone == "" && infoTrue.phone ? (
+                                      <FormHelperText>
+                                        Mobile Number is required
+                                      </FormHelperText>
+                                    ) : (onEdit.phone.toString().length < 4 ||
+                                        onEdit.phone.toString().length > 12) &&
+                                      infoTrue.phone ? (
+                                      <FormHelperText>
+                                        Mobile Number is not valid
+                                      </FormHelperText>
+                                    ) : (
+                                      ""
+                                    )}
+                                  </FormControl>
+                                </div>
+                              </div>
+                            </Grid>
+                            <Grid item md={4}>
                               <div className="font-weight-bold mb-2">
                                 Country
                               </div>
@@ -1105,15 +1260,20 @@ const UserProfile = () => {
                                 disablePortal
                                 options={countryData.country}
                                 value={onEdit.country}
+                                disabled={
+                                  prefrence.phone_verified == 1 ? true : false
+                                }
                                 getOptionLabel={(option) =>
                                   option ? option.nicename : ""
                                 }
                                 onChange={(event, newValue) => {
-                                  getStateData(newValue);
                                   if (newValue == null) {
-                                    onEdit.country = newValue;
-                                    setOnEdit({ ...onEdit });
+                                    // onEdit.country = newValue;
+                                    // setOnEdit({ ...onEdit });
                                   } else {
+                                    getStateData(newValue);
+                                    onEdit.city = "";
+                                    onEdit.state = "";
                                     onEdit.country = newValue;
                                     setOnEdit({ ...onEdit });
                                   }
@@ -1163,6 +1323,7 @@ const UserProfile = () => {
                                     onEdit.state = newValue;
                                     setOnEdit({ ...onEdit });
                                   } else {
+                                    onEdit.city = "";
                                     onEdit.state = newValue;
                                     setOnEdit({ ...onEdit });
                                   }
@@ -1254,7 +1415,7 @@ const UserProfile = () => {
                                 error={onEdit.add == "" ? true : false}
                               >
                                 <BootstrapInput
-                                  value={onEdit.add}
+                                  value={onEdit?.add}
                                   name="add"
                                   onChange={inputedit}
                                   onBlur={trueFalse}
@@ -1294,9 +1455,96 @@ const UserProfile = () => {
                                 )}
                               </FormControl>
                             </Grid>
-                            <Grid item md={12}>
+                            {otp.send_otp == true ? (
+                              <Grid item md={4}>
+                                <div className="font-weight-bold mb-2">Otp</div>
+                                <FormControl
+                                  className="w-100"
+                                  error={otp.verify_otp == "" ? true : false}
+                                >
+                                  <BootstrapInput
+                                    value={otp.verify_otp}
+                                    name="otp"
+                                    onChange={(e) => {
+                                      if (!isNaN(Number(e.target.value))) {
+                                        otp.verify_otp = e.target.value;
+                                        setOtp({ ...otp });
+                                      } else if (e.target.value == "") {
+                                        otp.verify_otp = e.target.value;
+                                        setOtp({ ...otp });
+                                      }
+                                    }}
+                                    onBlur={trueFalse}
+                                    displayempty
+                                  />
+                                  {otp.verify_otp == "" &&
+                                  infoTrue.otp == true ? (
+                                    <FormHelperText>
+                                      Please Enter Otp
+                                    </FormHelperText>
+                                  ) : (
+                                    ""
+                                  )}
+                                </FormControl>
+                              </Grid>
+                            ) : (
+                              ""
+                            )}
+                            <Grid
+                              item
+                              md={12}
+                              className="centerflexjus"
+                              sx={{ gap: "10px" }}
+                            >
+                              {otp.send_otp == true ? (
+                                <>
+                                  {otp.isLoder == true ? (
+                                    <ColorButton
+                                      type="submit"
+                                      disabled
+                                      sx={{ padding: "20px 50px" }}
+                                    >
+                                      <svg class="spinner" viewBox="0 0 50 50">
+                                        <circle
+                                          class="path"
+                                          cx="25"
+                                          cy="25"
+                                          r="20"
+                                          fill="none"
+                                          stroke-width="5"
+                                        ></circle>
+                                      </svg>
+                                    </ColorButton>
+                                  ) : (
+                                    <ColorButton
+                                      sx={{ marginLeft: "10px" }}
+                                      disabled={timer}
+                                      onClick={() => {
+                                        otp.resend_otp = true;
+                                        setOtp({ ...otp });
+                                        onEditsubmit();
+                                      }}
+                                    >
+                                      {timer ? (
+                                        <Counter
+                                          reset={timer}
+                                          setReset={setTimer}
+                                        />
+                                      ) : (
+                                        "Resend OTP"
+                                      )}
+                                    </ColorButton>
+                                  )}{" "}
+                                </>
+                              ) : (
+                                ""
+                              )}
                               {onEdit.isLoder ? (
-                                <ColorButton type="submit" disabled>
+                                <ColorButton
+                                  type="submit"
+                                  sx={{ padding: "20px 50px" }}
+                                  disabled
+                                >
                                   <svg class="spinner" viewBox="0 0 50 50">
                                     <circle
                                       class="path"
@@ -1310,7 +1558,7 @@ const UserProfile = () => {
                                 </ColorButton>
                               ) : (
                                 <ColorButton onClick={onEditsubmit}>
-                                  Save
+                                  Update
                                 </ColorButton>
                               )}
                             </Grid>

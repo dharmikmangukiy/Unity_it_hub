@@ -37,6 +37,14 @@ const MyDocuments = () => {
   const [mainLoader, setMainLoader] = useState(true);
   const [addfontimg, setAddFontimg] = useState("");
   const [addbackimg, setAddBackimg] = useState("");
+  const [formImage, setFormImage] = useState({
+    fontimg: "",
+    backimg: "",
+    perviewfontimg: "",
+    perviewbackimg: "",
+    ftype: "",
+    btype: "",
+  });
   const [sendKycRequest, setSendKycRequest] = useState({
     proof1: false,
     proof2: false,
@@ -45,6 +53,7 @@ const MyDocuments = () => {
   const [twoSide, setTwoSide] = useState({
     addition: false,
     main: false,
+    add: false,
   });
   const [proofAdd, setProofAdd] = useState([]);
   const [kycStatus, setKycStatus] = useState("");
@@ -65,7 +74,6 @@ const MyDocuments = () => {
     idnumber: "",
     isLoder: false,
   });
-  console.log("twoside", twoSide);
   const onOtherImage = () => {
     if (doc.proof == "Addition Documents") {
       if (!additional) {
@@ -129,17 +137,16 @@ const MyDocuments = () => {
       }
     }
   };
-  console.log(addressProof[0]);
-  console.log("addfontimg", addfontimg);
+  console.log("dsf", doc.fontimg.type);
   const onSubmit = () => {
-    console.log("fontimg", fontimg);
-    // if (!doc.idnumber) {
-    //   toast.error("Id Number is required");
-    // } else
     if (!doc.fontimg && !fontimg) {
-      toast.error("Please upload documents front side image");
+      toast.error("Please upload documents ID Proof front side image");
     } else if (twoSide.main && !doc.backimg && !backimg) {
-      toast.error("Please upload documents back side image");
+      toast.error("Please upload documents ID Proof back side image");
+    } else if (!formImage.fontimg && !formImage.perviewfontimg) {
+      toast.error("Please upload documents Address Proof front side image");
+    } else if (twoSide.add && !formImage.backimg && !formImage.perviewbackimg) {
+      toast.error("Please upload documents Address Proof back side image");
     } else {
       doc.isLoder = true;
       setDoc({ ...doc });
@@ -150,13 +157,20 @@ const MyDocuments = () => {
         param.append("auth_key", IsApprove.auth);
       }
       if (doc.fontimg) {
-        param.append("aadhar_card_front_image", doc.fontimg);
+        param.append("id_proof_front_image", doc.fontimg);
       }
       if (doc.backimg && twoSide.main) {
-        param.append("aadhar_card_back_image", doc.backimg);
+        param.append("id_proof_back_image", doc.backimg);
       }
-      param.append("aadhar_card_number", doc.idnumber);
-      param.append("double_sided_documents", twoSide.main ? 1 : 0);
+      if (formImage.fontimg) {
+        param.append("passport_front_image", formImage.fontimg);
+      }
+      if (formImage.backimg && twoSide.add) {
+        param.append("passport_back_image", formImage.backimg);
+      }
+      // param.append("aadhar_card_number", doc.idnumber);
+      param.append("id_proof_double_sided", twoSide.main ? 1 : 0);
+      param.append("passport_double_sided", twoSide.add ? 1 : 0);
 
       axios.post(Url + "/ajaxfiles/update_kyc.php", param).then((res) => {
         if (res.data.message == "Session has been expired") {
@@ -239,16 +253,50 @@ const MyDocuments = () => {
           });
           setMainLoader(false);
         } else {
-          doc.idnumber = res.data.kyc_data.aadhar_card_number;
+          doc.ftype =
+            res.data.kyc_data.id_proof_front_image.split(".").pop() == "pdf"
+              ? "application/pdf"
+              : "image";
+          doc.btype =
+            res.data.kyc_data.id_proof_back_image.split(".").pop() == "pdf"
+              ? "application/pdf"
+              : "image";
+
+          // doc.idnumber = res.data.kyc_data.aadhar_card_number;
           setDoc({ ...doc });
+          adddoc.ftype =
+            res.data.kyc_data.additional_documents.split(".").pop() == "pdf"
+              ? "application/pdf"
+              : "image";
+          adddoc.btype =
+            res.data.kyc_data.additional_documents_back.split(".").pop() ==
+            "pdf"
+              ? "application/pdf"
+              : "image";
+          setAddDoc({ ...adddoc });
+          formImage.ftype =
+            res.data.kyc_data.passport_front_image.split(".").pop() == "pdf"
+              ? "application/pdf"
+              : "image";
+          formImage.btype =
+            res.data.kyc_data.passport_back_image.split(".").pop() == "pdf"
+              ? "application/pdf"
+              : "image";
+          formImage.perviewfontimg = res.data.kyc_data.passport_front_image;
+          formImage.perviewbackimg = res.data.kyc_data.passport_back_image;
+          setFormImage({ ...formImage });
           setKycStatus(res.data.kyc_data);
-          setBackimg(res.data.kyc_data.aadhar_card_back_image);
-          setFontimg(res.data.kyc_data.aadhar_card_front_image);
+          setBackimg(res.data.kyc_data.id_proof_back_image);
+          setFontimg(res.data.kyc_data.id_proof_front_image);
           setAddBackimg(res.data.kyc_data.additional_documents_back);
           setAddFontimg(res.data.kyc_data.additional_documents);
           setKycStatusMessage(res.data.message);
-          if (res.data.kyc_data.aadhar_card_back_image != "") {
+          if (res.data.kyc_data.id_proof_back_image != "") {
             twoSide.main = true;
+            setTwoSide({ ...twoSide });
+          }
+          if (res.data.kyc_data.passport_back_image != "") {
+            twoSide.add = true;
             setTwoSide({ ...twoSide });
           }
 
@@ -269,7 +317,6 @@ const MyDocuments = () => {
                 proof1: false,
               };
             });
-            console.log("sendKycRequest", sendKycRequest);
           } else {
             setSendKycRequest((prevalue) => {
               return {
@@ -277,7 +324,6 @@ const MyDocuments = () => {
                 proof1: true,
               };
             });
-            console.log("sendKycRequest", sendKycRequest);
           }
         }
       });
@@ -330,6 +376,14 @@ const MyDocuments = () => {
             };
           });
           setAddBackimg("");
+        } else if (type == "passport_front_image") {
+          formImage.perviewfontimg = "";
+          formImage.fontimg = "";
+          setFormImage({ ...formImage });
+        } else if (type == "passport_back_image") {
+          formImage.perviewbackimg = "";
+          formImage.backimg = "";
+          setFormImage({ ...formImage });
         }
       }
     });
@@ -353,7 +407,7 @@ const MyDocuments = () => {
       }
     }
   }, [doc]);
-
+  console.log("formImage", formImage);
   useEffect(() => {
     if ((addfontimg == "" || addfontimg == null) && adddoc.fontimg) {
       if (!adddoc.fontimg) {
@@ -365,7 +419,6 @@ const MyDocuments = () => {
       setAddFontimg(objectUrl);
       return () => URL.revokeObjectURL(objectUrl);
     }
-    console.log("addfontimg", addfontimg);
   }, [adddoc]);
 
   useEffect(() => {
@@ -396,7 +449,6 @@ const MyDocuments = () => {
         return () => URL.revokeObjectURL(objectUrl);
       }
     }
-    console.log("addbackimg", addbackimg);
   }, [adddoc]);
 
   const handleChange = (event) => {
@@ -407,7 +459,6 @@ const MyDocuments = () => {
         [name]: value,
       };
     });
-    console.log(event.target.value);
   };
   // const [click, setClick] = React.useState();
   toast.configure();
@@ -418,30 +469,42 @@ const MyDocuments = () => {
   };
 
   // useEffect(() => {
-  //   console.log("use proof", proofAdd);
   // }, [proofAdd]);
   const documentShow = () => {
     var html = [];
-    if (kycStatus.aadhar_card_front_image) {
+    if (kycStatus.id_proof_front_image) {
       html.push(
         <div>
-          {/* <img src={kycStatus.aadhar_card_front_image} alt="" /> */}
+          <div> Id Proof</div>
           <div className="uploaded-proof-view-section">
             <div className="uploaded-proof-element">
               <label className="filable">Front Image</label>
-              <CustomImageModal
-                image={kycStatus.aadhar_card_front_image}
-                className="docimage"
-              />
+              {doc.ftype == "application/pdf" ? (
+                <embed
+                  src={kycStatus.id_proof_front_image}
+                  className="docimage"
+                />
+              ) : (
+                <CustomImageModal
+                  image={kycStatus.id_proof_front_image}
+                  className="docimage"
+                />
+              )}
             </div>
-            {/* {kycStatus.aadhar_card_back_image ? <img src={kycStatus.aadhar_card_back_image} alt="" />:""} */}
-            {kycStatus.aadhar_card_back_image ? (
+            {kycStatus.id_proof_back_image ? (
               <div className="uploaded-proof-element">
                 <label className="filable">Back Image</label>
-                <CustomImageModal
-                  image={kycStatus.aadhar_card_back_image}
-                  className="docimage"
-                />{" "}
+                {doc.ftype == "application/pdf" ? (
+                  <embed
+                    src={kycStatus.id_proof_back_image}
+                    className="docimage"
+                  />
+                ) : (
+                  <CustomImageModal
+                    image={kycStatus.id_proof_back_image}
+                    className="docimage"
+                  />
+                )}
               </div>
             ) : (
               ""
@@ -459,25 +522,12 @@ const MyDocuments = () => {
       //    </>
       //  )
     }
-    console.log("backimg", backimg);
 
-    // if (kycStatus.additional_documents) {
-    //   html.push(
-    //     <div className="my-document-view-section">
-    //       <h2 className="margin-right-15px">Addition Documents</h2>
-    //       {/* <img src={kycStatus.additional_documents} alt="" /> */}
-    //       <CustomImageModal image={kycStatus.additional_documents} />
-    //       {/* {kycStatus.aadhar_card_back_image ? <img src={kycStatus.aadhar_card_back_image} alt="" />:""} */}
-    //     </div>
-    //   );
-    // }
     if (kycStatus.proof_of_address) {
       html.push(
         <div>
           <h2 className="margin-right-15px">Proof of Address</h2>
-          {/* <img src={kycStatus.proof_of_address} alt="" /> */}
           <CustomImageModal image={kycStatus.proof_of_address} />
-          {/* {kycStatus.aadhar_card_back_image ? <img src={kycStatus.aadhar_card_back_image} alt="" />:""} */}
         </div>
       );
     }
@@ -503,7 +553,7 @@ const MyDocuments = () => {
                 <Grid item xl={10} md={12} lg={12}>
                   {/* <TopButton /> */}
                   <Grid container spacing={3}>
-                    <Grid item md={12}>
+                    {/* <Grid item md={12}>
                       <Paper
                         elevation={1}
                         style={{ borderRadius: "10px" }}
@@ -553,7 +603,7 @@ const MyDocuments = () => {
                           </Grid>
                         </div>
                       </Paper>
-                    </Grid>
+                    </Grid> */}
                     <Grid
                       item
                       md={
@@ -570,7 +620,7 @@ const MyDocuments = () => {
                         className="w-100 mb-5"
                       >
                         <div className="card-header font-weight-bold mb-0 text-dark h5">
-                          Upload New Document{" "}
+                          My Documents{" "}
                           <span
                             className={`approvedocument ${
                               kycStatus.master_status == 1
@@ -593,339 +643,41 @@ const MyDocuments = () => {
                         </div>
                         <div className="divider"></div>
                         <div className="card-body">
-                          {/* <Grid container spacing={1} className="ml-n1">
-                            <Grid item sm={9} className="p-1">
-                              <FormControl className="w-100">
-                                <Select
-                                  value={doc.proof}
-                                  name="proof"
-                                  disabled
-                                  label="Proof of ID"
-                                  onChange={handleChange}
-                                  displayEmpty
-                                  inputProps={{ "aria-label": "Without label" }}
-                                  input={<BootstrapInput />}
-                                  className="mt-0 ml-0"
-                                >
-                                  <MenuItem
-                                    value="Proof of ID"
-                                    onClick={() => {
-                                      setOption(true);
-                                      setChange(false);
-                                      setChange1(false);
-                                    }}
-                                  >
-                                    Proof of ID
-                                  </MenuItem>
-
-                                   <MenuItem
-                                  value="Proof of Address"
-                                  onClick={() => {
-                                    setOption(false);
-                                    setChange(true);
-                                    setChange1(false);
-                                  }}
-                                >
-                                  Proof of Address
-                                </MenuItem>
-
-                                <MenuItem
-                                  value="Addition Documents"
-                                  onClick={() => {
-                                    setOption(false);
-                                    setChange(false);
-                                    setChange1(true);
-                                  }}
-                                >
-                                  Addition Documents
-                                </MenuItem> 
-                                </Select>
-                              </FormControl>
-                            </Grid>
-                            <Grid item sm={3} className="p-1">
-                              {option && (
-                                <FormControl className="w-100">
-                                  <Select
-                                    value={doc.id}
-                                    disabled
-                                    name="id"
-                                    label="ID"
-                                    onChange={handleChange}
-                                    inputProps={{
-                                      "aria-label": "Without label",
-                                    }}
-                                    input={<BootstrapInput />}
-                                    className="mt-0 ml-0"
-                                  >
-                                    <MenuItem value="id">ID</MenuItem>
-                                     <MenuItem value="Password">PASSWORD</MenuItem> 
-                                  </Select>
-                                </FormControl>
-                              )}
-
-                              {change1 && (
-                                <ColorButton
-                                  type="submit"
-                                  variant="contained"
-                                  size="medium"
-                                  className="w-100 p-0 h-100 !important d-flex align-items-stretch text-capitalize d-none"
-                                >
-                                  {additional.length < 3 ? (
-                                    <Input
-                                      accept="image/*"
-                                      id="uploadDoc"
-                                      type="file"
-                                      name="fontimg"
-                                      // value={doc.fontimg}
-                                      onChange={(e) => {
-                                        console.log(additional, "additional");
-                                        setAdditional([
-                                          ...additional,
-                                          e.target.files[0],
-                                        ]);
-                                        //   setProofAdd(
-                                        //     proofAdd.concat(e.target.files)
-                                        //   )
-                                      }}
-                                      style={{ display: "none" }}
-                                    />
-                                  ) : (
-                                    ""
-                                  )}{" "}
-                                  <label
-                                    htmlFor="uploadDoc"
-                                    className="w-100 h-100 d-flex align-items-center justify-content-center"
-                                  >
-                                    <CloudUploadIcon className="m-2" />
-                                    Browse
-                                  </label>
-                                </ColorButton>
-                              )}
-                              {change && (
-                                <ColorButton
-                                  type="submit"
-                                  variant="contained"
-                                  size="medium"
-                                  className="w-100 p-0 h-100 !important d-flex align-items-stretch text-capitalize d-none"
-                                >
-                                  {addressProof.length < 3 ? (
-                                    <Input
-                                      accept="image/*"
-                                      id="uploadDoc"
-                                      type="file"
-                                      name="fontimg"
-                                      // value={doc.fontimg}
-                                      onChange={(e) => {
-                                        console.log(
-                                          addressProof,
-                                          "addressProof"
-                                        );
-                                        setAddressProof([
-                                          ...addressProof,
-                                          e.target.files[0],
-                                        ]);
-                                        //   setProofAdd(
-                                        //     proofAdd.concat(e.target.files)
-                                        //   )
-                                      }}
-                                      style={{ display: "none" }}
-                                    />
-                                  ) : (
-                                    ""
-                                  )}{" "}
-                                  <label
-                                    htmlFor="uploadDoc"
-                                    className="w-100 h-100 d-flex align-items-center justify-content-center"
-                                  >
-                                    <CloudUploadIcon className="m-2" />
-                                    Browse
-                                  </label>
-                                </ColorButton>
-                              )}
-                            </Grid>
-                          </Grid> */}
-                          <div>
-                            <label
-                              htmlFor="upi_crypto_ac_number"
-                              className="text-info font-weight-bold form-label-head w-100 "
-                            >
-                              Id Number
-                            </label>
-                            <BootstrapInput
-                              // type="number"
-                              disabled={sendKycRequest.proof1}
-                              value={doc.idnumber}
-                              onChange={handleChange}
-                              name="idnumber"
-                              displayEmpty
-                              inputProps={{
-                                "aria-label": "Without label",
-                              }}
-                            />
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <input
-                              type="checkbox"
-                              name="tos"
-                              value={!twoSide.main}
-                              checked={twoSide.main}
-                              disabled={
-                                kycStatus.master_status == 1 ? true : false
-                              }
-                              onChange={(e) => {
-                                twoSide.main = e.target.checked;
-                                setTwoSide({ ...twoSide });
-                                console.log(
-                                  "e.target.checked",
-                                  e.target.checked
-                                );
-                              }}
-                              id="gridCheck"
-                              className="form-check-input"
-                            />
-                            <label
-                              htmlFor="gridCheck"
-                              className="form-check-label"
-                            >
-                              <span> Double side</span>
-                            </label>
+                          <div className="id-proof-wrap">
+                            <div>
+                              <label
+                                htmlFor="upi_crypto_ac_number"
+                                className="text-info font-weight-bold form-label-head w-100 fontsize17"
+                                style={{ fontSize: "18px !important" }}
+                              >
+                                ID Proof{" "}
+                              </label>
+                            </div>
+                            <div>
+                              <input
+                                type="checkbox"
+                                name="tos"
+                                value={!twoSide.main}
+                                checked={twoSide.main}
+                                disabled={
+                                  kycStatus.master_status == 1 ? true : false
+                                }
+                                onChange={(e) => {
+                                  twoSide.main = e.target.checked;
+                                  setTwoSide({ ...twoSide });
+                                }}
+                                id="gridCheck"
+                                className="form-check-input"
+                              />
+                              <label
+                                htmlFor="gridCheck"
+                                className="form-check-label"
+                              >
+                                <span> Double side</span>
+                              </label>
+                            </div>
                           </div>
-                          {/* {doc.proof == "Proof of ID" ? (
-                            !sendKycRequest.proof1 == true &&
-                            kycStatus.master_status == "0" ? (
-                              <div className="text-dark w-100 h-100 kyc-status-section padingtop5">
-                                <h5 className="text-center font-weight-bold text-dark ">
-                                  <div>
-                                    <InfoIcon
-                                      style={{
-                                        fontSize: "5rem",
-                                        color: "rgb(204 207 23)",
-                                        paddingBottom: "1rem",
-                                      }}
-                                    />
-                                  </div>
-                                  {kycStatusMessage}
-                                </h5>
-                              </div>
-                            ) : (
-                              ""
-                            )
-                          ) : (
-                            ""
-                          )}
 
-                          {doc.proof == "Proof of ID" ? (
-                            sendKycRequest.proof1 == true &&
-                            kycStatus.master_status == "1" ? (
-                              <div className="text-dark w-100 h-100 kyc-status-section padingtop5">
-                                <h5 className="text-center font-weight-bold text-dark">
-                                  <div>
-                                    <CheckCircleOutlineIcon
-                                      style={{
-                                        fontSize: "5rem",
-                                        color: "rgb(18 219 52)",
-                                        paddingBottom: "1rem",
-                                      }}
-                                    />
-                                  </div>
-                                  {kycStatusMessage}
-                                </h5>
-                              </div>
-                            ) : (
-                              ""
-                            )
-                          ) : (
-                            ""
-                          )}
-
-                          {doc.proof == "Proof of ID" ? (
-                            !sendKycRequest.proof1 == true &&
-                            kycStatus.master_status == "2" ? (
-                              <div className="text-dark w-100 h-100 kyc-status-section padingtop5">
-                                <h5 className="text-center font-weight-bold text-dark ">
-                                  <div>
-                                    <CancelIcon
-                                      style={{
-                                        fontSize: "5rem",
-                                        color: "rgb(255 3 3)",
-                                        paddingBottom: "1rem",
-                                      }}
-                                    />
-                                  </div>
-                                  {kycStatusMessage}{" "}
-                                  {kycStatus.feedback_remarks}
-                                </h5>
-                              </div>
-                            ) : (
-                              ""
-                            )
-                          ) : (
-                            ""
-                          )} */}
-
-                          {change1 && (
-                            <Grid container className="text-center my-4">
-                              <Grid item sm={12}>
-                                {additional.map((proof, index) => {
-                                  return (
-                                    <Paper
-                                      elevation={1}
-                                      className="d-flex p-3 justify-content-between align-items-center mb-2"
-                                      style={{ borderRadius: "10px" }}
-                                      key={index}
-                                    >
-                                      <span className="text-dark font-size-sm font-weight-bold">
-                                        {proof.name}
-                                      </span>
-                                      <CloseOutlinedIcon
-                                        className="fontimgclose"
-                                        onClick={() => {
-                                          // proofAdd.splice(index, 1);
-                                          console.log(additional, "asdASF");
-                                          setAdditional(
-                                            additional.filter(
-                                              (v, i) => i !== index
-                                            )
-                                          );
-                                        }}
-                                      />
-                                    </Paper>
-                                  );
-                                })}
-                              </Grid>
-                            </Grid>
-                          )}
-                          {change && (
-                            <Grid container className="text-center my-4">
-                              <Grid item sm={12}>
-                                {addressProof.map((proof, index) => {
-                                  return (
-                                    <Paper
-                                      elevation={1}
-                                      className="d-flex p-3 justify-content-between align-items-center mb-2"
-                                      style={{ borderRadius: "10px" }}
-                                      key={index}
-                                    >
-                                      <span className="text-dark font-size-sm font-weight-bold">
-                                        {proof.name}
-                                      </span>
-                                      <CloseOutlinedIcon
-                                        className="fontimgclose"
-                                        onClick={() => {
-                                          // proofAdd.splice(index, 1);
-                                          console.log(addressProof, "asdASF");
-                                          setAddressProof(
-                                            addressProof.filter(
-                                              (v, i) => i !== index
-                                            )
-                                          );
-                                        }}
-                                      />
-                                    </Paper>
-                                  );
-                                })}
-                              </Grid>
-                            </Grid>
-                          )}
                           {option && (
                             <Grid
                               container
@@ -954,6 +706,7 @@ const MyDocuments = () => {
                                         return {
                                           ...prevalue,
                                           fontimg: e.target.files[0],
+                                          ftype: e.target.files[0].type,
                                         };
                                       });
                                     }}
@@ -983,10 +736,17 @@ const MyDocuments = () => {
                                           <CloseOutlinedIcon className="fontimgclose" />
                                         </button>
                                       )}
-                                      <img
-                                        src={fontimg}
-                                        className="deposit-upload-image-preview1"
-                                      />
+                                      {doc?.ftype == "application/pdf" ? (
+                                        <embed
+                                          src={fontimg}
+                                          className="deposit-upload-image-preview1"
+                                        />
+                                      ) : (
+                                        <img
+                                          src={fontimg}
+                                          className="deposit-upload-image-preview1"
+                                        />
+                                      )}
                                     </>
                                   )}
                                 </div>
@@ -1013,6 +773,7 @@ const MyDocuments = () => {
                                           return {
                                             ...prevalue,
                                             backimg: e.target.files[0],
+                                            btype: e.target.files[0].type,
                                           };
                                         })
                                       }
@@ -1038,42 +799,21 @@ const MyDocuments = () => {
                                                 "aadhar_card_back_image"
                                               );
                                             }}
-                                            /* onClick={() => {
-                                            setDoc((prevalue) => {
-                                              return {
-                                                ...prevalue,
-                                                backimg: "",
-                                              };
-                                            });
-                                            setBackimg("");
-                                          }} */
                                           >
                                             <CloseOutlinedIcon className="fontimgclose" />
                                           </button>
                                         )}
-                                        <img
-                                          src={backimg}
-                                          className="deposit-upload-image-preview1"
-                                        />
-
-                                        {/* <div className="received-file">
-                                    <div className="w-100 h-100">
-                                      {doc.backimg.name}
-                                    </div>
-                                    <button
-                                      className="bg-transparent p-0 border-0"
-                                      onClick={() =>
-                                        setDoc((prevalue) => {
-                                          return {
-                                            ...prevalue,
-                                            backimg: "",
-                                          };
-                                        })
-                                      }
-                                    >
-                                      <CloseOutlinedIcon className="fontimgclose" />
-                                    </button>
-                                  </div> */}
+                                        {doc?.btype == "application/pdf" ? (
+                                          <embed
+                                            src={backimg}
+                                            className="deposit-upload-image-preview1"
+                                          />
+                                        ) : (
+                                          <img
+                                            src={backimg}
+                                            className="deposit-upload-image-preview1"
+                                          />
+                                        )}
                                       </>
                                     )}
                                   </div>
@@ -1081,104 +821,199 @@ const MyDocuments = () => {
                               ) : (
                                 ""
                               )}
+                            </Grid>
+                          )}
+                          <div
+                            className="id-proof-wrap"
+                            style={{ marginTop: "25px" }}
+                          >
+                            <div>
+                              <label
+                                htmlFor="upi_crypto_ac_number"
+                                className="text-info font-weight-bold form-label-head w-100 fontsize17"
+                                style={{ fontSize: "18px !important" }}
+                              >
+                                Address Proof{" "}
+                              </label>
+                            </div>
+                            <div>
+                              <input
+                                type="checkbox"
+                                name="tos"
+                                value={!twoSide.add}
+                                checked={twoSide.add}
+                                disabled={
+                                  kycStatus.master_status == 1 ? true : false
+                                }
+                                onChange={(e) => {
+                                  twoSide.add = e.target.checked;
+                                  setTwoSide({ ...twoSide });
+                                }}
+                                id="gridCheck4"
+                                className="form-check-input"
+                              />
+                              <label
+                                htmlFor="gridCheck4"
+                                className="form-check-label"
+                              >
+                                <span>Double side</span>
+                              </label>
+                            </div>
+                          </div>
 
-                              {/* <hr className="ml-2 mr-2 uploadmr" ></hr>
-                            <Grid item xs={12} className="py-0 pr-4 pl-4 pb-1">
-                              <form noValidate className="autocomplete-off">
-                                <h6 className="font-weight-bold mb-4 pb-1 d-flex">
-                                  Fill in your Details for a seamless experience{" "}
-                                  <small className="d-baseline">
-                                    {" "}
-                                    (Optional)
-                                  </small>
+                          {option && (
+                            <Grid
+                              container
+                              spacing={7}
+                              className="justify-content-center"
+                              style={{ marginLeft: "-28px", marginTop: "-7px" }}
+                            >
+                              <Grid
+                                item
+                                sm={6}
+                                lg={4}
+                                className="d-flex flex-column align-items-center upload-zone p-4"
+                              >
+                                <h6 className="mb-3  font-size-xs font-weight-bold">
+                                  FRONT SIDE*
                                 </h6>
-                                <Grid container spacing={1} className="ml-n1">
-                                  <Grid item sm={6} className="p-1">
-                                    <FormControl className="w-100">
-                                      <label className="font-weight-bold font-size-sm d-flex justify-content-start">
-                                        Document No
-                                      </label>
-                                      <BootstrapInput
-                                        value={doc.documentNo}
-                                        name="documentNo"
-                                        onChange={handleChange}
-                                        inputProps={{
-                                          "aria-label": "Without label",
-                                        }}
-                                      />
-                                    </FormControl>
-                                  </Grid>
-                                  <Grid item sm={6} className="p-1">
-                                    <FormControl className="w-100 mb-2">
-                                      <label className="font-weight-bold font-size-sm d-flex justify-content-start">
-                                        Country Of Issue
-                                      </label>
-                                      <Select
-                                        value={doc.id}
-                                        name="id"
-                                        label="ID"
-                                        onChange={handleChange}
-                                        displayEmpty
-                                        inputProps={{
-                                          "aria-label": "Without label",
-                                        }}
-                                        input={<BootstrapInput />}
-                                        className="mt-0 ml-0"
+                                <div className="uploaderDropZone">
+                                  <Input
+                                    accept="image/*"
+                                    id="FILE_FRONT_SIDE4"
+                                    type="file"
+                                    name="fontimg"
+                                    // value={doc.fontimg}
+                                    onChange={(e) => {
+                                      var objectUrl1 = URL.createObjectURL(
+                                        e.target.files[0]
+                                      );
+
+                                      setFormImage((prevalue) => {
+                                        return {
+                                          ...prevalue,
+                                          fontimg: e.target.files[0],
+                                          ftype: e.target.files[0].type,
+                                          perviewfontimg: objectUrl1,
+                                        };
+                                      });
+                                    }}
+                                    style={{ display: "none" }}
+                                  />
+
+                                  {!formImage.perviewfontimg ? (
+                                    <label
+                                      htmlFor="FILE_FRONT_SIDE4"
+                                      className="text-dark font-weight-bold font-size-xs"
+                                    >
+                                      UPLOAD
+                                    </label>
+                                  ) : (
+                                    <>
+                                      {sendKycRequest.proof1 ? (
+                                        ""
+                                      ) : (
+                                        <button
+                                          className="bg-transparent p-0 border-0"
+                                          onClick={() => {
+                                            onRemoveImage(
+                                              "passport_front_image"
+                                            );
+                                          }}
+                                        >
+                                          <CloseOutlinedIcon className="fontimgclose" />
+                                        </button>
+                                      )}
+                                      {formImage?.ftype == "application/pdf" ? (
+                                        <embed
+                                          src={formImage.perviewfontimg}
+                                          className="deposit-upload-image-preview1"
+                                        />
+                                      ) : (
+                                        <img
+                                          src={formImage.perviewfontimg}
+                                          className="deposit-upload-image-preview1"
+                                        />
+                                      )}
+                                    </>
+                                  )}
+                                </div>
+                              </Grid>
+                              {twoSide.add ? (
+                                <Grid
+                                  item
+                                  sm={6}
+                                  lg={4}
+                                  className="d-flex flex-column align-items-center upload-zone p-4"
+                                >
+                                  <h6 className="mb-3 font-size-xs font-weight-bold">
+                                    BACK SIDE*
+                                  </h6>
+                                  <div className="uploaderDropZone">
+                                    <Input
+                                      accept="image/*"
+                                      id="FILE_BACK_SIDE4"
+                                      type="file"
+                                      name="backimg"
+                                      // value={doc.backimg}
+                                      onChange={(e) => {
+                                        var objectUrl1 = URL.createObjectURL(
+                                          e.target.files[0]
+                                        );
+                                        setFormImage((prevalue) => {
+                                          return {
+                                            ...prevalue,
+                                            backimg: e.target.files[0],
+                                            btype: e.target.files[0].type,
+                                            perviewbackimg: objectUrl1,
+                                          };
+                                        });
+                                      }}
+                                      style={{ display: "none" }}
+                                    />
+
+                                    {!formImage.perviewbackimg ? (
+                                      <label
+                                        htmlFor="FILE_BACK_SIDE4"
+                                        className="text-dark font-weight-bold font-size-xs"
                                       >
-                                        <MenuItem value=""></MenuItem>
-                                      </Select>
-                                    </FormControl>
-                                  </Grid>
-                                  <Grid item sm={6} className="p-1">
-                                    <FormControl className="w-100 mb-2">
-                                      <label className="font-weight-bold font-size-sm d-flex justify-content-start">
-                                        Date Of Issue
+                                        UPLOAD
                                       </label>
-
-                                      <BootstrapInput
-                                        id="date"
-                                        type="date"
-                                        defaultValue=""
-                                        sx={{ width: "100%" }}
-                                        inputlabelprops={{
-                                          shrink: true,
-                                        }}
-                                        inputProps={{ max: "2022-04-13" }}
-                                        onChange={(e) =>
-                                          setFilterData({
-                                            ...filterData,
-                                            deposit_from: e.target.value,
-                                          })
-                                        }
-                                      />
-                                    </FormControl>
-                                  </Grid>
-                                  <Grid item sm={6} className="p-1">
-                                    <FormControl className="w-100 mb-2">
-                                      <label className="font-weight-bold font-size-sm d-flex justify-content-start">
-                                        Date Of Expiry
-                                      </label>
-
-                                      <BootstrapInput
-                                        id="date"
-                                        type="date"
-                                        defaultValue=""
-                                        sx={{ width: "100%" }}
-                                        inputlabelprops={{
-                                          shrink: true,
-                                        }}
-                                        onChange={(e) =>
-                                          setFilterData({
-                                            ...filterData,
-                                            deposit_from: e.target.value,
-                                          })
-                                        }
-                                      />
-                                    </FormControl>
-                                  </Grid>
+                                    ) : (
+                                      <>
+                                        {sendKycRequest.proof1 ? (
+                                          ""
+                                        ) : (
+                                          <button
+                                            className="bg-transparent p-0 border-0"
+                                            onClick={() => {
+                                              onRemoveImage(
+                                                "passport_back_image"
+                                              );
+                                            }}
+                                          >
+                                            <CloseOutlinedIcon className="fontimgclose" />
+                                          </button>
+                                        )}
+                                        {formImage?.btype ==
+                                        "application/pdf" ? (
+                                          <embed
+                                            src={formImage.perviewbackimg}
+                                            className="deposit-upload-image-preview1"
+                                          />
+                                        ) : (
+                                          <img
+                                            src={formImage.perviewbackimg}
+                                            className="deposit-upload-image-preview1"
+                                          />
+                                        )}
+                                      </>
+                                    )}
+                                  </div>
                                 </Grid>
-                              </form>
-                            </Grid> */}
+                              ) : (
+                                ""
+                              )}
                             </Grid>
                           )}
 
@@ -1314,6 +1149,7 @@ const MyDocuments = () => {
                                         return {
                                           ...prevalue,
                                           fontimg: e.target.files[0],
+                                          ftype: e.target.files[0].type,
                                         };
                                       })
                                     }
@@ -1350,10 +1186,17 @@ const MyDocuments = () => {
                                           <CloseOutlinedIcon className="fontimgclose" />
                                         </button>
                                       )}
-                                      <img
-                                        src={addfontimg}
-                                        className="deposit-upload-image-preview1"
-                                      />
+                                      {adddoc?.ftype == "application/pdf" ? (
+                                        <embed
+                                          src={addfontimg}
+                                          className="deposit-upload-image-preview1"
+                                        />
+                                      ) : (
+                                        <img
+                                          src={addfontimg}
+                                          className="deposit-upload-image-preview1"
+                                        />
+                                      )}
                                     </>
                                   )}
                                 </div>
@@ -1380,6 +1223,7 @@ const MyDocuments = () => {
                                           return {
                                             ...prevalue,
                                             backimg: e.target.files[0],
+                                            btype: e.target.files[0].type,
                                           };
                                         })
                                       }
@@ -1416,10 +1260,17 @@ const MyDocuments = () => {
                                             <CloseOutlinedIcon className="fontimgclose" />
                                           </button>
                                         )}
-                                        <img
-                                          src={addbackimg}
-                                          className="deposit-upload-image-preview1"
-                                        />
+                                        {adddoc?.btype == "application/pdf" ? (
+                                          <embed
+                                            src={addbackimg}
+                                            className="deposit-upload-image-preview1"
+                                          />
+                                        ) : (
+                                          <img
+                                            src={addbackimg}
+                                            className="deposit-upload-image-preview1"
+                                          />
+                                        )}
                                       </>
                                     )}
                                   </div>

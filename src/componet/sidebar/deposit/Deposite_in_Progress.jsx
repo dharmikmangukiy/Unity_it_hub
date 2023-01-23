@@ -7,7 +7,7 @@ import { Link, useParams } from "react-router-dom";
 import { BorderTop } from "@mui/icons-material";
 import { ColorButton } from "../../customComponet/CustomElement";
 
-const Deposite_in_Progress = () => {
+const Deposit_in_Progress = () => {
   const { id, id1 } = useParams();
 
   return (
@@ -29,10 +29,10 @@ const Deposite_in_Progress = () => {
                   className="w-100 mb-5 internal-transfer-form"
                 >
                   <div className="card-header d-flex align-items-center justify-content-between card-header-alt p-3">
-                    <Grid container>
+                    <Grid containeSelect Bonus Amountr>
                       <Grid item md={6}>
                         <h5 className="font-weight-bold mb-0 text-dark">
-                          Deposite in progress{" "}
+                          Deposit in progress{" "}
                           <AccessTimeIcon style={{ marginLeft: "5px" }} />
                         </h5>
                       </Grid>
@@ -64,7 +64,7 @@ const Deposite_in_Progress = () => {
                   <div className="pading">
                     <div className="d-flex justify-content-between mr-5">
                       <div className="val1 bold ">
-                        The payment service processes your deposite.{" "}
+                        The payment service processes your Deposit.{" "}
                       </div>
                       <span>
                         <ErrorOutlineIcon />
@@ -73,7 +73,7 @@ const Deposite_in_Progress = () => {
                     <div className="val1 pt-2">
                       if everything is all right, you'll recived a notification
                       and email we will <br /> also make a record in your{" "}
-                      <b>Deposite History</b>{" "}
+                      <b>Deposit History</b>{" "}
                     </div>
                   </div>
                   <div className="divider"></div>
@@ -87,7 +87,7 @@ const Deposite_in_Progress = () => {
                       to="/deposit_history"
                       disableElevation
                     >
-                      <b> View Deposite History</b>
+                      <b> View Deposit History</b>
                     </ColorButton>
                   </div>
                   <div className="pb-3">
@@ -121,4 +121,4 @@ const Deposite_in_Progress = () => {
   );
 };
 
-export default Deposite_in_Progress;
+export default Deposit_in_Progress;

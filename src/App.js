@@ -71,6 +71,9 @@ import Order_chart from "./componet/sidebar/fantastic/Order_chart";
 import How_to_participate from "./componet/sidebar/fantastic/How_to_participate";
 import Fantastic_tour from "./componet/sidebar/fantastic/Fantastic_tour";
 import Deposite_in_Progress from "./componet/sidebar/deposit/Deposite_in_Progress";
+import Spin_dash from "./componet/sidebar/spinAndWin/Spin_dash";
+import BonusDeshboard from "./componet/sidebar/Bonus/BonusDeshboard";
+import HOW_TO_ACTIVE_BONUS from "./componet/sidebar/Bonus/HOW_TO_ACTIVE_BONUS";
 
 function useScrollToTop() {
   const { pathname } = useLocation();
@@ -213,6 +216,11 @@ const App = () => {
                       element={<Dashboard setLogin={setLogin} />}
                     />
                     <Route
+                      exact
+                      path="/spinAndWin"
+                      element={<Spin_dash permission={permission} />}
+                    />
+                    <Route
                       path="*"
                       element={<Navigate to="/dashboard" replace />}
                     />
@@ -239,7 +247,16 @@ const App = () => {
                 <Route exact path="/trade-and-win" element={<TradeAndWin />} />
                 <Route exact path="/prize-lots" element={<PrizeLots />} />
                 <Route exact path="/cart" element={<Cart />} />
-                <Route exact path="/shipping" element={<Shipping />} />
+                <Route
+                  exact
+                  path="/shipping"
+                  element={<Shipping permission={permission} />}
+                />
+                <Route path="/bonus" element={<BonusDeshboard />} />
+                <Route
+                  path="/HOW_TO_ACTIVE_BONUS"
+                  element={<HOW_TO_ACTIVE_BONUS />}
+                />
                 {/* <Route exact path="/depositTest/" element={<DepositeTest />} /> */}
                 <Route exact path="/deposit" element={<DepositeTest />} />
                 <Route path="/partnership" element={<Partnership />} />

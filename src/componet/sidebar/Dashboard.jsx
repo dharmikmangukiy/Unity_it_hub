@@ -436,7 +436,7 @@ const Dashboard = (prop) => {
       setChangeleverageLoader(true);
       const param = new FormData();
       param.append("action", "change_mt5_leverage");
-      param.append("mt5_id", mt5Account);
+      param.append("mt5_id", mt5AndDemoList.value.mt5_acc_no);
       param.append("new_leverage", age);
       if (IsApprove !== "") {
         param.append("is_app", IsApprove.is_app);
@@ -547,7 +547,7 @@ const Dashboard = (prop) => {
   const handleChange = (event, newValue) => {
     setAccountSelect(event.target.value);
     if (event.target.value == "change_max_leverage") {
-      getLeverage();
+      // getLeverage();
     }
     if (event.target.value == "account_information") {
       getAccount();
@@ -1008,7 +1008,7 @@ const Dashboard = (prop) => {
                                                   className="btn-px"
                                                 >
                                                   {val.acc_type == "1"
-                                                    ? "live"
+                                                    ? "Live"
                                                     : ""}
                                                 </div>
                                                 <div
@@ -1026,19 +1026,27 @@ const Dashboard = (prop) => {
                                               </div>
                                               <div className="d-flex align-items-center">
                                                 <div className="mx-3 s_mx">
-                                                  <span>Standard</span>/
+                                                  <span className="fw-700">
+                                                    Standard :{" "}
+                                                  </span>
                                                   <span>{val.mt5_acc_no}</span>
                                                 </div>
                                                 <div className="mx-3 s_mx">
-                                                  <span>LEVERAGE</span>/
+                                                  <span className="fw-700">
+                                                    Leverage :{" "}
+                                                  </span>
                                                   <span>{val.leverage}</span>
                                                 </div>
                                                 <div className="mx-3 s_mx">
-                                                  <span>CREDIT</span>/
+                                                  <span className="fw-700">
+                                                    Credit :{" "}
+                                                  </span>
                                                   <span>{val.mt_credit}</span>
                                                 </div>
                                                 <div className="mx-3 s_mx">
-                                                  <span>MARGIN FREE</span>/
+                                                  <span className="fw-700">
+                                                    Margin Free :{" "}
+                                                  </span>
                                                   <span>
                                                     {val.mt_free_margin}
                                                   </span>
@@ -1047,7 +1055,7 @@ const Dashboard = (prop) => {
                                             </div>
                                             <div className="accunt-data2 d-flex w-100">
                                               <div className="item1">
-                                                {val.mt_balance} USD
+                                                {val.mt_equity} USD
                                               </div>
                                               <div className="item2 d-flex">
                                                 <button className="b-hover item2-item2 d-flex mr btn-costom btn-36">
@@ -1085,7 +1093,7 @@ const Dashboard = (prop) => {
                                                       m: 1,
                                                       minWidth: 120,
                                                     }}
-                                                    className="d-flex"
+                                                    className="d-flex DashBordsetting"
                                                   >
                                                     <i class="material-icons position-absolute">
                                                       settings
@@ -1097,7 +1105,7 @@ const Dashboard = (prop) => {
                                                       label="Account Select"
                                                       value=""
                                                       input={
-                                                        <BootstrapInputs />
+                                                        <BootstrapInputs className="setinginputPadding" />
                                                       }
                                                     >
                                                       <MenuItem
@@ -1130,7 +1138,15 @@ const Dashboard = (prop) => {
                                                         value={
                                                           "change_max_leverage"
                                                         }
-                                                        onClick={getLeverage}
+                                                        onClick={() => {
+                                                          mt5AndDemoList.value =
+                                                            val;
+                                                          setMt5AndDemoList({
+                                                            ...mt5AndDemoList,
+                                                          });
+                                                          setAge(val.leverage);
+                                                          getLeverage();
+                                                        }}
                                                         style={{
                                                           color: "black",
                                                           fontWeight: "500",
@@ -1148,7 +1164,7 @@ const Dashboard = (prop) => {
                                                           setMt5AndDemoList({
                                                             ...mt5AndDemoList,
                                                           });
-                                                          getAccount();
+                                                          // getAccount();
                                                         }}
                                                         style={{
                                                           color: "black",
@@ -1191,7 +1207,9 @@ const Dashboard = (prop) => {
                                 dir={theme.direction}
                               >
                                 {mt5AndDemoList.demo.length == 0 ? (
-                                  " No Demo Account Available"
+                                  <div className="centerflexjus">
+                                    No Demo Account Available
+                                  </div>
                                 ) : (
                                   <>
                                     {" "}
@@ -1233,15 +1251,15 @@ const Dashboard = (prop) => {
                                                   /<span>{val.mt5_acc_no}</span>
                                                 </div>
                                                 <div className="mx-3 s_mx">
-                                                  <span>LEVERAGE</span>/
+                                                  <span>Leverage : </span>
                                                   <span>{val.leverage}</span>
                                                 </div>
                                                 <div className="mx-3 s_mx">
-                                                  <span>CREDIT</span>/
+                                                  <span>Credit : </span>
                                                   <span>{val.mt_credit}</span>
                                                 </div>
                                                 <div className="mx-3 s_mx">
-                                                  <span>MARGIN FREE</span>/
+                                                  <span>Margin Free : </span>
                                                   <span>
                                                     {val.mt_free_margin}
                                                   </span>
@@ -1426,7 +1444,9 @@ const Dashboard = (prop) => {
                                     </label>
                                     <Select
                                       value={age}
-                                      onChange={handleChange}
+                                      onChange={(e) => {
+                                        setAge(e.target.value);
+                                      }}
                                       displayEmpty
                                       inputProps={{
                                         "aria-label": "Without label",
@@ -2395,7 +2415,7 @@ const Dashboard = (prop) => {
               </Grid>
             </div>
           )}
-          <Dialog
+          {/* <Dialog
             open={openModel}
             onClose={handleClose}
             // aria-labelledby="alert-dialog-title"
@@ -2508,8 +2528,8 @@ const Dashboard = (prop) => {
                 )}
               </Grid>
             </DialogContent>
-          </Dialog>
-          <OpenDemoModel
+          </Dialog> */}
+          {/* <OpenDemoModel
             setDOpen={setVerifyModal}
             // Dopen={prefrence.step_number == "2" ? true : false}
             Dopen={localStorage.getItem("step") == 1 ? verifyModal : false}
@@ -2580,7 +2600,7 @@ const Dashboard = (prop) => {
                 Continue
               </ColorButton>
             </div>
-          </Dialog>
+          </Dialog> */}
           {Dopen ? (
             <OpenDemoModel
               Dopen={Dopen}

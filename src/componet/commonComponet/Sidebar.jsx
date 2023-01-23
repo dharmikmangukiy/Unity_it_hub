@@ -31,6 +31,7 @@ import { ReactComponent as Plateform } from "../../svg/plateform.svg";
 import { ReactComponent as Reports } from "../../svg/reports.svg";
 import { ReactComponent as Withdraw } from "../../svg/withdraw.svg";
 import { ReactComponent as Your_trnascation } from "../../svg/your_trnascation.svg";
+import { ReactComponent as Fantasticfour } from "../../svg/fantasticfour.svg";
 
 const style = {
   margin: "0 1.42857rem 0 0",
@@ -302,7 +303,7 @@ const Sidebar = (prop) => {
                   <li className="webViewSidebar">
                     <NavLink
                       className="nav-link-simple "
-                      to="/deposit"
+                      to="/bonus"
                       onClick={CloseSidebar}
                     >
                       <Bonus className="hoverSidebar" />
@@ -421,6 +422,17 @@ const Sidebar = (prop) => {
                           {/* <span className="material-icons  icon_Mar">analytics</span> */}
                           <Reports className="hoverSidebar" />
                           {t("Reports")}{" "}
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          className="nav-link-simple "
+                          to="/spinAndWin"
+                          onClick={CloseSidebar}
+                        >
+                          {/* <span className="material-icons  icon_Mar">analytics</span> */}
+                          <Reports className="hoverSidebar" />
+                          Spin & Win
                         </NavLink>
                       </li>
                       <li>
@@ -738,7 +750,7 @@ const Sidebar = (prop) => {
                       onClick={CloseSidebar}
                     >
                       {/* <span className="material-icons  icon_Mar">dashboard</span> */}
-                      <DASHBORD className="hoverSidebar" />
+                      <Fantasticfour className="hoverSidebar" />
                       Fantastic tour
                     </NavLink>
                   </li>

@@ -383,9 +383,21 @@ const Fantastic_tour = () => {
                                           </div>
                                         </div>
                                         <div className="text-center">
+                                          {}
+
                                           {item1.is_eligible == false &&
                                           item1.is_claimed == false ? (
-                                            ""
+                                            <ColorButton
+                                              id="btn_1"
+                                              disabled
+                                              onClick={() => {
+                                                popData.data = item1;
+                                                setPopData({ ...popData });
+                                                handleClickOpen();
+                                              }}
+                                            >
+                                              Participate
+                                            </ColorButton>
                                           ) : item1.is_eligible == true &&
                                             item1.is_claimed == false ? (
                                             <ColorButton
@@ -403,9 +415,9 @@ const Fantastic_tour = () => {
                                             <ColorButton
                                               id="btn_1"
                                               onClick={() => {
-                                                popData.data = item1;
-                                                setPopData({ ...popData });
-                                                handleClickOpen();
+                                                navigate(
+                                                  `/Order_chart/${item1.fantastic_id}`
+                                                );
                                               }}
                                             >
                                               view
@@ -487,7 +499,17 @@ const Fantastic_tour = () => {
                                         <div className="text-center">
                                           {item1.is_eligible == false &&
                                           item1.is_claimed == false ? (
-                                            ""
+                                            <ColorButton
+                                              id="btn_1"
+                                              disabled
+                                              onClick={() => {
+                                                popData.data = item1;
+                                                setPopData({ ...popData });
+                                                handleClickOpen();
+                                              }}
+                                            >
+                                              Participate
+                                            </ColorButton>
                                           ) : item1.is_eligible == true &&
                                             item1.is_claimed == false ? (
                                             <ColorButton

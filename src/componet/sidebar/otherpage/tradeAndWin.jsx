@@ -7,7 +7,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ReactComponent as Star } from "../../../svg/star.svg";
-import { Url } from "../../../global";
+import { IsApprove, Url } from "../../../global";
 
 const TradeAndWin = () => {
   const navigate = useNavigate();
@@ -37,9 +37,11 @@ const TradeAndWin = () => {
   const fetchProduct = async () => {
     try {
       const param = new FormData();
-      param.append("user_id", 15);
-      param.append("auth_key", "dsadsad-asdas-dsad-a");
-      param.append("is_app", 1);
+      if (IsApprove !== "") {
+        param.append("is_app", IsApprove.is_app);
+        param.append("user_id", IsApprove.user_id);
+        param.append("auth_key", IsApprove.auth);
+      }
       param.append("action", "get_trade_win_products");
 
       let data = await axios.post(`${Url}/ajaxfiles/trade_and_win.php`, param);
@@ -56,9 +58,11 @@ const TradeAndWin = () => {
   const fetchOrder = async () => {
     try {
       const param = new FormData();
-      param.append("user_id", 15);
-      param.append("auth_key", "dsadsad-asdas-dsad-a");
-      param.append("is_app", 1);
+      if (IsApprove !== "") {
+        param.append("is_app", IsApprove.is_app);
+        param.append("user_id", IsApprove.user_id);
+        param.append("auth_key", IsApprove.auth);
+      }
       param.append("action", "order_history");
       mainLoader.order = true;
       setMainLoader({ ...mainLoader });
@@ -76,9 +80,11 @@ const TradeAndWin = () => {
   const handleAddToCart = async (product, action) => {
     try {
       const param = new FormData();
-      param.append("user_id", 15);
-      param.append("auth_key", "dsadsad-asdas-dsad-a");
-      param.append("is_app", 1);
+      if (IsApprove !== "") {
+        param.append("is_app", IsApprove.is_app);
+        param.append("user_id", IsApprove.user_id);
+        param.append("auth_key", IsApprove.auth);
+      }
       param.append("action", action);
       param.append("item_id", product.item_id);
       mainLoader.button[product.item_id] = true;
@@ -108,9 +114,11 @@ const TradeAndWin = () => {
   const fetchCart = async () => {
     try {
       const param = new FormData();
-      param.append("user_id", 15);
-      param.append("auth_key", "dsadsad-asdas-dsad-a");
-      param.append("is_app", 1);
+      if (IsApprove !== "") {
+        param.append("is_app", IsApprove.is_app);
+        param.append("user_id", IsApprove.user_id);
+        param.append("auth_key", IsApprove.auth);
+      }
       param.append("action", "get_cart_data");
 
       let data = await axios.post(`${Url}/ajaxfiles/trade_and_win.php`, param);
@@ -127,9 +135,11 @@ const TradeAndWin = () => {
   const fetchAvailableLots = async () => {
     try {
       const param = new FormData();
-      param.append("user_id", 15);
-      param.append("auth_key", "dsadsad-asdas-dsad-a");
-      param.append("is_app", 1);
+      if (IsApprove !== "") {
+        param.append("is_app", IsApprove.is_app);
+        param.append("user_id", IsApprove.user_id);
+        param.append("auth_key", IsApprove.auth);
+      }
       param.append("action", "get_available_lots");
 
       let data = await axios.post(`${Url}/ajaxfiles/trade_and_win.php`, param);

@@ -1,17 +1,29 @@
 .mobile-disabled-style {
-    padding: 10px !important;
+  padding: 10px !important;
 }
 .mobile-disabled-style i {
-    font-size: 25px;
+  font-size: 25px;
 }
 .sponsorlink-content-section {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
-
-@media (max-width: 1099.98px){
-    .docimage    {
-        max-width: 102px;
-    }
+@media (max-width: 1099.98px) {
+  .docimage {
+    max-width: 102px;
+  }
+}
+/* .MuiAutocomplete-inputRoot {
+  padding-right: 35px !important;
+} */
+.mobileCode > div:first-child {
+  padding-right: 35px !important;
+}
+.id-proof-wrap {
+  display: flex;
+  justify-content: space-between;
+}
+.fontsize17 {
+  font-size: 17px !important;
 }

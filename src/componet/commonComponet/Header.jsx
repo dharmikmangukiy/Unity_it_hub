@@ -334,7 +334,7 @@ const Header = (prop) => {
                 <li className="headerMenu webViewHeader">
                   <NavLink
                     className="nav-link-simple d-flex "
-                    to="/"
+                    to="/bonus"
                     // onClick={CloseSidebar}
                   >
                     <Bonus className="hoverSidebar" />
@@ -475,7 +475,7 @@ const Header = (prop) => {
               <div>
                 <div className="avatar-logo">{prop.permission?.user_name}</div>
                 <div>
-                  <span className="verifyText">Verifyed</span>{" "}
+                  <span className="verifyText">Verified</span>{" "}
                 </div>
               </div>
             </div>

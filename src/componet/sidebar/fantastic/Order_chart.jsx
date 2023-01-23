@@ -23,9 +23,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 const Order_chart = () => {
   const { id } = useParams();
-  const [image, setimage] = useState({
-    data: "",
-  });
+  const [image, setimage] = useState();
   const navigate = useNavigate();
   const [mainLoader, setMainLoader] = useState(true);
   useEffect(() => {
@@ -41,7 +39,7 @@ const Order_chart = () => {
     param.append("fantastic_id", prop);
 
     param.append("action", "view_my_participants");
-
+    console.log(image);
     await axios
       .post(Url + "/ajaxfiles/fantastic_four_offer.php", param)
       .then((res) => {
@@ -50,6 +48,7 @@ const Order_chart = () => {
         }
         if (res.data.status == "error") {
         } else {
+          console.log("view_my_participants", res.data.data);
           setMainLoader(false);
           setimage(res.data.data);
         }
@@ -90,7 +89,7 @@ const Order_chart = () => {
                                 <div className="order-chartHeder">
                                   <img
                                     className="image4"
-                                    src="./image/beautiful-landscape-beach-sea-ocean-with-empty-chair-deck-umbrella-nearly-coconut-palm-tree-with-white-cloud-blue-sky.jpg"
+                                    src={image?.offer_image[0]}
                                   />
 
                                   <span className="manue">
@@ -117,8 +116,26 @@ const Order_chart = () => {
                                 />
 
                                 <span className="manue3 ">
-                                  Winner announce at <br />{" "}
-                                  {image?.winning_date}
+                                  {image?.is_winner_announce == 0 ? (
+                                    <>
+                                      Winner announce at <br />{" "}
+                                      {image?.winning_date}
+                                    </>
+                                  ) : image?.is_winner_announce == 1 &&
+                                    image?.is_winner == 0 ? (
+                                    <>
+                                      Winner announce at <br />{" "}
+                                      {image?.winning_date}
+                                    </>
+                                  ) : image?.is_winner_announce == 1 &&
+                                    image?.is_winner == 1 ? (
+                                    <>
+                                      Winner announce at <br />{" "}
+                                      {image?.winning_date}
+                                    </>
+                                  ) : (
+                                    ""
+                                  )}
                                 </span>
                                 <img
                                   className="image6"

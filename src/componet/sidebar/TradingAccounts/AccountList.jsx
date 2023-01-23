@@ -851,6 +851,26 @@ export const AccountList = () => {
                                     </label>
                                   </FormControl>
                                 </Grid>
+                                <Grid
+                                  item
+                                  md={2}
+                                  className="align-items-center"
+                                >
+                                  <FormControl className="form-control ">
+                                    <label
+                                      htmlFor=""
+                                      className="text-info font-weight-bold form-label-head w-100"
+                                    >
+                                      MARGIN Level
+                                    </label>
+                                    <label
+                                      htmlFor=""
+                                      className="text-dark font-weight-bold w-100"
+                                    >
+                                      {accountDetails?.margin_level}
+                                    </label>
+                                  </FormControl>
+                                </Grid>
                               </Grid>
 
                               <hr />

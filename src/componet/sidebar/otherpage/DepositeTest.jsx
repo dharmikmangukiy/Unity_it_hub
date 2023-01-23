@@ -213,6 +213,7 @@ const DepositeTest = () => {
       }
     });
   };
+
   return (
     <div>
       <div className="app-content--inner">
@@ -408,7 +409,7 @@ const DepositeTest = () => {
                                           : ""
                                       }`}
                                     >
-                                      <a href="/deposit#depositDetails">
+                                      <a>
                                         <div
                                           title={item.title}
                                           onClick={() => {
@@ -444,7 +445,7 @@ const DepositeTest = () => {
                         </Paper>
                       </Grid>
                     </Grid>
-                    {info.depositTo !== "wallet" ? (
+                    {info.depositTo !== "wallet" && info.cryptoData == "" ? (
                       <Grid container spacing={3}>
                         <Grid item md={12} className="d-flex">
                           <Paper
@@ -558,60 +559,184 @@ const DepositeTest = () => {
                                     />
                                   </li> */}
                                         </ul>
-                                        <h5
-                                          className="font-weight-bold mb-0 "
-                                          style={{
-                                            marginTop: "30px",
-                                            color: "#5d2067",
-                                          }}
-                                        >
-                                          Select Bonus Amount
-                                        </h5>
-                                        <div>
-                                          <FormControl>
-                                            <RadioGroup
-                                              row
-                                              aria-labelledby="demo-row-radio-buttons-group-label"
-                                              name="row-radio-buttons-group"
-                                              value={info.selsectRadio}
-                                              onChange={(e) => {
-                                                info.selsectRadio =
-                                                  e.target.value;
-                                                setInfo({ ...info });
-                                                console.log(
-                                                  "radio",
-                                                  e.target.value
-                                                );
-                                              }}
-                                            >
-                                              <FormControlLabel
-                                                value="10"
-                                                control={<Radio size="small" />}
-                                                label="10%"
-                                              />
-                                              <FormControlLabel
-                                                value="20"
-                                                control={<Radio size="small" />}
-                                                label="20%"
-                                              />
-                                              <FormControlLabel
-                                                value="30"
-                                                control={<Radio size="small" />}
-                                                label="30%"
-                                              />
-                                              <FormControlLabel
-                                                value="40"
-                                                control={<Radio size="small" />}
-                                                label="40%"
-                                              />
-                                              <FormControlLabel
-                                                value="50"
-                                                control={<Radio size="small" />}
-                                                label="50%"
-                                              />
-                                            </RadioGroup>
-                                          </FormControl>
-                                        </div>
+                                        <Grid container spacing={2}>
+                                          <Grid item md={12}>
+                                            <div>
+                                              <h5
+                                                className="font-weight-bold mb-0 "
+                                                style={{
+                                                  marginTop: "30px",
+                                                  color: "#5d2067",
+                                                }}
+                                              >
+                                                Select Bonus Amount
+                                              </h5>
+                                              <div
+                                                className="d-flex"
+                                                style={{ padding: "10px" }}
+                                              >
+                                                <FormControl className="w-100">
+                                                  <RadioGroup
+                                                    aria-labelledby="demo-row-radio-buttons-group-label"
+                                                    name="row-radio-buttons-group"
+                                                    value={info.selsectRadio}
+                                                    className="w-100"
+                                                    onChange={(e) => {
+                                                      info.selsectRadio =
+                                                        e.target.value;
+                                                      setInfo({ ...info });
+                                                      console.log(
+                                                        "radio",
+                                                        e.target.value
+                                                      );
+                                                    }}
+                                                  >
+                                                    <div className="radioButoon-main">
+                                                      <FormControlLabel
+                                                        value={10}
+                                                        control={
+                                                          <Radio
+                                                            size="small"
+                                                            className="radiobutoon-padding"
+                                                          />
+                                                        }
+                                                        label="10%"
+                                                      />
+                                                      <div className="radiobutoon-padding">
+                                                        Bonus Amount :{" "}
+                                                        {(
+                                                          (info.amount * 10) /
+                                                          100
+                                                        ).toFixed(2)}
+                                                      </div>
+                                                      <div className="radiobutoon-padding">
+                                                        Lots Required:{" "}
+                                                        {(
+                                                          (((info.amount * 10) /
+                                                            100) *
+                                                            40) /
+                                                          100
+                                                        ).toFixed()}
+                                                      </div>
+                                                    </div>
+                                                    <div className="radioButoon-main">
+                                                      <FormControlLabel
+                                                        value={20}
+                                                        control={
+                                                          <Radio
+                                                            size="small"
+                                                            className="radiobutoon-padding"
+                                                          />
+                                                        }
+                                                        label="20%"
+                                                      />
+                                                      <div className="radiobutoon-padding">
+                                                        Bonus Amount :{" "}
+                                                        {(
+                                                          (info.amount * 20) /
+                                                          100
+                                                        ).toFixed(2)}
+                                                      </div>
+                                                      <div className="radiobutoon-padding">
+                                                        Lots Required:{" "}
+                                                        {(
+                                                          (((info.amount * 20) /
+                                                            100) *
+                                                            40) /
+                                                          100
+                                                        ).toFixed()}
+                                                      </div>
+                                                    </div>
+                                                    <div className="radioButoon-main">
+                                                      <FormControlLabel
+                                                        value={30}
+                                                        control={
+                                                          <Radio
+                                                            size="small"
+                                                            className="radiobutoon-padding"
+                                                          />
+                                                        }
+                                                        label="30%"
+                                                      />
+                                                      <div className="radiobutoon-padding">
+                                                        Bonus Amount :{" "}
+                                                        {(
+                                                          (info.amount * 30) /
+                                                          100
+                                                        ).toFixed(2)}
+                                                      </div>
+                                                      <div className="radiobutoon-padding">
+                                                        Lots Required:{" "}
+                                                        {(
+                                                          (((info.amount * 30) /
+                                                            100) *
+                                                            40) /
+                                                          100
+                                                        ).toFixed()}
+                                                      </div>
+                                                    </div>
+                                                    <div className="radioButoon-main">
+                                                      <FormControlLabel
+                                                        value={40}
+                                                        control={
+                                                          <Radio
+                                                            size="small"
+                                                            className="radiobutoon-padding"
+                                                          />
+                                                        }
+                                                        label="40%"
+                                                      />
+                                                      <div className="radiobutoon-padding">
+                                                        Bonus Amount :{" "}
+                                                        {(
+                                                          (info.amount * 40) /
+                                                          100
+                                                        ).toFixed(2)}
+                                                      </div>
+                                                      <div className="radiobutoon-padding">
+                                                        Lots Required:{" "}
+                                                        {(
+                                                          (((info.amount * 40) /
+                                                            100) *
+                                                            40) /
+                                                          100
+                                                        ).toFixed()}
+                                                      </div>
+                                                    </div>
+                                                    <div className="radioButoon-main">
+                                                      <FormControlLabel
+                                                        value={50}
+                                                        control={
+                                                          <Radio
+                                                            size="small"
+                                                            className="radiobutoon-padding"
+                                                          />
+                                                        }
+                                                        label="50%"
+                                                      />
+                                                      <div className="radiobutoon-padding">
+                                                        Bonus Amount :{" "}
+                                                        {(
+                                                          (info.amount * 50) /
+                                                          100
+                                                        ).toFixed(2)}
+                                                      </div>
+                                                      <div className="radiobutoon-padding">
+                                                        Lots Required:{" "}
+                                                        {(
+                                                          (((info.amount * 50) /
+                                                            100) *
+                                                            40) /
+                                                          100
+                                                        ).toFixed()}
+                                                      </div>
+                                                    </div>
+                                                  </RadioGroup>
+                                                </FormControl>
+                                              </div>
+                                            </div>
+                                          </Grid>
+                                        </Grid>
                                       </div>
                                     </div>
                                   </Grid>

@@ -1086,6 +1086,7 @@ const BankAccountp = () => {
                                             <BootstrapInput
                                               type="text"
                                               value={age.otp}
+                                              onBlur={trueFalse}
                                               name="otp"
                                               onChange={(e) => {
                                                 if (
@@ -1099,7 +1100,8 @@ const BankAccountp = () => {
                                                 "aria-label": "Without label",
                                               }}
                                             />
-                                            {age.otp == "" ? (
+                                            {age.otp == "" &&
+                                            infoTrue.otp == true ? (
                                               <FormHelperText>
                                                 Please Enter OTP
                                               </FormHelperText>

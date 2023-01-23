@@ -115,9 +115,7 @@ const MyClient = () => {
             <table>
               <thead>
                 <th colspan="5" scope="colgroup" className="colcolor"></th>
-                <th colspan="3" scope="colgroup" className="colcolor">
-                  Self
-                </th>
+                <th colspan="3" scope="colgroup" className=""></th>
                 <th colspan="4" scope="colgroup" className="colcolor">
                   Downline
                 </th>
@@ -128,7 +126,7 @@ const MyClient = () => {
                   <th>Name</th>
                   <th>Email</th>
                   <th>MT Code</th>
-                  <th className="colcolor">IB Account</th>
+                  <th className="">IB Account</th>
                   <th>Deposit</th>
                   <th>Withdraw</th>
                   <th className="colcolor">Lot</th>
@@ -150,7 +148,7 @@ const MyClient = () => {
                         <td>{item.name}</td>
                         <td>{item.user_email}</td>
                         <td>{item.mt5_acc_ids}</td>
-                        <td className="colcolor">
+                        <td className="">
                           {item.is_ib_account == "1" ? "Yes" : "No"}
                         </td>
                         <td>{item.deposit_amount}</td>
@@ -192,7 +190,7 @@ const MyClient = () => {
                     </td>
                   </tr>
                 )}
-              </tbody>  
+              </tbody>
               <tfoot>
                 <tr>
                   <td colSpan="5">
@@ -376,15 +374,13 @@ const MyClient = () => {
                               <th
                                 colspan="5"
                                 scope="colgroup"
-                                className="colcolor"
+                                className=""
                               ></th>
                               <th
                                 colspan="3"
                                 scope="colgroup"
                                 className="colcolor"
-                              >
-                                Self
-                              </th>
+                              ></th>
                               <th
                                 colspan="4"
                                 scope="colgroup"
@@ -399,7 +395,7 @@ const MyClient = () => {
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>MT Code</th>
-                                <th className="colcolor">IB Account</th>
+                                <th className="">IB Account</th>
                                 <th>Deposit</th>
                                 <th>Withdraw</th>
                                 <th className="colcolor">Lot</th>
@@ -421,7 +417,7 @@ const MyClient = () => {
                                       <td>{item.name}</td>
                                       <td>{item.user_email}</td>
                                       <td>{item.mt5_acc_ids}</td>
-                                      <td className="colcolor">
+                                      <td className="">
                                         {item.is_ib_account == "1"
                                           ? "Yes"
                                           : "No"}

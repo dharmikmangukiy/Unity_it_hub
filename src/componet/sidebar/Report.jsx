@@ -21,7 +21,7 @@ const Report = () => {
   const [open, setOpen] = React.useState(false);
 
   const [age, setAge] = React.useState("");
-  const [type, setType] = React.useState("all");
+  const [type, setType] = React.useState("deposit");
   const [filterData, setFilterData] = useState({});
   const [refresh, setRefresh] = useState(false);
   const [internalParam, setInternalParam] = useState({
@@ -88,10 +88,10 @@ const Report = () => {
       // wrap: true,
       sortable: true,
       reorder: true,
-      grow: 0.6,
+      grow: 0.3,
     },
     {
-      name: "WALLET CODE",
+      name: "WALLET/MT5",
       selector: (row) => {
         return <span title={row.wallet_code}>{row.wallet_code}</span>;
       },
@@ -530,7 +530,7 @@ const Report = () => {
                             inputProps={{ "aria-label": "Without label" }}
                             input={<BootstrapInput />}
                           >
-                            <MenuItem value="all">All</MenuItem>
+                            {/* <MenuItem value="all">All</MenuItem> */}
 
                             <MenuItem value="deposit">Deposit</MenuItem>
                             <MenuItem value="withdrawal">Withdrawal</MenuItem>
@@ -663,7 +663,7 @@ const Report = () => {
                   style={{ borderRadius: "10px", marginTop: "31px" }}
                   className="pending-all-15px"
                 >
-                  {type == "all" ? (
+                  {/* {type == "all" ? (
                     <CommonTable
                       url={`${Url}/datatable/wallet_history.php`}
                       column={walletColumn}
@@ -673,7 +673,7 @@ const Report = () => {
                     />
                   ) : (
                     ""
-                  )}
+                  )} */}
                   {type == "deposit" ? (
                     <CommonTable
                       url={`${Url}/datatable/deposit_list.php`}

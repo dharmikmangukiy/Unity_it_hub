@@ -1,0 +1,168 @@
+.money_doll {
+  color: #000000;
+  font-weight: 600;
+  font-size: 36px;
+}
+
+.bordeer3 {
+  border: 1px solid #dfdfdf;
+  height: 100px;
+  width: 100%;
+  border-radius: 20px;
+  margin-bottom: 12px;
+  display: flex;
+}
+.hederbordeer3 {
+  display: flex;
+  width: 100%;
+}
+#btn_11 {
+  border-radius: 50px !important;
+}
+
+.text_left1 {
+  border-radius: 20px 0 100% 0;
+  background: #5d2067;
+  width: 55px;
+  height: 55px;
+}
+
+.flex_items {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  height: 100%;
+}
+
+.head_up {
+  display: flex;
+  justify-content: space-around;
+  width: 60%;
+}
+
+@media only screen and (max-width: 1230px) {
+  .head_up {
+    width: 64%;
+    font-size: 0.9rem;
+  }
+
+  #btn_11 {
+    font-size: 0.9rem;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .text_left1 {
+    display: none;
+  }
+
+  .bordeer3 {
+    border: none;
+    border-top: 1px solid black;
+    height: auto;
+    width: 100%;
+    border-radius: 0 !important;
+    margin-bottom: 12px;
+  }
+
+  .flex_items {
+    display: block;
+    width: 100%;
+    margin-top: 0;
+  }
+
+  #btn_11 {
+    border-radius: 10px !important;
+    width: 100%;
+    padding: 15px;
+  }
+
+  /* .margin_lft {
+    margin-left: 50%;
+  } */
+
+  /* .margin_lft2 {
+    margin-left: 53.5%;
+  } */
+
+  .Deposit_Amount {
+    display: none;
+  }
+
+  .head_up {
+    display: block;
+  }
+
+  /* .d_block{
+    display: block;
+    position: relative;
+    top: 102px;
+  } */
+}
+
+/* @media only screen and (max-width: 630px) {
+  .margin_lft {
+    margin-left: 46%;
+  }
+
+  .margin_lft2 {
+    margin-left: 50%;
+  }
+} */
+
+/* @media only screen and (max-width: 540px) {
+  .margin_lft {
+    margin-left: 30%;
+  }
+
+  .margin_lft2 {
+    margin-left: 33.5%;
+  }
+} */
+
+/* @media only screen and (max-width: 782px) {
+  .margin_lft2 {
+    margin-left: 43.5%;
+  }
+} */
+
+/* @media only screen and (max-width: 430px) {
+  .margin_lft {
+    margin-left: 20%;
+  }
+
+  .margin_lft2 {
+    margin-left: 23.5%;
+  }
+} */
+
+@media only screen and (max-width: 370px) {
+  .margin_lft,
+  .margin_lft2 {
+    font-size: 14px;
+  }
+
+  .d_block {
+    font-size: 14px;
+  }
+
+  .margin_lft {
+    margin-left: 20%;
+  }
+
+  /* .margin_lft2 {
+    margin-left: 23.5%;
+  } */
+}
+
+@media only screen and (max-width: 562px) {
+  .Deshs-bones .db-btn-1 {
+    margin-top: 16px;
+    padding: 0px 11px;
+    font-size: 11px;
+    line-height: 27px;
+    min-height: 35px;
+    margin-left: 0px !important;
+  }
+}
