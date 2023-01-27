@@ -2,9 +2,15 @@ import React from "react";
 import { Grid, Paper } from "@mui/material";
 import { useState } from "react";
 import "./BonusDeshboard.css";
+import { useEffect } from "react";
 
 function HOW_TO_ACTIVE_BONUS() {
   const [mainLoader, setMainLoader] = useState(false);
+  // const [close, setclose] = useState(true);
+  // const closepop = () => {
+  //   setclose(false);
+  // };
+
   return (
     <>
       <div className="app-content--inner">
@@ -55,6 +61,26 @@ function HOW_TO_ACTIVE_BONUS() {
           )}
         </div>
       </div>
+      {/* {close == true ? (
+        <div className="popmain">
+          <div className="popmain1">
+            <div style={{ color: "#ff0505" }} className="d-flex">
+              <div>ATTENTION</div>
+              <div className="popicon">
+                <i class="material-icons md-48" onClick={closepop}>
+                  close
+                </i>
+              </div>
+            </div>
+            <div>RIGHTFX DOES NOT OFFER ANY GREY LABEL SERVICE.</div>
+            <div>
+              BE AWARE OF IMPOSTERS OFFERING SUCH SERVICE IN THE NAME OF RIGHTFX
+            </div>
+          </div>
+        </div>
+      ) : (
+        ""
+      )} */}
     </>
   );
 }

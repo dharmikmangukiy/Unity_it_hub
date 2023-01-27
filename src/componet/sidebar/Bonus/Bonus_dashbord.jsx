@@ -443,11 +443,11 @@ const Bonus_dashbord = (props) => {
                 </div> */}
                   <div className="hederbordeer3">
                     {/* <div style={{ width: "7%" }}></div> */}
-                    <div className="flex_items">
-                      <span className="Deposit_Amount"> Amount</span>
-                      <span className="d_block">MT5 Account Number</span>
-                      <span className="d_block"> Deposit Date</span>
-                      <span className="d_block">Action</span>
+                    <div className="flex_items" style={{ marginLeft: "7%" }}>
+                      <span className="Deposit_Amount w-18"> Amount</span>
+                      <span className="d_block w-17">MT5 Account Number</span>
+                      <span className="d_block w-24"> Deposit Date</span>
+                      <span className="d_block w-27">Action</span>
                     </div>
                   </div>
                   {data.arrayData.map((item, index) => {
@@ -463,22 +463,22 @@ const Bonus_dashbord = (props) => {
                             />
                           </h1>
                         </div>
-                        <div className="flex_items">
-                          <div>
+                        <div className="flex_items ">
+                          <div className="w-18">
                             <span className="money_doll">{item.amount}</span>
                           </div>
 
-                          <div>
+                          <div className="w-17">
                             <span className="margin_lft">
                               {item.mt5_acc_no}
                             </span>
                           </div>
-                          <div>
+                          <div className="w-24">
                             <span className="margin_lft">
                               <NewDate newDate={item.date} />
                             </span>
                           </div>
-                          <div>
+                          <div className="w-27">
                             {" "}
                             <ColorButton
                               id="btn_11"

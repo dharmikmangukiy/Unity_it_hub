@@ -1246,21 +1246,27 @@ const Dashboard = (prop) => {
                                               </div>
                                               <div className="d-flex align-items-center">
                                                 <div className="mx-3 s_mx">
-                                                  <span>
-                                                    {val.mt5_group_name}
+                                                  <span className="fw-700">
+                                                    {val.mt5_group_name}:
                                                   </span>
-                                                  /<span>{val.mt5_acc_no}</span>
+                                                  <span>{val.mt5_acc_no}</span>
                                                 </div>
                                                 <div className="mx-3 s_mx">
-                                                  <span>Leverage : </span>
+                                                  <span className="fw-700">
+                                                    Leverage :{" "}
+                                                  </span>
                                                   <span>{val.leverage}</span>
                                                 </div>
                                                 <div className="mx-3 s_mx">
-                                                  <span>Credit : </span>
+                                                  <span className="fw-700">
+                                                    Credit :{" "}
+                                                  </span>
                                                   <span>{val.mt_credit}</span>
                                                 </div>
                                                 <div className="mx-3 s_mx">
-                                                  <span>Margin Free : </span>
+                                                  <span className="fw-700">
+                                                    Margin Free :{" "}
+                                                  </span>
                                                   <span>
                                                     {val.mt_free_margin}
                                                   </span>
@@ -1269,7 +1275,7 @@ const Dashboard = (prop) => {
                                             </div>
                                             <div className="accunt-data2 d-flex w-100">
                                               <div className="item1">
-                                                {val.mt_balance}
+                                                {val.mt_balance} USD
                                               </div>
                                               <div className="item2 d-flex">
                                                 {/* <button className="b-hover item2-item2 d-flex mr btn-costom btn-36">
@@ -1616,6 +1622,46 @@ const Dashboard = (prop) => {
                                 </Grid>
                                 <Grid item md={12} className="d-flex">
                                   <Grid item md={5}>
+                                    currency Type
+                                  </Grid>
+                                  <Grid item md={7}>
+                                    USD
+                                  </Grid>
+                                </Grid>
+                                <Grid item md={12} className="d-flex">
+                                  <Grid item md={5}>
+                                    Balance
+                                  </Grid>
+                                  <Grid item md={7}>
+                                    {mt5AndDemoList.value?.my_balance}
+                                  </Grid>
+                                </Grid>
+                                <Grid item md={12} className="d-flex">
+                                  <Grid item md={5}>
+                                    Credit
+                                  </Grid>
+                                  <Grid item md={7}>
+                                    {mt5AndDemoList.value?.mt_credit}
+                                  </Grid>
+                                </Grid>
+                                <Grid item md={12} className="d-flex">
+                                  <Grid item md={5}>
+                                    Equity
+                                  </Grid>
+                                  <Grid item md={7}>
+                                    {mt5AndDemoList.value?.mt_equity}
+                                  </Grid>
+                                </Grid>
+                                <Grid item md={12} className="d-flex">
+                                  <Grid item md={5}>
+                                    Free Margin
+                                  </Grid>
+                                  <Grid item md={7}>
+                                    {mt5AndDemoList.value?.mt_free_margin}
+                                  </Grid>
+                                </Grid>
+                                <Grid item md={12} className="d-flex">
+                                  <Grid item md={5}>
                                     Actual leverage
                                   </Grid>
                                   <Grid item md={7}>
@@ -1630,6 +1676,7 @@ const Dashboard = (prop) => {
                                     {mt5AndDemoList.value?.leverage}
                                   </Grid>
                                 </Grid>
+
                                 <Grid item md={12} className="d-flex">
                                   <Grid item md={5}>
                                     Real funds
@@ -1638,6 +1685,7 @@ const Dashboard = (prop) => {
                                     {mt5AndDemoList.value?.mt_balance}
                                   </Grid>
                                 </Grid>
+
                                 <Grid item md={12} className="d-flex">
                                   <Grid item md={5}>
                                     Unrealized P&L

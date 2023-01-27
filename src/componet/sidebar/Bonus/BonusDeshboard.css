@@ -64,7 +64,76 @@
      color: #787878;
      margin-top: 15px;
  }
+/* .popmain {
+    opacity: 1;
+    z-index: 111;
+    width: 33%;
+    height: auto;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+}
 
+.popmain1 {
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    font-weight: 600;
+    color: black;
+    position: relative;
+    line-height: 1.5;
+}
+
+.popicon {
+    right: 0%;
+    top: 0%;
+    padding: 5px;
+    position: absolute;
+    opacity: .7;
+}
+
+.popicon:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 1416px) {
+    .popmain {
+        width: 42%;
+    }
+}
+
+@media only screen and (max-width: 1040px) {
+    .popmain {
+        width: 560px
+    }
+}
+
+@media only screen and (max-width: 630px) {
+    .popmain {
+        width: 400px;
+    }
+
+    .popmain1 {
+        line-height: 1.2;
+        font-size: .9rem;
+    }
+}
+
+@media only screen and (max-width: 460px) {
+    .popmain {
+        width: 90%;
+    }
+}
+
+*/
  @media only screen and (max-width: 808px) {
      .Deshs-bones .db-btn-1 {
          margin-top: 33px;
