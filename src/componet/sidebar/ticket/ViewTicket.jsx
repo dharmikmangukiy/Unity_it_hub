@@ -1,7 +1,5 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { useNavigate, useParams } from "react-router-dom";
 import "react-inner-image-zoom/lib/InnerImageZoom/styles.css";
 import InnerImageZoom from "react-inner-image-zoom";
@@ -14,6 +12,7 @@ import {
 } from "../../customComponet/CustomElement";
 import { IsApprove, Url } from "../../../global";
 import CustomImageModal from "../../customComponet/CustomImageModal";
+import Toast from "../../commonComponet/Toast";
 
 const ViewTicket = () => {
   const navigate = useNavigate();
@@ -28,7 +27,6 @@ const ViewTicket = () => {
   const [viewTicketData, setViewTicketData] = useState({
     data: {},
   });
-  toast.configure();
 
   useEffect(() => {
     if (!selectedFile) {
@@ -69,7 +67,7 @@ const ViewTicket = () => {
         navigate("/");
       }
       if (res.data.status == "error") {
-        toast.error(res.data.message);
+        Toast("error", res.data.message);
       } else {
         console.log(res.data.data[0]);
         // viewTicketData.data = res.data.data[0];
@@ -87,7 +85,7 @@ const ViewTicket = () => {
 
   const sendMessage = async () => {
     if (form.message == "") {
-      toast.error("Please enter message");
+      Toast("error", "Please enter message");
     } else {
       form.isLoader = true;
       setForm({ ...form });
@@ -113,7 +111,7 @@ const ViewTicket = () => {
           form.isLoader = false;
           setForm({ ...form });
           if (res.data.status == "error") {
-            toast.error(res.data.message);
+            Toast("error", res.data.message);
           } else {
             console.log(res.data);
             setSelectedFile(undefined);
@@ -134,7 +132,7 @@ const ViewTicket = () => {
         <div className="app-content--inner__wrapper mh-100-vh view-ticket-page">
           <div style={{ opacity: 1 }}>
             <Grid container>
-              <Grid item sm={12}></Grid>
+              <Grid item sm={11}></Grid>
               <Grid item xl={1}></Grid>
               <Grid item xl={10} md={12} lg={12}>
                 {/* <TopButton /> */}

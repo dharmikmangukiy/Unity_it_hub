@@ -2,8 +2,6 @@ import { Grid, Paper } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { ColorButton } from "../../customComponet/CustomElement";
 import TopButton from "../../customComponet/TopButton";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Url } from "../../../global";
@@ -90,7 +88,7 @@ const MoneyManager = () => {
         <div className="app-content--inner__wrapper mh-100-vh">
           <div style={{ opacity: 1 }}>
             <Grid container>
-              <Grid item sm={12}></Grid>
+              <Grid item sm={11}></Grid>
               <Grid item xl={1}></Grid>
               <Grid item xl={10} md={12} lg={12}>
                 {/* <TopButton /> */}

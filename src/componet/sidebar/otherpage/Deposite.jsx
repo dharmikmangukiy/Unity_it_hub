@@ -4,7 +4,6 @@ import TopButton from "../../customComponet/TopButton";
 import { Paper } from "@mui/material";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
-import { toast } from "react-toastify";
 import { NavLink, useParams } from "react-router-dom";
 
 import useCountdown from "../../customComponet/useCountdown";
@@ -13,13 +12,13 @@ import {
   ColorButton,
 } from "../../customComponet/CustomElement";
 import "./otherpage.css";
-import "react-toastify/dist/ReactToastify.css";
 import "./deposit.css";
 
 import { Radio, RadioGroup, FormControlLabel } from "@mui/material";
 import axios from "axios";
 import { IsApprove, Url } from "../../../global";
 import { useNavigate, useLocation } from "react-router-dom";
+import Toast from "../../commonComponet/Toast";
 
 export const Deposite = () => {
   const navigate = useNavigate();
@@ -51,7 +50,7 @@ export const Deposite = () => {
   var [otherAmount, setOtherAmount] = useState("");
   console.log(dMethod);
   const notify = (p) => {
-    toast.error(p);
+    Toast("error", p);
   };
   const onSelectFile = (e) => {
     if (!e.target.files || e.target.files.length === 0) {
@@ -127,7 +126,8 @@ export const Deposite = () => {
                       navigator.clipboard.writeText(
                         `${cryptoData.crypto_address}`
                       );
-                      toast.success(
+                      Toast(
+                        "success",
                         "Crypto Address has been successfully copy"
                       );
                     }}
@@ -179,22 +179,22 @@ export const Deposite = () => {
       param.append("auth_key", IsApprove.auth);
     }
     if (depositType == "") {
-      toast.error("Please select deposit type");
+      Toast("error", "Please select deposit type");
     } else if (depositType == "MT5" && selectedMT5AccountList == "") {
-      toast.error("Please select mt5 account");
+      Toast("error", "Please select mt5 account");
     } else if (!dMethod) {
-      toast.error("Make a Deposit is required");
+      Toast("error", "Make a Deposit is required");
     } else if (!amount) {
-      toast.error("amount required");
+      Toast("error", "amount required");
     } else if (
       (modalData == "Skrill" ||
         modalData == "Nettler" ||
         modalData == "Wire Transfer") &&
       !data
     ) {
-      toast.error("image is required");
+      Toast("error", "image is required");
     } else if (modalData == "Cash" && !city) {
-      toast.error(" City Name is required");
+      Toast("error", " City Name is required");
     } else {
       param.append("deposit_method", dMethod);
       param.append("amount", amount);
@@ -219,7 +219,7 @@ export const Deposite = () => {
             navigate("/");
           }
           if (res.data.status == "error") {
-            toast.error(res.data.message);
+            Toast("error", res.data.message);
             setIsLoader(false);
           } else {
             setIsLoader(false);
@@ -230,7 +230,7 @@ export const Deposite = () => {
             }
 
             console.log(cryptoData);
-            toast.success(res.data.message);
+            Toast("success", res.data.message);
 
             setData("");
             if (
@@ -259,7 +259,7 @@ export const Deposite = () => {
         navigate("/");
       }
       if (res.data.status == "error") {
-        toast.error(res.data.message);
+        Toast("error", res.data.message);
       } else {
         // setDepositType(type);
         console.log(res.data);
@@ -276,8 +276,6 @@ export const Deposite = () => {
       setDepositType("MT5");
     }
   }, []);
-
-  toast.configure();
 
   const modalopen = (event) => {
     setModalData(event.target.title);
@@ -319,7 +317,7 @@ export const Deposite = () => {
         navigate("/");
       }
       if (res.data.status == "error") {
-        toast.error(res.data.message);
+        Toast("error", res.data.message);
       } else {
         // setDepositType(type);
         console.log(res.data);
@@ -807,7 +805,7 @@ export const Deposite = () => {
         <div className="app-content--inner__wrapper mh-100-vh">
           <div style={{ opacity: 1 }}>
             <Grid container>
-              <Grid item sm={12}></Grid>
+              <Grid item sm={11}></Grid>
               <Grid item xl={1}></Grid>
               <Grid item xl={10} md={12} lg={12}>
                 {/* <TopButton /> */}

@@ -17,7 +17,6 @@ import {
 
 import CommonTable from "../../customComponet/CommonTable";
 import { useNavigate } from "react-router-dom";
-import "react-toastify/dist/ReactToastify.css";
 import {
   BootstrapInput,
   ColorButton,
@@ -28,8 +27,7 @@ import { IsApprove, Url } from "../../../global.js";
 import axios from "axios";
 import CustomImageModal from "../../customComponet/CustomImageModal";
 import TopButton from "../../customComponet/TopButton";
-import "react-toastify/dist/ReactToastify.css";
-import { toast } from "react-toastify";
+import Toast from "../../commonComponet/Toast";
 
 const Notification = () => {
   const [refresh, setRefresh] = React.useState(false);
@@ -147,7 +145,7 @@ const Notification = () => {
       .post(`${Url}/ajaxfiles/notifications_manage.php`, param)
       .then((res) => {
         if (res.data.status == "error") {
-          toast.error(res.data.message);
+          Toast("error", res.data.message);
           setIsLoader(false);
         } else {
           setIsLoader(false);
@@ -164,9 +162,9 @@ const Notification = () => {
         <div className="app-content--inner__wrapper mh-100-vh">
           <div style={{ opacity: 1 }}>
             <Grid container>
-              <Grid item sm={12}></Grid>
+              <Grid item sm={11}></Grid>
               <Grid item xl={1}></Grid>
-              <Grid item md={12} lg={12} xl={10}>
+              <Grid item xl={10} md={12} lg={12}>
                 {/* <TopButton /> */}
                 <p className="main-heading">Notification</p>
 

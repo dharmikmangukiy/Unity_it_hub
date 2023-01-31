@@ -32,8 +32,7 @@ import { ColorButton } from "../../customComponet/CustomElement";
 import { useEffect } from "react";
 import { IsApprove, Url } from "../../../global";
 import axios from "axios";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 import { Info } from "@mui/icons-material";
 import { Tab, Tabs, Typography } from "@mui/material";
 import SwipeableViews from "react-swipeable-views";
@@ -64,8 +63,6 @@ const BonusDeshboard = () => {
   const [mainLoader, setMainLoader] = useState(false);
   const [value, setValue] = useState(0);
 
-  toast.configure();
-
   const handleChangeIndex = (index) => {
     setValue(index);
   };
@@ -79,11 +76,13 @@ const BonusDeshboard = () => {
       <div className="app-content--inner">
         <div className="app-content--inner__wrapper mh-100-vh">
           {mainLoader == true ? (
-            <span className="loader2"></span>
+            <div className="loader1">
+              <span className="loader2"></span>
+            </div>
           ) : (
             <div style={{ opacity: 1 }}>
               <Grid container>
-                <Grid item sm={12}></Grid>
+                <Grid item sm={11}></Grid>
                 <Grid item xl={1}></Grid>
                 <Grid item xl={10} md={12} lg={12}>
                   <Paper

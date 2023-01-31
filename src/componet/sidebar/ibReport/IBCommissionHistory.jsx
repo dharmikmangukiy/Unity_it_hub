@@ -17,14 +17,13 @@ import CloseIcon from "@mui/icons-material/Close";
 import CommonTable from "../../customComponet/CommonTable";
 import { ColorButton } from "../../customComponet/CustomElement";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { BootstrapInput } from "../../customComponet/CustomElement";
 import { IsApprove, Url } from "../../../global.js";
 import axios from "axios";
 import CustomImageModal from "../../customComponet/CustomImageModal";
 import TopButton from "../../customComponet/TopButton";
 import NewDate from "../../commonComponet/NewDate";
+import Toast from "../../commonComponet/Toast";
 
 const IBCommissionHistory = () => {
   const [open, setOpen] = React.useState(false);
@@ -40,7 +39,7 @@ const IBCommissionHistory = () => {
   };
   const onsubmit = () => {
     if (amount == "") {
-      toast.error("Amount is required");
+      Toast("error", "Amount is required");
     } else {
       const param = new FormData();
       if (IsApprove !== "") {
@@ -56,9 +55,9 @@ const IBCommissionHistory = () => {
             navigate("/");
           }
           if (res.data.status == "error") {
-            toast.error(res.data.message);
+            Toast("error", res.data.message);
           } else {
-            toast.success(res.data.message);
+            Toast("success", res.data.message);
             setOpen(false);
           }
         });
@@ -199,17 +198,15 @@ const IBCommissionHistory = () => {
     },
   ];
 
-  toast.configure();
-
   return (
     <div>
       <div className="app-content--inner">
         <div className="app-content--inner__wrapper mh-100-vh">
           <div style={{ opacity: 1 }}>
             <Grid container>
-              <Grid item sm={12}></Grid>
+              <Grid item sm={11}></Grid>
               <Grid item xl={1}></Grid>
-              <Grid item md={12} lg={12} xl={10}>
+              <Grid item xl={10} md={12} lg={12}>
                 {/* <TopButton /> */}
                 <p className="main-heading">IB Commission History</p>
                 <div className="ibcomhistory">

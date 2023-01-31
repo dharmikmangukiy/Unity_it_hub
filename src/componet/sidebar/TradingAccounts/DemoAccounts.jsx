@@ -15,12 +15,11 @@ import CloseIcon from "@mui/icons-material/Close";
 import OpenDemoModel from "../../customComponet/OpenDemoModel";
 import { useNavigate } from "react-router-dom";
 import { BootstrapInput } from "../../customComponet/CustomElement";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { IsApprove, Url } from "../../../global.js";
 import "./account_list.css";
 import CommonTable from "../../customComponet/CommonTable";
+import Toast from "../../commonComponet/Toast";
 
 const BootstrapInput1 = styled(InputBase)(({ theme }) => ({
   "label + &": {
@@ -86,7 +85,6 @@ export const DemoAccounts = () => {
   const [mt5AccountList, setMT5AccountList] = React.useState({
     data: [],
   });
-  toast.configure();
   React.useEffect(() => {
     if (clOpen) {
       const { current: descriptionElement } = descriptionElementRef;
@@ -150,7 +148,7 @@ export const DemoAccounts = () => {
         navigate("/");
       }
       if (res.data.status == "error") {
-        toast.error(res.data.message);
+        Toast("error", res.data.message);
       } else {
         leveragesList.data = res.data.leverages;
         setLeveragesList({ ...leveragesList });
@@ -161,7 +159,7 @@ export const DemoAccounts = () => {
 
   const changeLeverage = async () => {
     if (age == "") {
-      toast.error("Please select leverage");
+      Toast("error", "Please select leverage");
     } else {
       setChangeleverageLoader(true);
       const param = new FormData();
@@ -181,10 +179,10 @@ export const DemoAccounts = () => {
           }
           setChangeleverageLoader(false);
           if (res.data.status == "error") {
-            toast.error(res.data.message);
+            Toast("error", res.data.message);
           } else {
             setAge("");
-            toast.success(res.data.message);
+            Toast("success", res.data.message);
             setCLOpen(false);
           }
         });
@@ -204,7 +202,7 @@ export const DemoAccounts = () => {
         navigate("/");
       }
       if (res.data.status == "error") {
-        toast.error(res.data.message);
+        Toast("error", res.data.message);
       } else {
         // mt5AccountList.data = [];
 
@@ -468,7 +466,7 @@ export const DemoAccounts = () => {
       await axios.post(`${Url}/ajaxfiles/get_mt5_live_packages.php`, param).then((res) => {
         // setMT5AccountLoader(false);
         if (res.data.status == "error") {
-          toast.error(res.data.message);
+          Toast("error",res.data.message);
         } else {
           // setAccountDetails({...res.data.data});
         }
@@ -481,7 +479,7 @@ export const DemoAccounts = () => {
         <div className="app-content--inner__wrapper mh-100-vh">
           <div style={{ opacity: 1 }}>
             <Grid container>
-              <Grid item sm={12}></Grid>
+              <Grid item sm={11}></Grid>
               <Grid item xl={1}></Grid>
               <Grid item xl={10} md={12} lg={12}>
                 {/* <TopButton /> */}

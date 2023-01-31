@@ -13,12 +13,13 @@ import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import SouthEastSharpIcon from "@mui/icons-material/SouthEastSharp";
 import GetAppSharpIcon from "@mui/icons-material/GetAppSharp";
 import NorthEastSharpIcon from "@mui/icons-material/NorthEastSharp";
-import "react-toastify/dist/ReactToastify.css";
+
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { IsApprove, Url } from "../../../global";
 import axios from "axios";
-import { toast } from "react-toastify";
+import Toast from "../../commonComponet/Toast";
+
 const GreenButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText("#ff0000"),
   backgroundColor: "#3D9730",
@@ -50,9 +51,9 @@ function MasterCopy(prop) {
           navigate("/");
         }
         if (res.data.status == "error") {
-          toast.error(res.data.message);
+          Toast("error", res.data.message);
         } else {
-          toast.success(res.data.message);
+          Toast("success", res.data.message);
         }
       });
   };
@@ -77,7 +78,6 @@ function MasterCopy(prop) {
       });
   }, []);
   console.log(info);
-  toast.configure();
 
   return (
     <div>

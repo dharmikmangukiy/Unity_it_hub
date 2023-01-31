@@ -294,125 +294,125 @@ const Header = (prop) => {
             <span className="hamburger-inner"></span>
           </span>
         </button>
-        {prop.permission.is_affiliate == "1" ? (
+        {/* {prop.permission.is_affiliate == "1" ? (
           ""
-        ) : (
-          <ul style={{ marginBottom: "0", gap: "24px" }} className="d-flex ">
-            {prop.moveToib == false ? (
-              <>
-                {" "}
-                <li className="headerMenu webViewHeader">
-                  <NavLink
-                    className="nav-link-simple d-flex "
-                    to="/deposit"
-                    // onClick={CloseSidebar}
-                  >
-                    <Deposit className="hoverSidebar" />
-
-                    {/* <span className="material-icons  icon_Mar">add</span> */}
-
-                    <span className="HeaderMenuColor">{t("Deposit")}</span>
-                  </NavLink>
-                </li>
-                <li className="headerMenu webViewHeader">
-                  <NavLink
-                    className="nav-link-simple d-flex "
-                    to="/Web_Trader"
-                    // onClick={CloseSidebar}
-                  >
-                    {/* <span className="material-icons  icon_Mar">
-                data_thresholding
-              </span> */}
-                    <Web_trader
-                      className="hoverSidebar"
-                      style={{ width: "20px" }}
-                    />
-
-                    <span className="HeaderMenuColor">{t("Web_Trader")} </span>
-                  </NavLink>
-                </li>
-                <li className="headerMenu webViewHeader">
-                  <NavLink
-                    className="nav-link-simple d-flex "
-                    to="/bonus"
-                    // onClick={CloseSidebar}
-                  >
-                    <Bonus className="hoverSidebar" />
-
-                    <span className="HeaderMenuColor">Bonus</span>
-                  </NavLink>
-                </li>
-                <li className="headerMenu webViewHeader">
-                  <NavLink
-                    className="nav-link-simple d-flex "
-                    to="/trade-and-win"
-                    // onClick={CloseSidebar}
-                  >
-                    {/* <span className="material-icons  icon_Mar">
-                data_thresholding
-              </span> */}
-                    <TradeAndWin className="hoverSidebar" />
-
-                    <span className="HeaderMenuColor">Trade & Win </span>
-                  </NavLink>
-                </li>{" "}
-                <li className="headerMenu">
-                  {prop.permission.is_ib_account == "1" ? (
-                    <a
-                      className="nav-link-simple d-flex "
-                      onClick={() => {
-                        prop.setMoveToib(true);
-                        navigate("/IBdashboard");
-                      }}
-                    >
-                      <span>
-                        <Ib_application
-                          className="hoverSidebar"
-                          style={{ width: "24px" }}
-                        />
-                      </span>
-
-                      <span className="HeaderMenuColor">IB Portal</span>
-                    </a>
-                  ) : (
-                    <NavLink
-                      className="nav-link-simple d-flex "
-                      to="/partnership"
-                    >
-                      <TradeAndWin className="hoverSidebar" />
-
-                      <span className="HeaderMenuColor">IB Request</span>
-                    </NavLink>
-                  )}
-                </li>
-              </>
-            ) : (
-              <li className="headerMenu">
-                <a
+        ) : ( */}
+        <ul style={{ marginBottom: "0", gap: "24px" }} className="d-flex ">
+          {prop.moveToib == false ? (
+            <>
+              {" "}
+              <li className="headerMenu webViewHeader">
+                <NavLink
                   className="nav-link-simple d-flex "
-                  // to="/Web_Trader"
-                  // onClick={handleClick2}
-                  onClick={() => {
-                    prop.setMoveToib(false);
-                    navigate("/dashboard");
-                  }}
+                  to="/deposit"
+                  // onClick={CloseSidebar}
+                >
+                  <Deposit className="hoverSidebar" />
+
+                  {/* <span className="material-icons  icon_Mar">add</span> */}
+
+                  <span className="HeaderMenuColor">{t("Deposit")}</span>
+                </NavLink>
+              </li>
+              <li className="headerMenu webViewHeader">
+                <NavLink
+                  className="nav-link-simple d-flex "
+                  to="/Web_Trader"
+                  // onClick={CloseSidebar}
                 >
                   {/* <span className="material-icons  icon_Mar">
                 data_thresholding
               </span> */}
-                  <span>
-                    <Ib_application
-                      className="hoverSidebar"
-                      style={{ width: "24px" }}
-                    />
-                  </span>
+                  <Web_trader
+                    className="hoverSidebar"
+                    style={{ width: "20px" }}
+                  />
 
-                  <span className="HeaderMenuColor">Cilent Portal</span>
-                </a>
+                  <span className="HeaderMenuColor">{t("Web_Trader")} </span>
+                </NavLink>
               </li>
-            )}
-          </ul>
-        )}
+              <li className="headerMenu webViewHeader">
+                <NavLink
+                  className="nav-link-simple d-flex "
+                  to="/bonus"
+                  // onClick={CloseSidebar}
+                >
+                  <Bonus className="hoverSidebar" />
+
+                  <span className="HeaderMenuColor">Bonus</span>
+                </NavLink>
+              </li>
+              <li className="headerMenu webViewHeader">
+                <NavLink
+                  className="nav-link-simple d-flex "
+                  to="/trade-and-win"
+                  // onClick={CloseSidebar}
+                >
+                  {/* <span className="material-icons  icon_Mar">
+                data_thresholding
+              </span> */}
+                  <TradeAndWin className="hoverSidebar" />
+
+                  <span className="HeaderMenuColor">Trade & Win </span>
+                </NavLink>
+              </li>{" "}
+              <li className="headerMenu">
+                {prop.permission.is_ib_account == "1" ? (
+                  <a
+                    className="nav-link-simple d-flex "
+                    onClick={() => {
+                      prop.setMoveToib(true);
+                      navigate("/IBdashboard");
+                    }}
+                  >
+                    <span>
+                      <Ib_application
+                        className="hoverSidebar"
+                        style={{ width: "24px" }}
+                      />
+                    </span>
+
+                    <span className="HeaderMenuColor">IB Portal</span>
+                  </a>
+                ) : (
+                  <NavLink
+                    className="nav-link-simple d-flex "
+                    to="/partnership"
+                  >
+                    <TradeAndWin className="hoverSidebar" />
+
+                    <span className="HeaderMenuColor">IB Request</span>
+                  </NavLink>
+                )}
+              </li>
+            </>
+          ) : (
+            <li className="headerMenu">
+              <a
+                className="nav-link-simple d-flex "
+                // to="/Web_Trader"
+                // onClick={handleClick2}
+                onClick={() => {
+                  prop.setMoveToib(false);
+                  navigate("/dashboard");
+                }}
+              >
+                {/* <span className="material-icons  icon_Mar">
+                data_thresholding
+              </span> */}
+                <span>
+                  <Ib_application
+                    className="hoverSidebar"
+                    style={{ width: "24px" }}
+                  />
+                </span>
+
+                <span className="HeaderMenuColor">Cilent Portal</span>
+              </a>
+            </li>
+          )}
+        </ul>
+        {/* )} */}
       </div>
 
       <div className="app-header--pane">

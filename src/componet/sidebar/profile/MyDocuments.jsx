@@ -16,8 +16,6 @@ import {
   BootstrapInput,
   ColorButton,
 } from "../../customComponet/CustomElement";
-import "react-toastify/dist/ReactToastify.css";
-import { toast } from "react-toastify";
 import { IsApprove, Url } from "../../../global";
 import axios from "axios";
 import InfoIcon from "@mui/icons-material/Info";
@@ -25,6 +23,7 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CancelIcon from "@mui/icons-material/Cancel";
 import "./profile.css";
 import { useNavigate } from "react-router-dom";
+import Toast from "../../commonComponet/Toast";
 
 const MyDocuments = () => {
   const navigate = useNavigate();
@@ -77,7 +76,7 @@ const MyDocuments = () => {
   const onOtherImage = () => {
     if (doc.proof == "Addition Documents") {
       if (!additional) {
-        toast.error("Upload a Image");
+        Toast("error", "Upload a Image");
       } else {
         const param = new FormData();
         if (IsApprove !== "") {
@@ -92,9 +91,9 @@ const MyDocuments = () => {
             navigate("/");
           }
           if (res.data.status == "error") {
-            toast.error(res.data.message);
+            Toast("error", res.data.message);
           } else {
-            toast.success(res.data.message);
+            Toast("success", res.data.message);
             setSendKycRequest((prevalue) => {
               return {
                 ...prevalue,
@@ -107,7 +106,7 @@ const MyDocuments = () => {
       }
     } else if (doc.proof == "Proof of Address") {
       if (!addressProof) {
-        toast.error("Upload a Image");
+        Toast("error", "Upload a Image");
       } else {
         const param = new FormData();
         if (IsApprove !== "") {
@@ -121,9 +120,9 @@ const MyDocuments = () => {
             navigate("/");
           }
           if (res.data.status == "error") {
-            toast.error(res.data.message);
+            Toast("error", res.data.message);
           } else {
-            toast.success(res.data.message);
+            Toast("success", res.data.message);
 
             setSendKycRequest((prevalue) => {
               return {
@@ -140,13 +139,13 @@ const MyDocuments = () => {
   console.log("dsf", doc.fontimg.type);
   const onSubmit = () => {
     if (!doc.fontimg && !fontimg) {
-      toast.error("Please upload documents ID Proof front side image");
+      Toast("error", "Please upload documents ID Proof front side image");
     } else if (twoSide.main && !doc.backimg && !backimg) {
-      toast.error("Please upload documents ID Proof back side image");
+      Toast("error", "Please upload documents ID Proof back side image");
     } else if (!formImage.fontimg && !formImage.perviewfontimg) {
-      toast.error("Please upload documents Address Proof front side image");
+      Toast("error", "Please upload documents Address Proof front side image");
     } else if (twoSide.add && !formImage.backimg && !formImage.perviewbackimg) {
-      toast.error("Please upload documents Address Proof back side image");
+      Toast("error", "Please upload documents Address Proof back side image");
     } else {
       doc.isLoder = true;
       setDoc({ ...doc });
@@ -177,11 +176,11 @@ const MyDocuments = () => {
           navigate("/");
         }
         if (res.data.status == "error") {
-          toast.error(res.data.message);
+          Toast("error", res.data.message);
           doc.isLoder = false;
           setDoc({ ...doc });
         } else {
-          toast.success(res.data.message);
+          Toast("success", res.data.message);
           fatchKycStatus();
           doc.isLoder = false;
           setDoc({ ...doc });
@@ -191,9 +190,9 @@ const MyDocuments = () => {
   };
   const onaddsubmit = () => {
     if (!adddoc.fontimg && !addfontimg) {
-      toast.error("Please upload additional documents front side image");
+      Toast("error", "Please upload additional documents front side image");
     } else if (!adddoc.backimg && twoSide.addition && !addbackimg) {
-      toast.error("Please upload additional documents back side image");
+      Toast("error", "Please upload additional documents back side image");
     } else {
       const param = new FormData();
       if (IsApprove !== "") {
@@ -216,13 +215,13 @@ const MyDocuments = () => {
           navigate("/");
         }
         if (res.data.status == "error") {
-          toast.error(res.data.message);
+          Toast("error", res.data.message);
           adddoc.isLoder = false;
           setAddDoc({ ...adddoc });
         } else {
           adddoc.isLoder = false;
           setAddDoc({ ...adddoc });
-          toast.success(res.data.message);
+          Toast("success", res.data.message);
           fatchKycStatus();
         }
       });
@@ -342,7 +341,7 @@ const MyDocuments = () => {
         navigate("/");
       }
       if (res.data.status == "error") {
-        toast.error(res.data.message);
+        Toast("error", res.data.message);
       } else {
         if (type == "aadhar_card_front_image") {
           setDoc((prevalue) => {
@@ -461,7 +460,6 @@ const MyDocuments = () => {
     });
   };
   // const [click, setClick] = React.useState();
-  toast.configure();
   const buttonstyle = {
     background: "linear-gradient(45deg, #eeeff8 30%, #eeeff8 90%)",
     borderRadius: "20px",
@@ -545,11 +543,13 @@ const MyDocuments = () => {
             //     <div className="pointers"></div>
             //   </div>
             // </div>
-            <span className="loader2"></span>
+            <div className="loader1">
+              <span className="loader2"></span>
+            </div>
           ) : (
             <div style={{ opacity: 1 }}>
               <Grid container>
-                <Grid item sm={12}></Grid>
+                <Grid item sm={11}></Grid>
                 <Grid item xl={1}></Grid>
                 <Grid item xl={10} md={12} lg={12}>
                   {/* <TopButton /> */}

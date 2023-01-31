@@ -17,9 +17,9 @@ import Button from "@mui/material/Button";
 import { ColorButton } from "../../customComponet/CustomElement";
 import axios from "axios";
 import { IsApprove, Url } from "../../../global";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 import { useNavigate, useParams } from "react-router-dom";
+import Toast from "../../commonComponet/Toast";
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
   "label + &": {
@@ -81,7 +81,6 @@ export const ChangePassword = () => {
     confirmPassword: "",
     isLoader: false,
   });
-  toast.configure();
   const handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -134,7 +133,7 @@ export const ChangePassword = () => {
         navigate("/");
       }
       if (res.data.status == "error") {
-        toast.error(res.data.message);
+        Toast("error", res.data.message);
       } else {
         mt5AccountList.data = res.data.mt5_accounts;
         setMT5AccountList({ ...mt5AccountList });
@@ -145,17 +144,17 @@ export const ChangePassword = () => {
 
   const submit = async () => {
     if (age.account == "") {
-      toast.error("Please select account");
+      Toast("error", "Please select account");
     } else if (age.type == "") {
-      toast.error("Please select account type");
+      Toast("error", "Please select account type");
     } else if (age.password == "") {
-      toast.error("Please enter change password");
+      Toast("error", "Please enter change password");
     } else if (age.password.length <= 7) {
-      toast.error("Password must contain atleast 8 characters");
+      Toast("error", "Password must contain atleast 8 characters");
     } else if (age.confirmPassword == "") {
-      toast.error("Please enter confirm password");
+      Toast("error", "Please enter confirm password");
     } else if (age.password != age.confirmPassword) {
-      toast.error("Confirm password must be the same as password");
+      Toast("error", "Confirm password must be the same as password");
     } else {
       age.isLoader = true;
       setAge({ ...age });
@@ -179,7 +178,7 @@ export const ChangePassword = () => {
           age.isLoader = false;
           setAge({ ...age });
           if (res.data.status == "error") {
-            toast.error(res.data.message);
+            Toast("error", res.data.message);
           } else {
             setinfoTrue({
               account: false,
@@ -187,7 +186,7 @@ export const ChangePassword = () => {
               password: false,
               confirmPassword: false,
             });
-            toast.success(res.data.message);
+            Toast("success", res.data.message);
             setAge({
               account: "",
               type: "",
@@ -210,11 +209,13 @@ export const ChangePassword = () => {
             //     <div className="pointers"></div>
             //   </div>
             // </div>
-            <span className="loader2"></span>
+            <div className="loader1">
+              <span className="loader2"></span>
+            </div>
           ) : (
             <div style={{ opacity: 1 }}>
               <Grid container>
-                <Grid item sm={12}></Grid>
+                <Grid item sm={11}></Grid>
                 <Grid item xl={1}></Grid>
                 <Grid item xl={10} md={12} lg={12}>
                   {/* <TopButton /> */}

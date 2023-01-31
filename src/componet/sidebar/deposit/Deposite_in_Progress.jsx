@@ -3,12 +3,13 @@ import { Paper, Grid } from "@mui/material";
 import "./Deposite_in_Progress.css";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { BorderTop } from "@mui/icons-material";
 import { ColorButton } from "../../customComponet/CustomElement";
 
 const Deposit_in_Progress = () => {
   const { id, id1 } = useParams();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -16,7 +17,7 @@ const Deposit_in_Progress = () => {
         <div className="app-content--inner__wrapper mh-100-vh">
           <div style={{ opacity: 1 }}>
             <Grid container>
-              <Grid item sm={12}></Grid>
+              <Grid item sm={11}></Grid>
               <Grid item xl={1}></Grid>
               <Grid item xl={10} md={12} lg={12}>
                 <Paper
@@ -30,7 +31,7 @@ const Deposit_in_Progress = () => {
                 >
                   <div className="card-header d-flex align-items-center justify-content-between card-header-alt p-3">
                     <Grid containeSelect Bonus Amountr>
-                      <Grid item md={6}>
+                      <Grid item md={12}>
                         <h5 className="font-weight-bold mb-0 text-dark">
                           Deposit in progress{" "}
                           <AccessTimeIcon style={{ marginLeft: "5px" }} />
@@ -94,21 +95,56 @@ const Deposit_in_Progress = () => {
                     <h5 className="val1 bold pading ">
                       Four Ways to starting trading
                     </h5>
-                    <div className="val1  ">
+                    <div className="val1  pt-1">
                       <span className="mr-3">1.</span>
-                      <b>Download</b> the RightFX Trading App
+                      <b>
+                        <a
+                          href="https://download.metatrader.com/cdn/mobile/mt5/android?server=RightGroup-Live"
+                          target="_blank"
+                        >
+                          {" "}
+                          Download
+                        </a>
+                      </b>{" "}
+                      the RightFX Trading App
                     </div>
                     <div className="val1 pt-1">
                       <span className="mr-3">2.</span>
-                      <b>Download</b> the Meta Trader 5 forex Trading App
+                      <b>
+                        <a
+                          href="https://download.metatrader.com/cdn/mobile/mt5/ios?server=RightGroup-Live"
+                          target="_blank"
+                        >
+                          {" "}
+                          Download
+                        </a>
+                      </b>{" "}
+                      the Meta Trader 5 forex Trading App
                     </div>
                     <div className="val1  pt-1">
                       <span className="mr-3">3.</span>
-                      <b>Download</b> the Platform for your Desktop
+                      <b>
+                        <a
+                          href="https://download.metatrader.com/cdn/web/right.group.financial/mt5/rightgroup5setup.exe"
+                          target="_blank"
+                        >
+                          {" "}
+                          Download
+                        </a>
+                      </b>{" "}
+                      the Platform for your Desktop
                     </div>
                     <div className="val1  pt-1 ">
                       <span className="mr-3">4.</span>
-                      <b>Log in</b> to the MetaTrader 5 web platform
+                      <b
+                        onClick={() => {
+                          navigate("/Web_Trader");
+                        }}
+                      >
+                        {" "}
+                        Log in
+                      </b>{" "}
+                      to the MetaTrader 5 web platform
                     </div>
                   </div>
                 </Paper>

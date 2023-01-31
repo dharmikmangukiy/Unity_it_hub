@@ -20,10 +20,10 @@ import Stack from "@mui/material/Stack";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./rating.css";
 import { BootstrapInput } from "../../customComponet/CustomElement";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 import axios from "axios";
 import { IsApprove, Url } from "../../../global";
+import Toast from "../../commonComponet/Toast";
 
 const Rating = () => {
   const navigate = useNavigate();
@@ -43,7 +43,6 @@ const Rating = () => {
     data: {},
   });
   const [copyTradingLoader, setCopyTradingLoader] = useState(true);
-  toast.configure();
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -75,7 +74,7 @@ const Rating = () => {
           navigate("/");
         }
         if (res.data.status == "error") {
-          toast.error(res.data.message);
+          Toast("error", res.data.message);
         } else {
           console.log(res.data);
           copyTrading.data = res.data;
@@ -108,7 +107,7 @@ const Rating = () => {
           navigate("/");
         }
         if (res.data.status == "error") {
-          toast.error(res.data.message);
+          Toast("error", res.data.message);
         } else {
           console.log(res.data);
           copyTrading.data = res.data;
@@ -141,7 +140,7 @@ const Rating = () => {
           navigate("/");
         }
         if (res.data.status == "error") {
-          toast.error(res.data.message);
+          Toast("error", res.data.message);
         } else {
           console.log(res.data);
           copyTrading.data = res.data;

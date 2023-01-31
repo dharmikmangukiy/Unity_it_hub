@@ -23,13 +23,13 @@ import ProgresBar from "../customComponet/ProgresBar";
 import { BootstrapInput, ColorButton } from "../customComponet/CustomElement";
 import TopButton from "../customComponet/TopButton";
 import CloseIcon from "@mui/icons-material/Close";
+
 import Dialog from "@mui/material/Dialog";
 import axios from "axios";
 import { IsApprove, Url } from "../../global.js";
 import OpenDemoModel from "../customComponet/OpenDemoModel";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 import { DialogContent, DialogTitle } from "@mui/material";
 import ConfirmationNumberOutlinedIcon from "@mui/icons-material/ConfirmationNumberOutlined";
 import MobileStepper from "@mui/material/MobileStepper";
@@ -37,6 +37,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import InputLabel from "@mui/material/InputLabel";
 import { NavLink } from "react-router-dom";
 import { Tab, Tabs, Typography } from "@mui/material";
+import Toast from "../commonComponet/Toast";
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const GreenButton = styled(Button)(({ theme }) => ({
@@ -231,7 +232,6 @@ const Dashboard = (prop) => {
       manager_name: "",
     },
   });
-  toast.configure();
   const handleClose = () => {
     setOpenModel(false);
   };
@@ -343,7 +343,7 @@ const Dashboard = (prop) => {
           navigate("/");
         }
         if (res.data.status == "error") {
-          // toast.error(res.data.message);
+          // Toast("error",res.data.message);
         } else {
           mt5AndDemoList.demo = res.data.demo_ac_data;
           mt5AndDemoList.live = res.data.live_ac_data;
@@ -370,7 +370,7 @@ const Dashboard = (prop) => {
           navigate("/");
         }
         if (res.data.status == "error") {
-          // toast.error(res.data.message);
+          // Toast("error",res.data.message);
         } else {
           setBonusImage(res.data.mt5_bonus_offers);
         }
@@ -389,7 +389,7 @@ const Dashboard = (prop) => {
         navigate("/");
       }
       if (res.data.status == "error") {
-        toast.error(res.data.message);
+        Toast("error", res.data.message);
       } else {
         leveragesList.data = res.data.leverages;
         setLeveragesList({ ...leveragesList });
@@ -421,7 +421,7 @@ const Dashboard = (prop) => {
     //     navigate("/");
     //   }
     //   if (res.data.status == "error") {
-    //     toast.error(res.data.message);
+    //     Toast("error",res.data.message);
     //   } else {
     //     leveragesList.data = res.data.leverages;
     //     setLeveragesList({ ...leveragesList });
@@ -431,7 +431,7 @@ const Dashboard = (prop) => {
   };
   const changeLeverage = async () => {
     if (age == "") {
-      toast.error("Please select leverage");
+      Toast("error", "Please select leverage");
     } else {
       setChangeleverageLoader(true);
       const param = new FormData();
@@ -453,11 +453,11 @@ const Dashboard = (prop) => {
           }
           setChangeleverageLoader(false);
           if (res.data.status == "error") {
-            toast.error(res.data.message);
+            Toast("error", res.data.message);
           } else {
             setAge("");
             setDrefresh(false);
-            toast.success(res.data.message);
+            Toast("success", res.data.message);
             setCLOpen(false);
           }
         });
@@ -480,7 +480,7 @@ const Dashboard = (prop) => {
           navigate("/");
         }
         if (res.data.status == "error") {
-          // toast.error(res.data.message);
+          // Toast("error",res.data.message);
         } else {
           setPrefrence(res.data);
           console.log("Prefrence", prefrence);
@@ -527,7 +527,7 @@ const Dashboard = (prop) => {
         }
         setPortfolioLoader(false);
         if (res.data.status == "error") {
-          toast.error(res.data.message);
+          Toast("error", res.data.message);
         } else {
           myPortfolio = res.data.data;
           setMyPortfolio([...myPortfolio]);
@@ -573,7 +573,7 @@ const Dashboard = (prop) => {
   };
   const submitBonus = async () => {
     if (bonusMt5.mt5 == "") {
-      toast.error("Live Account is requied");
+      Toast("error", "Live Account is requied");
     } else {
       const param = new FormData();
       param.append("action", "claim_mt5_bonus_request");
@@ -596,11 +596,11 @@ const Dashboard = (prop) => {
             navigate("/");
           }
           if (res.data.status == "error") {
-            toast.error(res.data.message);
+            Toast("error", res.data.message);
             bonusMt5.isLoder = false;
             setBonusMt5({ ...bonusMt5 });
           } else {
-            toast.success(res.data.message);
+            Toast("success", res.data.message);
             bonusMt5.isLoder = false;
             setBonusMt5({ ...bonusMt5 });
             setOpenModel(false);
@@ -647,7 +647,7 @@ const Dashboard = (prop) => {
         navigate("/");
       }
       if (res.data.status == "error") {
-        toast.error(res.data.message);
+        Toast("error", res.data.message);
       } else {
         liveMT5AccountList.data = res.data.mt5_accounts;
         setLiveMT5AccountList({ ...liveMT5AccountList });
@@ -700,7 +700,7 @@ const Dashboard = (prop) => {
         setDemoMT5AccountLoader(false);
       }
       if (res.data.status == "error") {
-        toast.error(res.data.message);
+        Toast("error", res.data.message);
       } else {
         if (type == "live") {
           setLiveAccountDetails({ ...res.data.data });
@@ -718,7 +718,9 @@ const Dashboard = (prop) => {
       <div className="app-content--inner">
         <div className="app-content--inner__wrapper mh-100-vh">
           {mainLoader == true ? (
-            <span className="loader2"></span>
+            <div className="loader1">
+              <span className="loader2"></span>
+            </div>
           ) : (
             // <div className="loader1">
             //   <div className="clock">
@@ -790,7 +792,7 @@ const Dashboard = (prop) => {
                     </Grid> */}
                   </div>
                   <Grid container spacing={6}>
-                    <Grid item md={12} sx={{ paddingTop: "15px !important" }}>
+                    <Grid item md={12}>
                       <Paper
                         elevation={2}
                         sx={{
@@ -1571,7 +1573,8 @@ const Dashboard = (prop) => {
                                         navigator.clipboard.writeText(
                                           "Right Group Financial Limited"
                                         );
-                                        toast.success(
+                                        Toast(
+                                          "success",
                                           "Copied to clipboard was successful!"
                                         );
                                       }}
@@ -1595,7 +1598,8 @@ const Dashboard = (prop) => {
                                         navigator.clipboard.writeText(
                                           mt5AndDemoList.value?.mt5_acc_no
                                         );
-                                        toast.success(
+                                        Toast(
+                                          "success",
                                           "Copied to clipboard was successful!"
                                         );
                                       }}
@@ -1660,23 +1664,23 @@ const Dashboard = (prop) => {
                                     {mt5AndDemoList.value?.mt_free_margin}
                                   </Grid>
                                 </Grid>
-                                <Grid item md={12} className="d-flex">
-                                  <Grid item md={5}>
-                                    Actual leverage
-                                  </Grid>
-                                  <Grid item md={7}>
-                                    {mt5AndDemoList.value?.leverage}
-                                  </Grid>
-                                </Grid>
-                                <Grid item md={12} className="d-flex">
-                                  <Grid item md={5}>
-                                    Maximum leverage
-                                  </Grid>
-                                  <Grid item md={7}>
-                                    {mt5AndDemoList.value?.leverage}
-                                  </Grid>
-                                </Grid>
 
+                                <Grid item md={12} className="d-flex">
+                                  <Grid item md={5}>
+                                    Max leverage
+                                  </Grid>
+                                  <Grid item md={7}>
+                                    {mt5AndDemoList.value?.leverage}
+                                  </Grid>
+                                </Grid>
+                                <Grid item md={12} className="d-flex">
+                                  <Grid item md={5}>
+                                    Margin Level
+                                  </Grid>
+                                  <Grid item md={7}>
+                                    {mt5AndDemoList.value?.margin_level}
+                                  </Grid>
+                                </Grid>
                                 <Grid item md={12} className="d-flex">
                                   <Grid item md={5}>
                                     Real funds
@@ -1770,7 +1774,8 @@ const Dashboard = (prop) => {
                                         navigator.clipboard.writeText(
                                           "Right Group Financial Limited"
                                         );
-                                        toast.success(
+                                        Toast(
+                                          "success",
                                           "Copied to clipboard was successful!"
                                         );
                                       }}
@@ -1794,7 +1799,8 @@ const Dashboard = (prop) => {
                                         navigator.clipboard.writeText(
                                           mt5AndDemoList.value?.mt5_acc_no
                                         );
-                                        toast.success(
+                                        Toast(
+                                          "success",
                                           "Copied to clipboard was successful!"
                                         );
                                       }}

@@ -3,8 +3,6 @@ import { NavLink, useNavigate, useParams } from "react-router-dom";
 // import "../../css/pages/login.css";
 // import logo from './lang-grey.png';
 import logo1 from "../sidebar/loginLogo.png";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import "./register.css";
 import "./Responsive.css";
 import { ColorButton } from "../customComponet/CustomElement";
@@ -12,6 +10,7 @@ import { Url } from "../../global.js";
 import axios from "axios";
 import { Checkbox, FormControlLabel, FormGroup } from "@mui/material";
 import { CheckBox } from "@mui/icons-material";
+import Toast from "../commonComponet/Toast";
 
 const Register = () => {
   const { id, id1 } = useParams();
@@ -265,9 +264,9 @@ const Register = () => {
     return errors;
   };
   const notify = (p) => {
-    toast.error(p);
+    Toast("error", p);
   };
-  toast.configure();
+
   useEffect(() => {
     if (Object.keys(infoErrors).length === 0 && isSubmit) {
       setIsLoader(true);
@@ -293,7 +292,7 @@ const Register = () => {
       param.append("user_conf_password", info.portalPasswordConfirm);
       axios.post(Url + "/ajaxfiles/registration.php", param).then((res) => {
         if (res.data.status == "error") {
-          toast.error(res.data.message);
+          Toast("error", res.data.message);
           if (res.data.message == "Email address already used") {
             navigate("/login");
           }
@@ -312,7 +311,7 @@ const Register = () => {
             portalPasswordConfirm: "",
           });
           navigate("/login");
-          toast.success(res.data.message);
+          Toast("success", res.data.message);
         }
       });
     }
@@ -323,7 +322,7 @@ const Register = () => {
 
     axios.post(Url + "/datatable/get_countries.php", param).then((res) => {
       if (res.data.status == "error") {
-        toast.error(res.data.message);
+        Toast("error", res.data.message);
       } else {
         countryData.data = res.data.aaData;
         setCountryData({ ...countryData });
@@ -766,7 +765,7 @@ const Register = () => {
                         <div>
                           <div className="col-xl-4 col-md-4">
                             <div className="entityAcculogin">
-                              <span>Already have an account?</span>{" "}
+                              <span>Already have an account?</span>
                               <NavLink to="/login">
                                 <strong>Log in</strong>
                               </NavLink>

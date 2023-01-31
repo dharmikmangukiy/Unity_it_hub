@@ -79,10 +79,10 @@ const OpenChampionDemo = () => {
         <div className="app-content--inner__wrapper mh-100-vh">
           <div style={{ opacity: 1 }}>
             <Grid container>
-              <Grid item sm={12}></Grid>
+              <Grid item sm={11}></Grid>
               <Grid item xl={1}></Grid>
               <Grid item xl={10} md={12} lg={12}>
-                <TopButton />
+                {/* <TopButton /> */}
                 <Grid container spacing={6}>
                   <Grid item md={12} className="d-flex">
                     <Paper
@@ -108,7 +108,7 @@ const OpenChampionDemo = () => {
                                 <div className="mb-2 ml-3 text-dark">
                                   <HelpOutlineIcon />
                                 </div>
-                                </Grid>
+                              </Grid>
                               <Grid item md={6} sm={4}>
                                 <FormControl className="w-100">
                                   <BootstrapInput
@@ -123,7 +123,6 @@ const OpenChampionDemo = () => {
                                   />
                                 </FormControl>
                               </Grid>
-                              
                             </Grid>
 
                             <Grid

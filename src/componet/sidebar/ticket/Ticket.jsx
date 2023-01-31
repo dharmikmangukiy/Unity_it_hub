@@ -17,12 +17,11 @@ import {
   BootstrapInput,
   ColorButton,
 } from "../../customComponet/CustomElement";
-import { toast } from "react-toastify";
 import axios from "axios";
-import "react-toastify/dist/ReactToastify.css";
 import "./ticket.css";
 import { useNavigate } from "react-router-dom";
 import NewDate from "../../commonComponet/NewDate";
+import Toast from "../../commonComponet/Toast";
 
 const Ticket = () => {
   const navigate = useNavigate();
@@ -42,7 +41,6 @@ const Ticket = () => {
     isLoader: false,
     refresh: false,
   });
-  toast.configure();
 
   const column = [
     {
@@ -160,11 +158,11 @@ const Ticket = () => {
 
   const submitForm = async () => {
     if (form.title == "") {
-      toast.error("Please enter ticket title");
+      Toast("error", "Please enter ticket title");
     } else if (form.subject == "") {
-      toast.error("Please select ticket subject");
+      Toast("error", "Please select ticket subject");
     } else if (form.description == "") {
-      toast.error("Please enter ticket description");
+      Toast("error", "Please enter ticket description");
     } else {
       form.isLoader = true;
       setForm({ ...form });
@@ -189,9 +187,9 @@ const Ticket = () => {
           form.isLoader = false;
           setForm({ ...form });
           if (res.data.status == "error") {
-            toast.error(res.data.message);
+            Toast("error", res.data.message);
           } else {
-            toast.success(res.data.message);
+            Toast("success", res.data.message);
             setSelectedFile(undefined);
             console.log(res.data);
             setinfoTrue({
@@ -224,7 +222,7 @@ const Ticket = () => {
         <div className="app-content--inner__wrapper mh-100-vh">
           <div style={{ opacity: 1 }}>
             <Grid container>
-              <Grid item sm={12}></Grid>
+              <Grid item sm={11}></Grid>
               <Grid item xl={1}></Grid>
               <Grid item xl={10} md={12} lg={12}>
                 {/* <TopButton /> */}

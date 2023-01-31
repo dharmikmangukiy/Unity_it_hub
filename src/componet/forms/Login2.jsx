@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../../css/pages/login.css";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { NavLink } from "react-router-dom";
+import Toast from "../commonComponet/Toast";
 const style = {
   label: { fontSize: "large", float: "left", padding: "2px" },
 };
@@ -48,9 +47,9 @@ const Login = (setLogin) => {
     return errors;
   };
   const notify = (p) => {
-    toast.warning(p);
+    Toast("warning", p);
   };
-  toast.configure();
+
   useEffect(() => {
     if (Object.keys(infoErrors).length == 0 && isSubmit) {
       alert("your are login"); // onLoginUpdate(true)

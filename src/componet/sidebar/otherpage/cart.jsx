@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "./tradeAndWin.css";
 import axios from "axios";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { Url } from "../../../global";
+import { IsApprove, Url } from "../../../global";
 import { ReactComponent as Warn } from "../../../svg/warn.svg";
 import { ReactComponent as Delete } from "../../../svg/delete.svg";
 import { useNavigate } from "react-router-dom";
+import Toast from "../../commonComponet/Toast";
 
 const Cart = () => {
   const navigate = useNavigate();
   const [cartData, setCartData] = useState([]);
-
-  toast.configure();
 
   useEffect(() => {
     fetchCart();
@@ -21,9 +18,11 @@ const Cart = () => {
   const fetchCart = async () => {
     try {
       const param = new FormData();
-      param.append("user_id", 15);
-      param.append("auth_key", "dsadsad-asdas-dsad-a");
-      param.append("is_app", 1);
+      if (IsApprove !== "") {
+        param.append("is_app", IsApprove.is_app);
+        param.append("user_id", IsApprove.user_id);
+        param.append("auth_key", IsApprove.auth);
+      }
       param.append("action", "get_cart_data");
 
       let data = await axios.post(`${Url}/ajaxfiles/trade_and_win.php`, param);
@@ -38,9 +37,11 @@ const Cart = () => {
   const handleRemoveToCart = async (product) => {
     try {
       const param = new FormData();
-      param.append("user_id", 15);
-      param.append("auth_key", "dsadsad-asdas-dsad-a");
-      param.append("is_app", 1);
+      if (IsApprove !== "") {
+        param.append("is_app", IsApprove.is_app);
+        param.append("user_id", IsApprove.user_id);
+        param.append("auth_key", IsApprove.auth);
+      }
       param.append("action", "remove_cart_item");
       param.append("item_id", product?.item_id);
 
@@ -48,9 +49,9 @@ const Cart = () => {
       if (data.status === 200) {
         fetchCart();
         if (data.data.status === "error") {
-          toast.error(data.data.message);
+          Toast("error", data.data.message);
         } else {
-          toast.success(data.data.message);
+          Toast("success", data.data.message);
         }
       }
     } catch (err) {

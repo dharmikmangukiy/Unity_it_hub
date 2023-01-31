@@ -17019,7 +17019,7 @@ body {
 }
 @media (min-width: 1100px) {
   .app-header-fixed .app-content {
-    padding-top: 74px;
+    padding-top: 48px;
   }
 }
 @media (min-width: 1100px) {
@@ -18035,6 +18035,6 @@ input.MuiInputBase-input {
     transform: translate(0, 0);
   }
 }
-.main-color{
+.main-color {
   color: #5d2067;
 }

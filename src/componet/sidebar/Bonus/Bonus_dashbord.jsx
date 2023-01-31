@@ -24,9 +24,9 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { IsApprove, Url } from "../../../global";
 import axios from "axios";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 import NewDate from "../../commonComponet/NewDate";
+import Toast from "../../commonComponet/Toast";
 function BootstrapDialogTitle(props) {
   const { children, onClose, ...other } = props;
 
@@ -74,7 +74,7 @@ const Bonus_dashbord = (props) => {
     popLoder: false,
     radioButton: 10,
   });
-  toast.configure();
+
   const [mainLoader, setMainLoader] = useState(true);
   const [popData, setPopData] = useState({
     pop1: false,
@@ -141,16 +141,16 @@ const Bonus_dashbord = (props) => {
         if (res.data.status == "error") {
           // data.isLoder=false
           // setData({...data})
-          toast.error(res.data.message);
+          Toast("error", res.data.message);
           data.popLoder = false;
           setData({ ...data });
         } else {
           data.popLoder = false;
           setData({ ...data });
-          toast.success(res.data.message);
+          Toast("success", res.data.message);
           setOpen(false);
           getBonusList();
-          setMainLoader(false);
+          // setMainLoader(false);
         }
       });
   };
@@ -428,130 +428,158 @@ const Bonus_dashbord = (props) => {
   return (
     <>
       {mainLoader == true ? (
-        <span className="loader2"></span>
+        <div className="bonusLoder">
+          <svg className="spinner" viewBox="0 0 50 50">
+            <circle
+              className="path"
+              cx="25"
+              cy="25"
+              r="20"
+              fill="none"
+              stroke-width="5"
+            ></circle>
+          </svg>
+        </div>
       ) : (
         <div>
-          {matches && (
+          {data.arrayData.length == 0 ? (
+            <div className="text-center">There are no records to display</div>
+          ) : (
             <>
-              <Grid container>
-                <Grid item md={12}>
-                  {/* <div className="head_up">
+              {" "}
+              {matches && (
+                <>
+                  <Grid container>
+                    <Grid item md={12}>
+                      {/* <div className="head_up">
                 <span></span>
                   <span className="Deposit_Amount">Deposit Amount</span>
                   <span className="d_block">MT5</span>
                   <span className="d_block">Deposit Date</span>
                 </div> */}
-                  <div className="hederbordeer3">
-                    {/* <div style={{ width: "7%" }}></div> */}
-                    <div className="flex_items" style={{ marginLeft: "7%" }}>
-                      <span className="Deposit_Amount w-18"> Amount</span>
-                      <span className="d_block w-17">MT5 Account Number</span>
-                      <span className="d_block w-24"> Deposit Date</span>
-                      <span className="d_block w-27">Action</span>
-                    </div>
-                  </div>
-                  {data.arrayData.map((item, index) => {
-                    return (
-                      <div className="bordeer3">
-                        <div style={{ width: "7%" }}>
-                          <h1 className="text_left1">
-                            <StarIcon
-                              style={{
-                                color: "#FFC121",
-                                margin: "0 8px",
-                              }}
-                            />
-                          </h1>
-                        </div>
-                        <div className="flex_items ">
-                          <div className="w-18">
-                            <span className="money_doll">{item.amount}</span>
-                          </div>
-
-                          <div className="w-17">
-                            <span className="margin_lft">
-                              {item.mt5_acc_no}
-                            </span>
-                          </div>
-                          <div className="w-24">
-                            <span className="margin_lft">
-                              <NewDate newDate={item.date} />
-                            </span>
-                          </div>
-                          <div className="w-27">
-                            {" "}
-                            <ColorButton
-                              id="btn_11"
-                              onClick={() => {
-                                data.popData = item;
-                                handleClickOpen();
-                              }}
-                            >
-                              CHOOSE BONUS AMOUNT
-                            </ColorButton>
-                          </div>
+                      <div className="hederbordeer3">
+                        {/* <div style={{ width: "7%" }}></div> */}
+                        <div
+                          className="flex_items"
+                          style={{ marginLeft: "7%" }}
+                        >
+                          <span className="Deposit_Amount w-18"> Amount</span>
+                          <span className="d_block w-17">
+                            MT5 Account Number
+                          </span>
+                          <span className="d_block w-24"> Deposit Date</span>
+                          <span className="d_block w-27">Action</span>
                         </div>
                       </div>
-                    );
-                  })}
-                </Grid>
-              </Grid>
-            </>
-          )}
-          {!matches && (
-            <>
-              <Grid container>
-                {data.arrayData.map((item, index) => {
-                  return (
-                    <Grid item md={12}>
-                      <div className="bordeer3">
-                        <div>
-                          <h1 className="text_left1">
-                            <StarIcon
-                              style={{
-                                color: "#FFC121",
-                                margin: "0 8px",
-                              }}
-                            />
-                          </h1>
-                        </div>
-                        <div className="flex_items">
-                          <div>
-                            <span className="money_doll">{item.amount}</span>
-                          </div>
+                      {data.arrayData.map((item, index) => {
+                        return (
+                          <div className="bordeer3">
+                            <div style={{ width: "7%" }}>
+                              <h1 className="text_left1">
+                                <StarIcon
+                                  style={{
+                                    color: "#FFC121",
+                                    margin: "0 8px",
+                                  }}
+                                />
+                              </h1>
+                            </div>
+                            <div className="flex_items ">
+                              <div className="w-18">
+                                <span className="money_doll">
+                                  {item.amount}
+                                </span>
+                              </div>
 
-                          <div className="d-flex justify-content-between">
-                            <span className="d_block">MT5</span>
-                            <span className="margin_lft">
-                              {item.mt5_acc_no}
-                            </span>
+                              <div className="w-17">
+                                <span className="margin_lft">
+                                  {item.mt5_acc_no}
+                                </span>
+                              </div>
+                              <div className="w-24">
+                                <span className="margin_lft">
+                                  <NewDate newDate={item.date} />
+                                </span>
+                              </div>
+                              <div className="w-27">
+                                {" "}
+                                <ColorButton
+                                  id="btn_11"
+                                  onClick={() => {
+                                    data.popData = item;
+                                    handleClickOpen();
+                                  }}
+                                >
+                                  CHOOSE BONUS AMOUNT
+                                </ColorButton>
+                              </div>
+                            </div>
                           </div>
-                          <div className="d-flex justify-content-between">
-                            <span className="d_block">Deposit Date</span>
-                            <span className="margin_lft2">
-                              <NewDate newDate={item.date} />
-                            </span>
-                          </div>
-                          <div>
-                            {" "}
-                            <ColorButton
-                              id="btn_11"
-                              onClick={() => {
-                                data.popData = item;
-                                handleClickOpen();
-                              }}
-                            >
-                              CHOOSE BONUS AMOUNT
-                            </ColorButton>
-                          </div>
-                        </div>
-                      </div>
+                        );
+                      })}
                     </Grid>
-                  );
-                })}
-              </Grid>
+                  </Grid>
+                </>
+              )}
+              {!matches && (
+                <>
+                  <Grid container>
+                    {data.arrayData.map((item, index) => {
+                      return (
+                        <Grid item md={12}>
+                          <div className="bordeer3">
+                            <div>
+                              <h1 className="text_left1">
+                                <StarIcon
+                                  style={{
+                                    color: "#FFC121",
+                                    margin: "0 8px",
+                                  }}
+                                />
+                              </h1>
+                            </div>
+                            <div className="flex_items">
+                              <div>
+                                <span className="money_doll">
+                                  {item.amount}
+                                </span>
+                              </div>
+
+                              <div className="d-flex justify-content-between">
+                                <span className="d_block">MT5</span>
+                                <span className="margin_lft">
+                                  {item.mt5_acc_no}
+                                </span>
+                              </div>
+                              <div className="d-flex justify-content-between">
+                                <span className="d_block">Deposit Date</span>
+                                <span className="margin_lft2">
+                                  <NewDate newDate={item.date} />
+                                </span>
+                              </div>
+                              <div>
+                                {" "}
+                                <ColorButton
+                                  id="btn_11"
+                                  onClick={() => {
+                                    data.popData = item;
+                                    handleClickOpen();
+                                  }}
+                                >
+                                  CHOOSE BONUS AMOUNT
+                                </ColorButton>
+                              </div>
+                            </div>
+                          </div>
+                        </Grid>
+                      );
+                    })}
+                  </Grid>
+                </>
+              )}
             </>
           )}
+
           <BootstrapDialog
             onClose={handleClose}
             // aria-labelledby="customized-dialog-title"

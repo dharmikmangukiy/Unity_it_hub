@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import "./tradeAndWin.css";
 import { Dialog, Grid } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { ReactComponent as Star } from "../../../svg/star.svg";
 import { IsApprove, Url } from "../../../global";
+import Toast from "../../commonComponet/Toast";
 
 const TradeAndWin = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
   const [tab, setTab] = useState("product");
   const [open, setOpen] = useState(false);
@@ -25,8 +25,11 @@ const TradeAndWin = () => {
     lot: true,
     button: {},
   });
-  toast.configure();
-
+  useEffect(() => {
+    if (id) {
+      setTab("order");
+    }
+  }, []);
   useEffect(() => {
     fetchProduct();
     fetchOrder();
@@ -95,13 +98,13 @@ const TradeAndWin = () => {
         if (data.data.status === "error") {
           mainLoader.button[product.item_id] = false;
           setMainLoader({ ...mainLoader });
-          toast.error(data.data.message);
+          Toast("error", data.data.message);
         } else {
           fetchCart();
           fetchAvailableLots();
           mainLoader.lot = false;
           setMainLoader({ ...mainLoader });
-          toast.success(data.data.message);
+          Toast("success", data.data.message);
           mainLoader.button[product.item_id] = false;
           setMainLoader({ ...mainLoader });
         }
@@ -161,11 +164,13 @@ const TradeAndWin = () => {
           mainLoader.order == true ||
           mainLoader.lot == true ||
           mainLoader.cart == true ? (
-            <span className="loader2"></span>
+            <div className="loader1">
+              <span className="loader2"></span>
+            </div>
           ) : (
             <div style={{ opacity: 1 }}>
               <Grid container>
-                <Grid item sm={12}></Grid>
+                <Grid item sm={11}></Grid>
                 <Grid item xl={1}></Grid>
                 <Grid item xl={10} md={12} lg={12}>
                   <div className="trade-main-body">

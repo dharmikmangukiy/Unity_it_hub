@@ -4,10 +4,9 @@ import TextField from "@mui/material/TextField";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import { NavLink, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { Url } from "../../global.js";
 import axios from "axios";
+import Toast from "../commonComponet/Toast";
 const ColorButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText("#ff0000"),
   backgroundColor: "black",
@@ -48,27 +47,26 @@ export default function ForgotPassword() {
 
   const onSumbit = () => {
     if (!data) {
-      toast.error("Email is requied");
+      Toast("error", "Email is requied");
       return false;
     } else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(data)) {
-      toast.error("Email format is invaild");
+      Toast("error", "Email format is invaild");
     } else {
       setIsLoader(true);
       const param = new FormData();
       param.append("user_email", data);
       axios.post(Url + "/ajaxfiles/forgot_password.php", param).then((res) => {
         if (res.data.status == "error") {
-          toast.error(res.data.message);
+          Toast("error", res.data.message);
           setIsLoader(false);
         } else {
-          toast.success(res.data.message);
+          Toast("success", res.data.message);
           setIsLoader(false);
           navigate("/login");
         }
       });
     }
   };
-  toast.configure();
 
   return (
     <>

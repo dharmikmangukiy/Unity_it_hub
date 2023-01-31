@@ -19,12 +19,11 @@ import { ColorButton } from "../../customComponet/CustomElement";
 import { BootstrapInput } from "../../customComponet/CustomElement";
 import axios from "axios";
 import { IsApprove, Url } from "../../../global";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import "./otherpage.css";
 import { useNavigate, useParams } from "react-router-dom";
 import Counter from "../../customComponet/Counter";
 import { useEffect } from "react";
+import Toast from "../../commonComponet/Toast";
 
 const InternalTransfer = () => {
   const { id } = useParams();
@@ -32,10 +31,12 @@ const InternalTransfer = () => {
   const [age, setAge] = React.useState("");
   const [isInputWallet, setIsInputWallet] = React.useState(false);
   const [isInputMT5, setIsInputMT5] = React.useState(false);
-  const [isInputToMT5, setIsInputToMT5] = React.useState(false);
+  // const [isInputToMT5, setIsInputToMT5] = React.useState(false);
   // const [isOTP, setIsOTP] = React.useState(false);
   const [mt5AccountList, setMT5AccountList] = React.useState({
     data: [],
+    toData: [],
+    fromData: [],
   });
   const [timer, setTimer] = useState(true);
   const [infoTrue, setinfoTrue] = useState({
@@ -68,6 +69,10 @@ const InternalTransfer = () => {
       fetchFromAccountMt5Details();
     }
   }, []);
+  const [bal, setBal] = useState({
+    from_account_balance: "",
+    from_account_equity: "",
+  });
   const [form, setForm] = React.useState({
     from_account: "",
     from_account_mt5: "",
@@ -84,48 +89,40 @@ const InternalTransfer = () => {
     resendOtploder: false,
     isLoader: false,
   });
-  toast.configure();
-  const handleChange = (event) => {
-    setAge(() => {
-      const { name, value } = event.target;
-      setAge((prevalue) => {
-        return {
-          ...prevalue,
-          [name]: value,
-        };
-      });
-      console.log(event.target.value);
-    });
-  };
+
+  // const handleChange = (event) => {
+  //   setAge(() => {
+  //     const { name, value } = event.target;
+  //     setAge((prevalue) => {
+  //       return {
+  //         ...prevalue,
+  //         [name]: value,
+  //       };
+  //     });
+  //   });
+  // };
 
   const input = (event) => {
     const { name, value } = event.target;
-    console.log("input value", name, value);
     form[name] = value;
     setForm({ ...form });
 
     if (name == "from_account" && value == "MT5") {
-      fetchMT5AccountList();
-      setIsInputMT5(true);
-      setIsInputWallet(false);
-      setIsInputToMT5(false);
+      // setIsInputMT5(true);
+      // setIsInputWallet(false);
     } else if (name == "from_account" && value == "wallet") {
-      fetchFromAccountDetails();
-      setIsInputMT5(false);
-      setIsInputWallet(false);
-      setIsInputToMT5(false);
-      form.from_account_balance = "";
-      form.from_account_equity = "";
-      setForm({ ...form });
+      // setIsInputMT5(false);
+      // setIsInputWallet(false);
+      // form.from_account_balance = "";
+      // form.from_account_equity = "";
+      // setForm({ ...form });
     } else if (name == "from_account_mt5") {
       fetchFromAccountMt5Details();
     } else if (name == "to_account" && value == "wallet") {
-      setIsInputWallet(true);
-      setIsInputToMT5(false);
+      // setIsInputWallet(true);
     } else if (name == "to_account" && value == "MT5") {
       fetchMT5AccountList();
-      setIsInputToMT5(true);
-      setIsInputWallet(false);
+      // setIsInputWallet(false);
     }
 
     if (form.from_account == "MT5" && form.to_account == "wallet") {
@@ -153,11 +150,11 @@ const InternalTransfer = () => {
           navigate("/");
         }
         if (res.data.status == "error") {
-          toast.error(res.data.message);
+          Toast("error", res.data.message);
         } else {
-          form.from_account_balance = res.data.formated_balance;
-          console.log("form", form);
-          setForm({ ...form });
+          bal.from_account_balance = res.data.formated_balance;
+
+          setBal({ ...bal });
         }
       });
   };
@@ -177,11 +174,12 @@ const InternalTransfer = () => {
           navigate("/");
         }
         if (res.data.status == "error") {
-          toast.error(res.data.message);
+          Toast("error", res.data.message);
         } else {
+          mt5AccountList.toData = res.data.mt5_accounts;
+          mt5AccountList.fromData = res.data.mt5_accounts;
           mt5AccountList.data = res.data.mt5_accounts;
           setMT5AccountList({ ...mt5AccountList });
-          console.log(mt5AccountList);
         }
       });
   };
@@ -202,27 +200,26 @@ const InternalTransfer = () => {
           navigate("/");
         }
         if (res.data.status == "error") {
-          toast.error(res.data.message);
+          Toast("error", res.data.message);
         } else {
-          console.log(res.data);
-          form.from_account_balance = res.data.formated_balance;
-          form.from_account_equity = res.data.formated_equity;
-          setForm({ ...form });
+          bal.from_account_balance = res.data.formated_balance;
+          bal.from_account_equity = res.data.formated_equity;
+          setBal({ ...bal });
         }
       });
   };
 
   const submit = async () => {
     if (form.from_account == "") {
-      toast.error("Please select From Account");
+      Toast("error", "Please select From Account");
     } else if (form.from_account == "MT5" && form.from_account_mt5 == "") {
-      toast.error("Please select From MT5 Account");
+      Toast("error", "Please select From MT5 Account");
     } else if (form.to_account == "") {
-      toast.error("Please select to account");
+      Toast("error", "Please select to account");
     } else if (form.to_account == "MT5" && form.mt5_account == "") {
-      toast.error("Please select MT5 account");
+      Toast("error", "Please select MT5 account");
     } else if (form.amount == "") {
-      toast.error("Please enter account");
+      Toast("error", "Please enter account");
     } else if (form.isOTP == false) {
       if (form.resendOtp == true) {
         form.resendOtploder = true;
@@ -260,10 +257,9 @@ const InternalTransfer = () => {
           }
 
           if (res.data.status == "error") {
-            toast.error(res.data.message);
+            Toast("error", res.data.message);
           } else {
-            toast.success(res.data.message);
-            console.log(res.data);
+            Toast("success", res.data.message);
             setTimer({ ...timer });
             form.resendOtp = true;
             form.isOTP = true;
@@ -283,7 +279,7 @@ const InternalTransfer = () => {
           }
         });
     } else if (form.otp == "" && form.isOTP == true) {
-      toast.error("Please enter OTP");
+      Toast("error", "Please enter OTP");
     } else {
       form.isLoader = true;
       setForm({ ...form });
@@ -310,13 +306,12 @@ const InternalTransfer = () => {
           form.isLoader = false;
           setForm({ ...form });
           if (res.data.status == "error") {
-            toast.error(res.data.message);
+            Toast("error", res.data.message);
           } else {
-            toast.success(res.data.message);
+            Toast("success", res.data.message);
             // setIsOTP(false);
             setIsInputMT5(false);
-            setIsInputWallet(false);
-            setIsInputToMT5(false);
+            // setIsInputWallet(false);
             setForm({
               from_account: "",
               from_account_mt5: "",
@@ -334,12 +329,13 @@ const InternalTransfer = () => {
         });
     }
   };
+  console.log("mt5AccountList", form.mt5_account);
   return (
     <div className="app-content--inner">
       <div className="app-content--inner__wrapper mh-100-vh">
         <div style={{ opacity: 1 }}>
           <Grid container>
-            <Grid item sm={12}></Grid>
+            <Grid item sm={11}></Grid>
             <Grid item xl={1}></Grid>
             <Grid item xl={10} md={12} lg={12}>
               {/* <TopButton /> */}
@@ -375,7 +371,20 @@ const InternalTransfer = () => {
                                 <Select
                                   value={form.from_account}
                                   name="from_account"
-                                  onChange={input}
+                                  onChange={(e) => {
+                                    form.from_account = e.target.value;
+                                    form.from_account_mt5 = "";
+                                    bal.from_account_balance = "";
+                                    bal.from_account_equity = "";
+
+                                    setForm({ ...form });
+                                    setBal({ ...bal });
+                                    if (e.target.value == "MT5") {
+                                      fetchMT5AccountList();
+                                    } else {
+                                      fetchFromAccountDetails();
+                                    }
+                                  }}
                                   displayEmpty
                                   onBlur={trueFalse}
                                   disabled={form.isLoader}
@@ -398,7 +407,7 @@ const InternalTransfer = () => {
                                   ""
                                 )}
                               </FormControl>
-                              {isInputMT5 ? (
+                              {form.from_account == "MT5" ? (
                                 <FormControl
                                   className="form-control pt-3"
                                   error={
@@ -422,12 +431,16 @@ const InternalTransfer = () => {
                                     sx={{ width: "100%" }}
                                   >
                                     <MenuItem value="">Select Option</MenuItem>
-                                    {mt5AccountList.data.map((item) => {
-                                      return (
-                                        <MenuItem value={item.mt5_acc_no}>
-                                          {item.mt5_acc_no} ({item.mt5_name})
-                                        </MenuItem>
-                                      );
+                                    {mt5AccountList.toData.map((item) => {
+                                      if (
+                                        form.mt5_account !== item.mt5_acc_no
+                                      ) {
+                                        return (
+                                          <MenuItem value={item.mt5_acc_no}>
+                                            {item.mt5_acc_no} ({item.mt5_name})
+                                          </MenuItem>
+                                        );
+                                      }
                                     })}
                                   </Select>
                                   {form.from_account_mt5 == "" &&
@@ -442,19 +455,19 @@ const InternalTransfer = () => {
                               ) : (
                                 ""
                               )}
-                              {form.from_account_balance != "" ? (
+                              {bal.from_account_balance != "" ? (
                                 <div className="show-balance-element">
-                                  Balance {form.from_account_balance}
+                                  Balance {bal.from_account_balance}
                                 </div>
                               ) : (
                                 ""
                               )}
-                              {form.from_account_equity != "" ? (
+                              {bal.from_account_equity != "" ? (
                                 <div
                                   className="show-balance-element"
                                   style={{ background: "#39b54a" }}
                                 >
-                                  Equity {form.from_account_equity}{" "}
+                                  Equity {bal.from_account_equity}{" "}
                                 </div>
                               ) : (
                                 ""
@@ -467,80 +480,54 @@ const InternalTransfer = () => {
                             className="d-flex pb-0 removeTopPadding"
                           >
                             <div className="from_account_section">
-                              {form.from_account == "MT5" ? (
-                                <FormControl
-                                  className="form-control pt-3"
-                                  error={form.to_account == "" ? true : false}
+                              <FormControl
+                                className="form-control pt-3"
+                                error={form.to_account == "" ? true : false}
+                              >
+                                <label className="text-info font-weight-bold form-label-head w-100 required">
+                                  TO ACCOUNT
+                                </label>
+                                <Select
+                                  value={form.to_account}
+                                  name="to_account"
+                                  onChange={(e) => {
+                                    form.to_account = e.target.value;
+                                    form.mt5_account = "";
+                                    setForm({ ...form });
+                                  }}
+                                  disabled={form.isLoader}
+                                  displayEmpty
+                                  onBlur={trueFalse}
+                                  inputProps={{
+                                    "aria-label": "Without label",
+                                  }}
+                                  input={<BootstrapInput />}
                                 >
-                                  <label className="text-info font-weight-bold form-label-head w-100 required">
-                                    TO ACCOUNT
-                                  </label>
-                                  <Select
-                                    value={form.to_account}
-                                    name="to_account"
-                                    onChange={input}
-                                    disabled={form.isLoader}
-                                    displayEmpty
-                                    onBlur={trueFalse}
-                                    inputProps={{
-                                      "aria-label": "Without label",
-                                    }}
-                                    input={<BootstrapInput />}
-                                  >
-                                    <MenuItem value="">Select Option</MenuItem>
+                                  <MenuItem value="">Select Option</MenuItem>
+                                  {form.from_account == "MT5" ? (
                                     <MenuItem value="wallet">wallet</MenuItem>
-                                  </Select>
-                                  {form.to_account == "" &&
-                                  infoTrue.to_account == true ? (
-                                    <FormHelperText>
-                                      Please Select To Account
-                                    </FormHelperText>
                                   ) : (
                                     ""
                                   )}
-                                </FormControl>
-                              ) : (
-                                <FormControl
-                                  className="form-control pt-3"
-                                  error={form.to_account == "" ? true : false}
-                                >
-                                  <label className="text-info font-weight-bold form-label-head w-100 required">
-                                    TO ACCOUNT
-                                  </label>
-                                  <Select
-                                    value={form.to_account}
-                                    name="to_account"
-                                    onChange={input}
-                                    disabled={form.isLoader}
-                                    displayEmpty
-                                    onBlur={trueFalse}
-                                    inputProps={{
-                                      "aria-label": "Without label",
-                                    }}
-                                    input={<BootstrapInput />}
-                                  >
-                                    <MenuItem value="">Select Option</MenuItem>
 
-                                    <MenuItem value="MT5">MT5</MenuItem>
-                                  </Select>
-                                  {form.to_account == "" &&
-                                  infoTrue.to_account == true ? (
-                                    <FormHelperText>
-                                      Please Select To Account
-                                    </FormHelperText>
-                                  ) : (
-                                    ""
-                                  )}
-                                </FormControl>
-                              )}
-
-                              {isInputToMT5 ? (
+                                  <MenuItem value="MT5">MT5</MenuItem>
+                                </Select>
+                                {form.to_account == "" &&
+                                infoTrue.to_account == true ? (
+                                  <FormHelperText>
+                                    Please Select To Account
+                                  </FormHelperText>
+                                ) : (
+                                  ""
+                                )}
+                              </FormControl>
+                              {form.to_account == "MT5" ? (
                                 <FormControl
                                   className="form-control pt-3"
                                   error={form.mt5_account == "" ? true : false}
                                 >
                                   <label className="text-info font-weight-bold form-label-head w-100 required">
-                                    MT5 Account ID
+                                    To MT5 Account ID
                                   </label>
                                   <Select
                                     value={form.mt5_account}
@@ -557,11 +544,16 @@ const InternalTransfer = () => {
                                   >
                                     <MenuItem value="">Select Option</MenuItem>
                                     {mt5AccountList.data.map((item) => {
-                                      return (
-                                        <MenuItem value={item.mt5_acc_no}>
-                                          {item.mt5_acc_no} ({item.mt5_name})
-                                        </MenuItem>
-                                      );
+                                      if (
+                                        form.from_account_mt5 !==
+                                        item.mt5_acc_no
+                                      ) {
+                                        return (
+                                          <MenuItem value={item.mt5_acc_no}>
+                                            {item.mt5_acc_no} ({item.mt5_name})
+                                          </MenuItem>
+                                        );
+                                      }
                                     })}
                                   </Select>
                                   {form.mt5_account == "" &&

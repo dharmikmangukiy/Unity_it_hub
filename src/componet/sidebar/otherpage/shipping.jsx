@@ -10,12 +10,11 @@ import {
   Autocomplete,
 } from "@mui/material";
 import axios from "axios";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { IsApprove, Url } from "../../../global";
 import { ReactComponent as Warn } from "../../../svg/warn.svg";
 import { useNavigate } from "react-router-dom";
 import { ColorButton } from "../../customComponet/CustomElement";
+import Toast from "../../commonComponet/Toast";
 
 const Shipping = (prop) => {
   const navigate = useNavigate();
@@ -65,12 +64,12 @@ const Shipping = (prop) => {
     // fetchCountry();
     getContry();
   }, []);
-  toast.configure();
+
   const getContry = () => {
     const param = new FormData();
     axios.post(Url + "/datatable/get_countries.php", param).then((res) => {
       if (res.data.status == "error") {
-        toast.error(res.data.message);
+        Toast("error", res.data.message);
       } else {
         countryData.country = res.data.aaData;
         setCountryData({ ...countryData });
@@ -98,7 +97,7 @@ const Shipping = (prop) => {
           navigate("/login");
         }
         if (res.data.status == "error") {
-          // toast.error(res.data.message);
+          // Toast("error",res.data.message);
         } else {
           // if (id == undefined || id == null || id == "") {
 
@@ -246,12 +245,12 @@ const Shipping = (prop) => {
         );
         if (adata.status === 200) {
           if (adata.data.status === "error") {
-            toast.error(adata.data.message);
+            Toast("error", adata.data.message);
             data.isLoder = false;
             setData({ ...data });
           } else {
-            navigate("/trade-and-win");
-            toast.success(adata.data.message);
+            navigate("/trade-and-win/2");
+            Toast("success", adata.data.message);
             data.isLoder = false;
             setData({ ...data });
           }

@@ -4,12 +4,11 @@ import TopButton from "../../customComponet/TopButton";
 import { Paper } from "@mui/material";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
-import { toast } from "react-toastify";
 import { ColorButton } from "../../customComponet/CustomElement";
 import "./otherpage.css";
-import "react-toastify/dist/ReactToastify.css";
 
 import { Radio, RadioGroup, FormControlLabel } from "@mui/material";
+import Toast from "../../commonComponet/Toast";
 export const Deposite = () => {
   const myRef = useRef(null);
   const [aClass, setAclass] = useState({
@@ -40,10 +39,9 @@ export const Deposite = () => {
   });
 
   const notify = (p) => {
-    toast.error(p);
+    Toast("error", p);
   };
 
-  toast.configure();
   useEffect(() => {
     if (Object.keys(ageErrors).length === 0 && isSubmit) {
       notify("Fill info successfully");
@@ -227,10 +225,8 @@ export const Deposite = () => {
         <div className="app-content--inner__wrapper mh-100-vh">
           <div style={{ opacity: 1 }}>
             <Grid container>
-              <Grid item sm={12}></Grid>
-              <Grid item xl={1}>
-                {" "}
-              </Grid>
+              <Grid item sm={11}></Grid>
+              <Grid item xl={1}></Grid>
               <Grid item xl={10} md={12} lg={12}>
                 <TopButton />
 

@@ -11,9 +11,8 @@ import { useParams } from "react-router-dom";
 import { Link, NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
 //import CssTextField from './CssTextField';
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { Email } from "@mui/icons-material";
+import Toast from "../commonComponet/Toast.jsx";
 const ColorButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText("#ff0000"),
   backgroundColor: "black",
@@ -88,19 +87,19 @@ export default function Login1(prop) {
     return errors;
   };
   const notify = (p) => {
-    toast.error(p);
+    Toast("error", p);
   };
   const notify1 = (p) => {
-    toast.success(p);
+    Toast("success", p);
   };
 
   useEffect(() => {
     console.log(id);
     if (id == "success") {
-      toast.success("Your account has been verified successfully");
+      Toast("success", "Your account has been verified successfully");
     }
   }, []);
-  toast.configure();
+
   useEffect(() => {
     if (Object.keys(infoErrors).length === 0 && isSubmit) {
       setIsLoader(true);
@@ -110,7 +109,7 @@ export default function Login1(prop) {
       axios.post(Url + "/ajaxfiles/login_check.php", param).then((res) => {
         // setLoader(false);
         if (res.data.status == "error") {
-          toast.error(res.data.message);
+          Toast("error", res.data.message);
           setIsLoader(false);
         } else {
           notify1("Login successful");

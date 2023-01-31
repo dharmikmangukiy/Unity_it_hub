@@ -13,10 +13,9 @@ import { useState } from "react";
 import { IsApprove, Url } from "../../../global";
 import axios, { Axios } from "axios";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import Timer from "../../commonComponet/Timer";
 import Wheel from "../../Wheel/Wheel";
+import Toast from "../../commonComponet/Toast";
 
 const Spin_dash = (prop) => {
   const navigate = useNavigate();
@@ -42,7 +41,6 @@ const Spin_dash = (prop) => {
     data: "",
     isLoder: true,
   });
-  toast.configure();
   // React.useEffect(() => {
   //   if (seconds > 0) {
   //     setTimeout(() => setSeconds(seconds - 1), 1000);
@@ -85,7 +83,7 @@ const Spin_dash = (prop) => {
         popData.isLoder = false;
         popData.error = res.data.message;
         setPopData({ ...popData });
-        toast.error(res.data.message);
+        Toast("error", res.data.message);
       } else {
         popData.error = "";
         popData.isLoder = false;
@@ -255,11 +253,13 @@ const Spin_dash = (prop) => {
         <div className="app-content--inner">
           <div className="app-content--inner__wrapper mh-100-vh">
             {spinData.isLoder == true ? (
-              <span className="loader2"></span>
+              <div className="loader1">
+                <span className="loader2"></span>
+              </div>
             ) : (
               <div style={{ opacity: 1 }}>
                 <Grid container>
-                  <Grid item sm={12}></Grid>
+                  <Grid item sm={11}></Grid>
                   <Grid item xl={1}></Grid>
                   <Grid item xl={10} md={12} lg={12}>
                     <Paper
@@ -387,7 +387,8 @@ const Spin_dash = (prop) => {
                                           )
                                           .then(
                                             function () {
-                                              toast.success(
+                                              Toast(
+                                                "success",
                                                 "The sponsor link has been successfully copying"
                                               );
                                             },
@@ -396,7 +397,9 @@ const Spin_dash = (prop) => {
                                                 "Async: Could not copy text: ",
                                                 err
                                               );
-                                              toast.error(
+                                              Toast(
+                                                "error",
+
                                                 "The sponsor link Could not copy, Please try again"
                                               );
                                             }
@@ -472,116 +475,128 @@ const Spin_dash = (prop) => {
                           style={{ border: "1px solid #DFDFDF", width: "55%" }}
                         />
                         <div className="head_flex">
-                          <div className="text-center  mt-5 ">
-                            <span className="btn_type ">$50 Deposit & Win</span>
-                            <div className="boxi2">
-                              <h1 className="text_left">
-                                <ErrorOutlineIcon />
-                              </h1>
-                              <div>
-                                <Wheel
-                                  items={
-                                    spinData.data?.deposit_50_spin_data
-                                      .spin_amount_list
-                                  }
-                                  selectedItem={selectedItem.depo50Spin}
-                                  spinning1={selectedItem.depo50Spintrue}
-                                  isLocked={
-                                    spinData.data?.deposit_50_spin_data
-                                      .spin_status == 0
-                                      ? true
-                                      : false
-                                  }
-                                />
-                              </div>
-                              <div>
-                                <ColorButton
-                                  id="btn_5"
-                                  disabled={
-                                    spinData.data?.deposit_50_spin_data
-                                      .spin_status == 0
-                                      ? true
-                                      : false
-                                  }
-                                  onClick={() => {
-                                    selectedItem.depo50Spintrue = true;
-                                    selectedItem.depo50Spin =
-                                      spinData.data?.deposit_50_spin_data.spin_amount_list.indexOf(
-                                        spinData.data?.deposit_50_spin_data
-                                          .spin_amount
-                                      );
-                                    setSelectedItem({ ...selectedItem });
-                                    popData.isLoder = true;
-                                    popData.data =
-                                      spinData.data?.deposit_50_spin_data;
-                                    setPopData({ ...popData });
-                                    setTimeout(() => {
-                                      claimCredit();
-                                      handleClickOpen();
-                                    }, [5000]);
-                                  }}
-                                >
-                                  Deposit & Spin
-                                </ColorButton>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="text-center mt-5">
-                            <span className="btn_type ">
-                              $500 Deposit & Win
-                            </span>
-                            <div className="boxi2">
-                              <h1 className="text_left">
-                                <ErrorOutlineIcon />
-                              </h1>
-                              <div>
-                                <Wheel
-                                  items={
-                                    spinData.data?.deposit_500_spin_data
-                                      .spin_amount_list
-                                  }
-                                  selectedItem={selectedItem.depo500Spin}
-                                  spinning1={selectedItem.depo500Spintrue}
-                                  isLocked={
-                                    spinData.data?.deposit_500_spin_data
-                                      .spin_status == 0
-                                      ? true
-                                      : false
-                                  }
-                                />
-                              </div>
-                              <div>
-                                <ColorButton
-                                  id="btn_5"
-                                  disabled={
-                                    spinData.data?.deposit_500_spin_data
-                                      .spin_status == 0
-                                      ? true
-                                      : false
-                                  }
-                                  onClick={() => {
-                                    selectedItem.depo500Spintrue = true;
-                                    selectedItem.depo500Spin =
-                                      spinData.data?.deposit_500_spin_data.spin_amount_list.indexOf(
-                                        spinData.data?.deposit_500_spin_data
-                                          .spin_amount
-                                      );
-                                    setSelectedItem({ ...selectedItem });
-                                    popData.isLoder = true;
-                                    popData.data =
-                                      spinData.data?.deposit_500_spin_data;
-                                    setPopData({ ...popData });
-                                    setTimeout(() => {
-                                      claimCredit();
-                                      handleClickOpen();
-                                    }, [5000]);
-                                  }}
-                                >
-                                  Deposit & Spin
-                                </ColorButton>
+                          {spinData.data?.deposit_50_spin_data == null ||
+                          spinData.data?.deposit_50_spin_data == "" ? (
+                            ""
+                          ) : (
+                            <div className="text-center  mt-5 ">
+                              <span className="btn_type ">
+                                $50 Deposit & Win
+                              </span>
+                              <div className="boxi2">
+                                <h1 className="text_left">
+                                  <ErrorOutlineIcon />
+                                </h1>
+                                <div>
+                                  <Wheel
+                                    items={
+                                      spinData.data?.deposit_50_spin_data
+                                        .spin_amount_list
+                                    }
+                                    selectedItem={selectedItem.depo50Spin}
+                                    spinning1={selectedItem.depo50Spintrue}
+                                    isLocked={
+                                      spinData.data?.deposit_50_spin_data
+                                        .spin_status == 0
+                                        ? true
+                                        : false
+                                    }
+                                  />
+                                </div>
+                                <div>
+                                  <ColorButton
+                                    id="btn_5"
+                                    disabled={
+                                      spinData.data?.deposit_50_spin_data
+                                        .spin_status == 0
+                                        ? true
+                                        : false
+                                    }
+                                    onClick={() => {
+                                      selectedItem.depo50Spintrue = true;
+                                      selectedItem.depo50Spin =
+                                        spinData.data?.deposit_50_spin_data.spin_amount_list.indexOf(
+                                          spinData.data?.deposit_50_spin_data
+                                            .spin_amount
+                                        );
+                                      setSelectedItem({ ...selectedItem });
+                                      popData.isLoder = true;
+                                      popData.data =
+                                        spinData.data?.deposit_50_spin_data;
+                                      setPopData({ ...popData });
+                                      setTimeout(() => {
+                                        claimCredit();
+                                        handleClickOpen();
+                                      }, [5000]);
+                                    }}
+                                  >
+                                    Deposit & Spin
+                                  </ColorButton>
+                                </div>
                               </div>
                             </div>
-                          </div>
+                          )}
+                          {spinData.data?.deposit_500_spin_data == null ||
+                          spinData.data?.deposit_500_spin_data == "" ? (
+                            ""
+                          ) : (
+                            <div className="text-center mt-5">
+                              <span className="btn_type ">
+                                $500 Deposit & Win
+                              </span>
+                              <div className="boxi2">
+                                <h1 className="text_left">
+                                  <ErrorOutlineIcon />
+                                </h1>
+                                <div>
+                                  <Wheel
+                                    items={
+                                      spinData.data?.deposit_500_spin_data
+                                        .spin_amount_list
+                                    }
+                                    selectedItem={selectedItem.depo500Spin}
+                                    spinning1={selectedItem.depo500Spintrue}
+                                    isLocked={
+                                      spinData.data?.deposit_500_spin_data
+                                        .spin_status == 0
+                                        ? true
+                                        : false
+                                    }
+                                  />
+                                </div>
+                                <div>
+                                  <ColorButton
+                                    id="btn_5"
+                                    disabled={
+                                      spinData.data?.deposit_500_spin_data
+                                        .spin_status == 0
+                                        ? true
+                                        : false
+                                    }
+                                    onClick={() => {
+                                      selectedItem.depo500Spintrue = true;
+                                      selectedItem.depo500Spin =
+                                        spinData.data?.deposit_500_spin_data.spin_amount_list.indexOf(
+                                          spinData.data?.deposit_500_spin_data
+                                            .spin_amount
+                                        );
+                                      setSelectedItem({ ...selectedItem });
+                                      popData.isLoder = true;
+                                      popData.data =
+                                        spinData.data?.deposit_500_spin_data;
+                                      setPopData({ ...popData });
+                                      setTimeout(() => {
+                                        claimCredit();
+                                        handleClickOpen();
+                                      }, [5000]);
+                                    }}
+                                  >
+                                    Deposit & Spin
+                                  </ColorButton>
+                                </div>
+                              </div>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </Paper>

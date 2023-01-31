@@ -6,12 +6,18 @@ import TextField from "@mui/material/TextField";
 import styled, { keyframes } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { IsApprove } from "../../global";
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
-import differenceBy from 'lodash/differenceBy';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@mui/material";
+import differenceBy from "lodash/differenceBy";
 import { Url } from "../../global";
-import { ColorButton,ColorButton1,ColorButton2 } from "./CustomElement";
-import "react-toastify/dist/ReactToastify.css";
-import { toast } from "react-toastify";
+import { ColorButton, ColorButton1, ColorButton2 } from "./CustomElement";
+import Toast from "../commonComponet/Toast";
 
 const CssTextField = styled(TextField)({});
 
@@ -54,10 +60,10 @@ const CommonTable = (prop) => {
   const [openTableMenus, setOpenTableMenus] = useState([]);
   const [anchorEl, setAnchorEl] = React.useState([]);
   const [selectedRows, setSelectedRows] = React.useState([]);
-	const [toggleCleared, setToggleCleared] = React.useState(false);
+  const [toggleCleared, setToggleCleared] = React.useState(false);
   const [open1, setOpen1] = React.useState(false);
-const[isLoader,setIsLoader]=useState(false)
-	const [data, setData] = React.useState();
+  const [isLoader, setIsLoader] = useState(false);
+  const [data, setData] = React.useState();
   const open = Boolean(anchorEl);
   const user_id = localStorage.getItem(`user_id`);
   const auth_key = localStorage.getItem(`auth_key`);
@@ -73,9 +79,9 @@ const[isLoader,setIsLoader]=useState(false)
   const handleClose = () => {
     setOpen1(false);
   };
-const readAll=()=>{
-  const param = new FormData();
-  setIsLoader(true)
+  const readAll = () => {
+    const param = new FormData();
+    setIsLoader(true);
 
     if (IsApprove !== "") {
       param.append("is_app", IsApprove.is_app);
@@ -84,53 +90,57 @@ const readAll=()=>{
     }
 
     param.append("action", "mark_as_read_bulk");
-    param.append("notification_ids", JSON.stringify(selectedRows))
-     axios
-    .post(`${Url}/ajaxfiles/notifications_manage.php`, param)
-    .then((res) => {
-      if (res.data.status == "error") {
-        toast.error(res.data.message);
-        setIsLoader(false);
-      }else{
-        toast.success(res.data.message);
-        setIsLoader(false)
-        setRefresh(!refresh)
-        setOpen1(false)
-      }
-    })
-}
+    param.append("notification_ids", JSON.stringify(selectedRows));
+    axios
+      .post(`${Url}/ajaxfiles/notifications_manage.php`, param)
+      .then((res) => {
+        if (res.data.status == "error") {
+          Toast("error", res.data.message);
+          setIsLoader(false);
+        } else {
+          Toast("success", res.data.message);
+          setIsLoader(false);
+          setRefresh(!refresh);
+          setOpen1(false);
+        }
+      });
+  };
   const handleClientSort = async (column, sortDirection) => {
     console.log("cusotm sort", column.id - 1, sortDirection);
     setClientSort(column.id - 1);
     setClientDir(sortDirection);
   };
-  const handleRowSelected = React.useCallback(state => {
-    // const note=state.selectedRows.filter(match => match.notification_id.find(selectedRows => selectedRows.notification_id    
+  const handleRowSelected = React.useCallback((state) => {
+    // const note=state.selectedRows.filter(match => match.notification_id.find(selectedRows => selectedRows.notification_id
     //   ===id))
-    const note=()=>{
-      var notedata=[]
+    const note = () => {
+      var notedata = [];
 
-      state.selectedRows.map((item,index)=>{
-        notedata.push(item.notification_id)
-      })
-    return notedata
-  }
+      state.selectedRows.map((item, index) => {
+        notedata.push(item.notification_id);
+      });
+      return notedata;
+    };
     setSelectedRows(note);
+  }, []);
 
-	}, []);
+  const contextActions = React.useMemo(() => {
+    const handleDelete = () => {
+      console.log(selectedRows);
+      setOpen1(true);
+    };
 
-	const contextActions = React.useMemo(() => {
-		const handleDelete = () => {
-      console.log(selectedRows)
-      setOpen1(true)
-		};
-
-		return (
-			<Button key="delete" onClick={handleDelete} style={{ backgroundColor: 'red' ,color:'white',fontWeight:"700"}} icon>
-				 Mark Read Selected 
-			</Button>
-		);
-	}, [data, selectedRows, toggleCleared]);
+    return (
+      <Button
+        key="delete"
+        onClick={handleDelete}
+        style={{ backgroundColor: "red", color: "white", fontWeight: "700" }}
+        icon
+      >
+        Mark Read Selected
+      </Button>
+    );
+  }, [data, selectedRows, toggleCleared]);
   const input1 = (event) => {
     const { name, value } = event.target;
     setClientSearch(value);
@@ -248,76 +258,81 @@ const readAll=()=>{
           onChange={input1}
         />
       </div>
-      {prop.notification? <DataTable
-        columns={prop.column}
-        data={clientData}
-        progressPending={clientLoading}
-        onSort={handleClientSort}
-        selectableRows
-        actions
-        contextActions={contextActions}
-			onSelectedRowsChange={handleRowSelected}
-			clearSelectedRows={toggleCleared}
-        sortServer
-        pagination
-        paginationServer
-        paginationTotalRows={clientTotalRows}
-        onChangeRowsPerPage={handleClientPerRowsChange}
-        onChangePage={handleClientPageChange}
-        highlightOnHover
-        pointerOnHover
-        progressComponent={<CustomLoader />}
-      />:<DataTable
-        columns={prop.column}
-        data={clientData}
-        progressPending={clientLoading}
-        onSort={handleClientSort}
-        // selectableRows
-      //   actions
-      //   contextActions={contextActions}
-			// onSelectedRowsChange={handleRowSelected}
-			// clearSelectedRows={toggleCleared}
-        sortServer
-        pagination
-        paginationServer
-        paginationTotalRows={clientTotalRows}
-        onChangeRowsPerPage={handleClientPerRowsChange}
-        onChangePage={handleClientPageChange}
-        highlightOnHover
-        pointerOnHover
-        progressComponent={<CustomLoader />}
-      />}
-      
-       <Dialog open={open1} onClose={handleClose}>
-       <DialogTitle sx={{borderBottom: "0px solid #e6e7f1 !important"}}>Are you sure?</DialogTitle>
+      {prop.notification ? (
+        <DataTable
+          columns={prop.column}
+          data={clientData}
+          progressPending={clientLoading}
+          onSort={handleClientSort}
+          selectableRows
+          actions
+          contextActions={contextActions}
+          onSelectedRowsChange={handleRowSelected}
+          clearSelectedRows={toggleCleared}
+          sortServer
+          pagination
+          paginationServer
+          paginationTotalRows={clientTotalRows}
+          onChangeRowsPerPage={handleClientPerRowsChange}
+          onChangePage={handleClientPageChange}
+          highlightOnHover
+          pointerOnHover
+          progressComponent={<CustomLoader />}
+        />
+      ) : (
+        <DataTable
+          columns={prop.column}
+          data={clientData}
+          progressPending={clientLoading}
+          onSort={handleClientSort}
+          // selectableRows
+          //   actions
+          //   contextActions={contextActions}
+          // onSelectedRowsChange={handleRowSelected}
+          // clearSelectedRows={toggleCleared}
+          sortServer
+          pagination
+          paginationServer
+          paginationTotalRows={clientTotalRows}
+          onChangeRowsPerPage={handleClientPerRowsChange}
+          onChangePage={handleClientPageChange}
+          highlightOnHover
+          pointerOnHover
+          progressComponent={<CustomLoader />}
+        />
+      )}
+
+      <Dialog open={open1} onClose={handleClose}>
+        <DialogTitle sx={{ borderBottom: "0px solid #e6e7f1 !important" }}>
+          Are you sure?
+        </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-          Do you want to Read all this?
+            Do you want to Read all this?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <ColorButton1 onClick={handleClose} >No</ColorButton1>
+          <ColorButton1 onClick={handleClose}>No</ColorButton1>
           {isLoader == true ? (
-                              <ColorButton2   disabled >
-                              <svg
-                                          class="spinner"
-                                          style={{position: "unset"}}
-                                          viewBox="0 0 50 50"
-                                        >
-                                          <circle
-                                            class="path"
-                                            cx="25"
-                                            cy="25"
-                                            r="20"
-                                            fill="none"
-                                            stroke-width="5"
-                                          ></circle>
-                                        </svg>
-                              </ColorButton2>
-                            ) : (
-                              <ColorButton2 onClick={readAll} >Read all</ColorButton2>
-                            )}
-          
+            <ColorButton2 disabled>
+              <svg
+                class="spinner"
+                style={{ position: "unset" }}
+                viewBox="0 0 50 50"
+              >
+                <circle
+                  class="path"
+                  cx="25"
+                  cy="25"
+                  r="20"
+                  fill="none"
+                  stroke-width="5"
+                ></circle>
+              </svg>
+            </ColorButton2>
+          ) : (
+            <ColorButton2 onClick={readAll}>Read all</ColorButton2>
+          )}
         </DialogActions>
       </Dialog>
     </div>

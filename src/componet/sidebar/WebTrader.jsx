@@ -34,16 +34,18 @@ const WebTrader = () => {
         <div className="app-content--inner__wrapper mh-100-vh">
           <div style={{ opacity: 1 }}>
             <Grid container>
-              <Grid item sm={12}></Grid>
-              <Grid item xl={1}>
-                {" "}
-              </Grid>
+              <Grid item sm={11}></Grid>
+              <Grid item xl={1}></Grid>
               <Grid item xl={10} md={12} lg={12}>
                 {/* <TopButton /> */}
-                <div
-                  id="webterminal"
-                  style={{ width: "100%", height: "600px" }}
-                ></div>
+                <div style={{ width: "100%", height: "600px" }}>
+                  <iframe
+                    src="https://app.rightfx.com/"
+                    style={{ width: "100%", height: "100%" }}
+                    height="100%"
+                    frameborder="0"
+                  ></iframe>
+                </div>
               </Grid>
             </Grid>
           </div>

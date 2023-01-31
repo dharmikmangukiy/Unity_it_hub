@@ -24,12 +24,10 @@ import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import SouthEastSharpIcon from "@mui/icons-material/SouthEastSharp";
 import GetAppSharpIcon from "@mui/icons-material/GetAppSharp";
 import NorthEastSharpIcon from "@mui/icons-material/NorthEastSharp";
-import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { IsApprove, Url } from "../../../global";
 import axios from "axios";
-import { toast } from "react-toastify";
 import CloseIcon from "@mui/icons-material/Close";
 import { BootstrapInput } from "../../customComponet/CustomElement";
 import "./pamm.css";
@@ -38,6 +36,7 @@ import CommonTable from "../../customComponet/CommonTable";
 import SwipeableViews from "react-swipeable-views";
 import { useTheme } from "@emotion/react";
 import Chart from "react-apexcharts";
+import Toast from "../../commonComponet/Toast";
 
 const GreenButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText("#ff0000"),
@@ -190,11 +189,11 @@ const PammPortfolioProfile = () => {
   };
   const createPortfolioFormSubmit = () => {
     if (createPortfolioForm.portfolio_name == "") {
-      toast.error("Please enter portfolio name");
+      Toast("error", "Please enter portfolio name");
     } else if (createPortfolioForm.mm_mt5_acc_id == "") {
-      toast.error("Please select money manager");
+      Toast("error", "Please select money manager");
     } else if (createPortfolioForm.investment_months == "") {
-      toast.error("Please enter investment month");
+      Toast("error", "Please enter investment month");
     } else {
       createPortfolioForm.isLoader = true;
       setCreatePortfolioForm({ ...createPortfolioForm });
@@ -218,9 +217,9 @@ const PammPortfolioProfile = () => {
           createPortfolioForm.isLoader = false;
           setCreatePortfolioForm({ ...createPortfolioForm });
           if (res.data.status == "error") {
-            toast.error(res.data.message);
+            Toast("error", res.data.message);
           } else {
-            toast.success(res.data.message);
+            Toast("success", res.data.message);
             setOpen(false);
           }
         });
@@ -243,7 +242,7 @@ const PammPortfolioProfile = () => {
           navigate("/");
         }
         if (res.data.status == "error") {
-          toast.error(res.data.message);
+          Toast("error", res.data.message);
         } else {
           moneyManagerListMenu = res.data.data;
           setMoneyManagerListMenu([...moneyManagerListMenu]);
@@ -769,7 +768,6 @@ const PammPortfolioProfile = () => {
       });
   }, []);
   console.log(info);
-  toast.configure();
 
   return (
     <div className="money-manager-profile-section portfolio-profile">

@@ -15,8 +15,6 @@ import InputBase from "@mui/material/InputBase";
 import { styled } from "@mui/material/styles";
 import Select from "@mui/material/Select";
 import { ColorButton } from "../../customComponet/CustomElement";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -34,6 +32,8 @@ import axios from "axios";
 import { IsApprove, Url } from "../../../global";
 import { useNavigate } from "react-router-dom";
 import Counter from "../../customComponet/Counter";
+import Toast from "../../commonComponet/Toast";
+
 const BootstrapInput1 = styled(InputBase)(({ theme }) => ({
   "label + &": {
     marginTop: theme.spacing(0),
@@ -139,12 +139,12 @@ const BankAccountp = () => {
           navigate("/");
         }
         if (res.data == "error") {
-          toast.error(res.data.status);
+          Toast("error", res.data.status);
           age.isLoader = false;
           setAge({ ...age });
         } else {
           setOpen(false);
-          toast.success(res.data.message);
+          Toast("success", res.data.message);
           age.isLoader = false;
           setAge({ ...age });
           fetchUserPref1();
@@ -252,9 +252,8 @@ const BankAccountp = () => {
     return errors;
   };
   const notify = (p) => {
-    toast.error(p);
+    Toast("error", p);
   };
-  toast.configure();
   const checkIfscCode = () => {
     if (age.iban == "") {
       notify(`${age.ibanselect} code is required`);
@@ -272,7 +271,7 @@ const BankAccountp = () => {
         if (res.data.status == "error") {
           // ifscData.isLoader = false;
           // setIfscData({ ...ifscData })
-          toast.error(res.data.message);
+          Toast("error", res.data.message);
           ifscData.isLoader = false;
           ifscData.buttonDisable = true;
           ifscData.data = "";
@@ -282,7 +281,7 @@ const BankAccountp = () => {
           ifscData.buttonDisable = false;
           ifscData.data = res.data.bank_data;
           setIfscData({ ...ifscData });
-          toast.success(res.data.message);
+          Toast("success", res.data.message);
         }
       });
     }
@@ -318,12 +317,12 @@ const BankAccountp = () => {
               }
               console.log("status", res.data);
               if (res.data.status == "error") {
-                toast.error(res.data.message);
+                Toast("error", res.data.message);
                 setAge((prevalue) => {
                   return { ...prevalue, isLoader: false };
                 });
               } else {
-                toast.success(res.data.message);
+                Toast("success", res.data.message);
                 fetchUserPref1();
                 // setData([...data, age]);
                 setSubmitted(true);
@@ -390,12 +389,12 @@ const BankAccountp = () => {
               }
               console.log("status", res.data);
               if (res.data.status == "error") {
-                toast.error(res.data.message);
+                Toast("error", res.data.message);
                 setAge((prevalue) => {
                   return { ...prevalue, isLoader: "" };
                 });
               } else {
-                toast.success(res.data.message);
+                Toast("success", res.data.message);
                 fetchUserPref1();
                 // setData([...data, age]);
                 setSubmitted(true);
@@ -424,7 +423,7 @@ const BankAccountp = () => {
               console.log("status", res.data);
               if (res.data.status == "error") {
                 sendOtp.otpLoder = false;
-                toast.error(res.data.message);
+                Toast("error", res.data.message);
                 setSendOtp({ ...sendOtp });
               } else {
                 sendOtp.otp = true;
@@ -432,7 +431,7 @@ const BankAccountp = () => {
                 sendOtp.showButton = true;
                 setSendOtp({ ...sendOtp });
                 setTimer({ ...timer });
-                toast.success(res.data.message);
+                Toast("success", res.data.message);
               }
             });
         }
@@ -613,11 +612,13 @@ const BankAccountp = () => {
             //     <div className="pointers"></div>
             //   </div>
             // </div>
-            <span className="loader2"></span>
+            <div className="loader1">
+              <span className="loader2"></span>
+            </div>
           ) : (
             <div style={{ opacity: 1 }}>
               <Grid container>
-                <Grid item sm={12}></Grid>
+                <Grid item sm={11}></Grid>
                 <Grid item xl={1}></Grid>
                 <Grid item xl={10} md={12} lg={12}>
                   {/* <TopButton /> */}

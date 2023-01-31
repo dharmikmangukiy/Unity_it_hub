@@ -3,9 +3,8 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Toast from "../componet/commonComponet/Toast";
 import { IsApprove, Url } from "../global";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 const IBDashboard = (prop) => {
   const navigate = useNavigate();
   const [mainLoader, setMainLoader] = useState(true);
@@ -51,7 +50,9 @@ const IBDashboard = (prop) => {
             //     <div className="pointers"></div>
             //   </div>
             // </div>
-            <span className="loader2"></span>
+            <div className="loader1">
+              <span className="loader2"></span>
+            </div>
           ) : (
             <div style={{ opacity: 1 }}>
               <Grid container>
@@ -189,7 +190,8 @@ const IBDashboard = (prop) => {
                                               console.log(
                                                 "Async: Copying to clipboard was successful!"
                                               );
-                                              toast.success(
+                                              Toast(
+                                                "success",
                                                 "The IB link has been successfully copying"
                                               );
                                             },
@@ -198,7 +200,8 @@ const IBDashboard = (prop) => {
                                                 "Async: Could not copy text: ",
                                                 err
                                               );
-                                              toast.error(
+                                              Toast(
+                                                "error",
                                                 "The IB link Could not copy, Please try again"
                                               );
                                             }

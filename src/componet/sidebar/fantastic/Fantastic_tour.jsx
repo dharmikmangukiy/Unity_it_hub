@@ -32,11 +32,8 @@ import { ColorButton } from "../../customComponet/CustomElement";
 import { useEffect } from "react";
 import { IsApprove, Url } from "../../../global";
 import axios from "axios";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { Info } from "@mui/icons-material";
-
-
+import Toast from "../../commonComponet/Toast";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -87,8 +84,6 @@ const Fantastic_tour = () => {
   const [popLoder, setPopLoder] = useState({
     pop1: false,
   });
-
-  toast.configure();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -255,11 +250,11 @@ const Fantastic_tour = () => {
           navigate("/");
         }
         if (res.data.status == "error") {
-          toast.error(res.data.message);
+          Toast("error", res.data.message);
           popLoder.pop1 = false;
           // setPopLoder({ ...popLoder });
         } else {
-          toast.success(res.data.message);
+          Toast("success", res.data.message);
           navigate(`/Order_chart/${popData.data?.fantastic_id}`);
           // popLoder.pop1 = false;
           // setPopLoder({ ...popLoder });
@@ -293,11 +288,13 @@ const Fantastic_tour = () => {
       <div className="app-content--inner">
         <div className="app-content--inner__wrapper mh-100-vh">
           {mainLoader == true ? (
-            <span className="loader2"></span>
+            <div className="loader1">
+              <span className="loader2"></span>
+            </div>
           ) : (
             <div style={{ opacity: 1 }}>
               <Grid container>
-                <Grid item sm={12}></Grid>
+                <Grid item sm={11}></Grid>
                 <Grid item xl={1}></Grid>
                 <Grid item xl={10} md={12} lg={12}>
                   <Paper

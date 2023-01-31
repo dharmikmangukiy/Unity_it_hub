@@ -9,8 +9,6 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { ColorButton } from "../../customComponet/CustomElement";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { IsApprove, Url } from "../../../global";
 import Pagination from "@mui/material/Pagination";
@@ -19,6 +17,7 @@ import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import StarIcon from "@mui/icons-material/Star";
 import { NavLink, useNavigate } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
+import Toast from "../../commonComponet/Toast";
 
 const CopierArea = (prop) => {
   const navigate = useNavigate();
@@ -31,7 +30,6 @@ const CopierArea = (prop) => {
   const [copyTrading, setCopyTrading] = useState({
     data: {},
   });
-  toast.configure();
 
   const getCopyTradingAccount = async () => {
     setCopyTradingLoader(true);
@@ -52,7 +50,7 @@ const CopierArea = (prop) => {
           navigate("/");
         }
         if (res.data.status == "error") {
-          toast.error(res.data.message);
+          Toast("error", res.data.message);
         } else {
           console.log(res.data);
           copyTrading.data = res.data;
@@ -85,7 +83,7 @@ const CopierArea = (prop) => {
           navigate("/");
         }
         if (res.data.status == "error") {
-          toast.error(res.data.message);
+          Toast("error", res.data.message);
         } else {
           console.log(res.data);
           copyTrading.data = res.data;
@@ -118,7 +116,7 @@ const CopierArea = (prop) => {
           navigate("/");
         }
         if (res.data.status == "error") {
-          toast.error(res.data.message);
+          Toast("error", res.data.message);
         } else {
           console.log(res.data);
           copyTrading.data = res.data;
@@ -131,7 +129,7 @@ const CopierArea = (prop) => {
   };
 
   const deleteConfirm = () => {
-    toast.success("Copy Trading account successfully deleted");
+    Toast("success", "Copy Trading account successfully deleted");
     setCopyTradingIndex("");
     setOpenModel(false);
   };

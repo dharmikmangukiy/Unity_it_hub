@@ -13,7 +13,6 @@ import {
 import CommonTable from "../../customComponet/CommonTable";
 import { ColorButton } from "../../customComponet/CustomElement";
 import { useNavigate } from "react-router-dom";
-import "react-toastify/dist/ReactToastify.css";
 import { BootstrapInput } from "../../customComponet/CustomElement";
 import { Url } from "../../../global.js";
 import axios from "axios";
@@ -125,9 +124,9 @@ const IBWithdrawalReport = () => {
         <div className="app-content--inner__wrapper mh-100-vh">
           <div style={{ opacity: 1 }}>
             <Grid container>
-              <Grid item sm={12}></Grid>
+              <Grid item sm={11}></Grid>
               <Grid item xl={1}></Grid>
-              <Grid item md={12} lg={12} xl={10}>
+              <Grid item xl={10} md={12} lg={12}>
                 {/* <TopButton /> */}
                 <p className="main-heading">IB Commissions Withdrawal Report</p>
 

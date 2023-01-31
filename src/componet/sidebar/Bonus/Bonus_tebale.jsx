@@ -65,6 +65,16 @@ const Bonus_tebale = () => {
       grow: 0.7,
     },
     {
+      name: "Bonus Amount",
+      selector: (row) => {
+        return <span title={row.bonus_amount}>{row.bonus_amount}</span>;
+      },
+      // wrap: true,
+      sortable: true,
+      reorder: true,
+      grow: 0.7,
+    },
+    {
       name: "lots to be traded",
       selector: (row) => {
         return (

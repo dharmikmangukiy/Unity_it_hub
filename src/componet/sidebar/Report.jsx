@@ -504,9 +504,9 @@ const Report = () => {
         <div className="app-content--inner__wrapper mh-100-vh">
           <div style={{ opacity: 1 }}>
             <Grid container>
-              <Grid item sm={12}></Grid>
+              <Grid item sm={11}></Grid>
               <Grid item xl={1}></Grid>
-              <Grid item md={12} lg={12} xl={10}>
+              <Grid item xl={10} md={12} lg={12}>
                 {/* <TopButton /> */}
                 <Paper elevation={2} style={{ borderRadius: "10px" }}>
                   <div className="card-header font-weight-bold text-dark border-bottom py-2">

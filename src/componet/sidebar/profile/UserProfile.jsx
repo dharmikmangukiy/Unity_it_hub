@@ -32,12 +32,11 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { BootstrapInput } from "../../customComponet/CustomElement";
 // import { Url } from "../../../../global";
 import axios from "axios";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { IsApprove, Url } from "../../../global";
 import { useNavigate } from "react-router-dom";
 import "./user_profile.css";
 import Counter from "../../customComponet/Counter";
+import Toast from "../../commonComponet/Toast";
 
 const UserProfile = () => {
   const navigate = useNavigate();
@@ -135,36 +134,36 @@ const UserProfile = () => {
   });
   const onEditsubmit = () => {
     if (onEdit.user_title == "" || onEdit.user_title == null) {
-      toast.error("User Title is required");
+      Toast("error", "User Title is required");
     } else if (onEdit.user_first_name == "") {
-      toast.error("First Name is required");
+      Toast("error", "First Name is required");
     } else if (onEdit.user_last_name == "") {
-      toast.error("Last Name is required");
+      Toast("error", "Last Name is required");
     } else if (onEdit.gender == "") {
-      toast.error("Gender is required");
+      Toast("error", "Gender is required");
     } else if (onEdit.dob == "") {
-      toast.error("Date of Birth is required");
+      Toast("error", "Date of Birth is required");
     } else if (onEdit.email == "") {
-      toast.error("Email is required");
+      Toast("error", "Email is required");
     } else if (
       !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(onEdit.email)
     ) {
-      toast.error("Enter a valid email");
+      Toast("error", "Enter a valid email");
     } else if (onEdit.phone == "") {
-      toast.error("Mobile Number is required");
+      Toast("error", "Mobile Number is required");
     } else if (
       onEdit.phone.toString().length < 4 ||
       onEdit.phone.toString().length > 12
     ) {
-      toast.error("Mobile number is not valid");
+      Toast("error", "Mobile number is not valid");
     } else if (onEdit.country == "" || onEdit.country == null) {
-      toast.error("Country is required");
+      Toast("error", "Country is required");
     } else if (onEdit.state == "" || onEdit.state == null) {
-      toast.error("State is required");
+      Toast("error", "State is required");
     } else if (onEdit.city == "" || onEdit.city == null) {
-      toast.error("City is required");
+      Toast("error", "City is required");
     } else if (onEdit.add == "") {
-      toast.error("Address is required");
+      Toast("error", "Address is required");
     } else {
       const param = new FormData();
       param.append("user_title", onEdit.user_title);
@@ -201,7 +200,7 @@ const UserProfile = () => {
           navigate("/");
         }
         if (res.data.status == "error") {
-          toast.error(res.data.message);
+          Toast("error", res.data.message);
           if (otp.resend_otp == false) {
             onEdit.isLoder = false;
             setOnEdit({ ...onEdit });
@@ -212,7 +211,7 @@ const UserProfile = () => {
           // onEdit.isLoder = false;
           // setOnEdit({ ...onEdit });
         } else {
-          toast.success(res.data.message);
+          Toast("success", res.data.message);
           if (otp.resend_otp == false) {
             onEdit.isLoder = false;
             setOnEdit({ ...onEdit });
@@ -277,7 +276,7 @@ const UserProfile = () => {
           navigate("/login");
         }
         if (res.data.status == "error") {
-          // toast.error(res.data.message);
+          // Toast("error",res.data.message);
         } else {
           // if (id == undefined || id == null || id == "") {
 
@@ -311,7 +310,7 @@ const UserProfile = () => {
           navigate("/login");
         }
         if (res.data.status == "error") {
-          // toast.error(res.data.message);
+          // Toast("error",res.data.message);
         } else {
           // if (id == undefined || id == null || id == "") {
           //   info.onEdit = "";
@@ -335,21 +334,22 @@ const UserProfile = () => {
   };
   const onSubmit = () => {
     if (!data.old_password) {
-      toast.error("Old Password is is required");
+      Toast("error", "Old Password is is required");
     } else if (!data.new_password) {
-      toast.error("New Password is required");
+      Toast("error", "New Password is required");
     } else if (
       !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/.test(
         data.new_password
       )
     ) {
-      toast.error(
+      Toast(
+        "error",
         "Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"
       );
     } else if (!data.confirm_password) {
-      toast.error("Confirm Password is required");
+      Toast("error", "Confirm Password is required");
     } else if (data.new_password !== data.confirm_password) {
-      toast.error("Confirm password must be same as new password");
+      Toast("error", "Confirm password must be same as new password");
     } else {
       const param = new FormData();
       param.append("old_password", data.old_password);
@@ -368,13 +368,13 @@ const UserProfile = () => {
           navigate("/");
         }
         if (res.data.status == "error") {
-          toast.error(res.data.message);
+          Toast("error", res.data.message);
           data.isLoder = false;
           setData({ ...data });
         } else {
           data.isLoder = false;
           setData({ ...data });
-          toast.success(res.data.message);
+          Toast("success", res.data.message);
           setChangePassword(false);
           setinfoTrue({
             user_title: "",
@@ -412,7 +412,7 @@ const UserProfile = () => {
         if (res.data.message == "Session has been expired") {
           navigate("/");
         }
-
+        setOnEdit1(res.data.profile_verified == "0" ? true : false);
         setPrefrence(res.data);
         setMainLoader(false);
         // setOnEdit({
@@ -438,13 +438,12 @@ const UserProfile = () => {
     fetchUserPref();
   }, []);
   console.log("user_dob", prefrence, onEdit);
-  toast.configure();
   const getContry = () => {
     const param = new FormData();
 
     axios.post(Url + "/datatable/get_countries.php", param).then((res) => {
       if (res.data.status == "error") {
-        toast.error(res.data.message);
+        Toast("error", res.data.message);
       } else {
         countryData.country = res.data.aaData;
         setCountryData({ ...countryData });
@@ -470,12 +469,12 @@ const UserProfile = () => {
   };
   const submitMobileMail = async () => {
     if (changeMobileNumber.mobile == "") {
-      toast.error("Please Enter Mobile Number");
+      Toast("error", "Please Enter Mobile Number");
     } else if (
       changeMobileNumber.mobile.length <= 3 ||
       changeMobileNumber.mobile.length > 12
     ) {
-      toast.error("Mobile number is not valid");
+      Toast("error", "Mobile number is not valid");
     } else {
       changeMobileNumber.isMobileLoader = true;
       setChangeMobileNumber({ ...changeMobileNumber });
@@ -498,9 +497,9 @@ const UserProfile = () => {
           }
 
           if (res.data.status == "error") {
-            toast.error(res.data.message);
+            Toast("error", res.data.message);
           } else {
-            toast.success(res.data.message);
+            Toast("success", res.data.message);
             changeMobileNumber.ismobile = true;
             changeMobileNumber.isVerifyCode = false;
             setChangeMobileNumber({ ...changeMobileNumber });
@@ -532,11 +531,11 @@ const UserProfile = () => {
         }
 
         if (res.data.status == "error") {
-          toast.error(res.data.message);
+          Toast("error", res.data.message);
           changeMobileNumber.isMobileLoader = false;
           setChangeMobileNumber({ ...changeMobileNumber });
         } else {
-          toast.success(res.data.message);
+          Toast("success", res.data.message);
           /* changeMobileNumber.ismobile = true;
         changeMobileNumber.isVerifyCode = false;
         setChangeMobileNumber({...changeMobileNumber}); */
@@ -575,7 +574,7 @@ const UserProfile = () => {
 
   //   axios.post(Url + "/datatable/get_countries.php", param).then((res) => {
   //     if (res.data.status == "error") {
-  //       toast.error(res.data.message);
+  //       Toast("error",res.data.message);
   //     } else {
   //       countryData.data = res.data.aaData;
   //       setCountryData({ ...countryData });
@@ -625,11 +624,13 @@ const UserProfile = () => {
             //     <div className="pointers"></div>
             //   </div>
             // </div>
-            <span className="loader2"></span>
+            <div className="loader1">
+              <span className="loader2"></span>
+            </div>
           ) : (
             <div style={{ opacity: 1 }}>
               <Grid container>
-                <Grid item sm={12}></Grid>
+                <Grid item sm={11}></Grid>
                 <Grid item xl={1}></Grid>
                 <Grid item xl={10} md={12} lg={12}>
                   {/* <TopButton /> */}
@@ -678,7 +679,8 @@ const UserProfile = () => {
                                           )
                                           .then(
                                             function () {
-                                              toast.success(
+                                              Toast(
+                                                "success",
                                                 "The sponsor link has been successfully copying"
                                               );
                                             },
@@ -687,7 +689,8 @@ const UserProfile = () => {
                                                 "Async: Could not copy text: ",
                                                 err
                                               );
-                                              toast.error(
+                                              Toast(
+                                                "error",
                                                 "The sponsor link Could not copy, Please try again"
                                               );
                                             }

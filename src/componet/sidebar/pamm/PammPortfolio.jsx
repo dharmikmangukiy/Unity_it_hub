@@ -25,8 +25,6 @@ import {
   ColorButton,
 } from "../../customComponet/CustomElement";
 import TopButton from "../../customComponet/TopButton";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { NavLink, useNavigate } from "react-router-dom";
 import { IsApprove, Url } from "../../../global";
@@ -42,6 +40,7 @@ import DialogActions from "@mui/material/DialogActions";
 import { useTheme } from "@emotion/react";
 import SwipeableViews from "react-swipeable-views";
 import { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
+import Toast from "../../commonComponet/Toast";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -225,7 +224,8 @@ const PammPortfolio = () => {
     if (investmentForm.amount > walletbalance) {
       invebutton.button = true;
       setinvebutton({ ...invebutton });
-      toast.error(
+      Toast(
+        "error",
         "Your wallet balance is low, if you want to invest same amount then please make a deposit"
       );
     } else {
@@ -716,11 +716,11 @@ const PammPortfolio = () => {
 
   const createPortfolioFormSubmit = () => {
     if (createPortfolioForm.portfolio_name == "") {
-      toast.error("Please enter portfolio name");
+      Toast("error", "Please enter portfolio name");
     } else if (createPortfolioForm.mm_mt5_acc_id == "") {
-      toast.error("Please select money manager");
+      Toast("error", "Please select money manager");
     } else if (createPortfolioForm.investment_months == "") {
-      toast.error("Please enter investment month");
+      Toast("error", "Please enter investment month");
     } else {
       createPortfolioForm.isLoader = true;
       setCreatePortfolioForm({ ...createPortfolioForm });
@@ -744,10 +744,10 @@ const PammPortfolio = () => {
           createPortfolioForm.isLoader = false;
           setCreatePortfolioForm({ ...createPortfolioForm });
           if (res.data.status == "error") {
-            toast.error(res.data.message);
+            Toast("error", res.data.message);
           } else {
             getMyPortfolio();
-            toast.success(res.data.message);
+            Toast("success", res.data.message);
             setRefresh(!refresh);
             setOpen(false);
           }
@@ -757,9 +757,9 @@ const PammPortfolio = () => {
 
   const investmentFormSubmit = () => {
     if (investmentForm.pid == "") {
-      toast.error("Please enter pid");
+      Toast("error", "Please enter pid");
     } else if (investmentForm.amount == "") {
-      toast.error("Please enter amount");
+      Toast("error", "Please enter amount");
     } else {
       investmentForm.isLoader = true;
       setInvestmentForm({ ...investmentForm });
@@ -782,9 +782,9 @@ const PammPortfolio = () => {
           investmentForm.isLoader = false;
           setInvestmentForm({ ...investmentForm });
           if (res.data.status == "error") {
-            toast.error(res.data.message);
+            Toast("error", res.data.message);
           } else {
-            toast.success(res.data.message);
+            Toast("success", res.data.message);
             setOpen(false);
             setInvestmentForm({
               user_id: "",
@@ -800,7 +800,7 @@ const PammPortfolio = () => {
 
   const withdrawFormSubmit = () => {
     if (withdrawForm.amount == "" && !withdrawForm.allWithdraw) {
-      toast.error("Please enter amount");
+      Toast("error", "Please enter amount");
     } else {
       withdrawForm.isLoader = true;
       setWithdrawForm({ ...withdrawForm });
@@ -827,14 +827,14 @@ const PammPortfolio = () => {
           withdrawForm.isLoader = false;
           setWithdrawForm({ ...withdrawForm });
           if (res.data.status == "error") {
-            toast.error(res.data.message);
+            Toast("error", res.data.message);
           } else {
             if (refreshCreatePortfolio1) {
               getMoneyManager();
             } else {
               getMyPortfolio();
             }
-            toast.success(res.data.message);
+            Toast("success", res.data.message);
             setOpen(false);
 
             setWithdrawForm({
@@ -933,7 +933,7 @@ const PammPortfolio = () => {
           navigate("/");
         }
         if (res.data.status == "error") {
-          toast.error(res.data.message);
+          Toast("error", res.data.message);
         } else {
           moneyManagerList = res.data.data;
           setMoneyManagerList([...moneyManagerList]);
@@ -957,7 +957,7 @@ const PammPortfolio = () => {
           navigate("/");
         }
         if (res.data.status == "error") {
-          toast.error(res.data.message);
+          Toast("error", res.data.message);
         } else {
           moneyManagerListMenu = res.data.data;
           setMoneyManagerListMenu([...moneyManagerListMenu]);
@@ -985,7 +985,7 @@ const PammPortfolio = () => {
         }
         setPortfolioLoader(false);
         if (res.data.status == "error") {
-          toast.error(res.data.message);
+          Toast("error", res.data.message);
         } else {
           myPortfolio = res.data.data;
           setMyPortfolio([...myPortfolio]);
@@ -1003,7 +1003,7 @@ const PammPortfolio = () => {
         <div className="app-content--inner__wrapper mh-100-vh">
           <div style={{ opacity: 1 }}>
             <Grid container>
-              <Grid item sm={12}></Grid>
+              <Grid item sm={11}></Grid>
               <Grid item xl={1}></Grid>
               <Grid item xl={10} md={12} lg={12}>
                 {/* <TopButton /> */}

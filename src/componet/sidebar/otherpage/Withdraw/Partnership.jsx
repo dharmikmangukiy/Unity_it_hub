@@ -16,7 +16,6 @@ import Select from "@mui/material/Select";
 import InputBase from "@mui/material/InputBase";
 import { styled, useTheme } from "@mui/material/styles";
 import MenuItem from "@mui/material/MenuItem";
-import { toast } from "react-toastify";
 import InfoIcon from "@mui/icons-material/Info";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
@@ -28,7 +27,6 @@ import {
   ColorButton,
 } from "../../../customComponet/CustomElement";
 
-import "react-toastify/dist/ReactToastify.css";
 import TopButton from "../../../customComponet/TopButton";
 import { IsApprove, Url } from "../../../../global";
 import axios from "axios";
@@ -41,6 +39,7 @@ import MobileFriendlyIcon from "@mui/icons-material/MobileFriendly";
 import DocumentScannerIcon from "@mui/icons-material/DocumentScanner";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import Verification from "../../../customComponet/Verification";
+import Toast from "../../../commonComponet/Toast";
 
 const BootstrapInput1 = styled(TextField)(({ theme }) => ({
   "label + &": {
@@ -381,31 +380,31 @@ const Ibasign = () => {
   const updatePartnership = async () => {
     // var error = false;
     // if (updateDate.structure_name == "") {
-    //     toast.error("Please enter structure name");
+    //     Toast("error","Please enter structure name");
     //     error = true;
     // } else {
     //   updateDate.structure_data.forEach(element => {
     //         console.log(element.ib_group_name, element.group_rebate);
     //         if (element.group_rebate === "") {
-    //             toast.error(`Please enter ${element.ib_group_name} rebate`);
+    //             Toast("error",`Please enter ${element.ib_group_name} rebate`);
     //             error = true;
     //             return false;
     //         } else if (element.group_commission === "") {
-    //             toast.error(`Please enter ${element.ib_group_name} commission`);
+    //             Toast("error",`Please enter ${element.ib_group_name} commission`);
     //             error = true;
     //             return false;
     //         } else if (element.ib_group_level_id === 0) {
-    //             toast.error(`Please enter ${element.ib_group_name} ib group`);
+    //             Toast("error",`Please enter ${element.ib_group_name} ib group`);
     //             error = true;
     //             return false;
     //         } else {
     //             element.pair_data.forEach(element1 => {
     //                 if (element1.rebate === "") {
-    //                     toast.error(`Please enter ${element.ib_group_name} in ${element1.pair_name} rebate`);
+    //                     Toast("error",`Please enter ${element.ib_group_name} in ${element1.pair_name} rebate`);
     //                     error = true;
     //                     return false;
     //                 } else if (element1.commission === "") {
-    //                     toast.error(`Please enter ${element.ib_group_name} in ${element1.pair_name} commission`);
+    //                     Toast("error",`Please enter ${element.ib_group_name} in ${element1.pair_name} commission`);
     //                     error = true;
     //                     return false;
     //                 }
@@ -420,9 +419,9 @@ const Ibasign = () => {
     //     return false;
     // }
     if (updateDate.structure_id == "") {
-      toast.error("Please assign structure");
+      Toast("error", "Please assign structure");
     } else if (updateDate.sponsor_approve == "") {
-      toast.error("Sponsor approval status is required");
+      Toast("error", "Sponsor approval status is required");
     } else {
       updateDate.isLoader = true;
       setUpdateDate({ ...updateDate });
@@ -452,9 +451,9 @@ const Ibasign = () => {
           updateDate.isLoader = false;
           setUpdateDate({ ...updateDate });
           if (res.data.status == "error") {
-            toast.error(res.data.message);
+            Toast("error", res.data.message);
           } else {
-            toast.success(res.data.message);
+            Toast("success", res.data.message);
             setOpenModel(false);
             setUpdateDate({
               structure_id: "",
@@ -479,7 +478,10 @@ const Ibasign = () => {
         <div className="app-content--inner__wrapper mh-100-vh">
           <div style={{ opacity: 1 }}>
             <Grid container>
-              <Grid item md={12} lg={12} xl={12}>
+              <Grid item sm={11}></Grid>
+              <Grid item xl={1}></Grid>
+              <Grid item xl={10} md={12} lg={12}>
+                {/* <Grid item md={12} lg={12} xl={12}> */}
                 <p className="main-heading">IB Request List</p>
 
                 <Paper
@@ -1012,10 +1014,9 @@ export const Partnership = () => {
     return errors;
   };
   const notify = (p) => {
-    toast.error(p);
+    Toast("error", p);
   };
   console.log("age.countries", age.countries);
-  toast.configure();
   useEffect(() => {
     if (Object.keys(ageErrors).length === 0 && isSubmit) {
       setAge((prevalue) => {
@@ -1057,9 +1058,9 @@ export const Partnership = () => {
                 isLoader: false,
               };
             });
-            toast.error(res.data.message);
+            Toast("error", res.data.message);
           } else {
-            toast.success(res.data.message);
+            Toast("success", res.data.message);
             ibstatusdata();
             setAge((prevalue) => {
               return {
@@ -1114,7 +1115,7 @@ export const Partnership = () => {
           navigate("/");
         }
         if (res.data.status == "error") {
-          toast.error(res.data.message);
+          Toast("error", res.data.message);
         } else {
           setIbStatus(res.data);
 
@@ -1133,7 +1134,7 @@ export const Partnership = () => {
     const param = new FormData();
     axios.post(Url + "/datatable/get_countries.php", param).then((res) => {
       if (res.data.status == "error") {
-        toast.error(res.data.message);
+        Toast("error", res.data.message);
       } else {
         countryData.data = res.data.aaData;
         setCountryData({ ...countryData });
@@ -1432,11 +1433,13 @@ export const Partnership = () => {
             //     <div className="pointers"></div>
             //   </div>
             // </div>
-            <span className="loader2"></span>
+            <div className="loader1">
+              <span className="loader2"></span>
+            </div>
           ) : (
             <div style={{ opacity: 1 }}>
               <Grid container>
-                <Grid item sm={12}></Grid>
+                <Grid item sm={11}></Grid>
                 <Grid item xl={1}></Grid>
                 <Grid item xl={10} md={12} lg={12}>
                   {/* <TopButton /> */}

@@ -15,9 +15,9 @@ import { useEffect, useState } from "react";
 import { IsApprove, Url } from "../../../global";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 import CloseIcon from "@mui/icons-material/Close";
+import Toast from "../../commonComponet/Toast";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -295,7 +295,7 @@ const MyClient = () => {
           navigate("/");
         }
         if (res.data.status == "error") {
-          toast.error(res.data.message);
+          Toast("error", res.data.message);
         } else {
           myChildTraderData.data = res.data;
           myChildTraderData.parent_id = res.data.back_links;
@@ -326,7 +326,7 @@ const MyClient = () => {
         navigate("/");
       }
       if (res.data.status == "error") {
-        toast.error(res.data.message);
+        Toast("error", res.data.message);
       } else {
         myTraderData.data = res.data;
         setMyTraderData({ ...myTraderData });
@@ -345,11 +345,13 @@ const MyClient = () => {
             //     <div className="pointers"></div>
             //   </div>
             // </div>
-            <span className="loader2"></span>
+            <div className="loader1">
+              <span className="loader2"></span>
+            </div>
           ) : (
             <div style={{ opacity: 1 }}>
               <Grid container>
-                <Grid item sm={12}></Grid>
+                <Grid item sm={11}></Grid>
                 <Grid item xl={1}></Grid>
                 <Grid item xl={10} md={12} lg={12}>
                   <p className="main-heading">My Client</p>

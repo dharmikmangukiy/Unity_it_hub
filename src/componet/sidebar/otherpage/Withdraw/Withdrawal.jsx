@@ -8,8 +8,7 @@ import Select from "@mui/material/Select";
 import InputBase from "@mui/material/InputBase";
 import { styled } from "@mui/material/styles";
 import MenuItem from "@mui/material/MenuItem";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 import { useNavigate, useParams } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import Checkbox from "@mui/material/Checkbox";
@@ -21,6 +20,7 @@ import axios from "axios";
 import { use } from "i18next";
 import Counter from "../../../customComponet/Counter";
 import Verification from "../../../customComponet/Verification";
+import Toast from "../../../commonComponet/Toast";
 
 export const Withdrawal = () => {
   const { id } = useParams();
@@ -96,9 +96,14 @@ export const Withdrawal = () => {
         navigate("/");
       }
       if (res.data.status == "error") {
-        toast.error(res.data.message);
+        Toast("error", res.data.message);
       } else {
         setMt5AccountList(res.data.mt5_accounts);
+        if (res.data.mt5_accounts.length !== 0) {
+          age.withdraw_from = res.data.mt5_accounts[0].mt5_acc_no;
+          setAge({ ...age });
+          fetchMT5AccountDetaiils(res.data.mt5_accounts[0].mt5_acc_no);
+        }
       }
     });
   };
@@ -117,7 +122,7 @@ export const Withdrawal = () => {
         navigate("/");
       }
       if (res.data.status == "ok") {
-        setwalletbalance(res.data.data.mt_free_margin);
+        setwalletbalance(res.data.data.mt_free_margin_balance);
       } else {
       }
     });
@@ -153,7 +158,7 @@ export const Withdrawal = () => {
         localStorage.setItem("login", true);
         navigate("/");
       }
-      setwalletbalance(`$${res.data.wallet_balance}`);
+      setwalletbalance(res.data.wallet_balance);
     });
   };
   const input = (event) => {
@@ -207,7 +212,7 @@ export const Withdrawal = () => {
       } else {
         navigate("/withdraw_history");
         setIsLoader1(false);
-        toast.success(res.data.message);
+        Toast("success", res.data.message);
 
         setAge({
           amount: "",
@@ -252,7 +257,7 @@ export const Withdrawal = () => {
             notify(res.data.message);
             setIsLoader1(false);
           } else {
-            toast.success(res.data.message);
+            Toast("success", res.data.message);
             // setScriptRun(true);=
             withdrawAmount(); // client.emit('playSound');
           }
@@ -305,9 +310,9 @@ export const Withdrawal = () => {
     return errors;
   };
   const notify = (p) => {
-    toast.error(p);
+    Toast("error", p);
   };
-  toast.configure();
+
   console.log("age", age);
   console.log("FinalData", finalData);
 
@@ -342,7 +347,7 @@ export const Withdrawal = () => {
   useEffect(() => {
     fetchMT5AccountList();
     fatchKycStatus();
-    walletbalancefun();
+    // walletbalancefun();
     if (id) {
       age.withdraw_from = id;
       setAge({ ...age });
@@ -388,7 +393,7 @@ export const Withdrawal = () => {
             navigate("/");
           }
           if (res.data.status == "ok") {
-            toast.success(res.data.message);
+            Toast("success", res.data.message);
             setTimer(true);
             setSendOtp(false);
             setIsLoader(false);
@@ -651,11 +656,13 @@ export const Withdrawal = () => {
             //     <div className="pointers"></div>
             //   </div>
             // </div>
-            <span className="loader2"></span>
+            <div className="loader1">
+              <span className="loader2"></span>
+            </div>
           ) : (
             <div style={{ opacity: 1 }}>
               <Grid container>
-                <Grid item sm={12}></Grid>
+                <Grid item sm={11}></Grid>
                 <Grid item xl={1}></Grid>
                 <Grid item xl={10} md={12} lg={12}>
                   {/* <TopButton /> */}
@@ -671,7 +678,7 @@ export const Withdrawal = () => {
                             Withdrawal
                           </h5>
                           <h5 className="walltebalcss">
-                            Balance : {`${walletbalance}`}
+                            Balance : {`$${walletbalance}`}
                           </h5>
                         </div>
                         <div className="divider"></div>
@@ -927,7 +934,7 @@ export const Withdrawal = () => {
                                       ) : age.amount > walletbalance &&
                                         infoTrue.amount == true ? (
                                         <FormHelperText>
-                                          Insufficient fund in your wallet.
+                                          Insufficient fund Balance.
                                         </FormHelperText>
                                       ) : (
                                         ""

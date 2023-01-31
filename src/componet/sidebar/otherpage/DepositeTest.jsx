@@ -11,8 +11,6 @@ import {
 import { Paper } from "@mui/material";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 import { NavLink, useParams } from "react-router-dom";
 import AccountCircle from "@mui/icons-material/AccountCircle";
@@ -30,6 +28,7 @@ import axios from "axios";
 import { IsApprove, Url } from "../../../global";
 import { useNavigate } from "react-router-dom";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import Toast from "../../commonComponet/Toast";
 const DepositeTest = () => {
   const { id } = useParams();
   const [dataArray, setDataArray] = useState({
@@ -83,7 +82,6 @@ const DepositeTest = () => {
       setInfo({ ...info });
     }
   }, []);
-  toast.configure();
 
   const onsubmit = async () => {
     const param = new FormData();
@@ -94,22 +92,21 @@ const DepositeTest = () => {
     }
 
     if (info.selectPaymentOption == "") {
-      toast.error("Please select deposit type");
+      Toast("error", "Please select deposit type");
     } else if (info.depositTo == "") {
-      toast.error("Please select mt5 account");
+      Toast("error", "Please select mt5 account");
       console.log("nikunj1");
     } else if (info.amount == "") {
-      toast.error("Amount is required");
+      Toast("error", "Amount is required");
       console.log("nikunj2", info);
     } else if (
       (info.selectPaymentOption == "UPI" ||
         info.selectPaymentOption == "PhonePe" ||
         info.selectPaymentOption == "Paytm" ||
-        info.selectPaymentOption == "Google pay" ||
-        info.selectPaymentOption == "India Cash") &&
+        info.selectPaymentOption == "Google pay") &&
       !info.image
     ) {
-      toast.error("image is required");
+      Toast("error", "image is required");
       console.log("nikunj3");
     } else {
       param.append("deposit_method", info.selectPaymentOption);
@@ -136,7 +133,7 @@ const DepositeTest = () => {
             navigate("/");
           }
           if (res.data.status == "error") {
-            toast.error(res.data.message);
+            Toast("error", res.data.message);
             info.isLoader = false;
             setInfo({ ...info });
           } else {
@@ -148,10 +145,12 @@ const DepositeTest = () => {
               //   setShowData("none");
               info.cryptoData = res.data.data;
               setInfo({ ...info });
+            } else if (info.selectPaymentOption == "India Cash") {
+              navigate(`/deposit/t/${res.data.deposit_id}`);
             } else {
               navigate(`/deposit/${info.amount}/${info.depositTo}`);
             }
-            toast.success(res.data.message);
+            Toast("success", res.data.message);
           }
         });
     }
@@ -170,7 +169,7 @@ const DepositeTest = () => {
         navigate("/");
       }
       if (res.data.status == "error") {
-        toast.error(res.data.message);
+        Toast("error", res.data.message);
       } else {
         dataArray.accountList = res.data.mt5_accounts;
         if (res.data.mt5_accounts.length != 0) {
@@ -203,7 +202,7 @@ const DepositeTest = () => {
         navigate("/");
       }
       if (res.data.status == "error") {
-        toast.error(res.data.message);
+        Toast("error", res.data.message);
       } else {
         dataArray.paymentOption = res.data.data;
         setDataArray({ ...dataArray });
@@ -220,11 +219,13 @@ const DepositeTest = () => {
         <div className="app-content--inner__wrapper mh-100-vh">
           {mainLoader.accountList == true ||
           mainLoader.paymentOption == true ? (
-            <span className="loader2"></span>
+            <div className="loader1">
+              <span className="loader2"></span>
+            </div>
           ) : (
             <div style={{ opacity: 1 }}>
               <Grid container>
-                <Grid item sm={12}></Grid>
+                <Grid item sm={11}></Grid>
                 <Grid item xl={1}></Grid>
                 <Grid item xl={10} md={12} lg={12}>
                   <div className="webView">
@@ -616,7 +617,7 @@ const DepositeTest = () => {
                                                             100) *
                                                             40) /
                                                           100
-                                                        ).toFixed()}
+                                                        ).toFixed(2)}
                                                       </div>
                                                     </div>
                                                     <div className="radioButoon-main">
@@ -644,7 +645,7 @@ const DepositeTest = () => {
                                                             100) *
                                                             40) /
                                                           100
-                                                        ).toFixed()}
+                                                        ).toFixed(2)}
                                                       </div>
                                                     </div>
                                                     <div className="radioButoon-main">
@@ -672,7 +673,7 @@ const DepositeTest = () => {
                                                             100) *
                                                             40) /
                                                           100
-                                                        ).toFixed()}
+                                                        ).toFixed(2)}
                                                       </div>
                                                     </div>
                                                     <div className="radioButoon-main">
@@ -700,7 +701,7 @@ const DepositeTest = () => {
                                                             100) *
                                                             40) /
                                                           100
-                                                        ).toFixed()}
+                                                        ).toFixed(2)}
                                                       </div>
                                                     </div>
                                                     <div className="radioButoon-main">
@@ -728,7 +729,7 @@ const DepositeTest = () => {
                                                             100) *
                                                             40) /
                                                           100
-                                                        ).toFixed()}
+                                                        ).toFixed(2)}
                                                       </div>
                                                     </div>
                                                   </RadioGroup>
@@ -1011,6 +1012,39 @@ const DepositeTest = () => {
                           </Paper>
                         </Grid>
                       </Grid>
+                    ) : (
+                      ""
+                    )}
+                    {info.selectPaymentOption == "India Cash" ? (
+                      <>
+                        <Grid container spacing={3}>
+                          <Grid item md={12} className="d-flex">
+                            <div style={{ textAlign: "center", width: "100%" }}>
+                              {info.isLoader == true ? (
+                                <ColorButton
+                                  className="makeapaymentbutoon"
+                                  disabled
+                                >
+                                  <svg className="spinner" viewBox="0 0 50 50">
+                                    <circle
+                                      className="path"
+                                      cx="25"
+                                      cy="25"
+                                      r="20"
+                                      fill="none"
+                                      stroke-width="5"
+                                    ></circle>
+                                  </svg>
+                                </ColorButton>
+                              ) : (
+                                <ColorButton onClick={onsubmit}>
+                                  Continue
+                                </ColorButton>
+                              )}
+                            </div>
+                          </Grid>
+                        </Grid>
+                      </>
                     ) : (
                       ""
                     )}
@@ -1323,7 +1357,8 @@ const DepositeTest = () => {
                                             navigator.clipboard.writeText(
                                               "hdfc"
                                             );
-                                            toast.success(
+                                            Toast(
+                                              "success",
                                               "Copied to clipboard was successful!"
                                             );
                                           }}
@@ -1356,7 +1391,8 @@ const DepositeTest = () => {
                                             navigator.clipboard.writeText(
                                               "MR Gray"
                                             );
-                                            toast.success(
+                                            Toast(
+                                              "success",
                                               "Copied to clipboard was successful!"
                                             );
                                           }}
@@ -1389,7 +1425,8 @@ const DepositeTest = () => {
                                             navigator.clipboard.writeText(
                                               "12345678901234"
                                             );
-                                            toast.success(
+                                            Toast(
+                                              "success",
                                               "Copied to clipboard was successful!"
                                             );
                                           }}
@@ -1420,7 +1457,8 @@ const DepositeTest = () => {
                                             navigator.clipboard.writeText(
                                               "BARB0SARSUR"
                                             );
-                                            toast.success(
+                                            Toast(
+                                              "success",
                                               "Copied to clipboard was successful!"
                                             );
                                           }}

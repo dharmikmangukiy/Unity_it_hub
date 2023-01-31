@@ -15,13 +15,12 @@ import CloseIcon from "@mui/icons-material/Close";
 import OpenDemoModel from "../../customComponet/OpenDemoModel";
 import { useNavigate } from "react-router-dom";
 import { BootstrapInput } from "../../customComponet/CustomElement";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { IsApprove, Url } from "../../../global.js";
 import "./account_list.css";
 import CommonTable from "../../customComponet/CommonTable";
 import NewDate from "../../commonComponet/NewDate";
+import Toast from "../../commonComponet/Toast";
 
 const BootstrapInput1 = styled(InputBase)(({ theme }) => ({
   "label + &": {
@@ -87,7 +86,6 @@ export const AccountList = () => {
   const [mt5AccountList, setMT5AccountList] = React.useState({
     data: [],
   });
-  toast.configure();
   React.useEffect(() => {
     if (clOpen) {
       const { current: descriptionElement } = descriptionElementRef;
@@ -151,7 +149,7 @@ export const AccountList = () => {
         navigate("/");
       }
       if (res.data.status == "error") {
-        toast.error(res.data.message);
+        Toast("error", res.data.message);
       } else {
         leveragesList.data = res.data.leverages;
         setLeveragesList({ ...leveragesList });
@@ -162,7 +160,7 @@ export const AccountList = () => {
 
   const changeLeverage = async () => {
     if (age == "") {
-      toast.error("Please select leverage");
+      Toast("error", "Please select leverage");
     } else {
       setChangeleverageLoader(true);
       const param = new FormData();
@@ -184,11 +182,11 @@ export const AccountList = () => {
           }
           setChangeleverageLoader(false);
           if (res.data.status == "error") {
-            toast.error(res.data.message);
+            Toast("error", res.data.message);
           } else {
             setAge("");
             setDrefresh(false);
-            toast.success(res.data.message);
+            Toast("success", res.data.message);
             setCLOpen(false);
           }
         });
@@ -208,7 +206,7 @@ export const AccountList = () => {
         navigate("/");
       }
       if (res.data.status == "error") {
-        toast.error(res.data.message);
+        Toast("error", res.data.message);
       } else {
         // mt5AccountList.data = [];
 
@@ -250,7 +248,7 @@ export const AccountList = () => {
         navigate("/");
       }
       if (res.data.status == "ok") {
-        // toast.error(res.data.message);
+        // Toast("error",res.data.message);
         // if(res.data.message =="MT5 account not exist.")
         // {
         //   setShowButton(true)
@@ -578,7 +576,7 @@ export const AccountList = () => {
       await axios.post(`${Url}/ajaxfiles/get_mt5_live_packages.php`, param).then((res) => {
         // setMT5AccountLoader(false);
         if (res.data.status == "error") {
-          toast.error(res.data.message);
+          Toast("error",res.data.message);
         } else {
           // setAccountDetails({...res.data.data});
         }
@@ -591,7 +589,7 @@ export const AccountList = () => {
         <div className="app-content--inner__wrapper mh-100-vh">
           <div style={{ opacity: 1 }}>
             <Grid container>
-              <Grid item sm={12}></Grid>
+              <Grid item sm={11}></Grid>
               <Grid item xl={1}></Grid>
               <Grid item xl={10} md={12} lg={12}>
                 {/* <TopButton /> */}
@@ -757,7 +755,7 @@ export const AccountList = () => {
                               <Grid container spacing={6}>
                                 <Grid
                                   item
-                                  md={3}
+                                  md={2}
                                   className="align-items-center"
                                 >
                                   <FormControl className="form-control d-flex">
@@ -853,7 +851,7 @@ export const AccountList = () => {
                                 </Grid>
                                 <Grid
                                   item
-                                  md={2}
+                                  md={3}
                                   className="align-items-center"
                                 >
                                   <FormControl className="form-control ">

@@ -27,17 +27,17 @@ import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import SouthEastSharpIcon from "@mui/icons-material/SouthEastSharp";
 import GetAppSharpIcon from "@mui/icons-material/GetAppSharp";
 import NorthEastSharpIcon from "@mui/icons-material/NorthEastSharp";
-import "react-toastify/dist/ReactToastify.css";
+
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { IsApprove, Url } from "../../../global";
 import axios from "axios";
-import { toast } from "react-toastify";
 import CloseIcon from "@mui/icons-material/Close";
 import { BootstrapInput } from "../../customComponet/CustomElement";
 import "./pamm.css";
 import { ColorButton } from "../../customComponet/CustomElement";
 import CommonTable from "../../customComponet/CommonTable";
+import Toast from "../../commonComponet/Toast";
 const GreenButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText("#ff0000"),
   backgroundColor: "#3D9730",
@@ -135,7 +135,8 @@ const MoneyManagerProfile = () => {
     if (investmentForm.amount > walletbalance) {
       invebutton.button = true;
       setinvebutton({ ...invebutton });
-      toast.error(
+      Toast(
+        "error",
         "Your wallet balance is low, if you want to invest same amount then please make a deposit"
       );
     } else {
@@ -148,9 +149,9 @@ const MoneyManagerProfile = () => {
   });
   const investmentFormSubmit = () => {
     if (investmentForm.pid == "") {
-      toast.error("Please enter pid");
+      Toast("error", "Please enter pid");
     } else if (investmentForm.amount == "") {
-      toast.error("Please enter amount");
+      Toast("error", "Please enter amount");
     } else {
       investmentForm.isLoader = true;
       setInvestmentForm({ ...investmentForm });
@@ -173,9 +174,9 @@ const MoneyManagerProfile = () => {
           investmentForm.isLoader = false;
           setInvestmentForm({ ...investmentForm });
           if (res.data.status == "error") {
-            toast.error(res.data.message);
+            Toast("error", res.data.message);
           } else {
-            toast.success(res.data.message);
+            Toast("success", res.data.message);
             setOpen(false);
             setInvestmentForm({
               user_id: "",
@@ -237,11 +238,11 @@ const MoneyManagerProfile = () => {
   };
   const createPortfolioFormSubmit = () => {
     if (createPortfolioForm.portfolio_name == "") {
-      toast.error("Please enter portfolio name");
+      Toast("error", "Please enter portfolio name");
     } else if (createPortfolioForm.mm_mt5_acc_id == "") {
-      toast.error("Please select money manager");
+      Toast("error", "Please select money manager");
     } else if (createPortfolioForm.investment_months == "") {
-      toast.error("Please enter investment month");
+      Toast("error", "Please enter investment month");
     } else {
       createPortfolioForm.isLoader = true;
       setCreatePortfolioForm({ ...createPortfolioForm });
@@ -265,9 +266,9 @@ const MoneyManagerProfile = () => {
           createPortfolioForm.isLoader = false;
           setCreatePortfolioForm({ ...createPortfolioForm });
           if (res.data.status == "error") {
-            toast.error(res.data.message);
+            Toast("error", res.data.message);
           } else {
-            toast.success(res.data.message);
+            Toast("success", res.data.message);
             setOpen(false);
           }
         });
@@ -290,7 +291,7 @@ const MoneyManagerProfile = () => {
           navigate("/");
         }
         if (res.data.status == "error") {
-          toast.error(res.data.message);
+          Toast("error", res.data.message);
         } else {
           moneyManagerListMenu = res.data.data;
           setMoneyManagerListMenu([...moneyManagerListMenu]);
@@ -337,7 +338,7 @@ const MoneyManagerProfile = () => {
     //   if (e.target.value > walletbalance) {
     //     invebutton.button = true;
     //     setinvebutton({ ...invebutton });
-    //     toast.error(
+    //     Toast("error",
     //       "Your wallet balance is low, if you want to invest same amount then please make a deposit"
     //     );
     //   } else {
@@ -673,7 +674,7 @@ const MoneyManagerProfile = () => {
   };
   const withdrawFormSubmit = () => {
     if (withdrawForm.amount == "" && !withdrawForm.allWithdraw) {
-      toast.error("Please enter amount");
+      Toast("error", "Please enter amount");
     } else {
       withdrawForm.isLoader = true;
       setWithdrawForm({ ...withdrawForm });
@@ -700,9 +701,9 @@ const MoneyManagerProfile = () => {
           withdrawForm.isLoader = false;
           setWithdrawForm({ ...withdrawForm });
           if (res.data.status == "error") {
-            toast.error(res.data.message);
+            Toast("error", res.data.message);
           } else {
-            toast.success(res.data.message);
+            Toast("success", res.data.message);
             setWithdrawForm({
               user_id: "",
               isLoader: false,
@@ -989,7 +990,6 @@ const MoneyManagerProfile = () => {
     getalldetail();
   }, []);
   console.log(info);
-  toast.configure();
   console.log("treadShow", treadShow);
   return (
     <div className="money-manager-profile-section">

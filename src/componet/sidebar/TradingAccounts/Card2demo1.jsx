@@ -13,8 +13,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Grid } from "@mui/material";
 import axios from "axios";
 import { IsApprove, Url } from "../../../global.js";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
 const Card1 = (prop) => {
@@ -25,7 +23,6 @@ const Card1 = (prop) => {
     data: [],
   });
 
-  toast.configure();
   const openModelPassword = () => {
     setDOpen(true);
   };
@@ -82,7 +79,7 @@ const Card1 = (prop) => {
           navigate("/");
         }
         if (res.data.status == "error") {
-          toast.error(res.data.message);
+          Toast("error", res.data.message);
         } else {
           planList.data = res.data.data;
           planList.data.forEach((element) => {
@@ -114,13 +111,13 @@ const Card1 = (prop) => {
 
   const submitActivePlan = async () => {
     if (prop.type == "0" && form.balance == "") {
-      toast.error("Please enter MT5 Balance");
+      Toast("error", "Please enter MT5 Balance");
     } else if (form.password == "") {
-      toast.error("Please enter password");
+      Toast("error", "Please enter password");
     } else if (form.confirm_password == "") {
-      toast.error("Please enter confirm password");
+      Toast("error", "Please enter confirm password");
     } else if (form.password != form.confirm_password) {
-      toast.error("Confirm password must be the same as password");
+      Toast("error", "Confirm password must be the same as password");
     } else {
       setFormLoader(true);
       const param = new FormData();
@@ -145,9 +142,9 @@ const Card1 = (prop) => {
           }
           setFormLoader(false);
           if (res.data.status == "error") {
-            toast.error(res.data.message);
+            Toast("error", res.data.message);
           } else {
-            toast.success(res.data.message);
+            Toast("success", res.data.message);
             setDOpen(false);
             prop.closePopup(false);
             prop.refresh(false);

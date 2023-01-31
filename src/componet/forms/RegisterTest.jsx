@@ -1,4 +1,9 @@
-import { Autocomplete, TextField } from "@mui/material";
+import {
+  Autocomplete,
+  IconButton,
+  InputAdornment,
+  TextField,
+} from "@mui/material";
 import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
@@ -6,11 +11,11 @@ import { NavLink, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { Url } from "../../global";
 import "./newRegister.css";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import Counter from "../customComponet/Counter";
-
-const RegisterTest = () => {
+import Toast from "../commonComponet/Toast";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+const RegisterTest = (prop) => {
   const { id, id1 } = useParams();
   console.log(id, id1);
   const [timer, setTimer] = useState(true);
@@ -28,6 +33,7 @@ const RegisterTest = () => {
     password: "",
     contry: [],
     otp: "",
+    showPassword: false,
     send_otp: false,
   });
   useEffect(() => {
@@ -60,32 +66,32 @@ const RegisterTest = () => {
       };
     });
   };
-  toast.configure();
 
   const sendOtp = () => {
     if (info.fullName == "") {
-      toast.error("Full Name is requied");
+      Toast("error", "Full Name is requied");
     } else if (info.phone == "") {
-      toast.error("Mobile Number is required");
+      Toast("error", "Mobile Number is required");
     } else if (
       info.phone.toString().length < 4 ||
       info.phone.toString().length > 12
     ) {
-      toast.error("Mobile Number is not valid");
+      Toast("error", "Mobile Number is not valid");
     } else if (info.email == "") {
-      toast.error("Email is required");
+      Toast("error", "Email is required");
     } else if (
       !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(info.email)
     ) {
-      toast.error("Enter a valid email");
+      Toast("error", "Enter a valid email");
     } else if (info.password == "") {
-      toast.error("Owner password is required");
+      Toast("error", "Owner password is required");
     } else if (
       !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/.test(
         info.password
       )
     ) {
-      toast.error(
+      Toast(
+        "error",
         "Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"
       );
     } else {
@@ -103,11 +109,11 @@ const RegisterTest = () => {
         .post(Url + "/ajaxfiles/register_otp_manage.php", param)
         .then((res) => {
           if (res.data.status == "error") {
-            toast.error(res.data.message);
+            Toast("error", res.data.message);
           } else {
             setTimer(true);
 
-            toast.success(res.data.message);
+            Toast("success", res.data.message);
           }
         });
     }
@@ -116,7 +122,7 @@ const RegisterTest = () => {
     const param = new FormData();
     axios.post(Url + "/datatable/get_countries.php", param).then((res) => {
       if (res.data.status == "error") {
-        toast.error(res.data.message);
+        Toast("error", res.data.message);
       } else {
         // countryData.data = res.data.aaData;
         // setCountryData({ ...countryData });
@@ -148,28 +154,29 @@ const RegisterTest = () => {
   };
   const onSubmitForm = () => {
     if (info.fullName == "") {
-      toast.error("Full Name is requied");
+      Toast("error", "Full Name is requied");
     } else if (info.phone == "") {
-      toast.error("Mobile Number is required");
+      Toast("error", "Mobile Number is required");
     } else if (
       info.phone.toString().length < 4 ||
       info.phone.toString().length > 12
     ) {
-      toast.error("Mobile Number is not valid");
+      Toast("error", "Mobile Number is not valid");
     } else if (info.email == "") {
-      toast.error("Email is required");
+      Toast("error", "Email is required");
     } else if (
       !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(info.email)
     ) {
-      toast.error("Enter a valid email");
+      Toast("error", "Enter a valid email");
     } else if (info.password == "") {
-      toast.error("Owner password is required");
+      Toast("error", "Owner password is required");
     } else if (
       !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/.test(
         info.password
       )
     ) {
-      toast.error(
+      Toast(
+        "error",
         "Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"
       );
     } else {
@@ -217,7 +224,7 @@ const RegisterTest = () => {
         )
         .then((res) => {
           if (res.data.status == "error") {
-            toast.error(res.data.message);
+            Toast("error", res.data.message);
             info.isLoader = false;
             setinfo({ ...info });
           } else {
@@ -226,10 +233,11 @@ const RegisterTest = () => {
               info.send_otp = true;
               setTimer(true);
             } else if (res.data?.send_otp == 0) {
-              navigate("/login");
+              prop.setLogin("false");
+              navigate("/dashboard");
             }
             setinfo({ ...info });
-            toast.success(res.data.message);
+            Toast("success", res.data.message);
           }
         });
     }
@@ -369,7 +377,7 @@ const RegisterTest = () => {
                 <TextField
                   id="standard-password-input"
                   label="Password"
-                  type="password"
+                  type={info.showPassword ? "text" : "password"}
                   name="password"
                   autoComplete="current-password"
                   variant="standard"
@@ -377,6 +385,26 @@ const RegisterTest = () => {
                   value={info.password}
                   onBlur={trueFalse}
                   onChange={input1}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          // aria-label="toggle password visibility"
+                          onClick={() => {
+                            info.showPassword = !info.showPassword;
+                            setinfo({ ...info });
+                          }}
+                          edge="end"
+                        >
+                          {info.showPassword ? (
+                            <VisibilityOff />
+                          ) : (
+                            <Visibility />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                   error={
                     (!info.password.match(/[A-Z]/g) ||
                       !info.password.match(/[a-z]/g) ||
@@ -430,32 +458,67 @@ const RegisterTest = () => {
                 ""
               )}
 
-              {/* <div className="text-right pb-4">
-                <NavLink className="" to="/ForgotPassword">
-                  Forgot Password ?
-                </NavLink>
-              </div> */}
+              <div className="mbr-4 row">
+                <div className="mb-2 mt-0 col-12">
+                  <div
+                    className={`badge rounded-pill me-1 centerRegister ${
+                      info.password.length >= 8 && info.password.length <= 20
+                        ? "passcolortrue"
+                        : "passcolorfalse"
+                    }`}
+                    style={{
+                      backgroundColor: "black !important",
+                      fontSize: "11px",
+                      // alignItems: "baseline",
+                    }}
+                  >
+                    8-20 characters
+                  </div>
+                  <div
+                    className={`badge rounded-pill me-1 centerRegister ${
+                      info.password.match(/[A-Z]/g) &&
+                      info.password.match(/[a-z]/g)
+                        ? "passcolortrue"
+                        : "passcolorfalse"
+                    }`}
+                    style={{
+                      textTransform: "none",
+                      fontSize: "11px",
+                      // alignItems: "baseline",
+                    }}
+                  >
+                    LATIN LETTERS EX.A-Z,a-z
+                  </div>
+                  <div
+                    className={`badge rounded-pill me-1 centerRegister ${
+                      info.password.match(/[0-9]/g)
+                        ? "passcolortrue"
+                        : "passcolorfalse"
+                    }`}
+                    style={{
+                      fontSize: "11px",
+                      // alignItems: "baseline",
+                    }}
+                  >
+                    Numbers EX.0-9
+                  </div>
+                  <div
+                    className={`badge rounded-pill me-1 centerRegister ${
+                      info.password.match(/[!@#$%^&*()_+=]/g)
+                        ? "passcolortrue"
+                        : "passcolorfalse"
+                    }`}
+                    style={{
+                      fontSize: "11px",
+                      // alignItems: "baseline",
+                    }}
+                  >
+                    Special Characters Ex.@#$%^&*
+                  </div>
+                </div>
+              </div>
 
               <div className="text-center mx-auto">
-                {/* {isLoader == true ? (
-                  <ColorButton className=" font-weight-bold w-100 my-2 p-3 ">
-                    <i
-                      class="fa fa-refresh fa-spin fa-3x fa-fw"
-                      style={{ fontSize: "20px" }}
-                    ></i>
-                    <span style={{ textTransform: "capitalize" }}>Log In</span>
-                    <span className="MuiTouchRipple-root"></span>
-                  </ColorButton>
-                ) : (
-                  <ColorButton
-                    type="submit"
-                    size="large"
-                    className=" font-weight-bold w-100 my-2 p-3 "
-                  >
-                    <span style={{ textTransform: "capitalize" }}>Log In</span>
-                    <span className="MuiTouchRipple-root"></span>
-                  </ColorButton>
-                )} */}
                 <div className="loginButton-main">
                   {info.send_otp == true ? (
                     <button

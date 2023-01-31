@@ -11,6 +11,8 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import Toast from "../../commonComponet/Toast";
+
 import {
   Button,
   FormControl,
@@ -25,8 +27,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Grid } from "@mui/material";
 import axios from "axios";
 import { IsApprove, Url } from "../../../global.js";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 
@@ -47,7 +47,6 @@ const Card1 = (prop) => {
     slidesToScroll: 3,
   };
 
-  toast.configure();
   const openModelPassword = () => {
     setDOpen(true);
   };
@@ -123,7 +122,7 @@ const Card1 = (prop) => {
           navigate("/");
         }
         if (res.data.status == "error") {
-          toast.error(res.data.message);
+          Toast("error", res.data.message);
         } else {
           planList.data = res.data.data;
           planList.data.forEach((element) => {
@@ -161,17 +160,17 @@ const Card1 = (prop) => {
 
   const submitActivePlan = async () => {
     if (prop.type == "0" && form.balance == "") {
-      toast.error("Please enter MT5 Balance");
+      Toast("error", "Please enter MT5 Balance");
     } else if (form.password == "") {
-      toast.error("Please enter Trading password");
+      Toast("error", "Please enter Trading password");
     } else if (form.password.length < 8) {
-      toast.error("Trading Password must contain atleast 8 characters");
+      Toast("error", "Trading Password must contain atleast 8 characters");
     } else if (form.confirm_password == "") {
-      toast.error("Please enter Investor Password");
+      Toast("error", "Please enter Investor Password");
     } else if (form.confirm_password.length < 8) {
-      toast.error("Investor Password must contain atleast 8 characters");
+      Toast("error", "Investor Password must contain atleast 8 characters");
     } else if (form.password == form.confirm_password) {
-      toast.error("Investor Password Can't be Same as Trading Password");
+      Toast("error", "Investor Password Can't be Same as Trading Password");
     } else {
       setFormLoader(true);
       const param = new FormData();
@@ -196,14 +195,14 @@ const Card1 = (prop) => {
           }
           setFormLoader(false);
           if (res.data.status == "error") {
-            toast.error(res.data.message);
+            Toast("error", res.data.message);
           } else {
             setFormTrue({
               password: false,
               confirm_password: false,
               balance: false,
             });
-            toast.success(res.data.message);
+            Toast("success", res.data.message);
             setDOpen(false);
             prop.closePopup(false);
             prop.refresh(false);

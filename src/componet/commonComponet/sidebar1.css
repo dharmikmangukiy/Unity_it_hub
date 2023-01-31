@@ -389,3 +389,11 @@ a:not(.MuiButtonBase-root):hover .hoverSidebar1 {
   color: #00b432;
   padding-top: 0px;
 }
+.sidebar-wallet-balance {
+  font-size: 13px;
+  /* text-align: center; */
+  /* color: green; */
+  display: flex;
+  align-items: center;
+  padding: 6px 3px 6px 37px;
+}

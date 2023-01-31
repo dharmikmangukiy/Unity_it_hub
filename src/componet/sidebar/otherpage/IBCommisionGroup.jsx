@@ -16,12 +16,9 @@ import {
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import CommonTable from "../../customComponet/CommonTable";
 import { ColorButton } from "../../customComponet/CustomElement";
 import { useNavigate } from "react-router-dom";
-import "react-toastify/dist/ReactToastify.css";
 import { BootstrapInput } from "../../customComponet/CustomElement";
 import { IsApprove, Url } from "../../../global.js";
 import axios from "axios";
@@ -29,6 +26,7 @@ import CustomImageModal from "../../customComponet/CustomImageModal";
 import { styled } from "@mui/system";
 import TopButton from "../../customComponet/TopButton";
 import NewDate from "../../commonComponet/NewDate";
+import Toast from "../../commonComponet/Toast";
 // import "./history.css";
 export interface DialogTitleProps {
   id: string;
@@ -99,7 +97,6 @@ const IBCommisionGroup = () => {
   const depositFilter = () => {
     console.log("dsa");
   };
-  toast.configure();
   const handleContextClick = (event, index) => {
     console.log(event.currentTarget.getAttribute("id"), index);
     let tableMenus = [...openTableMenus];
@@ -235,7 +232,7 @@ const IBCommisionGroup = () => {
       }
 
       if (res.data.status == "error") {
-        toast.error(res.data.message);
+        Toast("error", res.data.message);
       } else {
         defaultStructure_data.data = res.data.data1;
         console.log("res.data", res.data.data);
@@ -266,33 +263,33 @@ const IBCommisionGroup = () => {
   const updatePartnership = async () => {
     var error = false;
     if (updateDate.structure_name == "") {
-      toast.error("Please enter structure name");
+      Toast("error", "Please enter structure name");
       error = true;
     } else {
       /* updateDate.structure_data.forEach((element) => {
         console.log(element.ib_group_name, element.group_rebate);
         if (element.group_rebate === "") {
-          toast.error(`Please enter ${element.ib_group_name} rebate`);
+          Toast("error",`Please enter ${element.ib_group_name} rebate`);
           error = true;
           return false;
         } else if (element.group_commission === "") {
-          toast.error(`Please enter ${element.ib_group_name} commission`);
+          Toast("error",`Please enter ${element.ib_group_name} commission`);
           error = true;
           return false;
         } else if (element.ib_group_level_id === 0) {
-          toast.error(`Please enter ${element.ib_group_name} ib group`);
+          Toast("error",`Please enter ${element.ib_group_name} ib group`);
           error = true;
           return false;
         } else {
           element.pair_data.forEach((element1) => {
             if (element1.rebate === "") {
-              toast.error(
+              Toast("error",
                 `Please enter ${element.ib_group_name} in ${element1.pair_name} rebate`
               );
               error = true;
               return false;
             } else if (element1.commission === "") {
-              toast.error(
+              Toast("error",
                 `Please enter ${element.ib_group_name} in ${element1.pair_name} commission`
               );
               error = true;
@@ -340,9 +337,9 @@ const IBCommisionGroup = () => {
         updateDate.isLoader = false;
         setUpdateDate({ ...updateDate });
         if (res.data.status == "error") {
-          toast.error(res.data.message);
+          Toast("error", res.data.message);
         } else {
-          toast.success(res.data.message);
+          Toast("success", res.data.message);
           setOpen(false);
           setUpdateDate({
             structure_id: "",
@@ -807,7 +804,7 @@ const IBCommisionGroup = () => {
       <div className="app-content--inner__wrapper mh-100-vh">
         <div style={{ opacity: 1 }}>
           <Grid container>
-            <Grid item sm={12}></Grid>
+            <Grid item sm={11}></Grid>
             <Grid item xl={1}></Grid>
             <Grid item xl={10} md={12} lg={12}>
               {/* <TopButton /> */}

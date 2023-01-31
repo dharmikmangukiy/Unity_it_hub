@@ -5,10 +5,9 @@ import Button from "@mui/material/Button";
 import { Navigate, useNavigate } from "react-router-dom";
 import { NavLink, useParams } from "react-router-dom";
 
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { Url } from "../../global.js";
 import axios from "axios";
+import Toast from "../commonComponet/Toast.jsx";
 const ColorButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText("#ff0000"),
   backgroundColor: "black",
@@ -60,22 +59,23 @@ const ResetPassword = () => {
     });
     console.log(info);
   };
-  toast.configure();
+
   const onSubmit = () => {
     if (!info.password) {
-      toast.error("password is requied");
+      Toast("error", "password is requied");
     } else if (
       !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/.test(
         info.password
       )
     ) {
-      toast.error(
+      Toast(
+        "error",
         "Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"
       );
     } else if (!info.confirmPassword) {
-      toast.error = "Confirm password is requied";
+      Toast("error", "Confirm password is requied");
     } else if (!info.confirmPassword == info.password) {
-      toast.error = "password must match";
+      Toast("error", "password must match");
     } else {
       setIsLoader(true);
       const param = new FormData();
@@ -86,11 +86,11 @@ const ResetPassword = () => {
       param.append("confirm_password", info.confirmPassword);
       axios.post(Url + "/ajaxfiles/reset_password.php", param).then((res) => {
         if (res.data.status == "error") {
-          toast.error(res.data.message);
+          Toast("error", res.data.message);
           setIsLoader(false);
         } else {
           setIsLoader(false);
-          toast.success(res.data.message);
+          Toast("success", res.data.message);
           navigate("/login");
         }
       });

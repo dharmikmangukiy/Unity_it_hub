@@ -15,7 +15,9 @@ function Counter(prop) {
     }
   }, [prop.reset]);
 
-  return <span>00:{counter}</span>;
+  return (
+    <span>00:{counter.toString().length == 1 ? `0${counter}` : counter}</span>
+  );
 }
 
 export default Counter;

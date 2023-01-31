@@ -12,12 +12,11 @@ import {
   ColorButton,
 } from "../../customComponet/CustomElement";
 import TopButton from "../../customComponet/TopButton";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { IsApprove, Url } from "../../../global";
 import Chart from "react-apexcharts";
+import Toast from "../../commonComponet/Toast";
 
 const PammDashboard = () => {
   const navigate = useNavigate();
@@ -80,7 +79,7 @@ const PammDashboard = () => {
         navigate("/");
       }
       if (res.data.status == "error") {
-        toast.error(res.data.message);
+        Toast("error", res.data.message);
       } else {
         dailySalesOptions.series[0].data = res.data.get_monthly_pnl_data.y;
         dailySalesOptions.xaxis.categories = res.data.get_monthly_pnl_data.x;
@@ -102,7 +101,7 @@ const PammDashboard = () => {
         navigate("/");
       }
       if (res.data.status == "error") {
-        toast.error(res.data.message);
+        Toast("error", res.data.message);
       } else {
         var lab = [res.data.my_balance];
         var ser = ["Wallet Balance"];
@@ -135,11 +134,13 @@ const PammDashboard = () => {
             //     <div className="pointers"></div>
             //   </div>
             // </div>
-            <span className="loader2"></span>
+            <div className="loader1">
+              <span className="loader2"></span>
+            </div>
           ) : (
             <div style={{ opacity: 1 }}>
               <Grid container>
-                <Grid item sm={12}></Grid>
+                <Grid item sm={11}></Grid>
                 <Grid item xl={1}></Grid>
                 <Grid item xl={10} md={12} lg={12}>
                   {/* <TopButton /> */}

@@ -16,11 +16,13 @@ function HOW_TO_ACTIVE_BONUS() {
       <div className="app-content--inner">
         <div className="app-content--inner__wrapper mh-100-vh">
           {mainLoader == true ? (
-            <span className="loader2"></span>
+            <div className="loader1">
+              <span className="loader2"></span>
+            </div>
           ) : (
             <div style={{ opacity: 1 }}>
               <Grid container>
-                <Grid item sm={12}></Grid>
+                <Grid item sm={11}></Grid>
                 <Grid item xl={1}></Grid>
                 <Grid item xl={10} md={12} lg={12}>
                   <Paper

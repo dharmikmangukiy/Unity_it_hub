@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import {NavLink} from "react-router-dom"
+import { NavLink } from "react-router-dom";
 import "../../css/pages/login.css";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import Toast from "../commonComponet/Toast";
+
 const Register = () => {
   const [setType, setSetType] = useState({
     type1: false,
@@ -77,9 +77,9 @@ const Register = () => {
     return errors;
   };
   const notify = (p) => {
-    toast.warning(p);
+    Toast("warning", p);
   };
-  toast.configure();
+
   useEffect(() => {
     if (Object.keys(infoErrors).length == 0 && isSubmit) {
       alert("your are login"); // onLoginUpdate(true)
@@ -87,7 +87,7 @@ const Register = () => {
   }, [infoErrors]);
 
   return (
-    <div style={{background:"black",height:"100vh",overflowY: "hidden"}}>
+    <div style={{ background: "black", height: "100vh", overflowY: "hidden" }}>
       <div id="__next">
         <div className="">
           <header
@@ -235,7 +235,6 @@ const Register = () => {
                                     value={info.password}
                                     onChange={input1}
                                     className="form-control"
-                                   
                                   />
                                   <button
                                     type="button"
@@ -463,9 +462,7 @@ const Register = () => {
                 <div className="col-xl-4 col-md-4">
                   <div className="entityAcculogin">
                     <span>Already have an account?</span>{" "}
-                    <NavLink
-                    to="/login"
-                    >
+                    <NavLink to="/login">
                       <strong>Log in</strong>
                     </NavLink>
                   </div>

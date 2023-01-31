@@ -4,7 +4,7 @@ import { Grid, Paper } from "@mui/material";
 import { IsApprove, Url } from "../../../global.js";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import './otherpage.css';
+import "./otherpage.css";
 
 const MyStructure = () => {
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ const MyStructure = () => {
         }
         // setLeverageForm(res.data.data);
         updateDate.structure_data = res.data.data;
-        setMainLoader(false)
+        setMainLoader(false);
         setUpdateDate({ ...updateDate });
       });
   }, []);
@@ -51,11 +51,13 @@ const MyStructure = () => {
             //     <div className="pointers"></div>
             //   </div>
             // </div>
-            <span className="loader2"></span>
+            <div className="loader1">
+              <span className="loader2"></span>
+            </div>
           ) : (
             <div style={{ opacity: 1 }}>
               <Grid container>
-                <Grid item sm={12}></Grid>
+                <Grid item sm={11}></Grid>
                 <Grid item xl={1}></Grid>
                 <Grid item xl={10} md={12} lg={12}>
                   <Grid container>

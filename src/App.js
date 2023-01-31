@@ -74,6 +74,7 @@ import Deposite_in_Progress from "./componet/sidebar/deposit/Deposite_in_Progres
 import Spin_dash from "./componet/sidebar/spinAndWin/Spin_dash";
 import BonusDeshboard from "./componet/sidebar/Bonus/BonusDeshboard";
 import HOW_TO_ACTIVE_BONUS from "./componet/sidebar/Bonus/HOW_TO_ACTIVE_BONUS";
+import Deposite_in_Telegram from "./componet/sidebar/deposit/Deposite_in_Telegram";
 
 function useScrollToTop() {
   const { pathname } = useLocation();
@@ -118,7 +119,6 @@ const App = () => {
             setLogin("true");
           }
           setFirstCall(false);
-
           setPermission(res.data);
         });
     }
@@ -141,10 +141,18 @@ const App = () => {
               path="/login"
               element={<Login setLogin={setLogin} />}
             />
-            <Route exact path="/register" element={<RegisterTest />} />
-            <Route exact path="/RegisterTest" element={<RegisterTest />} />
+            <Route
+              exact
+              path="/register"
+              element={<RegisterTest setLogin={setLogin} />}
+            />
+            {/* <Route exact path="/RegisterTest" element={<RegisterTest />} /> */}
 
-            <Route exact path="/register/:id/:id1" element={<RegisterTest />} />
+            <Route
+              exact
+              path="/register/:id/:id1"
+              element={<RegisterTest setLogin={setLogin} />}
+            />
 
             <Route
               exact
@@ -189,49 +197,44 @@ const App = () => {
             />
             <div className="app-content">
               <Routes>
+                {" "}
+                {/* <Route
+                      exact
+                      path="/"
+                      element={<AffiliateDashboard setLogin={setLogin} />}
+                    />
+                    <Route
+                      path="*"
+                      element={<Navigate to="/dashboard" replace />}
+                    /> */}
                 {permission.is_affiliate == "1" ? (
-                  <>
-                    {" "}
-                    <Route
-                      exact
-                      path="/"
-                      element={<AffiliateDashboard setLogin={setLogin} />}
-                    />
-                    <Route
-                      path="*"
-                      element={<Navigate to="/dashboard" replace />}
-                    />
-                    <Route
-                      exact
-                      path="/dashboard"
-                      element={<AffiliateDashboard setLogin={setLogin} />}
-                    />
-                  </>
+                  <Route
+                    exact
+                    path="/Affiliatedashboard"
+                    element={<AffiliateDashboard setLogin={setLogin} />}
+                  />
                 ) : (
-                  <>
-                    {" "}
-                    <Route
-                      exact
-                      path="/"
-                      element={<Dashboard setLogin={setLogin} />}
-                    />
-                    <Route
-                      exact
-                      path="/spinAndWin"
-                      element={<Spin_dash permission={permission} />}
-                    />
-                    <Route
-                      path="*"
-                      element={<Navigate to="/dashboard" replace />}
-                    />
-                    <Route
-                      exact
-                      path="/dashboard"
-                      element={<Dashboard setLogin={setLogin} />}
-                    />
-                  </>
+                  ""
                 )}
-
+                <Route
+                  exact
+                  path="/"
+                  element={<Dashboard setLogin={setLogin} />}
+                />
+                <Route
+                  exact
+                  path="/spinAndWin"
+                  element={<Spin_dash permission={permission} />}
+                />
+                <Route
+                  path="*"
+                  element={<Navigate to="/dashboard" replace />}
+                />
+                <Route
+                  exact
+                  path="/dashboard"
+                  element={<Dashboard setLogin={setLogin} />}
+                />
                 <Route
                   exact
                   path="/login_as/:id"
@@ -245,6 +248,11 @@ const App = () => {
                 <Route exact path="/deposit/:id" element={<DepositeTest />} />
                 {/* <Route exact path="/deposit/" element={<Deposite />} /> */}
                 <Route exact path="/trade-and-win" element={<TradeAndWin />} />
+                <Route
+                  exact
+                  path="/trade-and-win/:id"
+                  element={<TradeAndWin />}
+                />
                 <Route exact path="/prize-lots" element={<PrizeLots />} />
                 <Route exact path="/cart" element={<Cart />} />
                 <Route
@@ -260,7 +268,13 @@ const App = () => {
                 {/* <Route exact path="/depositTest/" element={<DepositeTest />} /> */}
                 <Route exact path="/deposit" element={<DepositeTest />} />
                 <Route path="/partnership" element={<Partnership />} />
-                <Route path="/earnReport" element={<EarnReport />} />
+                {permission.is_affiliate == "1" ? (
+                  <>
+                    <Route path="/earnReport" element={<EarnReport />} />
+                  </>
+                ) : (
+                  ""
+                )}
                 <Route
                   exact
                   path="/Order_chart/:id"
@@ -276,7 +290,6 @@ const App = () => {
                   path="/Fantastic_tour"
                   element={<Fantastic_tour />}
                 />
-
                 <Route
                   exact
                   path="/change_password"
@@ -292,9 +305,13 @@ const App = () => {
                   path="/deposit/:id/:id1"
                   element={<Deposite_in_Progress />}
                 />
+                <Route
+                  exact
+                  path="/deposit/t/:id"
+                  element={<Deposite_in_Telegram />}
+                />
                 <Route exact path="/withdrawal" element={<Withdrawal />} />
                 <Route exact path="/withdrawal/:id" element={<Withdrawal />} />
-
                 {/* <Route exact path="/BankAccount" element={<BankAccount/>} /> */}
                 <Route
                   exact
@@ -325,7 +342,6 @@ const App = () => {
                 <Route exact path="/Platforms/desktop" element={<Desktop />} />
                 <Route exact path="/Platforms/android" element={<Android />} />
                 <Route exact path="/Platforms/iphone" element={<Iphone />} />
-
                 <Route exact path="/userProfile" element={<UserProfile />} />
                 <Route exact path="/myDocuments" element={<MyDocuments />} />
                 <Route
@@ -338,7 +354,6 @@ const App = () => {
                 <Route exact path="/copytrading" element={<Copytrading />} />
                 <Route path="/copytrading/:id" element={<Copytrading />} />
                 <Route path="/copytrading/:id" element={<Copytrading />} />
-
                 <Route
                   path="/open_real_account"
                   element={<OpenRealAccount />}
@@ -347,15 +362,12 @@ const App = () => {
                   path="/open_demo_account"
                   element={<OpenDemoaccount />}
                 />
-
                 <Route
                   path="/Open_Champion_Demo_Contest_account"
                   element={<OpenChampionDemo />}
                 />
                 <Route path="/Manage_Bonuses" element={<ManageBonuses />} />
-
                 <Route path="/ticket" element={<Ticket />} />
-
                 <Route path="/view_ticket/:id" element={<ViewTicket />} />
                 <Route path="/pamm_dashboard" element={<PammDashboard />} />
                 <Route path="/pamm_manager_list" element={<MoneyManager />} />
@@ -364,12 +376,10 @@ const App = () => {
                   path="/pamm_trade_history/:id"
                   element={<TradeHistory />}
                 />
-
                 <Route
                   path="/pamm_withdrawal_history"
                   element={<PammWithdrawalHistory />}
                 />
-
                 <Route path="/pamm_portfolio" element={<PammPortfolio />} />
                 <Route
                   path="/money_manager_profile/:id"
@@ -379,31 +389,32 @@ const App = () => {
                   path="/portfolio_profile/:id"
                   element={<PammPortfolioProfile />}
                 />
-
-                <Route
-                  exact
-                  path="/IBdashboard"
-                  element={<IBDashboard setLogin={setLogin} />}
-                />
-                {/* <Route
-                    path="*"
-                    element={<Navigate to="/dashboard" replace />}
-                  /> */}
-                <Route
-                  path="/ib_commission_history"
-                  element={<IBCommissionHistory />}
-                />
-                <Route
-                  path="/ib_withdraw_history"
-                  element={<IBWithdrawalReport />}
-                />
-                <Route path="/partnership" element={<Partnership />} />
-                <Route
-                  path="/ib_commision_group"
-                  element={<IBCommisionGroup />}
-                />
-                <Route path="/my_client" element={<MyClient />} />
-                <Route path="/my_structure" element={<MyStructure />} />
+                {permission?.is_ib_account == "0" ? (
+                  ""
+                ) : (
+                  <>
+                    <Route
+                      exact
+                      path="/IBdashboard"
+                      element={<IBDashboard setLogin={setLogin} />}
+                    />
+                    <Route
+                      path="/ib_commission_history"
+                      element={<IBCommissionHistory />}
+                    />
+                    <Route
+                      path="/ib_withdraw_history"
+                      element={<IBWithdrawalReport />}
+                    />
+                    <Route path="/partnership" element={<Partnership />} />
+                    <Route
+                      path="/ib_commision_group"
+                      element={<IBCommisionGroup />}
+                    />
+                    <Route path="/my_client" element={<MyClient />} />
+                    <Route path="/my_structure" element={<MyStructure />} />
+                  </>
+                )}
               </Routes>
 
               <Footer />
