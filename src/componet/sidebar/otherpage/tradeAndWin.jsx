@@ -7,6 +7,7 @@ import axios from "axios";
 import { ReactComponent as Star } from "../../../svg/star.svg";
 import { IsApprove, Url } from "../../../global";
 import Toast from "../../commonComponet/Toast";
+import NewDate from "../../commonComponet/NewDate";
 
 const TradeAndWin = () => {
   const { id } = useParams();
@@ -322,8 +323,19 @@ const TradeAndWin = () => {
                                 <p>{order.item_name}</p>
                                 <p>{`${order.item_lot_size} lots`}</p>
                               </div>
-                              <p className="trade-order-status">Delivered</p>
-                              <p className="trade-order-date">01-01-2023</p>
+                              {order.status == "0" ? (
+                                <p className="text-color-yellow">Pending</p>
+                              ) : order.status == "1" ? (
+                                <p className="trade-order-status">Delivered</p>
+                              ) : order.status == "2" ? (
+                                <p className="text-color-red">Canceled</p>
+                              ) : (
+                                ""
+                              )}
+                              {/* <p className="trade-order-status">Delivered</p> */}
+                              <p className="trade-order-date">
+                                <NewDate newDate={order.added_datetime} />
+                              </p>
                             </div>
                           ))}
                         </div>

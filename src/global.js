@@ -1,21 +1,21 @@
 // const Url = 'http://localhost:8080/forex';
 // const Url = "https://rightfxtest.alphapixclients.com";
-// const Url = "https://alphapixclients.com/forex/"
-const Url = "https://user.rightfx.com";
+const Url = "https://reactrighttest.rightfx.com";
+// const Url = "https://user.rightfx.com";
 // const IsApprove = {
 //   is_app: 1,
-//   auth: "w433",
-//   user_id: "6023",
+//   auth: "dd1cd5-08dc47-4084e1",
+//   user_id: "3975",
+// };
+// const IsApprove = {
+//   is_app: 1,
+//   auth: "4b001f-952269-55b671",
+//   user_id: "3986",
 // };
 const IsApprove = {
   is_app: 1,
-  auth: "sasdasd-dasdas-sad-a",
-  user_id: "2",
+  auth: "367d88-2eb950-a77a93",
+  user_id: "3963",
 };
-// const IsApprove = {
-//   is_app: 1,
-//   auth: "wswsw-fwf23-swwc",
-//   user_id: "6025",
-// };
 // const IsApprove = "";
 export { Url, IsApprove };

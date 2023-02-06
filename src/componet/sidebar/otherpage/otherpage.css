@@ -687,7 +687,7 @@ html {
   padding: 10px;
   border-radius: 10px;
   border: 1px solid #e1dfdf;
-  border-left: 4px solid #12aaeb;
+  border-left: 4px solid #5d2067;
 }
 
 .ib-structure.view-commission-content-section
@@ -695,7 +695,7 @@ html {
   .main-section
   .main-section-title {
   min-width: 95px;
-  color: #12aaeb;
+  color: #5d2067;
   font-weight: 700;
 }
 

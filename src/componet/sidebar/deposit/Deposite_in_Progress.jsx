@@ -48,9 +48,9 @@ const Deposit_in_Progress = () => {
                     <span className="val1">Plateform :</span>
                     <span className=" val3">
                       {" "}
-                      {id1 == "wallte" ? "RightFx" : "Meta Trader 5"}
+                      {id1 == "wallet" ? "RightFx" : "Meta Trader 5"}
                     </span>
-                    {id1 == "wallte" ? (
+                    {id1 == "wallet" ? (
                       ""
                     ) : (
                       <>

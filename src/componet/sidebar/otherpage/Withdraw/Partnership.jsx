@@ -474,238 +474,222 @@ const Ibasign = () => {
 
   return (
     <div>
-      <div className="app-content--inner">
-        <div className="app-content--inner__wrapper mh-100-vh">
-          <div style={{ opacity: 1 }}>
-            <Grid container>
-              <Grid item sm={11}></Grid>
-              <Grid item xl={1}></Grid>
-              <Grid item xl={10} md={12} lg={12}>
-                {/* <Grid item md={12} lg={12} xl={12}> */}
-                <p className="main-heading">IB Request List</p>
+      {/* <Grid item md={12} lg={12} xl={12}> */}
+      <p className="main-heading">IB Request List</p>
 
-                <Paper
-                  elevation={2}
-                  style={{ borderRadius: "10px" }}
-                  className="pending-all-15px"
-                >
-                  <Grid container spacing={2}>
-                    <Grid item sm={6} md={3}>
-                      <FormControl fullWidth={true}>
-                        <label className="small font-weight-bold text-dark">
-                          From
-                        </label>
-                        <BootstrapInput
-                          type="date"
-                          onChange={(e) => {
-                            filterData.start_date = e.target.value;
-                            setFilterData({ ...filterData });
-                          }}
-                        ></BootstrapInput>
-                      </FormControl>
-                    </Grid>
-                    <Grid item sm={6} md={3}>
-                      <FormControl fullWidth={true}>
-                        <label className="small font-weight-bold text-dark">
-                          To
-                        </label>
-                        <BootstrapInput
-                          type="date"
-                          onChange={(e) => {
-                            filterData.end_date = e.target.value;
-                            setFilterData({ ...filterData });
-                          }}
-                        ></BootstrapInput>
-                      </FormControl>
-                    </Grid>
-                    <Grid item sm={6} md={3}>
-                      <FormControl fullWidth={true}>
-                        <label className="small font-weight-bold text-dark">
-                          Status
-                        </label>
-                        <Select
-                          value={
-                            filterData.sponsor_approve
-                              ? filterData.sponsor_approve
-                              : ""
-                          }
-                          onChange={(e) => {
-                            filterData.sponsor_approve = e.target.value;
-                            setFilterData({ ...filterData });
-                          }}
-                          displayEmpty
-                          inputProps={{ "aria-label": "Without label" }}
-                          input={<BootstrapInput />}
-                        >
-                          <MenuItem value="">All</MenuItem>
-                          <MenuItem value="0">Pending</MenuItem>
-                          <MenuItem value="1">Approved</MenuItem>
-                          <MenuItem value="2">Rejected</MenuItem>
-                        </Select>
-                      </FormControl>
-                    </Grid>
-                  </Grid>
-                </Paper>
-                <br />
-                <Paper
-                  elevation={2}
-                  style={{ borderRadius: "10px" }}
-                  className="pending-all-15px"
-                >
-                  <CommonTable
-                    url={`${Url}/datatable/partnership_requests.php`}
-                    column={column}
-                    sort="2"
-                    param={filterData}
-                    refresh={updateDate.refresh}
-                  />
-                </Paper>
-              </Grid>
-              <Dialog
-                open={openModel}
-                onClose={handleClose}
-                // aria-labelledby="alert-dialog-title"
-                // aria-describedby="alert-dialog-description"
-                style={{
-                  opacity: "1",
-                  transition: "opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+      <Paper
+        elevation={2}
+        style={{ borderRadius: "10px" }}
+        className="pending-all-15px"
+      >
+        <Grid container spacing={2}>
+          <Grid item sm={6} md={3}>
+            <FormControl fullWidth={true}>
+              <label className="small font-weight-bold text-dark">From</label>
+              <BootstrapInput
+                type="date"
+                onChange={(e) => {
+                  filterData.start_date = e.target.value;
+                  setFilterData({ ...filterData });
                 }}
-                PaperProps={{
-                  sx: {
-                    width: "100%",
-                    maxWidth: "768px",
-                    borderRadius: "10px",
-                    elevation: "24",
-                    class: "border border-bottom-0",
-                  },
+              ></BootstrapInput>
+            </FormControl>
+          </Grid>
+          <Grid item sm={6} md={3}>
+            <FormControl fullWidth={true}>
+              <label className="small font-weight-bold text-dark">To</label>
+              <BootstrapInput
+                type="date"
+                onChange={(e) => {
+                  filterData.end_date = e.target.value;
+                  setFilterData({ ...filterData });
                 }}
+              ></BootstrapInput>
+            </FormControl>
+          </Grid>
+          <Grid item sm={6} md={3}>
+            <FormControl fullWidth={true}>
+              <label className="small font-weight-bold text-dark">Status</label>
+              <Select
+                value={
+                  filterData.sponsor_approve ? filterData.sponsor_approve : ""
+                }
+                onChange={(e) => {
+                  filterData.sponsor_approve = e.target.value;
+                  setFilterData({ ...filterData });
+                }}
+                displayEmpty
+                inputProps={{ "aria-label": "Without label" }}
+                input={<BootstrapInput />}
               >
-                <DialogTitle
-                  id="alert-dialog-title"
-                  className="d-flex align-items-center p-3"
-                  style={{ borderBottom: "none" }}
-                >
-                  <h5 className="ml-3 w-100 text-start mt-2 mb-2 font-weight-bold">
-                    View IB
-                  </h5>
-                  <CloseIcon
-                    onClick={() => {
-                      setOpenModel(false);
-                    }}
-                  />
-                </DialogTitle>
-                <DialogContent className="create-account-content ml-4">
-                  <Grid
-                    container
-                    spacing={1}
-                    // className="MuiGrid-justify-xs-space-between mt-2"
+                <MenuItem value="">All</MenuItem>
+                <MenuItem value="0">Pending</MenuItem>
+                <MenuItem value="1">Approved</MenuItem>
+                <MenuItem value="2">Rejected</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+        </Grid>
+      </Paper>
+      <br />
+      <Paper
+        elevation={2}
+        style={{ borderRadius: "10px" }}
+        className="pending-all-15px"
+      >
+        <CommonTable
+          url={`${Url}/datatable/partnership_requests.php`}
+          column={column}
+          sort="2"
+          param={filterData}
+          refresh={updateDate.refresh}
+        />
+      </Paper>
+      <Dialog
+        open={openModel}
+        onClose={handleClose}
+        // aria-labelledby="alert-dialog-title"
+        // aria-describedby="alert-dialog-description"
+        style={{
+          opacity: "1",
+          transition: "opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+        }}
+        PaperProps={{
+          sx: {
+            width: "100%",
+            maxWidth: "768px",
+            borderRadius: "10px",
+            elevation: "24",
+            class: "border border-bottom-0",
+          },
+        }}
+      >
+        <DialogTitle
+          id="alert-dialog-title"
+          className="d-flex align-items-center p-3"
+          style={{ borderBottom: "none" }}
+        >
+          <h5 className="ml-3 w-100 text-start mt-2 mb-2 font-weight-bold">
+            View IB
+          </h5>
+          <CloseIcon
+            onClick={() => {
+              setOpenModel(false);
+            }}
+          />
+        </DialogTitle>
+        <DialogContent className="create-account-content ml-4">
+          <Grid
+            container
+            spacing={1}
+            // className="MuiGrid-justify-xs-space-between mt-2"
+          >
+            <div>
+              <div className="main-content-display">
+                <div className="display-element">
+                  <h6>User Name</h6>
+                  <div>{ibdata.requested_user_name}</div>
+                </div>
+                <div className="display-element">
+                  <h6>DATE</h6>
+                  <div>{ibdata.date}</div>
+                </div>
+                <div className="display-element">
+                  <h6>ACQUIRE CLIENT</h6>
+                  <div>{ibdata.acquire_client}</div>
+                </div>
+                <div className="display-element">
+                  <h6>COUNTRY</h6>
+                  <div>{ibdata.countries}</div>
+                </div>
+                <div className="display-element">
+                  <h6>EMAIL</h6>
+                  <div>{ibdata.user_email}</div>
+                </div>
+                <div className="display-element">
+                  <h6>REFFEERED</h6>
+                  <div>{ibdata.is_reffered == "0" ? "NO" : "YES"}</div>
+                </div>
+                <div className="display-element">
+                  <h6>WEBSITE</h6>
+                  <div>{ibdata.is_website == "0" ? "No" : "Yes"}</div>
+                </div>
+                {ibdata.is_website == "1" ? (
+                  <div className="display-element">
+                    <h6>WEBSITE URL</h6>
+                    <div>{ibdata.website_url}</div>
+                  </div>
+                ) : (
+                  ""
+                )}
+                <div className="display-element">
+                  <h6>User Target</h6>
+                  <div>{ibdata.month}</div>
+                </div>
+                <div className="display-element">
+                  <h6>REMARK</h6>
+                  <div>{ibdata.remarks}</div>
+                </div>
+                <div className="display-element">
+                  <h6>IB APPROVE</h6>
+                  <div
+                    className={`col s12 text-color-${
+                      ibdata.sponsor_approve == "1"
+                        ? "green"
+                        : ibdata.sponsor_approve == "2"
+                        ? "red"
+                        : "yellow"
+                    }`}
                   >
-                    <div>
-                      <div className="main-content-display">
-                        <div className="display-element">
-                          <h6>User Name</h6>
-                          <div>{ibdata.requested_user_name}</div>
-                        </div>
-                        <div className="display-element">
-                          <h6>DATE</h6>
-                          <div>{ibdata.date}</div>
-                        </div>
-                        <div className="display-element">
-                          <h6>ACQUIRE CLIENT</h6>
-                          <div>{ibdata.acquire_client}</div>
-                        </div>
-                        <div className="display-element">
-                          <h6>COUNTRY</h6>
-                          <div>{ibdata.countries}</div>
-                        </div>
-                        <div className="display-element">
-                          <h6>EMAIL</h6>
-                          <div>{ibdata.user_email}</div>
-                        </div>
-                        <div className="display-element">
-                          <h6>REFFEERED</h6>
-                          <div>{ibdata.is_reffered == "0" ? "NO" : "YES"}</div>
-                        </div>
-                        <div className="display-element">
-                          <h6>WEBSITE</h6>
-                          <div>{ibdata.is_website == "0" ? "No" : "Yes"}</div>
-                        </div>
-                        {ibdata.is_website == "1" ? (
-                          <div className="display-element">
-                            <h6>WEBSITE URL</h6>
-                            <div>{ibdata.website_url}</div>
-                          </div>
-                        ) : (
-                          ""
-                        )}
-                        <div className="display-element">
-                          <h6>User Target</h6>
-                          <div>{ibdata.month}</div>
-                        </div>
-                        <div className="display-element">
-                          <h6>REMARK</h6>
-                          <div>{ibdata.remarks}</div>
-                        </div>
-                        <div className="display-element">
-                          <h6>IB APPROVE</h6>
-                          <div
-                            className={`col s12 text-color-${
-                              ibdata.sponsor_approve == "1"
-                                ? "green"
-                                : ibdata.sponsor_approve == "2"
-                                ? "red"
-                                : "yellow"
-                            }`}
-                          >
-                            {ibdata.sponsor_approve == "1"
-                              ? "APPROVED"
-                              : ibdata.sponsor_approve == "2"
-                              ? "REJECTED"
-                              : "PENDING"}
-                          </div>
-                        </div>
-                        <div className="display-element">
-                          <h6>ADMIN APPROVE</h6>
-                          <div
-                            className={`col s12 text-color-${
-                              ibdata.admin_approve == "1"
-                                ? "green"
-                                : ibdata.admin_approve == "2"
-                                ? "red"
-                                : "yellow"
-                            }`}
-                          >
-                            {ibdata.admin_approve == "1"
-                              ? "APPROVED"
-                              : ibdata.admin_approve == "2"
-                              ? "REJECTED"
-                              : "PENDING"}
-                          </div>
-                        </div>
-                        <div className="display-element">
-                          <h6>STATUS</h6>
-                          <div
-                            className={`col s12 text-color-${
-                              ibdata.status == "1"
-                                ? "green"
-                                : ibdata.status == "2"
-                                ? "red"
-                                : "yellow"
-                            }`}
-                          >
-                            {ibdata.status == "1"
-                              ? "APPROVED"
-                              : ibdata.status == "2"
-                              ? "REJECTED"
-                              : "PENDING"}
-                          </div>
-                        </div>{" "}
-                      </div>
-                    </div>
-                    <div className="divider"></div>
-                    <div className="main-content-input">
-                      <div className="ib-structure view-commission-content-section">
-                        {/* <div style={{ width: '100%' }}>
+                    {ibdata.sponsor_approve == "1"
+                      ? "APPROVED"
+                      : ibdata.sponsor_approve == "2"
+                      ? "REJECTED"
+                      : "PENDING"}
+                  </div>
+                </div>
+                <div className="display-element">
+                  <h6>ADMIN APPROVE</h6>
+                  <div
+                    className={`col s12 text-color-${
+                      ibdata.admin_approve == "1"
+                        ? "green"
+                        : ibdata.admin_approve == "2"
+                        ? "red"
+                        : "yellow"
+                    }`}
+                  >
+                    {ibdata.admin_approve == "1"
+                      ? "APPROVED"
+                      : ibdata.admin_approve == "2"
+                      ? "REJECTED"
+                      : "PENDING"}
+                  </div>
+                </div>
+                <div className="display-element">
+                  <h6>STATUS</h6>
+                  <div
+                    className={`col s12 text-color-${
+                      ibdata.status == "1"
+                        ? "green"
+                        : ibdata.status == "2"
+                        ? "red"
+                        : "yellow"
+                    }`}
+                  >
+                    {ibdata.status == "1"
+                      ? "APPROVED"
+                      : ibdata.status == "2"
+                      ? "REJECTED"
+                      : "PENDING"}
+                  </div>
+                </div>{" "}
+              </div>
+            </div>
+            <div className="divider"></div>
+            <div className="main-content-input">
+              <div className="ib-structure view-commission-content-section">
+                {/* <div style={{ width: '100%' }}>
                     <TextField label="Structure Name" variant="standard" sx={{ width: '100%' }} name='structure_name' value={updateDate.structure_name} onChange={input1} />
                 </div>
                       {
@@ -797,113 +781,107 @@ const Ibasign = () => {
                           );
                       })
                       } */}
-                      </div>
-                      <div>
-                        <label
-                          htmlFor="sponsor_approve"
-                          className="text-info font-weight-bold form-label-head w-100  required"
-                        >
-                          Structure Name
-                        </label>
-                        <Select
-                          value={updateDate.structure_id}
-                          name="structure_id"
-                          onChange={input1}
-                          displayEmpty
-                          inputProps={{
-                            "aria-label": "Without label",
-                          }}
-                          input={<BootstrapInput />}
-                          className="mt-0 ml-0"
-                          style={{ width: "100%" }}
-                        >
-                          <MenuItem value="">Select Option</MenuItem>
-                          {getStructuresList.map((item) => {
-                            return (
-                              <MenuItem value={item.structure_id}>
-                                {item.structure_name}
-                              </MenuItem>
-                            );
-                          })}
-                        </Select>
-                      </div>
-                      <div>
-                        <label
-                          htmlFor="sponsor_approve"
-                          className="text-info font-weight-bold form-label-head w-100  required"
-                        >
-                          Sponsor Approve
-                        </label>
-                        <Select
-                          value={updateDate.sponsor_approve}
-                          name="sponsor_approve"
-                          onChange={input1}
-                          displayEmpty
-                          inputProps={{
-                            "aria-label": "Without label",
-                          }}
-                          input={<BootstrapInput />}
-                          className="mt-0 ml-0"
-                          style={{ width: "100%" }}
-                        >
-                          <MenuItem value="">Select Option</MenuItem>
-                          <MenuItem value="0">PENDING</MenuItem>
-                          <MenuItem value="1">APPROVED</MenuItem>
-                          <MenuItem value="2">REJECTED</MenuItem>
-                        </Select>
-                      </div>
-                      <div>
-                        <label
-                          htmlFor="remarks"
-                          className="text-info font-weight-bold form-label-head w-100 mt-4 required"
-                        >
-                          Remarks
-                        </label>
-                        <BootstrapInput
-                          name="remarks"
-                          value={updateDate.remarks}
-                          onChange={input1}
-                          displayEmpty
-                          inputProps={{
-                            "aria-label": "Without label",
-                          }}
-                        />
-                      </div>
-                      <div>
-                        {updateDate.isLoader ? (
-                          <ColorButton
-                            tabindex="0"
-                            size="large"
-                            className="spinerforpat "
-                            disabled
-                          >
-                            <svg class="spinner" viewBox="0 0 50 50">
-                              <circle
-                                class="path"
-                                cx="25"
-                                cy="25"
-                                r="20"
-                                fill="none"
-                                stroke-width="5"
-                              ></circle>
-                            </svg>
-                          </ColorButton>
-                        ) : (
-                          <ColorButton onClick={updatePartnership}>
-                            {updateDate.structure_id == ""
-                              ? "Insert"
-                              : "Update"}
-                          </ColorButton>
-                        )}
-                      </div>
-                    </div>
-                  </Grid>
-                </DialogContent>
-              </Dialog>
-            </Grid>
-          </div>
-        </div>
-      </div>
+              </div>
+              <div>
+                <label
+                  htmlFor="sponsor_approve"
+                  className="text-info font-weight-bold form-label-head w-100  required"
+                >
+                  Structure Name
+                </label>
+                <Select
+                  value={updateDate.structure_id}
+                  name="structure_id"
+                  onChange={input1}
+                  displayEmpty
+                  inputProps={{
+                    "aria-label": "Without label",
+                  }}
+                  input={<BootstrapInput />}
+                  className="mt-0 ml-0"
+                  style={{ width: "100%" }}
+                >
+                  <MenuItem value="">Select Option</MenuItem>
+                  {getStructuresList.map((item) => {
+                    return (
+                      <MenuItem value={item.structure_id}>
+                        {item.structure_name}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </div>
+              <div>
+                <label
+                  htmlFor="sponsor_approve"
+                  className="text-info font-weight-bold form-label-head w-100  required"
+                >
+                  Sponsor Approve
+                </label>
+                <Select
+                  value={updateDate.sponsor_approve}
+                  name="sponsor_approve"
+                  onChange={input1}
+                  displayEmpty
+                  inputProps={{
+                    "aria-label": "Without label",
+                  }}
+                  input={<BootstrapInput />}
+                  className="mt-0 ml-0"
+                  style={{ width: "100%" }}
+                >
+                  <MenuItem value="">Select Option</MenuItem>
+                  <MenuItem value="0">PENDING</MenuItem>
+                  <MenuItem value="1">APPROVED</MenuItem>
+                  <MenuItem value="2">REJECTED</MenuItem>
+                </Select>
+              </div>
+              <div>
+                <label
+                  htmlFor="remarks"
+                  className="text-info font-weight-bold form-label-head w-100 mt-4 required"
+                >
+                  Remarks
+                </label>
+                <BootstrapInput
+                  name="remarks"
+                  value={updateDate.remarks}
+                  onChange={input1}
+                  displayEmpty
+                  inputProps={{
+                    "aria-label": "Without label",
+                  }}
+                />
+              </div>
+              <div>
+                {updateDate.isLoader ? (
+                  <ColorButton
+                    tabindex="0"
+                    size="large"
+                    className="spinerforpat "
+                    disabled
+                  >
+                    <svg class="spinner" viewBox="0 0 50 50">
+                      <circle
+                        class="path"
+                        cx="25"
+                        cy="25"
+                        r="20"
+                        fill="none"
+                        stroke-width="5"
+                      ></circle>
+                    </svg>
+                  </ColorButton>
+                ) : (
+                  <ColorButton onClick={updatePartnership}>
+                    {updateDate.structure_id == "" ? "Insert" : "Update"}
+                  </ColorButton>
+                )}
+              </div>
+            </div>
+          </Grid>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

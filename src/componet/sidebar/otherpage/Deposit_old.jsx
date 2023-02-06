@@ -134,7 +134,7 @@ export const Deposite = () => {
                             </tr>
                             <tr>
                               <th>Bank Account Name</th>
-                              <td>Right fx</td>
+                              <td>RightFx</td>
                             </tr>
                             <tr>
                               <th>Bank Address</th>

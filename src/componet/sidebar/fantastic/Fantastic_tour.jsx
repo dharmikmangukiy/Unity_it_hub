@@ -75,8 +75,11 @@ BootstrapDialogTitle.propTypes = {
 
 const Fantastic_tour = () => {
   const [open, setOpen] = React.useState(false);
+  const [open1, setOpen1] = React.useState(false);
+  const [lostSize, setLostSize] = useState(0);
   const navigate = useNavigate();
   const [mainLoader, setMainLoader] = useState(true);
+  const [totalLot, setTotalLot] = useState(0);
   const [tour, setTour] = useState([]);
   const [popData, setPopData] = useState({
     data: {},
@@ -91,9 +94,49 @@ const Fantastic_tour = () => {
   const handleClose = () => {
     setOpen(false);
   };
-
+  console.log("test", open1);
   const manageContent = () => {
-    return <></>;
+    if (open1 == true) {
+      return (
+        <>
+          <div style={{ marginBottom: "6px" }}>
+            <IconButton
+              aria-label="close"
+              onClick={() => {
+                setOpen1(false);
+              }}
+              sx={{
+                position: "absolute",
+                right: 8,
+                top: 0,
+                color: (theme) => theme.palette.grey[500],
+              }}
+            >
+              {" "}
+              <CloseIcon />
+            </IconButton>
+          </div>
+          <div>
+            <ul style={{ padding: "0px" }} className="knowMoreList">
+              <li>
+                1. To become eligible for the Contest, the IB undertakes to
+                press the button ‘Participate’ on the Contest Page.
+              </li>
+              <li>
+                2. The time from the moment the IB pressed the ‘Participate’
+                button on the Contest Page to the end date of the Contest is
+                called the Participation Time.
+              </li>
+              <li>
+                3. The employees or individuals receiving salary from the
+                Company are not eligible for the Contest.
+              </li>
+            </ul>
+            Required Lots : {lostSize}
+          </div>
+        </>
+      );
+    }
   };
   const manageContent2 = () => {
     if (open == true) {
@@ -278,6 +321,7 @@ const Fantastic_tour = () => {
         }
         if (res.data.status == "error") {
         } else {
+          setTotalLot(res.data?.get_ib_user_all_lots_current);
           setMainLoader(false);
           setTour(res.data.data);
         }
@@ -304,17 +348,27 @@ const Fantastic_tour = () => {
                   >
                     <div>
                       <div className="head_prpl ">
-                        <div className="reward">
+                        <div className="reward w-100">
                           {" "}
-                          Total Earned Reward : 2500
+                          Total Earned Reward : {totalLot}
                         </div>
                         <div
                           className="link"
+                          style={{ width: "220px" }}
                           onClick={() => {
                             navigate("/How_to_participate");
                           }}
                         >
-                          HOW TO PARTICIPATE ?
+                          What is Fantastic Four?
+                        </div>
+                        <div
+                          className="link"
+                          style={{ width: "220px" }}
+                          onClick={() => {
+                            navigate("/fantasticHistory");
+                          }}
+                        >
+                          Fantastic Four History
                         </div>
                         <div className="round_2"></div>
                         <div className="round_1"></div>
@@ -360,18 +414,31 @@ const Fantastic_tour = () => {
 
                                         <div className="flex">
                                           <div className="content1">
-                                            <span style={{ color: "#FFB800" }}>
-                                              {item1.remaining_lots == 0
-                                                ? "Congratulations"
-                                                : ""}
-                                            </span>{" "}
-                                            {item1.remaining_lots == 0 ? (
-                                              "you are eligible for participate."
+                                            {item1.is_claimed == true ? (
+                                              <>
+                                                You have already participated in
+                                                this competition.
+                                              </>
                                             ) : (
                                               <>
-                                                You are {item1.remaining_lots}{" "}
-                                                reward points away to
-                                                participate
+                                                {" "}
+                                                <span
+                                                  style={{ color: "#FFB800" }}
+                                                >
+                                                  {item1.remaining_lots == 0
+                                                    ? "Congratulations"
+                                                    : ""}
+                                                </span>{" "}
+                                                {item1.remaining_lots == 0 ? (
+                                                  "you are eligible for participate."
+                                                ) : (
+                                                  <>
+                                                    You are{" "}
+                                                    {item1.remaining_lots}{" "}
+                                                    reward points away to
+                                                    participate
+                                                  </>
+                                                )}
                                               </>
                                             )}
                                           </div>
@@ -421,11 +488,21 @@ const Fantastic_tour = () => {
                                                 );
                                               }}
                                             >
-                                              view
+                                              View
                                             </ColorButton>
                                           ) : (
                                             ""
                                           )}
+                                          <ColorButton
+                                            id="btn_1"
+                                            style={{ marginLeft: "10px" }}
+                                            onClick={() => {
+                                              setLostSize(item1.lot_size);
+                                              setOpen1(true);
+                                            }}
+                                          >
+                                            Know More
+                                          </ColorButton>
                                         </div>
                                       </div>
                                     </>
@@ -474,18 +551,27 @@ const Fantastic_tour = () => {
 
                                         <div className="flex">
                                           <div className="content1">
-                                            <span style={{ color: "#FFB800" }}>
-                                              {item1.remaining_lots == 0
-                                                ? "Congratulations"
-                                                : ""}
-                                            </span>{" "}
-                                            {item1.remaining_lots == 0 ? (
-                                              "you are eligible for participate."
+                                            {item1.is_claimed == true ? (
+                                              "You have already participated in this competition."
                                             ) : (
                                               <>
-                                                You are {item1.remaining_lots}{" "}
-                                                reward points away to
-                                                participate
+                                                <span
+                                                  style={{ color: "#FFB800" }}
+                                                >
+                                                  {item1.remaining_lots == 0
+                                                    ? "Congratulations"
+                                                    : ""}
+                                                </span>
+                                                {item1.remaining_lots == 0 ? (
+                                                  "you are eligible for participate."
+                                                ) : (
+                                                  <>
+                                                    You are{" "}
+                                                    {item1.remaining_lots}{" "}
+                                                    reward points away to
+                                                    participate
+                                                  </>
+                                                )}
                                               </>
                                             )}
                                           </div>
@@ -533,11 +619,22 @@ const Fantastic_tour = () => {
                                                 );
                                               }}
                                             >
-                                              view
+                                              View
                                             </ColorButton>
                                           ) : (
                                             ""
                                           )}
+                                          <ColorButton
+                                            id="btn_1"
+                                            style={{ marginLeft: "10px" }}
+                                            onClick={() => {
+                                              setLostSize(item1.lot_size);
+
+                                              setOpen1(true);
+                                            }}
+                                          >
+                                            Know More
+                                          </ColorButton>
                                         </div>
                                       </div>
                                     </>
@@ -564,13 +661,16 @@ const Fantastic_tour = () => {
           aria-labelledby="customized-dialog-title"
           open={open}
         >
-          {/* <BootstrapDialogTitle
-            id="customized-dialog-title"
-            onClose={handleClose}
-          >
-            {manageContent()}
-          </BootstrapDialogTitle> */}
           <DialogContent dividers>{manageContent2()}</DialogContent>
+        </BootstrapDialog>
+        <BootstrapDialog
+          onClose={() => {
+            setOpen1(false);
+          }}
+          aria-labelledby="customized-dialog-title"
+          open={open1}
+        >
+          <DialogContent dividers>{manageContent()}</DialogContent>
         </BootstrapDialog>
       </div>
     </>

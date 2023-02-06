@@ -881,7 +881,7 @@ const BankAccountp = () => {
                                             <FormHelperText>
                                               {age.confirmbankAccountNumber ==
                                               ""
-                                                ? "Please Enter Confirm Bank AccountNumber"
+                                                ? "Please Enter Confirm Bank Account Number"
                                                 : "Bank Account Number must match"}
                                             </FormHelperText>
                                           ) : (

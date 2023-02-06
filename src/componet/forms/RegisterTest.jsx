@@ -1,5 +1,6 @@
 import {
   Autocomplete,
+  FormControl,
   IconButton,
   InputAdornment,
   TextField,
@@ -15,7 +16,10 @@ import Counter from "../customComponet/Counter";
 import Toast from "../commonComponet/Toast";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 const RegisterTest = (prop) => {
+  var regex = /^[a-zA-Z ]*$/;
   const { id, id1 } = useParams();
   console.log(id, id1);
   const [timer, setTimer] = useState(true);
@@ -23,6 +27,10 @@ const RegisterTest = (prop) => {
   const [compaign, setCompaign] = useState({
     campaign_id: "",
     ref: "",
+  });
+  const [msg, setMsg] = useState({
+    phone: "",
+    email: "",
   });
   const [info, setinfo] = useState({
     email: "",
@@ -38,6 +46,12 @@ const RegisterTest = (prop) => {
   });
   useEffect(() => {
     getContry();
+    if (id == "sponsor") {
+      ibLink();
+    }
+    if (id == "affiliate") {
+      affiliateLink();
+    }
     if (id == "campaign") {
       var compaignData = id1.split("&");
       var compaignId = compaignData[0].split("=");
@@ -65,6 +79,23 @@ const RegisterTest = (prop) => {
         [name]: true,
       };
     });
+  };
+
+  const affiliateLink = () => {
+    const param = new FormData();
+    param.append("wallet_code", id1);
+
+    axios
+      .post(Url + "/ajaxfiles/affiliate_url_visit_logs.php", param)
+      .then((res) => {});
+  };
+  const ibLink = () => {
+    const param = new FormData();
+    param.append("wallet_code", id1);
+
+    axios
+      .post(Url + "/ajaxfiles/ib_url_visit_logs.php", param)
+      .then((res) => {});
   };
 
   const sendOtp = () => {
@@ -114,6 +145,42 @@ const RegisterTest = (prop) => {
             setTimer(true);
 
             Toast("success", res.data.message);
+          }
+        });
+    }
+  };
+  const verifyPhone = (prop) => {
+    const param = new FormData();
+    param.append("action", "validate_phone");
+    param.append("user_phone", prop);
+    axios
+      .post(Url + "/ajaxfiles/register_validation.php", param)
+      .then((res) => {
+        if (res.data.status == "error") {
+          msg.phone = res.data.message;
+          setMsg({ ...msg });
+        } else {
+          msg.phone = "";
+          setMsg({ ...msg });
+        }
+      });
+  };
+  const verifyEmail = (prop) => {
+    if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(prop)) {
+      // console.log("ds");
+    } else {
+      const param = new FormData();
+      param.append("action", "validate_email");
+      param.append("user_email_address", prop);
+      axios
+        .post(Url + "/ajaxfiles/register_validation.php", param)
+        .then((res) => {
+          if (res.data.status == "error") {
+            msg.email = res.data.message;
+            setMsg({ ...msg });
+          } else {
+            msg.email = "";
+            setMsg({ ...msg });
           }
         });
     }
@@ -195,7 +262,9 @@ const RegisterTest = (prop) => {
       if (id == "sponsor") {
         param.append("sponsor_id", id1);
       }
-
+      if (id == "new") {
+        param.append("is_affiliate", 1);
+      }
       if (id == "manager") {
         param.append("managercode", id1);
       }
@@ -204,12 +273,10 @@ const RegisterTest = (prop) => {
         param.append("campaign_id", compaign.ref);
       }
       if (id == "affiliate") {
-        param.append("sponsor_id", id);
+        param.append("sponsor_id", id1);
         param.append("affiliate", 1);
       }
-      if (id == "new") {
-        param.append("is_affiliate", 1);
-      }
+
       info.isLoader = true;
       setinfo({ ...info });
       axios
@@ -229,12 +296,16 @@ const RegisterTest = (prop) => {
             setinfo({ ...info });
           } else {
             info.isLoader = false;
+            console.log("res.datpa?.send_ot", res.data?.send_otp);
+
             if (res.data?.send_otp == 1) {
               info.send_otp = true;
               setTimer(true);
             } else if (res.data?.send_otp == 0) {
-              prop.setLogin("false");
+              localStorage.setItem("login", false);
+              prop.setLogin(false);
               navigate("/dashboard");
+              console.log("res.datpa?.send_ot", res.data?.send_otp);
             }
             setinfo({ ...info });
             Toast("success", res.data.message);
@@ -263,85 +334,115 @@ const RegisterTest = (prop) => {
                   sx={{ width: "100%" }}
                   variant="standard"
                   name="fullName"
-                  error={
-                    info.fullName == "" && infoTrue.fullName == true
-                      ? true
-                      : false
-                  }
+                  // error={
+                  //   info.fullName == "" && infoTrue.fullName == true
+                  //     ? true
+                  //     : false
+                  // }
                   helperText={
                     info.fullName == "" && infoTrue.fullName == true
                       ? "Full Name is requied"
                       : ""
                   }
                   value={info.fullName}
-                  onChange={input1}
+                  onChange={(e) => {
+                    if (regex.test(e.target.value)) {
+                      input1(e);
+                    }
+                  }}
                   onBlur={trueFalse}
                 />
               </div>
-              <div className="reg-textField d-flex">
-                <div style={{ width: "25%", marginTop: "19px" }}>
-                  <Autocomplete
-                    disablePortal
-                    options={info.contry}
-                    value={info.code}
-                    getOptionLabel={(option) =>
-                      option ? option.phonecode : ""
-                    }
-                    onChange={(event, newValue) => {
-                      if (newValue == null) {
-                      } else {
-                        info.code = newValue;
-                        setinfo({ ...info });
+              <div className="reg-textField">
+                <div className=" d-flex">
+                  <div style={{ width: "35%", marginTop: "19px" }}>
+                    <Autocomplete
+                      disablePortal
+                      options={info.contry}
+                      value={info.code}
+                      getOptionLabel={(option) =>
+                        option ? option.phonecode : ""
                       }
-                    }}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label=""
-                        //   sx={{ width: "15%" }}
-                        className="w-100"
-                        variant="standard"
-                        size="small"
-                        onBlur={trueFalse}
-                        name="country"
-                      />
-                    )}
-                  />
+                      onChange={(event, newValue) => {
+                        if (newValue == null) {
+                        } else {
+                          info.code = newValue;
+                          setinfo({ ...info });
+                        }
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label=""
+                          //   sx={{ width: "15%" }}
+                          className="w-100"
+                          variant="standard"
+                          size="small"
+                          onBlur={trueFalse}
+                          name="country"
+                        />
+                      )}
+                    />
+                  </div>
+                  <div style={{ width: "65%" }}>
+                    <TextField
+                      id="standard-search"
+                      label="Mobile Number"
+                      variant="standard"
+                      className="w-100"
+                      name="phone"
+                      value={info.phone}
+                      onBlur={trueFalse}
+                      onChange={(e) => {
+                        if (
+                          Number(e.target.value) > 0 ||
+                          e.target.value == ""
+                        ) {
+                          input1(e);
+                        }
+                        if (
+                          e.target.value.toString().length >= 4 &&
+                          e.target.value.toString().length < 12
+                        ) {
+                          verifyPhone(e.target.value);
+                        }
+                      }}
+                      // error={
+                      //   (info.phone.toString().length < 4 ||
+                      //     info.phone.toString().length > 12 ||
+                      //     info.phone == "" ||
+                      //     msg.phone != "") &&
+                      //   infoTrue.phone
+                      //     ? true
+                      //     : false
+                      // }
+                      // helperText={
+                      //   info.phone == "" && infoTrue.phone
+                      //     ? "Mobile Number is required"
+                      //     : (info.phone.toString().length < 4 ||
+                      //         info.phone.toString().length > 12) &&
+                      //       infoTrue.phone
+                      //     ? "Mobile Number is not valid"
+                      //     : msg.phone != "" && infoTrue.phone
+                      //     ? msg.phone
+                      //     : ""
+                      // }
+                    />
+                  </div>
                 </div>
-                <div style={{ width: "75%" }}>
-                  <TextField
-                    id="standard-search"
-                    label="Mobile Number"
-                    variant="standard"
-                    className="w-100"
-                    name="phone"
-                    value={info.phone}
-                    onBlur={trueFalse}
-                    onChange={(e) => {
-                      if (Number(e.target.value) > 0 || e.target.value == "") {
-                        input1(e);
-                      }
-                    }}
-                    error={
-                      (info.phone.toString().length < 4 ||
-                        info.phone.toString().length > 12 ||
-                        info.phone == "") &&
-                      infoTrue.phone
-                        ? true
-                        : false
-                    }
-                    helperText={
-                      info.phone == "" && infoTrue.phone
-                        ? "Mobile Number is required"
-                        : (info.phone.toString().length < 4 ||
-                            info.phone.toString().length > 12) &&
-                          infoTrue.phone
-                        ? "Mobile Number is not valid"
-                        : ""
-                    }
-                  />
-                </div>
+                {info.phone == "" && infoTrue.phone ? (
+                  <span className="error">Mobile Number is required</span>
+                ) : (info.phone.toString().length < 4 ||
+                    info.phone.toString().length > 12) &&
+                  infoTrue.phone ? (
+                  <span className="error">Mobile Number is not valid</span>
+                ) : msg.phone != "" && infoTrue.phone ? (
+                  <span className="error">{msg.phone}</span>
+                ) : (
+                  ""
+                )}
               </div>
+
               <div className="reg-textField">
                 <TextField
                   id="standard-search"
@@ -350,17 +451,21 @@ const RegisterTest = (prop) => {
                   variant="standard"
                   name="email"
                   value={info.email}
-                  onChange={input1}
+                  onChange={(e) => {
+                    input1(e);
+                    verifyEmail(e.target.value);
+                  }}
                   onBlur={trueFalse}
-                  error={
-                    (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
-                      info.email
-                    ) ||
-                      info.email == "") &&
-                    infoTrue.email == true
-                      ? true
-                      : false
-                  }
+                  // error={
+                  //   (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+                  //     info.email
+                  //   ) ||
+                  //     info.email == "" ||
+                  //     msg.email != "") &&
+                  //   infoTrue.email == true
+                  //     ? true
+                  //     : false
+                  // }
                   helperText={
                     info.email == "" && infoTrue.email
                       ? "Email is required"
@@ -368,6 +473,8 @@ const RegisterTest = (prop) => {
                           info.email
                         ) && infoTrue.email
                       ? "Enter a valid email"
+                      : msg.email != "" && infoTrue.email
+                      ? msg.email
                       : ""
                   }
                 />
@@ -405,18 +512,18 @@ const RegisterTest = (prop) => {
                       </InputAdornment>
                     ),
                   }}
-                  error={
-                    (!info.password.match(/[A-Z]/g) ||
-                      !info.password.match(/[a-z]/g) ||
-                      !info.password.match(/[0-9]/g) ||
-                      info.password == "" ||
-                      info.password.length < 8 ||
-                      info.password.length > 20 ||
-                      !info.password.match(/[!@#$%^&*()_+=]/g)) &&
-                    infoTrue.password == true
-                      ? true
-                      : false
-                  }
+                  // error={
+                  //   (!info.password.match(/[A-Z]/g) ||
+                  //     !info.password.match(/[a-z]/g) ||
+                  //     !info.password.match(/[0-9]/g) ||
+                  //     info.password == "" ||
+                  //     info.password.length < 8 ||
+                  //     info.password.length > 20 ||
+                  //     !info.password.match(/[!@#$%^&*()_+=]/g)) &&
+                  //   infoTrue.password == true
+                  //     ? true
+                  //     : false
+                  // }
                   helperText={
                     info.password == "" && infoTrue.password == true
                       ? "Enter your password"
@@ -437,7 +544,7 @@ const RegisterTest = (prop) => {
                 <div className="reg-textField">
                   <TextField
                     id="standard-search"
-                    label="OTP"
+                    label="Enter OTP"
                     variant="standard"
                     className="w-100"
                     name="otp"
@@ -448,9 +555,9 @@ const RegisterTest = (prop) => {
                         input1(e);
                       }
                     }}
-                    error={info.otp == "" && infoTrue.otp ? true : false}
+                    // error={info.otp == "" && infoTrue.otp ? true : false}
                     helperText={
-                      info.otp == "" && infoTrue.otp ? "Otp is required" : ""
+                      info.otp == "" && infoTrue.otp ? "OTP is required" : ""
                     }
                   />
                 </div>
@@ -459,7 +566,68 @@ const RegisterTest = (prop) => {
               )}
 
               <div className="mbr-4 row">
-                <div className="mb-2 mt-0 col-12">
+                <ul className="validation-reg">
+                  <li
+                    className={
+                      info.password.length >= 8 && info.password.length <= 20
+                        ? "val-reg-true"
+                        : "val-reg-false"
+                    }
+                  >
+                    {" "}
+                    {info.password.length >= 8 && info.password.length <= 20 ? (
+                      <CheckIcon />
+                    ) : (
+                      <CloseIcon />
+                    )}
+                    8-20 characters
+                  </li>
+                  <li
+                    className={
+                      info.password.match(/[A-Z]/g) &&
+                      info.password.match(/[a-z]/g)
+                        ? "val-reg-true"
+                        : "val-reg-false"
+                    }
+                  >
+                    {info.password.match(/[A-Z]/g) &&
+                    info.password.match(/[a-z]/g) ? (
+                      <CheckIcon />
+                    ) : (
+                      <CloseIcon />
+                    )}
+                    LATIN LETTERS EX.A-Z,a-z
+                  </li>
+                  <li
+                    className={
+                      info.password.match(/[0-9]/g)
+                        ? "val-reg-true"
+                        : "val-reg-false"
+                    }
+                  >
+                    {info.password.match(/[0-9]/g) ? (
+                      <CheckIcon />
+                    ) : (
+                      <CloseIcon />
+                    )}
+                    Numbers EX.0-9
+                  </li>
+                  <li
+                    className={
+                      info.password.match(/[!@#$%^&*()_+=]/g)
+                        ? "val-reg-true"
+                        : "val-reg-false"
+                    }
+                  >
+                    {info.password.match(/[!@#$%^&*()_+=]/g) ? (
+                      <CheckIcon />
+                    ) : (
+                      <CloseIcon />
+                    )}
+                    Special Characters Ex.@#$%^&*
+                  </li>
+                </ul>
+                {/* <div className="mb-2 mt-0 col-12">
                   <div
                     className={`badge rounded-pill me-1 centerRegister ${
                       info.password.length >= 8 && info.password.length <= 20
@@ -515,7 +683,7 @@ const RegisterTest = (prop) => {
                   >
                     Special Characters Ex.@#$%^&*
                   </div>
-                </div>
+                </div> */}
               </div>
 
               <div className="text-center mx-auto">
@@ -573,7 +741,7 @@ const RegisterTest = (prop) => {
               <div className="centerflexjus mt-3 logblock">
                 <div>
                   <span style={{ color: "rgb(124 120 120)" }}>
-                    Already have an account?
+                    Already have an account ?{" "}
                     <NavLink to="/login" className="logblock1 main-color">
                       Login
                     </NavLink>

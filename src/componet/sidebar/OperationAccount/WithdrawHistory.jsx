@@ -70,7 +70,7 @@ const WithdrawHistory = () => {
       },
       wrap: true,
       reorder: true,
-      // grow: 0.1,
+      grow: 0.1,
     },
     {
       name: "DATE",
@@ -94,7 +94,7 @@ const WithdrawHistory = () => {
       // wrap: true,
       sortable: true,
       reorder: true,
-      grow: 0.6,
+      grow: 0.9,
     },
     {
       name: "PAYMENT METHOD",
@@ -134,16 +134,7 @@ const WithdrawHistory = () => {
       reorder: true,
       grow: 0.5,
     },
-    {
-      name: "REMARKS",
-      selector: (row) => {
-        return <span title={row.remarks}>{row.remarks}</span>;
-      },
-      // wrap: true,
-      sortable: true,
-      reorder: true,
-      grow: 1,
-    },
+
     {
       name: "AMOUNT",
       selector: (row) => {
@@ -194,6 +185,16 @@ const WithdrawHistory = () => {
       reorder: true,
       // wrap: true,
       grow: 0.1,
+    },
+    {
+      name: "REMARKS",
+      selector: (row) => {
+        return <span title={row.remarks}>{row.remarks}</span>;
+      },
+      // wrap: true,
+      sortable: true,
+      reorder: true,
+      grow: 1,
     },
   ];
 

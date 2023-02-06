@@ -24,8 +24,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import Counter from "../../customComponet/Counter";
 import { useEffect } from "react";
 import Toast from "../../commonComponet/Toast";
+import { SdCardAlertOutlined } from "@mui/icons-material";
 
-const InternalTransfer = () => {
+const InternalTransfer = (prop) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [age, setAge] = React.useState("");
@@ -60,8 +61,9 @@ const InternalTransfer = () => {
     });
   };
   useEffect(() => {
+    fetchMT5AccountList();
+
     if (id) {
-      fetchMT5AccountList();
       form.from_account = "MT5";
       form.from_account_mt5 = id;
       setForm({ ...form });
@@ -121,7 +123,7 @@ const InternalTransfer = () => {
     } else if (name == "to_account" && value == "wallet") {
       // setIsInputWallet(true);
     } else if (name == "to_account" && value == "MT5") {
-      fetchMT5AccountList();
+      // fetchMT5AccountList();
       // setIsInputWallet(false);
     }
 
@@ -220,67 +222,72 @@ const InternalTransfer = () => {
       Toast("error", "Please select MT5 account");
     } else if (form.amount == "") {
       Toast("error", "Please enter account");
-    } else if (form.isOTP == false) {
-      if (form.resendOtp == true) {
-        form.resendOtploder = true;
-        setForm({ ...form });
-      } else {
-        form.isLoader = true;
-        setForm({ ...form });
-      }
+    }
+    // else if (form.isOTP == false) {
+    //   if (form.resendOtp == true) {
+    //     form.resendOtploder = true;
+    //     setForm({ ...form });
+    //   }
 
-      const param = new FormData();
-      param.append("action", "request_otp");
-      if (IsApprove !== "") {
-        param.append("is_app", IsApprove.is_app);
-        param.append("user_id", IsApprove.user_id);
-        param.append("auth_key", IsApprove.auth);
-      }
-      param.append("from_transfer", form.from_account);
-      param.append("to_transfer", form.to_account);
-      param.append("wallet_id", form.wallet_code);
-      param.append("mt5_account_id", form.mt5_account);
-      param.append("amount", form.amount);
-      param.append("from_mt5_account_id", form.from_account_mt5);
-      await axios
-        .post(`${Url}/ajaxfiles/internal_transfer.php`, param)
-        .then((res) => {
-          if (res.data.message == "Session has been expired") {
-            navigate("/");
-          }
-          if (form.resendOtp == true) {
-            form.resendOtploder = false;
-            setForm({ ...form });
-          } else {
-            form.isLoader = false;
-            setForm({ ...form });
-          }
+    //   else {
+    //     form.isLoader = true;
+    //     setForm({ ...form });
+    //   }
 
-          if (res.data.status == "error") {
-            Toast("error", res.data.message);
-          } else {
-            Toast("success", res.data.message);
-            setTimer({ ...timer });
-            form.resendOtp = true;
-            form.isOTP = true;
-            setForm({ ...form });
-            setinfoTrue({
-              from_account: false,
-              from_account_mt5: false,
-              from_account_balance: false,
-              from_account_equity: false,
-              to_account: false,
-              mt5_account: false,
-              wallet_code: false,
-              amount: false,
-              otp: false,
-            });
-            // setIsOTP(true);
-          }
-        });
-    } else if (form.otp == "" && form.isOTP == true) {
-      Toast("error", "Please enter OTP");
-    } else {
+    //   const param = new FormData();
+    //   param.append("action", "request_otp");
+    //   if (IsApprove !== "") {
+    //     param.append("is_app", IsApprove.is_app);
+    //     param.append("user_id", IsApprove.user_id);
+    //     param.append("auth_key", IsApprove.auth);
+    //   }
+    //   param.append("from_transfer", form.from_account);
+    //   param.append("to_transfer", form.to_account);
+    //   param.append("wallet_id", form.wallet_code);
+    //   param.append("mt5_account_id", form.mt5_account);
+    //   param.append("amount", form.amount);
+    //   param.append("from_mt5_account_id", form.from_account_mt5);
+    //   await axios
+    //     .post(`${Url}/ajaxfiles/internal_transfer.php`, param)
+    //     .then((res) => {
+    //       if (res.data.message == "Session has been expired") {
+    //         navigate("/");
+    //       }
+    //       if (form.resendOtp == true) {
+    //         form.resendOtploder = false;
+    //         setForm({ ...form });
+    //       } else {
+    //         form.isLoader = false;
+    //         setForm({ ...form });
+    //       }
+
+    //       if (res.data.status == "error") {
+    //         Toast("error", res.data.message);
+    //       } else {
+    //         Toast("success", res.data.message);
+    //         setTimer({ ...timer });
+    //         // form.resendOtp = true;
+    //         // form.isOTP = true;
+    //         // setForm({ ...form });
+    //         setinfoTrue({
+    //           from_account: false,
+    //           from_account_mt5: false,
+    //           from_account_balance: false,
+    //           from_account_equity: false,
+    //           to_account: false,
+    //           mt5_account: false,
+    //           wallet_code: false,
+    //           amount: false,
+    //           otp: false,
+    //         });
+    //         // setIsOTP(true);
+    //       }
+    //     });
+    // }
+    //  else if (form.otp == "" && form.isOTP == true) {
+    //   Toast("error", "Please enter OTP");
+    // }
+    else {
       form.isLoader = true;
       setForm({ ...form });
       const param = new FormData();
@@ -296,7 +303,7 @@ const InternalTransfer = () => {
       param.append("mt5_account_id", form.mt5_account);
       param.append("amount", form.amount);
       param.append("from_mt5_account_id", form.from_account_mt5);
-      param.append("verify_otp", form.otp);
+      // param.append("verify_otp", form.otp);
       await axios
         .post(`${Url}/ajaxfiles/internal_transfer.php`, param)
         .then((res) => {
@@ -308,6 +315,12 @@ const InternalTransfer = () => {
           if (res.data.status == "error") {
             Toast("error", res.data.message);
           } else {
+            console.log(form.mt5_account, "SdCardAlertOutlined");
+
+            if (form.from_account == "wallet" || form.to_account == "wallet") {
+              prop.getwallet();
+            }
+
             Toast("success", res.data.message);
             // setIsOTP(false);
             setIsInputMT5(false);
@@ -325,6 +338,7 @@ const InternalTransfer = () => {
               currency: "",
               otp: "",
             });
+            navigate("/transfer_history");
           }
         });
     }
@@ -380,7 +394,7 @@ const InternalTransfer = () => {
                                     setForm({ ...form });
                                     setBal({ ...bal });
                                     if (e.target.value == "MT5") {
-                                      fetchMT5AccountList();
+                                      // fetchMT5AccountList();
                                     } else {
                                       fetchFromAccountDetails();
                                     }
@@ -600,7 +614,7 @@ const InternalTransfer = () => {
                                 ""
                               )}
                             </FormControl>
-                            {form.isOTP ? (
+                            {/* {form.isOTP ? (
                               <FormControl
                                 className="form-control pt-md-3"
                                 error={form.otp == "" ? true : false}
@@ -632,7 +646,7 @@ const InternalTransfer = () => {
                               </FormControl>
                             ) : (
                               ""
-                            )}
+                            )} */}
                           </Grid>
                           <hr className="mar-10px" />
                           <Grid item md={12}>

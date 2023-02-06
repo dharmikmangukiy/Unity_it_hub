@@ -95,10 +95,10 @@ const IBCommisionGroup = () => {
     refresh: false,
   });
   const depositFilter = () => {
-    console.log("dsa");
+    // console.log("dsa");
   };
   const handleContextClick = (event, index) => {
-    console.log(event.currentTarget.getAttribute("id"), index);
+    // console.log(event.currentTarget.getAttribute("id"), index);
     let tableMenus = [...openTableMenus];
     tableMenus[index] = event.currentTarget;
     setOpenTableMenus(tableMenus);
@@ -119,7 +119,7 @@ const IBCommisionGroup = () => {
   };
 
   const gotoProfile = (e) => {
-    console.log("goto profile page", e);
+    // console.log("goto profile page", e);
     navigate("/master/" + e.user_id);
   };
 
@@ -235,7 +235,7 @@ const IBCommisionGroup = () => {
         Toast("error", res.data.message);
       } else {
         defaultStructure_data.data = res.data.data1;
-        console.log("res.data", res.data.data);
+        // console.log("res.data", res.data.data);
         // DbData = res.data.data;
 
         setDefaultStructure_data({ ...defaultStructure_data });
@@ -254,7 +254,7 @@ const IBCommisionGroup = () => {
 
         setUpdateDate({ ...updateDate });
 
-        console.log("form", updateDate);
+        // console.log("form", updateDate);
         // setMaxWidth('md');
         // setDialogTitle('Add');
       }
@@ -391,7 +391,7 @@ const IBCommisionGroup = () => {
       </div>
     );
   };
-  console.log(defaultStructure_data1.current);
+  // console.log(defaultStructure_data1.current);
   const manageContent = () => {
     return (
       <div>
@@ -448,28 +448,45 @@ const IBCommisionGroup = () => {
                                 (floatNumber.length == 2 &&
                                   floatNumber[1].length <= 3)
                               ) {
-                                console.log(
-                                  "value",
-                                  parseFloat(e.target.value).toFixed(3)
-                                );
+                                // console.log(
+                                //   "value",
+                                //   parseFloat(e.target.value).toFixed(3)
+                                // );
                                 updateDate.structure_data[index][
                                   "group_rebate"
                                 ] = e.target.value;
+
                                 updateDate.structure_data[index][
                                   "pair_data"
                                 ].forEach((value, valueIndex) => {
+                                  // console.log(
+                                  //   "test",
+                                  // updateDate.structure_data[index].pair_data[
+                                  //   valueIndex
+                                  // ].pair_name;
+                                  // );
                                   if (
-                                    defaultStructure_data.data[index][
-                                      "pair_data1"
-                                    ][valueIndex]["rebate1"] == 0
+                                    updateDate.structure_data[index].pair_data[
+                                      valueIndex
+                                    ].pair_name == "crypto" ||
+                                    updateDate.structure_data[index].pair_data[
+                                      valueIndex
+                                    ].pair_name == "indices"
                                   ) {
-                                    updateDate.structure_data[index][
-                                      "pair_data"
-                                    ][valueIndex]["rebate"] = 0;
                                   } else {
-                                    updateDate.structure_data[index][
-                                      "pair_data"
-                                    ][valueIndex]["rebate"] = e.target.value;
+                                    if (
+                                      defaultStructure_data.data[index][
+                                        "pair_data1"
+                                      ][valueIndex]["rebate1"] == 0
+                                    ) {
+                                      updateDate.structure_data[index][
+                                        "pair_data"
+                                      ][valueIndex]["rebate"] = 0;
+                                    } else {
+                                      updateDate.structure_data[index][
+                                        "pair_data"
+                                      ][valueIndex]["rebate"] = e.target.value;
+                                    }
                                   }
                                 });
                                 setUpdateDate({
@@ -538,9 +555,20 @@ const IBCommisionGroup = () => {
                                 updateDate.structure_data[index][
                                   "pair_data"
                                 ].forEach((value, valueIndex) => {
-                                  updateDate.structure_data[index]["pair_data"][
-                                    valueIndex
-                                  ]["commission"] = e.target.value;
+                                  if (
+                                    updateDate.structure_data[index].pair_data[
+                                      valueIndex
+                                    ].pair_name == "crypto" ||
+                                    updateDate.structure_data[index].pair_data[
+                                      valueIndex
+                                    ].pair_name == "indices"
+                                  ) {
+                                  } else {
+                                    updateDate.structure_data[index][
+                                      "pair_data"
+                                    ][valueIndex]["commission"] =
+                                      e.target.value;
+                                  }
                                 });
                                 setUpdateDate({
                                   ...updateDate,
@@ -566,30 +594,7 @@ const IBCommisionGroup = () => {
                             }
                           }}
                         />
-                        {/* <span>{item.group_commission*100/defaultStructure_data.data[index].group_commission1}%</span> */}
                       </div>
-                      {/* <div>
-                                    {
-                                      (item.ibGroup != undefined) ?
-                                        <Autocomplete
-                                        className='autoComplete-input-remove-border'
-                                          disablePortal
-                                          options={item.ibGroup}
-                                          getOptionLabel={(option) => (option ? option.ib_group_name : "")}
-                                          onInputChange={(event, newInputValue) => {
-                                            // fetchAccount(event, newInputValue);
-                                          }}
-                                          onChange={(event, newValue) => {
-                                            updateDate.structure_data[index]['ib_group_level_id'] = newValue.ib_group_level_id;
-                                            setUpdateDate({
-                                              ...updateDate
-                                            });
-                                          }}
-
-                                          renderInput={(params) => <TextField {...params} label="IB Group" variant="standard" style={{ width: '100%', border: '0px !important' }} />}
-                                        /> : ''
-                                    }
-                                  </div> */}
                     </div>
 
                     <div className="action-section">
@@ -789,14 +794,14 @@ const IBCommisionGroup = () => {
   };
 
   const getGroupRebate = (index) => {
-    console.log("DdData", DbData, DbData[index]);
+    // console.log("DdData", DbData, DbData[index]);
   };
 
   useEffect(() => {
     // defaultStructure_data.forEach(element => {
     //   DbData.push(element.group_rebate);
     // });
-    console.log("DbData", DbData, updateDate, updateDate.db_structure_data);
+    // console.log("DbData", DbData, updateDate, updateDate.db_structure_data);
   }, [updateDate]);
 
   return (

@@ -22,7 +22,7 @@ import Counter from "../../../customComponet/Counter";
 import Verification from "../../../customComponet/Verification";
 import Toast from "../../../commonComponet/Toast";
 
-export const Withdrawal = () => {
+export const Withdrawal = (prop) => {
   const { id } = useParams();
   const [option, setOption] = useState("");
   const [disable, setDisable] = useState(false);
@@ -100,9 +100,19 @@ export const Withdrawal = () => {
       } else {
         setMt5AccountList(res.data.mt5_accounts);
         if (res.data.mt5_accounts.length !== 0) {
-          age.withdraw_from = res.data.mt5_accounts[0].mt5_acc_no;
+          if (id) {
+            age.withdraw_from = id;
+            setAge({ ...age });
+            fetchMT5AccountDetaiils(id);
+          } else {
+            age.withdraw_from = res.data.mt5_accounts[0].mt5_acc_no;
+            setAge({ ...age });
+            fetchMT5AccountDetaiils(res.data.mt5_accounts[0].mt5_acc_no);
+          }
+        } else {
+          age.withdraw_from = "wallte";
           setAge({ ...age });
-          fetchMT5AccountDetaiils(res.data.mt5_accounts[0].mt5_acc_no);
+          fetchMT5AccountDetaiils();
         }
       }
     });
@@ -122,7 +132,7 @@ export const Withdrawal = () => {
         navigate("/");
       }
       if (res.data.status == "ok") {
-        setwalletbalance(res.data.data.mt_free_margin_balance);
+        setwalletbalance(res.data.data?.mt_balance_balance);
       } else {
       }
     });
@@ -210,6 +220,9 @@ export const Withdrawal = () => {
         notify(res.data.message);
         setIsLoader1(false);
       } else {
+        if (age.withdraw_from == "wallte") {
+          prop.getwallet();
+        }
         navigate("/withdraw_history");
         setIsLoader1(false);
         Toast("success", res.data.message);
@@ -257,7 +270,7 @@ export const Withdrawal = () => {
             notify(res.data.message);
             setIsLoader1(false);
           } else {
-            Toast("success", res.data.message);
+            // Toast("success", res.data.message);
             // setScriptRun(true);=
             withdrawAmount(); // client.emit('playSound');
           }
@@ -281,8 +294,8 @@ export const Withdrawal = () => {
       }
     } else if (values.payment_method == "UPI") {
       if (!values.upi_name) {
-        errors.upi_name = "Upi type is required";
-        notify("Upi type is required");
+        errors.upi_name = "UPI Type is required";
+        notify("UPI Type is required");
       } else if (!values.upi_crypto_ac_number) {
         errors.upi_crypto_ac_number = "UPIID is required";
         notify("UPIID is required");
@@ -510,7 +523,7 @@ export const Withdrawal = () => {
               htmlFor="upitype"
               className="text-info font-weight-bold form-label-head w-100  required"
             >
-              Upi type
+              UPI Type
             </label>
             <Select
               value={age.upi_name}
@@ -532,7 +545,7 @@ export const Withdrawal = () => {
               <MenuItem value="Paytm">Paytm</MenuItem>
             </Select>
             {age.upi_name == "" && infoTrue.upi_name == true ? (
-              <FormHelperText>Please Select Upi type</FormHelperText>
+              <FormHelperText>Please Select UPI Type</FormHelperText>
             ) : (
               ""
             )}
@@ -543,7 +556,7 @@ export const Withdrawal = () => {
                   htmlFor="upi_crypto_ac_number"
                   className="text-info font-weight-bold form-label-head w-100 mt-4 required"
                 >
-                  Upi Id
+                  UPI Id
                 </label>
                 <BootstrapInput
                   name="upi_crypto_ac_number"
@@ -559,7 +572,7 @@ export const Withdrawal = () => {
                 />
                 {age.upi_crypto_ac_number == "" &&
                 infoTrue.upi_crypto_ac_number == true ? (
-                  <FormHelperText>Please Enter Upi Id</FormHelperText>
+                  <FormHelperText>Please Enter UPI Id</FormHelperText>
                 ) : (
                   ""
                 )}
@@ -696,7 +709,7 @@ export const Withdrawal = () => {
                                   navigate("/myDocuments");
                                 }}
                               >
-                                first complete your kyc process
+                                Complete your kyc process
                               </ColorButton>
                             </div>
                           )}
@@ -1144,14 +1157,14 @@ export const Withdrawal = () => {
                               </h5>
                               <div className="text-dark pt-4 text-align-justify">
                                 <span className="text-align-justify">
-                                  Right Fx, in accordance with international
-                                  laws on combating terrorist financing and
-                                  money laundering, does not accept payments
-                                  from third parties & payments to third parties
-                                  are not carried out.
+                                  RightFx, in accordance with international laws
+                                  on combating terrorist financing and money
+                                  laundering, does not accept payments from
+                                  third parties & payments to third parties are
+                                  not carried out.
                                   <br></br>
                                   <br></br>
-                                  Right Fx may require additional documentation
+                                  RightFx may require additional documentation
                                   /information from you to prove your bank
                                   account held in your name as third party
                                   payments are not permitted.

@@ -235,14 +235,23 @@ const Bonus_dashbord = (props) => {
                   />
 
                   <span className="bld_clr2">
-                    ${((data.popData.deposit_amount * 10) / 100).toFixed(2)}
+                    $
+                    {((data.popData.deposit_amount * 10) / 100).toFixed(2) >
+                    5000
+                      ? 5000.0
+                      : ((data.popData.deposit_amount * 10) / 100).toFixed(2)}
                   </span>
                   <span className="money_cell">
                     (Trade{" "}
                     {(
                       (((data.popData.deposit_amount * 10) / 100) * 40) /
                       100
-                    ).toFixed()}{" "}
+                    ).toFixed() > 2000
+                      ? 2000.0
+                      : (
+                          (((data.popData.deposit_amount * 10) / 100) * 40) /
+                          100
+                        ).toFixed()}{" "}
                     lots to complete)
                   </span>
                   <span className="bld_clr3">10%</span>
@@ -254,14 +263,23 @@ const Bonus_dashbord = (props) => {
                   />
                   {/* <Radio value={20} color="secondary" /> */}
                   <span className="bld_clr2">
-                    ${((data.popData.deposit_amount * 20) / 100).toFixed(2)}
+                    $
+                    {((data.popData.deposit_amount * 20) / 100).toFixed(2) >
+                    5000
+                      ? 5000.0
+                      : ((data.popData.deposit_amount * 20) / 100).toFixed(2)}
                   </span>
                   <span className="money_cell">
                     (Trade{" "}
                     {(
                       (((data.popData.deposit_amount * 20) / 100) * 40) /
                       100
-                    ).toFixed()}{" "}
+                    ).toFixed() > 2000
+                      ? 2000.0
+                      : (
+                          (((data.popData.deposit_amount * 20) / 100) * 40) /
+                          100
+                        ).toFixed()}{" "}
                     lots to complete)
                   </span>
                   <span className="bld_clr3">20%</span>
@@ -272,14 +290,23 @@ const Bonus_dashbord = (props) => {
                     control={<Radio color="secondary" />}
                   />{" "}
                   <span className="bld_clr2">
-                    ${((data.popData.deposit_amount * 30) / 100).toFixed(2)}
+                    ${" "}
+                    {((data.popData.deposit_amount * 30) / 100).toFixed(2) >
+                    5000
+                      ? 5000.0
+                      : ((data.popData.deposit_amount * 30) / 100).toFixed(2)}
                   </span>
                   <span className="money_cell">
                     (Trade{" "}
                     {(
                       (((data.popData.deposit_amount * 30) / 100) * 40) /
                       100
-                    ).toFixed()}{" "}
+                    ).toFixed() > 2000
+                      ? 2000.0
+                      : (
+                          (((data.popData.deposit_amount * 30) / 100) * 40) /
+                          100
+                        ).toFixed()}{" "}
                     lots to complete)
                   </span>
                   <span className="bld_clr3">30%</span>
@@ -290,14 +317,23 @@ const Bonus_dashbord = (props) => {
                     control={<Radio color="secondary" />}
                   />{" "}
                   <span className="bld_clr2">
-                    ${((data.popData.deposit_amount * 40) / 100).toFixed(2)}
+                    $
+                    {((data.popData.deposit_amount * 40) / 100).toFixed(2) >
+                    5000
+                      ? 5000.0
+                      : ((data.popData.deposit_amount * 40) / 100).toFixed(2)}
                   </span>
                   <span className="money_cell">
                     (Trade{" "}
                     {(
                       (((data.popData.deposit_amount * 40) / 100) * 40) /
                       100
-                    ).toFixed()}{" "}
+                    ).toFixed() > 2000
+                      ? 2000.0
+                      : (
+                          (((data.popData.deposit_amount * 40) / 100) * 40) /
+                          100
+                        ).toFixed()}{" "}
                     lots to complete)
                   </span>
                   <span className="bld_clr3">40%</span>
@@ -308,14 +344,23 @@ const Bonus_dashbord = (props) => {
                     control={<Radio color="secondary" />}
                   />{" "}
                   <span className="bld_clr2">
-                    ${((data.popData.deposit_amount * 50) / 100).toFixed(2)}
+                    $
+                    {((data.popData.deposit_amount * 50) / 100).toFixed(2) >
+                    5000
+                      ? 5000.0
+                      : ((data.popData.deposit_amount * 50) / 100).toFixed(2)}
                   </span>
                   <span className="money_cell">
                     (Trade{" "}
                     {(
                       (((data.popData.deposit_amount * 50) / 100) * 40) /
                       100
-                    ).toFixed()}{" "}
+                    ).toFixed() > 2000
+                      ? 2000.0
+                      : (
+                          (((data.popData.deposit_amount * 50) / 100) * 40) /
+                          100
+                        ).toFixed()}{" "}
                     lots to complete)
                   </span>
                   <span className="bld_clr3">50%</span>

@@ -47,12 +47,12 @@ const Desktop = () => {
                               </h4>
                               <p className="text-dark pt-3 mx-500 mx-auto">
                                 MT5 is one of the most popular trading platforms
-                                in the world With Right Fx you can get more,
-                                from valuable research tools to expert support
+                                in the world With RightFx you can get more, from
+                                valuable research tools to expert support
                                 <br />
                                 <br />
                                 Please click on the link below to download the
-                                Right Fx MT5 Prime Platform
+                                RightFx MT5 Prime Platform
                               </p>
                               <p className="p-4">
                                 <img

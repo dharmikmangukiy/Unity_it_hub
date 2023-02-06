@@ -163,14 +163,19 @@ const Card1 = (prop) => {
       Toast("error", "Please enter MT5 Balance");
     } else if (form.password == "") {
       Toast("error", "Please enter Trading password");
-    } else if (form.password.length < 8) {
-      Toast("error", "Trading Password must contain atleast 8 characters");
+    } else if (
+      !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/.test(
+        form.password
+      )
+    ) {
+      Toast(
+        "error",
+        "Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"
+      );
     } else if (form.confirm_password == "") {
-      Toast("error", "Please enter Investor Password");
-    } else if (form.confirm_password.length < 8) {
-      Toast("error", "Investor Password must contain atleast 8 characters");
-    } else if (form.password == form.confirm_password) {
-      Toast("error", "Investor Password Can't be Same as Trading Password");
+      Toast("error", "Please enter Confirm Password");
+    } else if (form.password !== form.confirm_password) {
+      Toast("error", "Confirm Password Can be Same as Trading Password");
     } else {
       setFormLoader(true);
       const param = new FormData();
@@ -184,7 +189,7 @@ const Card1 = (prop) => {
         param.append("mt5_balance", form.balance);
       }
       param.append("main_password", form.password);
-      param.append("investor_password", form.confirm_password);
+      param.append("confirm_password", form.confirm_password);
       param.append("ib_group_id", planList.data[activeIndex].ib_group_level_id);
       param.append("account_type", prop.type);
       await axios
@@ -303,9 +308,16 @@ const Card1 = (prop) => {
               <input
                 type={viewPassword.trad ? "text" : "password"}
                 // className="trading-account-password form-control1 is-invalid"
+
                 className={`trading-account-password form-control1 ${
                   formTrue.password == true &&
-                  (form.password == "" || form.password.length < 8)
+                  (form.password == "" ||
+                    form.password.length < 8 ||
+                    form.password.length > 20 ||
+                    !form.password.match(/[A-Z]/g) ||
+                    !form.password.match(/[a-z]/g) ||
+                    !form.password.match(/[0-9]/g) ||
+                    !form.password.match(/[!@#$%^&*()_+=]/g))
                     ? "is-invalid"
                     : ""
                 }`}
@@ -344,23 +356,38 @@ const Card1 = (prop) => {
                 </span>
               )}
               <div className="invalid-tooltip">
-                {form.password == ""
+                {/* {form.password == ""
                   ? "Enter your MT5 trading password"
-                  : " MT5 trading password must contain atleast 8 characters"}
+                  : " MT5 trading password must contain atleast 8 to 20 characters"} */}
+                {form.password == ""
+                  ? "Please enter MT5 Trading password"
+                  : form.password.length < 8 || form.password.length > 20
+                  ? "MT5 Trading Password must contain atleast 8 to 20 characters"
+                  : !form.password.match(/[A-Z]/g) ||
+                    !form.password.match(/[a-z]/g) ||
+                    !form.password.match(/[0-9]/g) ||
+                    !form.password.match(/[!@#$%^&*()_+=]/g)
+                  ? "Atleast one lower case, upper case,special character and number required"
+                  : ""}
                 {/* getErrorMessage(form.password) */}
               </div>
             </div>
             <div className="element">
-              <label className="plan-form-input-label">
-                MT5 Investor Password
-              </label>
+              <label className="plan-form-input-label">Confirm Password</label>
               <input
                 type={viewPassword.main ? "text" : "password"}
                 // className="trading-account-password"
+                // className={`trading-account-password form-control1 ${
+                //   formTrue.confirm_password == true &&
+                //   (form.confirm_password == "" ||
+                //     form.confirm_password.length < 8)
+                //     ? "is-invalid"
+                //     : ""
+                // }`}
                 className={`trading-account-password form-control1 ${
                   formTrue.confirm_password == true &&
                   (form.confirm_password == "" ||
-                    form.confirm_password.length < 8)
+                    form.confirm_password !== form.password)
                     ? "is-invalid"
                     : ""
                 }`}
@@ -400,8 +427,10 @@ const Card1 = (prop) => {
               )}
               <div className="invalid-tooltip">
                 {form.confirm_password == ""
-                  ? "Please enter investor password"
-                  : "Investor Password must contain atleast 8 characters"}
+                  ? "Please enter confirm password"
+                  : form.confirm_password !== form.password
+                  ? "Confirm Password And MT5 Trading password can be same"
+                  : ""}
                 {/* //getErrorMessage(form.confirm_password) */}
               </div>
             </div>

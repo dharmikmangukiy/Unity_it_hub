@@ -29,8 +29,7 @@ const MyDocuments = () => {
   const navigate = useNavigate();
   const [filterData, setFilterData] = useState(null);
   const [option, setOption] = useState(true);
-  const [change1, setChange1] = useState(false);
-  const [change, setChange] = useState(false);
+
   const [fontimg, setFontimg] = useState("");
   const [backimg, setBackimg] = useState("");
   const [mainLoader, setMainLoader] = useState(true);
@@ -53,6 +52,14 @@ const MyDocuments = () => {
     addition: false,
     main: false,
     add: false,
+  });
+  const [infotrue, setinfoTrue] = useState({
+    fontimg: false,
+    backimg: false,
+    fontimg2: false,
+    backimg2: false,
+    fontimg3: false,
+    backimg3: false,
   });
   const [proofAdd, setProofAdd] = useState([]);
   const [kycStatus, setKycStatus] = useState("");
@@ -138,6 +145,14 @@ const MyDocuments = () => {
   };
   console.log("dsf", doc.fontimg.type);
   const onSubmit = () => {
+    setinfoTrue({
+      fontimg: true,
+      backimg: true,
+      fontimg2: true,
+      backimg2: true,
+      fontimg3: infotrue.fontimg3,
+      backimg3: infotrue.backimg3,
+    });
     if (!doc.fontimg && !fontimg) {
       Toast("error", "Please upload documents ID Proof front side image");
     } else if (twoSide.main && !doc.backimg && !backimg) {
@@ -189,6 +204,11 @@ const MyDocuments = () => {
     }
   };
   const onaddsubmit = () => {
+    infotrue.fontimg3 = true;
+    infotrue.backimg3 = true;
+    setinfoTrue({
+      ...infotrue,
+    });
     if (!adddoc.fontimg && !addfontimg) {
       Toast("error", "Please upload additional documents front side image");
     } else if (!adddoc.backimg && twoSide.addition && !addbackimg) {
@@ -305,7 +325,17 @@ const MyDocuments = () => {
           }
           setDocument(true);
           setMainLoader(false);
-
+          if (res.data.kyc_data.master_status == "1") {
+          } else {
+            setinfoTrue({
+              fontimg: false,
+              backimg: false,
+              fontimg2: false,
+              backimg2: false,
+              fontimg3: false,
+              backimg3: false,
+            });
+          }
           if (
             res.data.kyc_data.master_status == "2" ||
             res.data.kyc_data.master_status == "0"
@@ -343,7 +373,7 @@ const MyDocuments = () => {
       if (res.data.status == "error") {
         Toast("error", res.data.message);
       } else {
-        if (type == "aadhar_card_front_image") {
+        if (type == "id_proof_front_image") {
           setDoc((prevalue) => {
             return {
               ...prevalue,
@@ -351,7 +381,7 @@ const MyDocuments = () => {
             };
           });
           setFontimg("");
-        } else if (type == "aadhar_card_back_image") {
+        } else if (type == "id_proof_back_image") {
           setDoc((prevalue) => {
             return {
               ...prevalue,
@@ -730,7 +760,7 @@ const MyDocuments = () => {
                                           className="bg-transparent p-0 border-0"
                                           onClick={() => {
                                             onRemoveImage(
-                                              "aadhar_card_front_image"
+                                              "id_proof_front_image"
                                             );
                                           }}
                                         >
@@ -751,6 +781,11 @@ const MyDocuments = () => {
                                     </>
                                   )}
                                 </div>
+                                {infotrue.fontimg == true && !fontimg ? (
+                                  <span className="doc-Requied">Requied!</span>
+                                ) : (
+                                  ""
+                                )}
                               </Grid>
                               {twoSide.main ? (
                                 <Grid
@@ -797,7 +832,7 @@ const MyDocuments = () => {
                                             className="bg-transparent p-0 border-0"
                                             onClick={() => {
                                               onRemoveImage(
-                                                "aadhar_card_back_image"
+                                                "id_proof_back_image"
                                               );
                                             }}
                                           >
@@ -816,6 +851,13 @@ const MyDocuments = () => {
                                           />
                                         )}
                                       </>
+                                    )}
+                                    {infotrue.backimg == true && !backimg ? (
+                                      <span className="doc-Requied">
+                                        Requied!
+                                      </span>
+                                    ) : (
+                                      ""
                                     )}
                                   </div>
                                 </Grid>
@@ -938,6 +980,14 @@ const MyDocuments = () => {
                                       )}
                                     </>
                                   )}
+                                  {infotrue.fontimg2 == true &&
+                                  !formImage.perviewfontimg ? (
+                                    <span className="doc-Requied">
+                                      Requied!
+                                    </span>
+                                  ) : (
+                                    ""
+                                  )}
                                 </div>
                               </Grid>
                               {twoSide.add ? (
@@ -1009,6 +1059,14 @@ const MyDocuments = () => {
                                           />
                                         )}
                                       </>
+                                    )}
+                                    {infotrue.backimg2 == true &&
+                                    !formImage.perviewbackimg ? (
+                                      <span className="doc-Requied">
+                                        Requied!
+                                      </span>
+                                    ) : (
+                                      ""
                                     )}
                                   </div>
                                 </Grid>
@@ -1200,6 +1258,13 @@ const MyDocuments = () => {
                                       )}
                                     </>
                                   )}
+                                  {infotrue.fontimg3 == true && !addfontimg ? (
+                                    <span className="doc-Requied">
+                                      Requied!
+                                    </span>
+                                  ) : (
+                                    ""
+                                  )}
                                 </div>
                               </div>
                             </Grid>
@@ -1207,7 +1272,10 @@ const MyDocuments = () => {
                               <Grid item md={12}>
                                 <h6
                                   className="mb-3 font-size-xs font-weight-bold"
-                                  style={{ textAlign: "center" }}
+                                  style={{
+                                    textAlign: "center",
+                                    marginTop: "10px",
+                                  }}
                                 >
                                   BACK SIDE*
                                 </h6>
@@ -1273,6 +1341,14 @@ const MyDocuments = () => {
                                           />
                                         )}
                                       </>
+                                    )}
+                                    {infotrue.backimg3 == true &&
+                                    !addbackimg ? (
+                                      <span className="doc-Requied">
+                                        Requied!
+                                      </span>
+                                    ) : (
+                                      ""
                                     )}
                                   </div>
                                 </div>

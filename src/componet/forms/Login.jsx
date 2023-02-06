@@ -11,7 +11,7 @@ import { useParams } from "react-router-dom";
 import { Link, NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
 //import CssTextField from './CssTextField';
-import { Email } from "@mui/icons-material";
+import { Email, Phone } from "@mui/icons-material";
 import Toast from "../commonComponet/Toast.jsx";
 const ColorButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText("#ff0000"),
@@ -53,12 +53,27 @@ export default function Login1(prop) {
   const navigate = useNavigate();
   const [isSubmit, setisSubmit] = useState(false);
   const [infoErrors, setInfoErrors] = useState({});
+  const [infoTrue, setinfoTrue] = useState({
+    email: false,
+  });
+  const [msg, setMsg] = useState({
+    phone: "",
+  });
   const [isLoader, setIsLoader] = useState(false);
   const { id } = useParams();
   const [info, setinfo] = useState({
     email: "",
     password: "",
   });
+  const trueFalse = (event) => {
+    var { name, value } = event.target;
+    setinfoTrue((prevalue) => {
+      return {
+        ...prevalue,
+        [name]: true,
+      };
+    });
+  };
   const input1 = (event) => {
     const { name, value } = event.target;
     setinfo((prevalue) => {
@@ -74,7 +89,22 @@ export default function Login1(prop) {
     setInfoErrors(validate(info));
     setisSubmit(true);
   };
-
+  const verifyPhoneEmail = (prop) => {
+    const param = new FormData();
+    param.append("action", "validate_phone");
+    param.append("username", prop);
+    axios
+      .post(Url + "/ajaxfiles/check_username_exist.php", param)
+      .then((res) => {
+        if (res.data.status == "error") {
+          msg.phone = res.data.message;
+          setMsg({ ...msg });
+        } else {
+          msg.phone = "";
+          setMsg({ ...msg });
+        }
+      });
+  };
   const validate = (values) => {
     const errors = {};
     if (!values.email) {
@@ -164,8 +194,27 @@ export default function Login1(prop) {
                   sx={{ width: "100%" }}
                   variant="standard"
                   name="email"
+                  onBlur={trueFalse}
                   value={info.email}
-                  onChange={input1}
+                  // error={
+                  //   (info.email == "" || msg.phone != "") &&
+                  //   infoTrue.email == true
+                  //     ? true
+                  //     : false
+                  // }
+                  helperText={
+                    info.email == "" && infoTrue.email == true
+                      ? "Email or Mobile is requied"
+                      : msg.phone != "" && infoTrue.email == true
+                      ? msg.phone
+                      : ""
+                  }
+                  onChange={(e) => {
+                    input1(e);
+                    if (e.target.value.length > 3) {
+                      verifyPhoneEmail(e.target.value);
+                    }
+                  }}
                 />
               </div>
 
@@ -179,6 +228,17 @@ export default function Login1(prop) {
                   variant="standard"
                   sx={{ width: "100%" }}
                   value={info.password}
+                  onBlur={trueFalse}
+                  // error={
+                  //   info.password == "" && infoTrue.password == true
+                  //     ? true
+                  //     : false
+                  // }
+                  helperText={
+                    info.password == "" && infoTrue.password == true
+                      ? "Password is requied"
+                      : ""
+                  }
                   onChange={input1}
                 />
               </div>

@@ -107,6 +107,7 @@ const DepositeTest = () => {
       !info.image
     ) {
       Toast("error", "image is required");
+
       console.log("nikunj3");
     } else {
       param.append("deposit_method", info.selectPaymentOption);
@@ -123,6 +124,15 @@ const DepositeTest = () => {
       param.append("utr_number", info.utn);
 
       console.log("nikunj4");
+      if (
+        (info.selectPaymentOption == "UPI" ||
+          info.selectPaymentOption == "PhonePe" ||
+          info.selectPaymentOption == "Paytm" ||
+          info.selectPaymentOption == "Google pay") &&
+        info.image
+      ) {
+        param.append("deposit_proof", info.image);
+      }
 
       info.isLoader = true;
       setInfo({ ...info });
@@ -178,6 +188,12 @@ const DepositeTest = () => {
             info.depositTo = res.data.mt5_accounts[0].mt5_acc_no;
             setInfo({ ...info });
           }
+        } else {
+          info.depositTo =
+            res.data.mt5_accounts.length == 0
+              ? "wallet"
+              : res.data.mt5_accounts[0].mt5_acc_no;
+          setInfo({ ...info });
         }
         setDataArray({ ...dataArray });
         // setDepositType(type);
@@ -608,7 +624,13 @@ const DepositeTest = () => {
                                                         {(
                                                           (info.amount * 10) /
                                                           100
-                                                        ).toFixed(2)}
+                                                        ).toFixed(2) > 5000
+                                                          ? 5000.0
+                                                          : (
+                                                              (info.amount *
+                                                                10) /
+                                                              100
+                                                            ).toFixed(2)}
                                                       </div>
                                                       <div className="radiobutoon-padding">
                                                         Lots Required:{" "}
@@ -617,7 +639,15 @@ const DepositeTest = () => {
                                                             100) *
                                                             40) /
                                                           100
-                                                        ).toFixed(2)}
+                                                        ).toFixed(2) > 2000
+                                                          ? 2000.0
+                                                          : (
+                                                              (((info.amount *
+                                                                10) /
+                                                                100) *
+                                                                40) /
+                                                              100
+                                                            ).toFixed(2)}
                                                       </div>
                                                     </div>
                                                     <div className="radioButoon-main">
@@ -636,7 +666,13 @@ const DepositeTest = () => {
                                                         {(
                                                           (info.amount * 20) /
                                                           100
-                                                        ).toFixed(2)}
+                                                        ).toFixed(2) > 5000
+                                                          ? 5000.0
+                                                          : (
+                                                              (info.amount *
+                                                                20) /
+                                                              100
+                                                            ).toFixed(2)}
                                                       </div>
                                                       <div className="radiobutoon-padding">
                                                         Lots Required:{" "}
@@ -645,7 +681,15 @@ const DepositeTest = () => {
                                                             100) *
                                                             40) /
                                                           100
-                                                        ).toFixed(2)}
+                                                        ).toFixed(2) > 2000
+                                                          ? 2000.0
+                                                          : (
+                                                              (((info.amount *
+                                                                20) /
+                                                                100) *
+                                                                40) /
+                                                              100
+                                                            ).toFixed(2)}
                                                       </div>
                                                     </div>
                                                     <div className="radioButoon-main">
@@ -664,7 +708,13 @@ const DepositeTest = () => {
                                                         {(
                                                           (info.amount * 30) /
                                                           100
-                                                        ).toFixed(2)}
+                                                        ).toFixed(2) > 5000
+                                                          ? 5000.0
+                                                          : (
+                                                              (info.amount *
+                                                                30) /
+                                                              100
+                                                            ).toFixed(2)}
                                                       </div>
                                                       <div className="radiobutoon-padding">
                                                         Lots Required:{" "}
@@ -673,7 +723,15 @@ const DepositeTest = () => {
                                                             100) *
                                                             40) /
                                                           100
-                                                        ).toFixed(2)}
+                                                        ).toFixed(2) > 2000
+                                                          ? 2000.0
+                                                          : (
+                                                              (((info.amount *
+                                                                30) /
+                                                                100) *
+                                                                40) /
+                                                              100
+                                                            ).toFixed(2)}
                                                       </div>
                                                     </div>
                                                     <div className="radioButoon-main">
@@ -692,7 +750,13 @@ const DepositeTest = () => {
                                                         {(
                                                           (info.amount * 40) /
                                                           100
-                                                        ).toFixed(2)}
+                                                        ).toFixed(2) > 5000
+                                                          ? 5000.0
+                                                          : (
+                                                              (info.amount *
+                                                                40) /
+                                                              100
+                                                            ).toFixed(2)}
                                                       </div>
                                                       <div className="radiobutoon-padding">
                                                         Lots Required:{" "}
@@ -701,7 +765,15 @@ const DepositeTest = () => {
                                                             100) *
                                                             40) /
                                                           100
-                                                        ).toFixed(2)}
+                                                        ).toFixed(2) > 2000
+                                                          ? 2000.0
+                                                          : (
+                                                              (((info.amount *
+                                                                40) /
+                                                                100) *
+                                                                40) /
+                                                              100
+                                                            ).toFixed(2)}
                                                       </div>
                                                     </div>
                                                     <div className="radioButoon-main">
@@ -720,7 +792,13 @@ const DepositeTest = () => {
                                                         {(
                                                           (info.amount * 50) /
                                                           100
-                                                        ).toFixed(2)}
+                                                        ).toFixed(2) > 5000
+                                                          ? 5000.0
+                                                          : (
+                                                              (info.amount *
+                                                                50) /
+                                                              100
+                                                            ).toFixed(2)}
                                                       </div>
                                                       <div className="radiobutoon-padding">
                                                         Lots Required:{" "}
@@ -729,7 +807,15 @@ const DepositeTest = () => {
                                                             100) *
                                                             40) /
                                                           100
-                                                        ).toFixed(2)}
+                                                        ).toFixed(2) > 2000
+                                                          ? 2000.0
+                                                          : (
+                                                              (((info.amount *
+                                                                50) /
+                                                                100) *
+                                                                40) /
+                                                              100
+                                                            ).toFixed(2)}
                                                       </div>
                                                     </div>
                                                   </RadioGroup>
@@ -938,16 +1024,16 @@ const DepositeTest = () => {
                                   }}
                                 >
                                   <div>
-                                    <label className="text-info font-weight-bold form-label-head w-100 required">
-                                      Enter UTR Number
+                                    <label className="text-info font-weight-bold form-label-head w-100 ">
+                                      Enter UTR Number (Optional)
                                     </label>
                                     <FormControl
                                       className="w-100"
-                                      error={
-                                        info.utn == "" && infoTrue.utn == true
-                                          ? true
-                                          : false
-                                      }
+                                      // error={
+                                      //   info.utn == "" && infoTrue.utn == true
+                                      //     ? true
+                                      //     : false
+                                      // }
                                     >
                                       <BootstrapInput
                                         value={info.utn}
@@ -965,14 +1051,14 @@ const DepositeTest = () => {
                                           "aria-label": "Without label",
                                         }}
                                       />
-                                      {info.utn == "" &&
+                                      {/* {info.utn == "" &&
                                       infoTrue.utn == true ? (
                                         <FormHelperText>
                                           UTR Number is required
                                         </FormHelperText>
                                       ) : (
                                         ""
-                                      )}
+                                      )} */}
                                     </FormControl>
                                   </div>
                                   <div

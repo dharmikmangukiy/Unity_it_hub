@@ -149,8 +149,15 @@ export const ChangePassword = () => {
       Toast("error", "Please select account type");
     } else if (age.password == "") {
       Toast("error", "Please enter change password");
-    } else if (age.password.length <= 7) {
-      Toast("error", "Password must contain atleast 8 characters");
+    } else if (
+      !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/.test(
+        age.password
+      )
+    ) {
+      Toast(
+        "error",
+        "Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"
+      );
     } else if (age.confirmPassword == "") {
       Toast("error", "Please enter confirm password");
     } else if (age.password != age.confirmPassword) {
@@ -345,8 +352,22 @@ export const ChangePassword = () => {
                                         className="pt-3 w-100"
                                         variant="outlined"
                                         error={
-                                          age.password == "" ? true : false
+                                          (!age.password.match(/[A-Z]/g) ||
+                                            !age.password.match(/[a-z]/g) ||
+                                            !age.password.match(/[0-9]/g) ||
+                                            age.password == "" ||
+                                            age.password.length < 8 ||
+                                            age.password.length > 20 ||
+                                            !age.password.match(
+                                              /[!@#$%^&*()_+=]/g
+                                            )) &&
+                                          infoTrue.password == true
+                                            ? true
+                                            : false
                                         }
+                                        // error={
+                                        //   age.password == "" ? true : false
+                                        // }
                                       >
                                         {/* <InputLabel htmlFor="outlined-adornment-password"></InputLabel> */}
                                         <label
@@ -385,9 +406,27 @@ export const ChangePassword = () => {
                                             </InputAdornment>
                                           }
                                         />
-                                        {(age.password == "" ||
+                                        <FormHelperText>
+                                          {age.password == "" &&
+                                          infoTrue.password == true
+                                            ? "Enter your password"
+                                            : infoTrue.password == true &&
+                                              (age.password.length < 8 ||
+                                                age.password.length > 20)
+                                            ? "Password must contain atleast 8-20 characters"
+                                            : infoTrue.password == true &&
+                                              (!age.password.match(/[A-Z]/g) ||
+                                                !age.password.match(/[a-z]/g) ||
+                                                !age.password.match(/[0-9]/g) ||
+                                                !age.password.match(
+                                                  /[!@#$%^&*()_+=]/g
+                                                ))
+                                            ? "Atleast one lower case, upper case,special character and number required"
+                                            : ""}
+                                        </FormHelperText>
+                                        {/* {(age.password == "" ||
                                           age.password.length <= 7) &&
-                                        infoTrue.password == true ? (
+                                          infoTrue.password == true ? (
                                           <FormHelperText>
                                             {age.password == ""
                                               ? "Please Enter Change Password"
@@ -395,7 +434,7 @@ export const ChangePassword = () => {
                                           </FormHelperText>
                                         ) : (
                                           ""
-                                        )}
+                                        )} */}
                                       </FormControl>
                                     </Grid>
 

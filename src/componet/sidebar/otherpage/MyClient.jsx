@@ -15,9 +15,11 @@ import { useEffect, useState } from "react";
 import { IsApprove, Url } from "../../../global";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import CloseIcon from "@mui/icons-material/Close";
 import Toast from "../../commonComponet/Toast";
+import { ColorButton } from "../../customComponet/CustomElement";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -94,15 +96,18 @@ const MyClient = () => {
         >
           {myChildTraderData.parent_id != "" ? (
             <div>
-              <Button
+              <ColorButton
                 variant="contained"
                 className="add_note"
+                sx={{
+                  padding: "4px 12px !important",
+                }}
                 onClick={(e) => {
                   getMyChildTrader(myChildTraderData.parent_id);
                 }}
               >
-                <i className="material-icons">arrow_back_ios</i>
-              </Button>
+                <ArrowBackIcon sx={{ fontSize: "16px" }} />
+              </ColorButton>
             </div>
           ) : (
             ""
@@ -114,8 +119,8 @@ const MyClient = () => {
           >
             <table>
               <thead>
-                <th colspan="5" scope="colgroup" className="colcolor"></th>
-                <th colspan="3" scope="colgroup" className=""></th>
+                <th colspan="6" scope="colgroup"></th>
+                <th colspan="3" scope="colgroup" className="colcolor"></th>
                 <th colspan="4" scope="colgroup" className="colcolor">
                   Downline
                 </th>
@@ -129,7 +134,8 @@ const MyClient = () => {
                   <th className="">IB Account</th>
                   <th>Deposit</th>
                   <th>Withdraw</th>
-                  <th className="colcolor">Lot</th>
+                  <th className="">Lot</th>
+                  <th className="colcolor">Rebate</th>
                   <th>Team Deposit</th>
                   <th>Total Lot </th>
                   <th>IB Commission</th>
@@ -153,20 +159,21 @@ const MyClient = () => {
                         </td>
                         <td>{item.deposit_amount}</td>
                         <td>{item.withdrawal_amount}</td>
-                        <td className="colcolor">{item.own_lot}</td>
+                        <td>{item.own_lot}</td>
+                        <td className="colcolor">{item.rebate_generated}</td>
                         <td>{item.total_deposit}</td>{" "}
                         <td>{item.down_line_lot}</td>
                         <td>{item.total_ib_commission}</td>
                         <td className="colcolor">{item.total_ib_withdrawn}</td>
                         <td>
                           {item.is_ib_account == "1" && item.has_downline ? (
-                            <Button
+                            <ColorButton
                               variant="contained"
                               className="add_note"
+                              sx={{ padding: "5px 12px" }}
                               onClick={(e) => {
                                 myTraderData.user_name = item.name;
                                 myTraderData.main_user_name = item.name;
-
                                 myTraderData.user_id = item.client_id;
                                 setMyTraderData({
                                   ...myTraderData,
@@ -175,7 +182,7 @@ const MyClient = () => {
                               }}
                             >
                               View
-                            </Button>
+                            </ColorButton>
                           ) : (
                             ""
                           )}
@@ -223,6 +230,15 @@ const MyClient = () => {
                       {myChildTraderData.data.footer_count != undefined
                         ? myChildTraderData.data["footer_count"][
                             "total_own_lot"
+                          ]
+                        : ""}
+                    </b>
+                  </td>
+                  <td>
+                    <b>
+                      {myChildTraderData.data.footer_count != undefined
+                        ? myChildTraderData.data["footer_count"][
+                            "total_rebate_generated"
                           ]
                         : ""}
                     </b>
@@ -374,11 +390,7 @@ const MyClient = () => {
                         <div className="bankDetailsTabSection downline-table">
                           <table>
                             <thead>
-                              <th
-                                colspan="5"
-                                scope="colgroup"
-                                className=""
-                              ></th>
+                              <th colspan="6" scope="colgroup"></th>
                               <th
                                 colspan="3"
                                 scope="colgroup"
@@ -401,7 +413,9 @@ const MyClient = () => {
                                 <th className="">IB Account</th>
                                 <th>Deposit</th>
                                 <th>Withdraw</th>
-                                <th className="colcolor">Lot</th>
+                                <th className="">Lot</th>
+                                <th className="colcolor">Rebate</th>
+
                                 <th>Team Deposit</th>
                                 <th>Total Lot </th>
                                 <th>IB Commission</th>
@@ -427,8 +441,9 @@ const MyClient = () => {
                                       </td>
                                       <td>{item.deposit_amount}</td>
                                       <td>{item.withdrawal_amount}</td>
+                                      <td className="">{item.own_lot}</td>
                                       <td className="colcolor">
-                                        {item.own_lot}
+                                        {item.rebate_generated}
                                       </td>
                                       <td>{item.total_deposit}</td>{" "}
                                       <td>{item.down_line_lot}</td>
@@ -439,8 +454,9 @@ const MyClient = () => {
                                       <td>
                                         {item.is_ib_account == "1" &&
                                         item.has_downline ? (
-                                          <Button
+                                          <ColorButton
                                             variant="contained"
+                                            sx={{ padding: "5px 12px" }}
                                             className="add_note"
                                             onClick={(e) => {
                                               myTraderData.user_name =
@@ -457,7 +473,7 @@ const MyClient = () => {
                                             }}
                                           >
                                             View
-                                          </Button>
+                                          </ColorButton>
                                         ) : (
                                           ""
                                         )}
@@ -507,6 +523,15 @@ const MyClient = () => {
                                     {myTraderData.data.footer_count != undefined
                                       ? myTraderData.data["footer_count"][
                                           "total_own_lot"
+                                        ]
+                                      : ""}
+                                  </b>
+                                </td>
+                                <td>
+                                  <b>
+                                    {myTraderData.data.footer_count != undefined
+                                      ? myTraderData.data["footer_count"][
+                                          "total_rebate_generated"
                                         ]
                                       : ""}
                                   </b>

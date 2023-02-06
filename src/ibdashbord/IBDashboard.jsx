@@ -137,6 +137,18 @@ const IBDashboard = (prop) => {
                             <div className="row">
                               <div className="col s12 m12 text-align-center">
                                 <h5 className="mb-0">
+                                  {info.data?.ib_request}
+                                </h5>
+                                <p className="no-margin font-weight-700 text-uppercase">
+                                  Ib Request
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="card padding-9 animate fadeLeft boxsize">
+                            <div className="row">
+                              <div className="col s12 m12 text-align-center">
+                                <h5 className="mb-0">
                                   {info.data.total_subib}
                                 </h5>
                                 <p className="no-margin font-weight-700 text-uppercase">

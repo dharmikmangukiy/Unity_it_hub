@@ -1,0 +1,15 @@
+.fan-history-main {
+  background: #ffffff;
+  border: 1px solid #dfdfdf;
+  box-shadow: 0px 0px 10px rgb(93 32 103 / 10%);
+  border-radius: 10px;
+  padding: 10px;
+}
+.fan-history-Submain {
+  display: grid;
+  grid-template-columns: 10% 17% 20% 20% 23%;
+}
+.fan-history-Submain div {
+  display: flex;
+  align-items: center;
+}

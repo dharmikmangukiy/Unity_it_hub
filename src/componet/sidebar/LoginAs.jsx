@@ -23,6 +23,7 @@ const LoginAs = (prop) => {
       }
       if (res.data.status == "error") {
         Toast("error", res.data.message);
+        navigate("/");
       } else {
         localStorage.clear();
         localStorage.setItem("login", false);

@@ -38,3 +38,17 @@ li.lideposit:hover {
 .radiobutoon-padding {
   padding: 5px !important;
 }
+.headerMenu a {
+  padding: 17px;
+}
+.headerMenu a.active {
+  background: rgb(93 32 103 / 10%);
+  color: #5d2067;
+}
+.headerMenu a.active .hoverSidebar {
+  filter: none;
+}
+.headerMenu a.active span,
+.headerMenu:hover span {
+  color: #5d2067 !important;
+}

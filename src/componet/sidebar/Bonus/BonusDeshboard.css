@@ -1,69 +1,69 @@
- .link-100 {
-     width: 100%;
- }
+.link-100 {
+  width: 100%;
+}
 
- .Deshs-bones .css-69z67c-MuiTabs-scroller .MuiTabs-indicator {
-     background-color: initial !important;
- }
+.Deshs-bones .css-69z67c-MuiTabs-scroller .MuiTabs-indicator {
+  background-color: initial !important;
+}
 
- .Deshs-bones .css-ulpkqh-MuiButtonBase-root-MuiButton-root {
-     border-radius: 30px !important;
-     margin-top: 7px !important;
- }
+.Deshs-bones .css-ulpkqh-MuiButtonBase-root-MuiButton-root {
+  border-radius: 30px !important;
+  margin-top: 7px !important;
+}
 
- .db-btn-1 {
-     background: #5D2067;
- }
+.db-btn-1 {
+  background: #5d2067;
+}
 
- .db-btn-2 {
-     background: rgba(93, 32, 103, 0.1);
-     border-radius: 30px;
-     color: #5D2067;
- }
+.db-btn-2 {
+  background: rgba(93, 32, 103, 0.1);
+  border-radius: 30px;
+  color: #5d2067;
+}
 
- .Deshs-bones .db-btn-1 {
-     border-radius: 30px;
-     width: auto;
-     background: #5D2067;
-     margin-top: 39px;
-     color: #ffffff !important;
-     padding: 8px 50px;
-     font-weight: 500;
-     font-size: 18px;
-     line-height: 27px;
- }
+.Deshs-bones .db-btn-1 {
+  border-radius: 30px;
+  width: auto;
+  background: #5d2067;
+  margin-top: 39px;
+  color: #ffffff !important;
+  padding: 8px 50px;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 27px;
+}
 
- .Deshs-bones .db-btn-2 {
-     background: rgba(93, 32, 103, 0.1) !important;
-     color: #5D2067 !important;
-     border-radius: 30px;
-     width: auto;
-     margin-top: 39px;
-     padding: 8px 50px;
-     font-weight: 500;
-     font-size: 18px;
-     line-height: 27px;
- }
+.Deshs-bones .db-btn-2 {
+  background: rgba(93, 32, 103, 0.1) !important;
+  color: #5d2067 !important;
+  border-radius: 30px;
+  width: auto;
+  margin-top: 39px;
+  padding: 8px 50px;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 27px;
+}
 
- .ul-h1-style {
-     font-weight: 600;
-     font-size: 24px;
-     line-height: 36px;
- }
+.ul-h1-style {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 36px;
+}
 
- .ul-style {
-     list-style: disc;
- }
+.ul-style {
+  list-style: disc;
+}
 
- .ul-style li {
-     font-style: normal;
-     font-weight: 400;
-     font-size: 14px;
-     line-height: 21px;
-     letter-spacing: 0.1em;
-     color: #787878;
-     margin-top: 15px;
- }
+.ul-style li {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  letter-spacing: 0.1em;
+  color: #787878;
+  margin-top: 15px;
+}
 /* .popmain {
     opacity: 1;
     z-index: 111;
@@ -134,98 +134,94 @@
 }
 
 */
- @media only screen and (max-width: 808px) {
-     .Deshs-bones .db-btn-1 {
-         margin-top: 33px;
-         padding: 5px 25px;
-         font-size: 17px;
-         line-height: 27px;
-     }
- }
+@media only screen and (max-width: 808px) {
+  .Deshs-bones .db-btn-1 {
+    margin-top: 33px;
+    padding: 5px 25px;
+    font-size: 17px;
+    line-height: 27px;
+  }
+}
 
- @media only screen and (max-width: 562px) {
-     .Deshs-bones .db-btn-1 {
-         margin-top: 20px !important;
-         padding: 5px 28px !important;
-         font-size: 14px !important;
-         line-height: 27px !important;
-         min-height: 45px !important;
-         margin-left: 0px !important;
-     }
- }
+@media only screen and (max-width: 562px) {
+  .Deshs-bones .db-btn-1 {
+    margin-top: 20px !important;
+    padding: 5px 28px !important;
+    font-size: 14px !important;
+    line-height: 27px !important;
+    min-height: 45px !important;
+    margin-left: 0px !important;
+  }
+}
 
- @media only screen and (max-width: 486px) {
-     .Deshs-bones .db-btn-1 {
-         margin-top: 10px !important;
-         padding: 3px 17px !important;
-         font-size: 11px !important;
-         line-height: 27px !important;
-         min-height: 35px !important;
-         margin-left: 0px !important;
-     }
- }
+@media only screen and (max-width: 486px) {
+  .Deshs-bones .db-btn-1 {
+    margin-top: 10px !important;
+    padding: 3px 17px !important;
+    font-size: 11px !important;
+    line-height: 27px !important;
+    min-height: 35px !important;
+    margin-left: 0px !important;
+  }
+}
 
- @media only screen and (max-width: 378px) {
-     .Deshs-bones .db-btn-1 {
-         padding: 3px 10px !important;
-     }
- }
+@media only screen and (max-width: 378px) {
+  .Deshs-bones .db-btn-1 {
+    padding: 3px 10px !important;
+  }
+}
 
+.head_txt_main {
+  color: #787878;
+  font-weight: 600;
+  font-size: 20px;
+  margin-bottom: 3%;
+  margin-left: 10px;
+}
 
- .head_txt_main {
-     color: #787878;
-     font-weight: 600;
-     font-size: 20px;
-     margin-bottom: 3%;
-     margin-left: 10px;
- }
+.money_cell {
+  font-weight: 500;
+  font-size: 12px;
+}
 
- .money_cell {
-     font-weight: 500;
-     font-size: 12px;
- }
+.bld_clr {
+  color: #5d2067;
+  font-weight: 600;
+  font-size: 22px;
+}
 
- .bld_clr {
-     color: #5d2067;
-     font-weight: 600;
-     font-size: 22px;
- }
+.bld_clr2 {
+  font-weight: 600;
+  font-size: 16.5px;
+  color: #787878;
+}
 
- .bld_clr2 {
-     font-weight: 600;
-     font-size: 16.5px;
-     color: #787878;
+.bld_clr3 {
+  font-weight: 600;
+  font-size: 16.5px;
+  color: #787878;
+  margin-left: 25px;
+}
 
- }
+.line_rw {
+  width: 100%;
+  border: 1px solid #787878;
+}
 
- .bld_clr3 {
-     font-weight: 600;
-     font-size: 16.5px;
-     color: #787878;
-     margin-left: 25px;
+.cndton_head {
+  color: #000000;
+  font-size: 20px;
+  font-weight: 600;
+}
 
- }
+.blur_row {
+  color: #787878;
+  font-size: 15px;
+}
 
- .line_rw {
-     width: 100%;
-     border: 1px solid #787878;
- }
-
- .cndton_head {
-     color: #000000;
-     font-size: 20px;
-     font-weight: 600;
-
- }
-
- .blur_row {
-     color: #787878;
-     font-size: 15px;
- }
-
- .cndton_head2 {
-     color: #000000;
-     font-size: 16px;
-     font-weight: 600;
-
- }
+.cndton_head2 {
+  color: #000000;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}

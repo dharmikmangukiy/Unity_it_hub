@@ -117,7 +117,9 @@ const UserProfile = () => {
     add: "",
     ladmark: "",
   });
-
+  const [cData, setCData] = useState({
+    data: "",
+  });
   const trueFalse = (event) => {
     var { name, value } = event.target;
     setinfoTrue((prevalue) => {
@@ -398,7 +400,7 @@ const UserProfile = () => {
     }
   };
 
-  const fetchUserPref = async () => {
+  const fetchUserPref = () => {
     const param = new FormData();
     if (IsApprove !== "") {
       param.append("is_app", IsApprove.is_app);
@@ -406,32 +408,52 @@ const UserProfile = () => {
       param.append("auth_key", IsApprove.auth);
     }
     setMainLoader(true);
-    await axios
-      .post(`${Url}/ajaxfiles/get_user_prefrence.php`, param)
-      .then((res) => {
-        if (res.data.message == "Session has been expired") {
-          navigate("/");
-        }
-        setOnEdit1(res.data.profile_verified == "0" ? true : false);
-        setPrefrence(res.data);
-        setMainLoader(false);
-        // setOnEdit({
-        //   user_title: res.data.user_title,
-        //   user_first_name: res.data.user_first_name,
-        //   user_last_name: res.data.user_last_name,
-        //   dob: res.data.user_dob,
-        //   gender: res.data.user_gender,
-        //   city: res.data.user_city,
-        //   country: onEdit.country,
-        //   state: res.data.user_state,
-        //   phone: res.data.user_phone,
-        //   mobileCode: onEdit.country,
-        //   email: res.data.user_email,
-        //   add: res.data.user_address_1,
-        //   ladmark: res.data.user_address_2,
-        //   isLoder: false,
-        // });
-      });
+    axios.post(`${Url}/ajaxfiles/get_user_prefrence.php`, param).then((res) => {
+      if (res.data.message == "Session has been expired") {
+        navigate("/");
+      }
+      cData.data = res.data;
+      setCData({ ...cData });
+      setPrefrence(res.data);
+      if (res.data.profile_verified == "0") {
+        getContry();
+      }
+
+      onEdit.user_title = res.data.user_title;
+      onEdit.user_first_name = res.data.user_first_name;
+      onEdit.user_last_name = res.data.user_last_name;
+      onEdit.dob = res.data.user_dob;
+      onEdit.gender = res.data.user_gender;
+      onEdit.city = res.data.user_city;
+      // onEdit.country=
+      onEdit.state = res.data.user_state;
+      onEdit.phone = res.data.user_phone;
+      onEdit.mobileCode = onEdit.country;
+      onEdit.email = res.data.user_email;
+      onEdit.add = res.data.user_address_1;
+      onEdit.ladmark = res.data.user_address_2;
+      onEdit.isLoder = false;
+      setOnEdit({ ...onEdit });
+      setOnEdit1(res.data.profile_verified == "0" ? true : false);
+
+      setMainLoader(false);
+      // setOnEdit({
+      //   user_title: res.data.user_title,
+      //   user_first_name: res.data.user_first_name,
+      //   user_last_name: res.data.user_last_name,
+      //   dob: res.data.user_dob,
+      //   gender: res.data.user_gender,
+      //   city: res.data.user_city,
+      //   country: onEdit.country,
+      //   state: res.data.user_state,
+      //   phone: res.data.user_phone,
+      //   mobileCode: onEdit.country,
+      //   email: res.data.user_email,
+      //   add: res.data.user_address_1,
+      //   ladmark: res.data.user_address_2,
+      //   isLoder: false,
+      // });
+    });
   };
   useEffect(() => {
     // getContry();
@@ -447,23 +469,19 @@ const UserProfile = () => {
       } else {
         countryData.country = res.data.aaData;
         setCountryData({ ...countryData });
-        // info.countryResidency = res.data.user_country;
-        // setinfo({ ...info });
-        // setCountryCode(
-        //   countryData.data.filter((x) => x.nicename == res.data.user_country)[0]
-        //     .phonecode
-        // );
+
         let test = countryData.country.filter(
-          (x) => x.nicename == prefrence.user_country
+          (x) => x.nicename == cData.data.user_country
         )[0];
         onEdit.country = test;
         onEdit.mobileCode = test;
-        setOnEdit({ ...onEdit });
         getStateData(test);
         if (onEdit.state == "" || onEdit.state == null) {
         } else {
           getCityData(onEdit.state);
         }
+        setOnEdit({ ...onEdit });
+        console.log("test", onEdit);
       }
     });
   };
@@ -593,7 +611,7 @@ const UserProfile = () => {
       !value.match(/[!@#$%^&*()_+=]/g)
     ) {
       return true;
-    } else if (value.length <= 8) {
+    } else if (value.length < 8) {
       return true;
     }
     return false;
@@ -609,7 +627,7 @@ const UserProfile = () => {
       !value.match(/[!@#$%^&*()_+=]/g)
     ) {
       return "Atleast one lower case, upper case and number and special characters required";
-    } else if (value.length <= 8) {
+    } else if (value.length < 8) {
       return "Password must contain atleast 8 characters";
     }
   };
@@ -636,77 +654,76 @@ const UserProfile = () => {
                   {/* <TopButton /> */}
                   <Grid container spacing={6}>
                     <Grid item md={12}>
-                      {localStorage.getItem("is_ib_account") == "1" ? (
-                        <Paper
-                          elevation={1}
-                          style={{ borderRadius: "10px" }}
-                          className="w-100 mb-5"
-                        >
-                          <div className="card-header d-flex align-items-center justify-content-between card-header-alt p-3">
-                            <h5 className="font-weight-bold mb-0 text-dark">
-                              My Reference Links
-                            </h5>
-                          </div>
-                          <div className="divider"></div>
-                          <div className="card-body position-relative">
-                            <Grid
-                              container
-                              spacing={3}
-                              style={{
-                                marginLeft: "-12px",
-                                marginRight: "-12px",
-                              }}
-                            >
-                              <Grid item md={12}>
-                                <FormControl>
-                                  <label className="text-dark font-weight-bold form-label-head w-100">
-                                    Sponsor Link
+                      <Paper
+                        elevation={1}
+                        style={{ borderRadius: "10px" }}
+                        className="w-100 mb-5"
+                      >
+                        <div className="card-header d-flex align-items-center justify-content-between card-header-alt p-3">
+                          <h5 className="font-weight-bold mb-0 text-dark">
+                            My Reference Links
+                          </h5>
+                        </div>
+                        <div className="divider"></div>
+                        <div className="card-body position-relative">
+                          <Grid
+                            container
+                            spacing={3}
+                            style={{
+                              marginLeft: "-12px",
+                              marginRight: "-12px",
+                            }}
+                          >
+                            <Grid item md={12}>
+                              <FormControl>
+                                <label className="text-dark font-weight-bold form-label-head w-100">
+                                  Sponsor Link
+                                </label>
+                                <div className="sponsorlink-content-section">
+                                  <label className="text-info font-weight-bold w-100">
+                                    <a>
+                                      {Url +
+                                        `/register/sponsor/${prefrence.wallet_code}`}
+                                    </a>
                                   </label>
-                                  <div className="sponsorlink-content-section">
-                                    <label className="text-info font-weight-bold w-100">
-                                      <a>
-                                        {Url +
-                                          `/register/sponsor/${prefrence.wallet_code}`}
-                                      </a>
-                                    </label>
-                                    <button
-                                      className="copy_link"
-                                      onClick={(e) => {
-                                        navigator.clipboard
-                                          .writeText(
-                                            Url +
-                                              `/register/sponsor/${prefrence.wallet_code}`
-                                          )
-                                          .then(
-                                            function () {
-                                              Toast(
-                                                "success",
-                                                "The sponsor link has been successfully copying"
-                                              );
-                                            },
-                                            function (err) {
-                                              console.error(
-                                                "Async: Could not copy text: ",
-                                                err
-                                              );
-                                              Toast(
-                                                "error",
-                                                "The sponsor link Could not copy, Please try again"
-                                              );
-                                            }
-                                          );
-                                      }}
-                                    >
-                                      <span className="blinking">
-                                        <i className="material-icons">
-                                          content_copy
-                                        </i>
-                                      </span>
-                                    </button>
-                                  </div>
-                                </FormControl>
-                              </Grid>
-                              {/* <hr className="mt-2.5 mb-1"></hr>
+                                  <button
+                                    className="copy_link"
+                                    onClick={(e) => {
+                                      navigator.clipboard
+                                        .writeText(
+                                          Url +
+                                            `/register/sponsor/${prefrence.wallet_code}`
+                                        )
+                                        .then(
+                                          function () {
+                                            Toast(
+                                              "success",
+                                              "The sponsor link has been successfully copying"
+                                            );
+                                          },
+                                          function (err) {
+                                            console.error(
+                                              "Async: Could not copy text: ",
+                                              err
+                                            );
+                                            Toast(
+                                              "error",
+                                              "The sponsor link Could not copy, Please try again"
+                                            );
+                                          }
+                                        );
+                                    }}
+                                  >
+                                    <span className="blinking">
+                                      <i className="material-icons">
+                                        content_copy
+                                      </i>
+                                    </span>
+                                  </button>
+                                </div>
+                              </FormControl>
+                            </Grid>
+                            {/* <hr className="mt-2.5 mb-1"></hr>
                           <Grid item md={12}>
                             <FormControl>
                               <label className="text-dark font-weight-bold form-label-head w-100">
@@ -717,12 +734,9 @@ const UserProfile = () => {
                               </label>
                             </FormControl>
                           </Grid> */}
-                            </Grid>
-                          </div>
-                        </Paper>
-                      ) : (
-                        ""
-                      )}
+                          </Grid>
+                        </div>
+                      </Paper>
 
                       <Paper
                         elevation={1}
@@ -869,7 +883,7 @@ const UserProfile = () => {
                                 </label>
                               </FormControl>
                             </Grid>
-                            <Grid item md={4}>
+                            {/* <Grid item md={4}>
                               <FormControl>
                                 <label className="text-dark font-weight-bold form-label-head w-100">
                                   <a
@@ -879,6 +893,16 @@ const UserProfile = () => {
                                     <CreateIcon />
                                     Change Mobile Number
                                   </a>
+                                </label>
+                              </FormControl>
+                            </Grid> */}
+                            <Grid item md={4}>
+                              <FormControl>
+                                <label className="text-dark font-weight-bold form-label-head w-100">
+                                  COUNTRY OF RESIDENCE
+                                </label>
+                                <label className="text-info font-weight-bold w-100">
+                                  {prefrence.user_country}
                                 </label>
                               </FormControl>
                             </Grid>
@@ -891,17 +915,7 @@ const UserProfile = () => {
                               <label className="text-info font-weight-bold w-100"></label>
                             </FormControl>
                           </Grid> */}
-                            <Grid item md={8}>
-                              <FormControl>
-                                <label className="text-dark font-weight-bold form-label-head w-100">
-                                  COUNTRY OF RESIDENCE
-                                </label>
-                                <label className="text-info font-weight-bold w-100">
-                                  {prefrence.user_country}
-                                </label>
-                              </FormControl>
-                            </Grid>
-                            <hr className="mt-2 mb-1"></hr>
+
                             {/* <Grid item md={12}>
                             <FormControl>
                               <label className="text-dark font-weight-bold form-label-head w-100">
@@ -993,7 +1007,7 @@ const UserProfile = () => {
                                   id="fullWidth"
                                   onBlur={trueFalse}
                                 >
-                                  <MenuItem value="">Select Option</MenuItem>
+                                  {/* <MenuItem value="">Select Option</MenuItem> */}
                                   <MenuItem value="Mr.">Mr.</MenuItem>
                                   <MenuItem value="Mrs">Mrs</MenuItem>
                                   <MenuItem value="Miss">Miss</MenuItem>
@@ -1907,6 +1921,7 @@ const UserProfile = () => {
                       endAdornment={
                         <InputAdornment position="end">
                           <Button
+                            sx={{ color: "#2A3F73" }}
                             onClick={() =>
                               setViewPassword({
                                 old: viewPassword.old,

@@ -215,12 +215,12 @@ input {
   z-index: 5;
   display: none;
   max-width: 100%;
-  padding: 0.25rem 0.5rem !important;
-  margin-top: 0.1rem;
-  font-size: 0.875rem;
-  color: #fff;
-  background-color: rgba(220, 53, 69, 0.9);
-  border-radius: 0.25rem;
+  /* padding: 0.25rem 0.5rem !important; */
+  margin-top: 3px;
+  font-size: 0.75rem;
+  color: #d32f2f;
+  /* background-color: rgba(220, 53, 69, 0.9); */
+  /* border-radius: 0.25rem; */
 }
 .partner-form .tab-content .form-select {
   border: 1px solid #e7e9ea;
@@ -693,4 +693,23 @@ select {
   -webkit-box-shadow: none;
   box-shadow: none;
   border-color: #ccc !important;
+}
+.validation-reg li {
+  font-size: 13px;
+}
+.validation-reg svg {
+  margin-right: 7px !important;
+  font-size: 18px !important;
+}
+.val-reg-false {
+  color: #d32f2f;
+}
+.val-reg-false svg {
+  color: #d32f2f;
+}
+.val-reg-true {
+  color: #24835b;
+}
+.val-reg-true svg {
+  color: #24835b;
 }

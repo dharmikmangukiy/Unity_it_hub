@@ -132,7 +132,11 @@ const Bonus_tebale = () => {
       selector: (row) => {
         return (
           <span title={row.status == 1 ? "true" : "false"}>
-            {row.status == "1" ? "Yes" : "No"}
+            {row.status == "1" ? (
+              <span className="text-color-green">Yes</span>
+            ) : (
+              <span className="text-color-red">No</span>
+            )}
           </span>
         );
       },

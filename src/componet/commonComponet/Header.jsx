@@ -40,6 +40,8 @@ import { ReactComponent as Tickits } from "../../svg/tickits.svg";
 import { ReactComponent as Profile } from "../../svg/profile.svg";
 import { ReactComponent as Setting } from "../../svg/setting123.svg";
 import { ReactComponent as User } from "../../svg/user.svg";
+import { ReactComponent as AFFILATE } from "../../svg/AFFILATE.svg";
+
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 const languages = [
   {
@@ -297,8 +299,8 @@ const Header = (prop) => {
         {/* {prop.permission.is_affiliate == "1" ? (
           ""
         ) : ( */}
-        <ul style={{ marginBottom: "0", gap: "24px" }} className="d-flex ">
-          {prop.moveToib == false ? (
+        <ul style={{ marginBottom: "0" }} className="d-flex ">
+          {prop.moveToib == false && prop.moveAff == false ? (
             <>
               {" "}
               <li className="headerMenu webViewHeader">
@@ -356,35 +358,72 @@ const Header = (prop) => {
                   <span className="HeaderMenuColor">Trade & Win </span>
                 </NavLink>
               </li>{" "}
-              <li className="headerMenu">
-                {prop.permission.is_ib_account == "1" ? (
-                  <a
-                    className="nav-link-simple d-flex "
-                    onClick={() => {
-                      prop.setMoveToib(true);
-                      navigate("/IBdashboard");
-                    }}
-                  >
-                    <span>
-                      <Ib_application
-                        className="hoverSidebar"
-                        style={{ width: "24px" }}
-                      />
-                    </span>
+              {prop.permission?.ib_request_status == 0 ? (
+                <li className="headerMenu">
+                  {prop.permission.is_ib_account == "1" ? (
+                    <a
+                      className="nav-link-simple d-flex "
+                      onClick={() => {
+                        prop.setMoveToib(true);
+                        navigate("/IBdashboard");
+                      }}
+                    >
+                      <span>
+                        <Ib_application
+                          className="hoverSidebar"
+                          style={{ width: "24px" }}
+                        />
+                      </span>
 
-                    <span className="HeaderMenuColor">IB Portal</span>
-                  </a>
-                ) : (
-                  <NavLink
-                    className="nav-link-simple d-flex "
-                    to="/partnership"
-                  >
-                    <TradeAndWin className="hoverSidebar" />
+                      <span className="HeaderMenuColor">IB Portal</span>
+                    </a>
+                  ) : (
+                    <NavLink
+                      className="nav-link-simple d-flex "
+                      to="/partnership"
+                    >
+                      <TradeAndWin className="hoverSidebar" />
 
-                    <span className="HeaderMenuColor">IB Request</span>
-                  </NavLink>
-                )}
-              </li>
+                      <span className="HeaderMenuColor">IB Request</span>
+                    </NavLink>
+                  )}
+                </li>
+              ) : (
+                ""
+              )}
+              {prop.permission.affiliate_request_status == "0" ? (
+                <li className="headerMenu">
+                  {prop.permission.is_affiliate == "1" ? (
+                    <a
+                      className="nav-link-simple d-flex "
+                      onClick={() => {
+                        prop.SetMoveAff(true);
+                        navigate("/Affiliatedashboard");
+                      }}
+                    >
+                      <span>
+                        <AFFILATE
+                          className="hoverSidebar"
+                          style={{ width: "24px" }}
+                        />
+                      </span>
+
+                      <span className="HeaderMenuColor">Affiliate</span>
+                    </a>
+                  ) : (
+                    <NavLink
+                      className="nav-link-simple d-flex "
+                      to="/affiliate"
+                    >
+                      <AFFILATE className="hoverSidebar" />
+
+                      <span className="HeaderMenuColor">Affiliate</span>
+                    </NavLink>
+                  )}
+                </li>
+              ) : (
+                ""
+              )}
             </>
           ) : (
             <li className="headerMenu">
@@ -394,6 +433,8 @@ const Header = (prop) => {
                 // onClick={handleClick2}
                 onClick={() => {
                   prop.setMoveToib(false);
+                  prop.SetMoveAff(false);
+
                   navigate("/dashboard");
                 }}
               >
@@ -473,9 +514,22 @@ const Header = (prop) => {
                 </Avatar>
               </div>
               <div>
-                <div className="avatar-logo">{prop.permission?.user_name}</div>
+                <div
+                  className="avatar-logo"
+                  style={{ textTransform: "capitalize" }}
+                >
+                  {prop.permission?.user_name}
+                </div>
                 <div>
-                  <span className="verifyText">Verified</span>{" "}
+                  {prop.permission?.phone_verified == 1 &&
+                  prop.permission?.email_verified == 1 &&
+                  prop.permission?.user_kyc_status == 1 ? (
+                    <span className="verifyText">Verified</span>
+                  ) : (
+                    <span className="text-color-yellow verifyText">
+                      PENDING
+                    </span>
+                  )}{" "}
                 </div>
               </div>
             </div>

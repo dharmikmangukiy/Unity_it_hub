@@ -33,6 +33,8 @@ import { ReactComponent as Withdraw } from "../../svg/withdraw.svg";
 import { ReactComponent as Your_trnascation } from "../../svg/your_trnascation.svg";
 import { ReactComponent as Fantasticfour } from "../../svg/fantasticfour.svg";
 import { ReactComponent as Wallet } from "../../svg/wallet.svg";
+import { ReactComponent as AFFILATE } from "../../svg/AFFILATE.svg";
+
 import Toast from "./Toast";
 
 const style = {
@@ -129,7 +131,15 @@ const Sidebar = (prop) => {
           <div className={`app-sidebar-logo ${prop.cside ? "" : "test"}`}>
             <a className={`app-sidebar-logo`} title="RightFx">
               <div className="py-2">
-                <NavLink to={prop.moveToib == true ? "/IBdashboard" : "/"}>
+                <NavLink
+                  to={
+                    prop.moveToib == true && prop.moveAff == false
+                      ? "/IBdashboard"
+                      : prop.moveToib == false && prop.moveAff == true
+                      ? "/Affiliatedashboard"
+                      : "/"
+                  }
+                >
                   <img
                     src="./image/logo1.png"
                     style={{ width: "170px" }}
@@ -184,14 +194,14 @@ const Sidebar = (prop) => {
           </div>
           <div>
             <div>My Balance </div>
-            <span> ${prop.permission?.balance}</span>
+            <span> ${prop.bal}</span>
           </div>
         </div>
 
         <div className="app-sidebar--content" style={{ marginTop: "0px" }}>
           <div>
             <div className="sidebar-navigation">
-              {prop.moveToib == false ? (
+              {prop.moveToib == false && prop.moveAff == false ? (
                 <ul className="pt-2" style={{ paddingTop: "19px !important" }}>
                   <li>
                     <NavLink
@@ -271,7 +281,7 @@ const Sidebar = (prop) => {
                       {t("Accounts")}
                       <span className="sidebar-icon-indicator">
                         {/* {open.platforms ?  <ExpandMore /> : <ExpandLess/>} */}
-                        {open.trading ? <ExpandMore /> : <ExpandLess />}{" "}
+                        {!open.trading ? <ExpandMore /> : <ExpandLess />}{" "}
                       </span>
                     </a>
                     <Collapse in={open.trading} timeout="auto" unmountOnExit>
@@ -367,22 +377,13 @@ const Sidebar = (prop) => {
                       {/* {open.operation ? <ExpandMore /> : <ExpandLess />} */}
 
                       <span className="sidebar-icon-indicator">
-                        {open.operation ? <ExpandMore /> : <ExpandLess />}
+                        {!open.operation ? <ExpandMore /> : <ExpandLess />}
 
                         {/* {open.operation ? <ExpandMore /> : <ExpandLess />} */}
                       </span>
                     </a>
                     <Collapse in={open.operation} timeout="auto" unmountOnExit>
                       <ul>
-                        {prop.permission.is_affiliate == "1" ? (
-                          <li>
-                            <NavLink to="/earnReport" onClick={CloseSidebar}>
-                              Earn History
-                            </NavLink>
-                          </li>
-                        ) : (
-                          <></>
-                        )}
                         <li>
                           <NavLink to="/deposit_history" onClick={CloseSidebar}>
                             {t("Deposit_History")}
@@ -440,7 +441,7 @@ const Sidebar = (prop) => {
                       {t("Platforms")}
 
                       <span className="sidebar-icon-indicator">
-                        {open.platforms ? <ExpandMore /> : <ExpandLess />}
+                        {!open.platforms ? <ExpandMore /> : <ExpandLess />}
                       </span>
                     </a>
                     <Collapse in={open.platforms} timeout="auto" unmountOnExit>
@@ -486,7 +487,7 @@ const Sidebar = (prop) => {
                           {t("pamm")}
 
                           <span className="sidebar-icon-indicator">
-                            {open.pamm ? <ExpandMore /> : <ExpandLess />}
+                            {!open.pamm ? <ExpandMore /> : <ExpandLess />}
                           </span>
                         </a>
                         <Collapse in={open.pamm} timeout="auto" unmountOnExit>
@@ -649,7 +650,7 @@ const Sidebar = (prop) => {
                       </h5>
                       <CloseIcon
                         onClick={() => {
-                          setOpenModel(false);
+                        setOpenModel(false);
                         }}
                       />
                     </DialogTitle>
@@ -712,7 +713,7 @@ const Sidebar = (prop) => {
                   </NavLink>
                 </li> */}
                 </ul>
-              ) : (
+              ) : prop.moveToib == true && prop.moveAff == false ? (
                 <ul className="pt-2" style={{ paddingTop: "19px !important" }}>
                   <li>
                     <NavLink
@@ -748,7 +749,7 @@ const Sidebar = (prop) => {
                       </span>
                       IB Application
                       <span className="sidebar-icon-indicator">
-                        {open.partnership ? <ExpandMore /> : <ExpandLess />}
+                        {!open.partnership ? <ExpandMore /> : <ExpandLess />}
                       </span>
                     </a>
                     <Collapse
@@ -819,7 +820,7 @@ const Sidebar = (prop) => {
                         </span>
                         IB Report
                         <span className="sidebar-icon-indicator">
-                          {open.iBReport ? <ExpandMore /> : <ExpandLess />}
+                          {!open.iBReport ? <ExpandMore /> : <ExpandLess />}
                         </span>
                       </a>
                       <Collapse in={open.iBReport} timeout="auto" unmountOnExit>
@@ -848,6 +849,31 @@ const Sidebar = (prop) => {
                   ) : (
                     ""
                   )}
+                </ul>
+              ) : (
+                <ul className="pt-2" style={{ paddingTop: "19px !important" }}>
+                  <li>
+                    <NavLink
+                      className="nav-link-simple "
+                      to="/Affiliatedashboard"
+                      onClick={CloseSidebar}
+                    >
+                      {/* <span className="material-icons  icon_Mar">dashboard</span> */}
+                      <DASHBORD className="hoverSidebar" />
+                      {t("Dashboard")}
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      className="nav-link-simple "
+                      to="/earnReport"
+                      onClick={CloseSidebar}
+                    >
+                      {/* <span className="material-icons  icon_Mar">dashboard</span> */}
+                      <Reports className="hoverSidebar" />
+                      Earn History
+                    </NavLink>
+                  </li>
                 </ul>
               )}
             </div>
