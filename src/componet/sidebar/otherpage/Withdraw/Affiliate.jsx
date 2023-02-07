@@ -671,7 +671,7 @@ export const Affiliate = () => {
                           <div className="divider my-1"></div>
                           <div>
                             <div>
-                              <span className="col_black">Audiance No</span>
+                              <span className="col_black">Audiance</span>
                             </div>
 
                             <FormControl className="w-100">
@@ -692,7 +692,7 @@ export const Affiliate = () => {
                               {field.numberField == "" &&
                               infoTrue.numberField == true ? (
                                 <FormHelperText>
-                                  Please Type Audiance Number
+                                  Please Enter Audiance Number
                                 </FormHelperText>
                               ) : (
                                 ""

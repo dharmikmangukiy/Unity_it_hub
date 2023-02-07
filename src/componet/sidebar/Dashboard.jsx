@@ -1231,6 +1231,252 @@ const Dashboard = (prop) => {
                                               </div>
                                             </div>
                                           </div>
+                                          <div className="account-main-mob">
+                                            <div
+                                              className="fanMob-history-submain"
+                                              style={{ alignItems: "center" }}
+                                            >
+                                              <div
+                                                className="d-flex"
+                                                style={{
+                                                  fontSize: "15px",
+                                                  alignItems: "center",
+                                                }}
+                                              >
+                                                <span className="cir-mob"></span>{" "}
+                                                Live MT5
+                                              </div>
+                                              <div>
+                                                {" "}
+                                                <FormControl
+                                                  variant="standard"
+                                                  sx={{
+                                                    m: 1,
+                                                    minWidth: 120,
+                                                    padding: 0,
+                                                  }}
+                                                  className="d-flex DashBordsetting"
+                                                >
+                                                  <i class="material-icons position-absolute">
+                                                    settings
+                                                  </i>
+                                                  <Select
+                                                    className="pad-0"
+                                                    id="demo-simple-select-standard"
+                                                    onChange={handleChange}
+                                                    label="Account Select"
+                                                    value=""
+                                                    input={
+                                                      <BootstrapInputs className="setinginputPadding" />
+                                                    }
+                                                  >
+                                                    <MenuItem
+                                                      value={"withdraw"}
+                                                      style={{
+                                                        color: "black",
+                                                        fontWeight: "500",
+                                                      }}
+                                                      onClick={() => {
+                                                        navigate(
+                                                          `/withdrawal/${val.mt5_acc_no}`
+                                                        );
+                                                      }}
+                                                    >
+                                                      {/* <NavLink
+                                                          to={`/withdrawal/${val.mt5_acc_no}`}
+                                                          style={{
+                                                            color: "black",
+                                                            fontWeight: "500",
+                                                          }}
+                                                        > */}
+                                                      Withdraw
+                                                      {/* </NavLink> */}
+                                                    </MenuItem>
+                                                    <MenuItem
+                                                      value={"transfer_funds"}
+                                                      style={{
+                                                        color: "black",
+                                                        fontWeight: "500",
+                                                      }}
+                                                      onClick={() => {
+                                                        navigate(
+                                                          `/internal_transfer/${val.mt5_acc_no}`
+                                                        );
+                                                      }}
+                                                    >
+                                                      {/* <NavLink
+                                                          to={`/internal_transfer/${val.mt5_acc_no}`}
+                                                          style={{
+                                                            color: "black",
+                                                            fontWeight: "500",
+                                                          }}
+                                                        > */}
+                                                      Transfer funds
+                                                      {/* </NavLink> */}
+                                                    </MenuItem>
+                                                    <MenuItem
+                                                      value={
+                                                        "change_max_leverage"
+                                                      }
+                                                      onClick={() => {
+                                                        mt5AndDemoList.value =
+                                                          val;
+                                                        setMt5AndDemoList({
+                                                          ...mt5AndDemoList,
+                                                        });
+                                                        setAge(val.leverage);
+                                                        getLeverage();
+                                                      }}
+                                                      style={{
+                                                        color: "black",
+                                                        fontWeight: "500",
+                                                      }}
+                                                    >
+                                                      Change max leverage
+                                                    </MenuItem>
+                                                    <MenuItem
+                                                      value={
+                                                        "account_information"
+                                                      }
+                                                      onClick={(e) => {
+                                                        mt5AndDemoList.value =
+                                                          val;
+                                                        setMt5AndDemoList({
+                                                          ...mt5AndDemoList,
+                                                        });
+                                                        // getAccount();
+                                                      }}
+                                                      style={{
+                                                        color: "black",
+                                                        fontWeight: "500",
+                                                      }}
+                                                    >
+                                                      Account information
+                                                    </MenuItem>
+                                                    <MenuItem
+                                                      value={
+                                                        "change_trading_password"
+                                                      }
+                                                      style={{
+                                                        color: "black",
+                                                        fontWeight: "500",
+                                                      }}
+                                                      onClick={() => {
+                                                        navigate(
+                                                          `/change_password/${val.mt5_acc_no}`
+                                                        );
+                                                      }}
+                                                    >
+                                                      {/* <NavLink
+                                                          to={`/change_password/${val.mt5_acc_no}`}
+                                                          style={{
+                                                            color: "black",
+                                                            fontWeight: "500",
+                                                          }}
+                                                        > */}
+                                                      Change trading password
+                                                      {/* </NavLink> */}
+                                                    </MenuItem>
+                                                  </Select>
+                                                </FormControl>
+                                              </div>
+                                            </div>
+                                            <div className="fanMob-history-submain">
+                                              <div>
+                                                <span className="fw-700">
+                                                  {val.mt5_group_name} :
+                                                </span>
+                                              </div>
+                                              <div>
+                                                <span className="mobsubTextColor">
+                                                  {val.mt5_acc_no}
+                                                </span>
+                                              </div>
+                                            </div>
+                                            <div className="fanMob-history-submain">
+                                              <div>
+                                                <span className="fw-700">
+                                                  Balance
+                                                </span>
+                                              </div>
+                                              <div>
+                                                <span className="mobsubTextColor">
+                                                  {val.mt_equity} USD
+                                                </span>
+                                              </div>
+                                            </div>
+                                            <div className="fanMob-history-submain">
+                                              <div>
+                                                <span className="fw-700">
+                                                  Leverage :
+                                                </span>
+                                              </div>
+                                              <div>
+                                                <span className="mobsubTextColor">
+                                                  {val.leverage}
+                                                </span>
+                                              </div>
+                                            </div>{" "}
+                                            <div className="fanMob-history-submain">
+                                              <div>
+                                                <span className="fw-700">
+                                                  Credit :
+                                                </span>
+                                              </div>
+                                              <div>
+                                                <span className="mobsubTextColor">
+                                                  {val.mt_credit}
+                                                </span>
+                                              </div>
+                                            </div>{" "}
+                                            <div className="fanMob-history-submain">
+                                              <div>
+                                                <span className="fw-700">
+                                                  Margin Free :
+                                                </span>
+                                              </div>
+                                              <div>
+                                                <span className="mobsubTextColor">
+                                                  {val.mt_free_margin}
+                                                </span>
+                                              </div>
+                                            </div>
+                                            <button
+                                              className="b-hover item2-item2 d-flex mr btn-costom btn-36 live-account-button-mob"
+                                              onClick={() => {
+                                                navigate(
+                                                  `/deposit/${val.mt5_acc_no}`
+                                                );
+                                              }}
+                                            >
+                                              <div>
+                                                <DownloadIcon />
+                                              </div>
+                                              <div className="mx-2">
+                                                {/* <NavLink
+                                                      to={`/deposit/${val.mt5_acc_no}`}
+                                                      className="wiblack "
+                                                      style={{
+                                                        fontWeight: "500",
+                                                      }}
+                                                    > */}
+                                                Deposit
+                                                {/* </NavLink> */}
+                                              </div>
+                                            </button>
+                                            <ColorButton
+                                              className="item2-item2 mx-1 btn-costom btn-36 live-account-button-mob"
+                                              onClick={() => {
+                                                mt5AndDemoList.value = val;
+                                                setMt5AndDemoList({
+                                                  ...mt5AndDemoList,
+                                                });
+                                                getTrade();
+                                              }}
+                                            >
+                                              Trade
+                                            </ColorButton>
+                                          </div>
                                         </>
                                       );
                                     })}
@@ -1341,96 +1587,96 @@ const Dashboard = (prop) => {
                                                 >
                                                   Trade
                                                 </ColorButton>
-                                                {/* <div className="item2-item3 mx-2 d-flex justify-content-center align-items-center">
-                                                <FormControl
-                                                  variant="standard"
-                                                  sx={{
-                                                    m: 1,
-                                                    minWidth: 120,
-                                                  }}
-                                                  className="d-flex"
-                                                >
-                                                  <i class="material-icons position-absolute">
-                                                    settings
-                                                  </i>
-                                                  <Select
-                                                    className="px-1"
-                                                    id="demo-simple-select-standard"
-                                                    onChange={handleChange}
-                                                    label="Account Select"
-                                                    value=""
-                                                    input={<BootstrapInputs />}
-                                                  >
-                                                    <MenuItem
-                                                      value={"withdraw"}
-                                                    >
-                                                      <NavLink
-                                                        to="/withdrawal"
-                                                        style={{
-                                                          color: "black",
-                                                          fontWeight: "500",
-                                                        }}
-                                                      >
-                                                        Withdraw
-                                                      </NavLink>
-                                                    </MenuItem>
-                                                    <MenuItem
-                                                      value={"transfer_funds"}
-                                                    >
-                                                      <NavLink
-                                                        to="/internal_transfer"
-                                                        style={{
-                                                          color: "black",
-                                                          fontWeight: "500",
-                                                        }}
-                                                      >
-                                                        Transfer funds
-                                                      </NavLink>
-                                                    </MenuItem>
-                                                    <MenuItem
-                                                      value={
-                                                        "change_max_leverage"
-                                                      }
-                                                      onClick={getLeverage}
-                                                      style={{
-                                                        color: "black",
-                                                        fontWeight: "500",
-                                                      }}
-                                                    >
-                                                      Change max leverage
-                                                    </MenuItem>
-                                                    <MenuItem
-                                                      value={
-                                                        "account_information"
-                                                      }
-                                                      onClick={getAccount}
-                                                      style={{
-                                                        color: "black",
-                                                        fontWeight: "500",
-                                                      }}
-                                                    >
-                                                      Account information
-                                                    </MenuItem>
-                                                    <MenuItem
-                                                      value={
-                                                        "change_trading_password"
-                                                      }
-                                                    >
-                                                      <NavLink
-                                                        to="/change_password"
-                                                        style={{
-                                                          color: "black",
-                                                          fontWeight: "500",
-                                                        }}
-                                                      >
-                                                        Change trading password
-                                                      </NavLink>
-                                                    </MenuItem>
-                                                  </Select>
-                                                </FormControl>
-                                              </div> */}
                                               </div>
                                             </div>
+                                          </div>
+                                          <div className="account-main-mob">
+                                            <div
+                                              className="fanMob-history-submain"
+                                              style={{ alignItems: "center" }}
+                                            >
+                                              <div
+                                                className="d-flex"
+                                                style={{
+                                                  fontSize: "15px",
+                                                  alignItems: "center",
+                                                }}
+                                              >
+                                                Demo MT5
+                                              </div>
+                                            </div>
+                                            <div className="fanMob-history-submain">
+                                              <div>
+                                                <span className="fw-700">
+                                                  {val.mt5_group_name} :
+                                                </span>
+                                              </div>
+                                              <div>
+                                                <span className="mobsubTextColor">
+                                                  {val.mt5_acc_no}
+                                                </span>
+                                              </div>
+                                            </div>
+                                            <div className="fanMob-history-submain">
+                                              <div>
+                                                <span className="fw-700">
+                                                  Balance
+                                                </span>
+                                              </div>
+                                              <div>
+                                                <span className="mobsubTextColor">
+                                                  {val.mt_equity} USD
+                                                </span>
+                                              </div>
+                                            </div>
+                                            <div className="fanMob-history-submain">
+                                              <div>
+                                                <span className="fw-700">
+                                                  Leverage :
+                                                </span>
+                                              </div>
+                                              <div>
+                                                <span className="mobsubTextColor">
+                                                  {val.leverage}
+                                                </span>
+                                              </div>
+                                            </div>{" "}
+                                            <div className="fanMob-history-submain">
+                                              <div>
+                                                <span className="fw-700">
+                                                  Credit :
+                                                </span>
+                                              </div>
+                                              <div>
+                                                <span className="mobsubTextColor">
+                                                  {val.mt_credit}
+                                                </span>
+                                              </div>
+                                            </div>{" "}
+                                            <div className="fanMob-history-submain">
+                                              <div>
+                                                <span className="fw-700">
+                                                  Margin Free :
+                                                </span>
+                                              </div>
+                                              <div>
+                                                <span className="mobsubTextColor">
+                                                  {val.mt_free_margin}
+                                                </span>
+                                              </div>
+                                            </div>
+                                            <ColorButton
+                                              className="item2-item2 mx-1 btn-costom btn-36 live-account-button-mob"
+                                              onClick={() => {
+                                                mt5AndDemoList.value = val;
+                                                setMt5AndDemoList({
+                                                  ...mt5AndDemoList,
+                                                });
+                                                getTrade();
+                                              }}
+                                            >
+                                              Trade
+                                            </ColorButton>
                                           </div>
                                         </>
                                       );

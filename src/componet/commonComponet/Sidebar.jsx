@@ -118,7 +118,7 @@ const Sidebar = (prop) => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  // console.log(prop);
+  console.log("prop", prop);
 
   return (
     <div
@@ -831,7 +831,7 @@ const Sidebar = (prop) => {
                               to="/ib_commission_history"
                               onClick={CloseSidebar}
                             >
-                              IB Commission History
+                              IB History
                             </NavLink>
                           </li>
                           <li>
@@ -840,7 +840,7 @@ const Sidebar = (prop) => {
                               to="/ib_withdraw_history"
                               onClick={CloseSidebar}
                             >
-                              IB Commissions Withdrawal Report
+                              IB Withdrawal Report
                             </NavLink>
                           </li>
                         </ul>

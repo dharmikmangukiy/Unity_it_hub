@@ -83,7 +83,10 @@ const Bonus_dashbord = (props) => {
   const [matches, setMatches] = useState(
     window.matchMedia("(min-width: 1000px)").matches
   );
-
+  const [dataOFBonus, setDataOFBonus] = useState({
+    bonusAmount: "",
+    lot: "",
+  });
   const getBonusList = () => {
     const param = new FormData();
     if (IsApprove !== "") {
@@ -111,6 +114,11 @@ const Bonus_dashbord = (props) => {
           // setData({...data})
           // toast.error(res.data.message);
         } else {
+          dataOFBonus.lot = parseFloat(
+            ((res.data.deposit_bonus_max_amount * 40) / 100).toFixed(2)
+          );
+          dataOFBonus.bonusAmount = res.data.deposit_bonus_max_amount;
+          setDataOFBonus({ ...dataOFBonus });
           data.isLoder = false;
           data.arrayData = res.data?.aaData;
           setData({ ...data });
@@ -237,8 +245,8 @@ const Bonus_dashbord = (props) => {
                   <span className="bld_clr2">
                     $
                     {((data.popData.deposit_amount * 10) / 100).toFixed(2) >
-                    5000
-                      ? 5000.0
+                    dataOFBonus.bonusAmount
+                      ? dataOFBonus.bonusAmount
                       : ((data.popData.deposit_amount * 10) / 100).toFixed(2)}
                   </span>
                   <span className="money_cell">
@@ -246,8 +254,8 @@ const Bonus_dashbord = (props) => {
                     {(
                       (((data.popData.deposit_amount * 10) / 100) * 40) /
                       100
-                    ).toFixed() > 2000
-                      ? 2000.0
+                    ).toFixed() > dataOFBonus.lot
+                      ? dataOFBonus.lot
                       : (
                           (((data.popData.deposit_amount * 10) / 100) * 40) /
                           100
@@ -265,8 +273,8 @@ const Bonus_dashbord = (props) => {
                   <span className="bld_clr2">
                     $
                     {((data.popData.deposit_amount * 20) / 100).toFixed(2) >
-                    5000
-                      ? 5000.0
+                    dataOFBonus.bonusAmount
+                      ? dataOFBonus.bonusAmount
                       : ((data.popData.deposit_amount * 20) / 100).toFixed(2)}
                   </span>
                   <span className="money_cell">
@@ -274,8 +282,8 @@ const Bonus_dashbord = (props) => {
                     {(
                       (((data.popData.deposit_amount * 20) / 100) * 40) /
                       100
-                    ).toFixed() > 2000
-                      ? 2000.0
+                    ).toFixed() > dataOFBonus.lot
+                      ? dataOFBonus.lot
                       : (
                           (((data.popData.deposit_amount * 20) / 100) * 40) /
                           100
@@ -292,8 +300,8 @@ const Bonus_dashbord = (props) => {
                   <span className="bld_clr2">
                     ${" "}
                     {((data.popData.deposit_amount * 30) / 100).toFixed(2) >
-                    5000
-                      ? 5000.0
+                    dataOFBonus.bonusAmount
+                      ? dataOFBonus.bonusAmount
                       : ((data.popData.deposit_amount * 30) / 100).toFixed(2)}
                   </span>
                   <span className="money_cell">
@@ -301,8 +309,8 @@ const Bonus_dashbord = (props) => {
                     {(
                       (((data.popData.deposit_amount * 30) / 100) * 40) /
                       100
-                    ).toFixed() > 2000
-                      ? 2000.0
+                    ).toFixed() > dataOFBonus.lot
+                      ? dataOFBonus.lot
                       : (
                           (((data.popData.deposit_amount * 30) / 100) * 40) /
                           100
@@ -319,8 +327,8 @@ const Bonus_dashbord = (props) => {
                   <span className="bld_clr2">
                     $
                     {((data.popData.deposit_amount * 40) / 100).toFixed(2) >
-                    5000
-                      ? 5000.0
+                    dataOFBonus.bonusAmount
+                      ? dataOFBonus.bonusAmount
                       : ((data.popData.deposit_amount * 40) / 100).toFixed(2)}
                   </span>
                   <span className="money_cell">
@@ -328,8 +336,8 @@ const Bonus_dashbord = (props) => {
                     {(
                       (((data.popData.deposit_amount * 40) / 100) * 40) /
                       100
-                    ).toFixed() > 2000
-                      ? 2000.0
+                    ).toFixed() > dataOFBonus.lot
+                      ? dataOFBonus.lot
                       : (
                           (((data.popData.deposit_amount * 40) / 100) * 40) /
                           100
@@ -346,8 +354,8 @@ const Bonus_dashbord = (props) => {
                   <span className="bld_clr2">
                     $
                     {((data.popData.deposit_amount * 50) / 100).toFixed(2) >
-                    5000
-                      ? 5000.0
+                    dataOFBonus.bonusAmount
+                      ? dataOFBonus.bonusAmount
                       : ((data.popData.deposit_amount * 50) / 100).toFixed(2)}
                   </span>
                   <span className="money_cell">
@@ -355,8 +363,8 @@ const Bonus_dashbord = (props) => {
                     {(
                       (((data.popData.deposit_amount * 50) / 100) * 40) /
                       100
-                    ).toFixed() > 2000
-                      ? 2000.0
+                    ).toFixed() > dataOFBonus.lot
+                      ? dataOFBonus.lot
                       : (
                           (((data.popData.deposit_amount * 50) / 100) * 40) /
                           100

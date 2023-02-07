@@ -247,6 +247,7 @@ h5.mb-0 {
   align-items: center;
   margin: 10px 0px;
   padding: 35px 12px;
+  display: block;
 }
 
 .accunt-data1 {
@@ -673,7 +674,48 @@ button {
   min-width: auto !important;
   max-width: auto !important;
   margin: 0 !important;
+  padding: 0 !important;
 }
 .setinginputPadding div:first-child {
   padding: 0px 24px 2px 7px !important;
+  min-width: 0 !important;
+}
+.account-main-mob {
+  font-size: 12px;
+  display: none;
+  margin-bottom: 10px;
+  background: #ffffff;
+  border: 1px solid #dfdfdf;
+  box-shadow: 0px 2px 11px rgb(93 32 103 / 25%);
+  border-radius: 10px;
+  padding: 13px;
+}
+.DashBordsetting svg {
+  display: none;
+}
+.pad-0 {
+  padding: 0 !important;
+}
+
+.live-account-button-mob {
+  width: 100%;
+  margin: 5px;
+}
+.cir-mob {
+  width: 16px;
+  height: 16px;
+  border-radius: 10px;
+  display: block;
+  background: #2aa91b;
+  border: 1px #2aa91b;
+  box-shadow: #2aa91b 0px 0px 8px;
+  margin-right: 8px;
+}
+@media screen and (max-width: 888px) {
+  .account-data-main {
+    display: none;
+  }
+  .account-main-mob {
+    display: block;
+  }
 }

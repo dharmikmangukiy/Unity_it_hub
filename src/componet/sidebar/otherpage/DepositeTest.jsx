@@ -35,6 +35,12 @@ const DepositeTest = () => {
     accountList: [],
     paymentOption: [],
   });
+  const [dataOFBonus, setDataOFBonus] = useState({
+    aed_rate: "",
+    usd_rate: "",
+    bonusAmount: "",
+    lot: "",
+  });
   const [mainLoader, setMainLoader] = useState({
     paymentOption: true,
     accountList: true,
@@ -82,7 +88,7 @@ const DepositeTest = () => {
       setInfo({ ...info });
     }
   }, []);
-
+  console.log("dataOFBonus", dataOFBonus);
   const onsubmit = async () => {
     const param = new FormData();
     if (IsApprove !== "") {
@@ -220,6 +226,13 @@ const DepositeTest = () => {
       if (res.data.status == "error") {
         Toast("error", res.data.message);
       } else {
+        dataOFBonus.bonusAmount = res.data.deposit_bonus_max_amount;
+        dataOFBonus.usd_rate = res.data.usd_rate;
+        dataOFBonus.aed_rate = res.data.aed_rate;
+        dataOFBonus.lot = parseFloat(
+          ((res.data.deposit_bonus_max_amount * 40) / 100).toFixed(2)
+        );
+        setDataOFBonus({ ...dataOFBonus });
         dataArray.paymentOption = res.data.data;
         setDataArray({ ...dataArray });
         mainLoader.paymentOption = false;
@@ -361,7 +374,9 @@ const DepositeTest = () => {
                                     INR
                                   </label>
                                   <BootstrapInput
-                                    value={(info.amount * 81.64).toFixed(2)}
+                                    value={(
+                                      info.amount * dataOFBonus.usd_rate
+                                    ).toFixed(2)}
                                     name="otp"
                                     type="text"
                                     disabled
@@ -384,7 +399,9 @@ const DepositeTest = () => {
                                     AED
                                   </label>
                                   <BootstrapInput
-                                    value={(info.amount * 3.67).toFixed(2)}
+                                    value={(
+                                      info.amount * dataOFBonus.aed_rate
+                                    ).toFixed(2)}
                                     name="otp"
                                     type="text"
                                     disabled
@@ -624,8 +641,9 @@ const DepositeTest = () => {
                                                         {(
                                                           (info.amount * 10) /
                                                           100
-                                                        ).toFixed(2) > 5000
-                                                          ? 5000.0
+                                                        ).toFixed(2) >
+                                                        dataOFBonus.bonusAmount
+                                                          ? dataOFBonus.bonusAmount
                                                           : (
                                                               (info.amount *
                                                                 10) /
@@ -639,8 +657,9 @@ const DepositeTest = () => {
                                                             100) *
                                                             40) /
                                                           100
-                                                        ).toFixed(2) > 2000
-                                                          ? 2000.0
+                                                        ).toFixed(2) >
+                                                        dataOFBonus.lot
+                                                          ? dataOFBonus.lot
                                                           : (
                                                               (((info.amount *
                                                                 10) /
@@ -666,8 +685,9 @@ const DepositeTest = () => {
                                                         {(
                                                           (info.amount * 20) /
                                                           100
-                                                        ).toFixed(2) > 5000
-                                                          ? 5000.0
+                                                        ).toFixed(2) >
+                                                        dataOFBonus.bonusAmount
+                                                          ? dataOFBonus.bonusAmount
                                                           : (
                                                               (info.amount *
                                                                 20) /
@@ -681,8 +701,9 @@ const DepositeTest = () => {
                                                             100) *
                                                             40) /
                                                           100
-                                                        ).toFixed(2) > 2000
-                                                          ? 2000.0
+                                                        ).toFixed(2) >
+                                                        dataOFBonus.lot
+                                                          ? dataOFBonus.lot
                                                           : (
                                                               (((info.amount *
                                                                 20) /
@@ -708,8 +729,9 @@ const DepositeTest = () => {
                                                         {(
                                                           (info.amount * 30) /
                                                           100
-                                                        ).toFixed(2) > 5000
-                                                          ? 5000.0
+                                                        ).toFixed(2) >
+                                                        dataOFBonus.bonusAmount
+                                                          ? dataOFBonus.bonusAmount
                                                           : (
                                                               (info.amount *
                                                                 30) /
@@ -723,8 +745,9 @@ const DepositeTest = () => {
                                                             100) *
                                                             40) /
                                                           100
-                                                        ).toFixed(2) > 2000
-                                                          ? 2000.0
+                                                        ).toFixed(2) >
+                                                        dataOFBonus.lot
+                                                          ? dataOFBonus.lot
                                                           : (
                                                               (((info.amount *
                                                                 30) /
@@ -750,8 +773,9 @@ const DepositeTest = () => {
                                                         {(
                                                           (info.amount * 40) /
                                                           100
-                                                        ).toFixed(2) > 5000
-                                                          ? 5000.0
+                                                        ).toFixed(2) >
+                                                        dataOFBonus.bonusAmount
+                                                          ? dataOFBonus.bonusAmount
                                                           : (
                                                               (info.amount *
                                                                 40) /
@@ -765,8 +789,9 @@ const DepositeTest = () => {
                                                             100) *
                                                             40) /
                                                           100
-                                                        ).toFixed(2) > 2000
-                                                          ? 2000.0
+                                                        ).toFixed(2) >
+                                                        dataOFBonus.lot
+                                                          ? dataOFBonus.lot
                                                           : (
                                                               (((info.amount *
                                                                 40) /
@@ -792,8 +817,9 @@ const DepositeTest = () => {
                                                         {(
                                                           (info.amount * 50) /
                                                           100
-                                                        ).toFixed(2) > 5000
-                                                          ? 5000.0
+                                                        ).toFixed(2) >
+                                                        dataOFBonus.bonusAmount
+                                                          ? dataOFBonus.bonusAmount
                                                           : (
                                                               (info.amount *
                                                                 50) /
@@ -807,8 +833,9 @@ const DepositeTest = () => {
                                                             100) *
                                                             40) /
                                                           100
-                                                        ).toFixed(2) > 2000
-                                                          ? 2000.0
+                                                        ).toFixed(2) >
+                                                        dataOFBonus.lot
+                                                          ? dataOFBonus.lot
                                                           : (
                                                               (((info.amount *
                                                                 50) /

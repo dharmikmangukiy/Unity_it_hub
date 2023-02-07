@@ -371,7 +371,7 @@ const Card2 = (prop) => {
               </div>
             </div>
             <div className="element">
-              <label className="plan-form-input-label">Investor Password</label>
+              <label className="plan-form-input-label">Confirm Password</label>
               <input
                 type={viewPassword.main ? "text" : "password"}
                 className={`trading-account-password form-control1 ${

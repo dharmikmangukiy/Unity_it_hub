@@ -112,7 +112,7 @@ export const Withdrawal = (prop) => {
         } else {
           age.withdraw_from = "wallte";
           setAge({ ...age });
-          fetchMT5AccountDetaiils();
+          walletbalancefun();
         }
       }
     });
@@ -200,7 +200,10 @@ export const Withdrawal = (prop) => {
       // param.append("username", info.email);
     }
     if (age.withdraw_from == "wallte") {
-      param.append("withdrawal_from", "wallte");
+      param.append(
+        "withdrawal_from",
+        age.withdraw_from == "wallte" ? "Wallet" : ""
+      );
     } else {
       param.append("withdrawal_from", "MT5");
       param.append("mt5_acc_no", age.withdraw_from);
@@ -387,7 +390,10 @@ export const Withdrawal = (prop) => {
       }
 
       if (age.withdraw_from == "wallte") {
-        param.append("withdrawal_from", "wallte");
+        param.append(
+          "withdrawal_from",
+          age.withdraw_from == "wallte" ? "Wallet" : ""
+        );
       } else {
         param.append("withdrawal_from", "MT5");
         param.append("mt5_acc_no", age.withdraw_from);
