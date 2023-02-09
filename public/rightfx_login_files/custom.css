@@ -17601,6 +17601,7 @@ hr {
 .MuiTableCell-root.MuiTableCell-head {
   font-weight: 700;
   white-space: nowrap;
+  color: #5d2067;
 }
 .required:after {
   content: " *";

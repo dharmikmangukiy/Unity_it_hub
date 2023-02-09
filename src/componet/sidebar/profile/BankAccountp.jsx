@@ -75,7 +75,9 @@ const BankAccountp = () => {
   const [mainLoader, setMainLoader] = useState(true);
   const [ageErrors, setAgeErrors] = useState({});
   const [timer, setTimer] = useState(true);
-
+  const [cData, setCData] = useState({
+    currency: "",
+  });
   const [ifscData, setIfscData] = useState({
     data: "",
     isLoader: false,
@@ -93,6 +95,8 @@ const BankAccountp = () => {
     confirmbankAccountNumber: false,
     iban: false,
     otp: false,
+    swift_code: false,
+    currency: false,
     ibanselect: false,
   });
   const [age, setAge] = useState({
@@ -102,6 +106,8 @@ const BankAccountp = () => {
     confirmbankAccountNumber: "",
     iban: "",
     otp: "",
+    swift_code: "",
+    currency: "",
     ibanselect: "IFSC",
     isLoader: "",
   });
@@ -158,6 +164,8 @@ const BankAccountp = () => {
       bankName: item.bank_name,
       bankAccountNumber: item.bank_account_number,
       iban: item.bank_ifsc,
+      swift_code: item.swift_code,
+      currency: item.currency,
       confirmbankAccountNumber: item.bank_account_number,
       ibanselect: "IFSC",
       otp: "",
@@ -168,6 +176,8 @@ const BankAccountp = () => {
       bankName: false,
       bankAccountNumber: false,
       confirmbankAccountNumber: false,
+      swift_code: false,
+      currency: false,
       iban: false,
       otp: false,
       ibanselect: false,
@@ -200,6 +210,8 @@ const BankAccountp = () => {
       if (res.data.message == "Session has been expired") {
         navigate("/");
       }
+      cData.currency = res.data.bank_currency;
+      setCData({ ...cData });
       setData(res.data.data);
       setMainLoader(false);
       console.log("res.data.data", res.data.data);
@@ -236,6 +248,9 @@ const BankAccountp = () => {
     } else if (!values.bankName) {
       errors.bankName = "Benificiary bank name required";
       notify("Benificiary bank name required");
+    } else if (!values.currency) {
+      errors.bankName = "Benificiary bank name required";
+      notify("Please Select Currency");
     } else if (!values.bankAccountNumber) {
       errors.bankAccountNumber = "Bank account number required";
       notify("Bank account number required");
@@ -294,6 +309,9 @@ const BankAccountp = () => {
         param.append("bank_name", age.bankName);
         param.append("bank_account_name", age.name);
         param.append("bank_account_number", age.bankAccountNumber);
+        param.append("swift_code", age.swift_code);
+        param.append("currency", age.currency);
+
         param.append(
           "confirm_bank_account_number",
           age.confirmbankAccountNumber
@@ -366,6 +384,8 @@ const BankAccountp = () => {
         param.append("bank_name", age.bankName);
         param.append("bank_account_name", age.name);
         param.append("bank_account_number", age.bankAccountNumber);
+        param.append("swift_code", age.swift_code);
+        param.append("currency", age.currency);
         param.append(
           "confirm_bank_account_number",
           age.confirmbankAccountNumber
@@ -446,21 +466,24 @@ const BankAccountp = () => {
         <Grid
           item
           md={12}
-          className="d-flex pb-0 position-relative"
+          className="d-flex pb-0 position-relative "
           style={{ paddingLeft: "-12px", overflowY: "auto" }}
         >
           <Paper
             elevation={0}
             style={{ borderRadius: "10px" }}
-            className="w-100 mb-5"
+            className="w-100 "
           >
             <Table aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell align="center">Account Holder Name</TableCell>
-                  <TableCell align="center">Beneficiary Bank Name</TableCell>
+                  <TableCell align="center">Holder Name</TableCell>
+                  <TableCell align="center">Bank Name</TableCell>
+                  <TableCell align="center">Currency</TableCell>
                   <TableCell align="center">Account Number</TableCell>
                   <TableCell align="center">IFSC/IBAN</TableCell>
+                  <TableCell align="center">Swift Code</TableCell>
+
                   <TableCell align="center">Action</TableCell>
                 </TableRow>
               </TableHead>
@@ -471,17 +494,31 @@ const BankAccountp = () => {
                       {item.bank_account_holder_name}
                     </TableCell>
                     <TableCell align="center">{item.bank_name}</TableCell>
+                    <TableCell align="center">{item.currency}</TableCell>
                     <TableCell align="center">
                       {item.bank_account_number}
                     </TableCell>
+
                     <TableCell align="center">{item.bank_ifsc}</TableCell>
+                    <TableCell align="center">{item.swift_code}</TableCell>
                     <TableCell align="center">
-                      <Button
-                        className="cursor-pointer p-0 p-md-2 rounded-circle text-muted"
-                        onClick={handleClickOpen("paper", item.user_bank_id)}
-                      >
-                        <DeleteIcon sx={{ color: "red" }} />
-                      </Button>
+                      <div>
+                        <Button
+                          className="cursor-pointer p-0 p-md-2 rounded-circle text-muted"
+                          onClick={handleClickOpen("paper", item.user_bank_id)}
+                        >
+                          <DeleteIcon sx={{ color: "red" }} />
+                        </Button>
+                        <a href="/bankAccounts#bankDetails">
+                          <Button
+                            type="submit"
+                            className="cursor-pointer  p-0 p-md-2 rounded-circle text-muted"
+                            onClick={handleEdit(item)}
+                          >
+                            <CreateIcon sx={{ color: "#3D9730" }} />
+                          </Button>
+                        </a>
+                      </div>
                       <Dialog
                         open={open}
                         onClose={handleClose}
@@ -559,15 +596,6 @@ const BankAccountp = () => {
                           </div>
                         </DialogContent>
                       </Dialog>
-                      <a href="/bankAccounts#bankDetails">
-                        <Button
-                          type="submit"
-                          className="cursor-pointer mx-3 p-0 p-md-2 rounded-circle text-muted"
-                          onClick={handleEdit(item)}
-                        >
-                          <CreateIcon sx={{ color: "#3D9730" }} />
-                        </Button>
-                      </a>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -635,7 +663,7 @@ const BankAccountp = () => {
                           </h5>
                         </div>
                         <div className="divider"></div>
-                        <div className="card-body position-relative pt-0 pb-5">
+                        <div className="card-body position-relative pt-0">
                           <Grid container spacing={3}>
                             <Grid
                               item
@@ -657,6 +685,8 @@ const BankAccountp = () => {
                                       name: "",
                                       bankName: "",
                                       iban: "",
+                                      swift_code: "",
+                                      currency: "",
                                       bankAccountNumber: "",
                                       otp: "",
                                       confirmbankAccountNumber: "",
@@ -667,6 +697,8 @@ const BankAccountp = () => {
                                       bankName: false,
                                       bankAccountNumber: false,
                                       confirmbankAccountNumber: false,
+                                      swift_code: false,
+                                      currency: false,
                                       iban: false,
                                       otp: false,
                                       ibanselect: false,
@@ -687,11 +719,16 @@ const BankAccountp = () => {
                                   <AccountBalanceIcon
                                     style={{
                                       fontSize: "35px",
-                                      color: "#00008b",
+                                      color: "#5d2067",
                                     }}
                                   />
 
-                                  <p className="d-md-block">Add Bank Info</p>
+                                  <p
+                                    className="d-md-block"
+                                    style={{ color: "#5d2067" }}
+                                  >
+                                    Add Bank Info
+                                  </p>
                                 </div>
                               </a>
                             </Grid>
@@ -720,7 +757,7 @@ const BankAccountp = () => {
                                 <form onSubmit={handleSubmit}>
                                   <div className="my-4">
                                     <Grid container spacing={3}>
-                                      <Grid item md={6}>
+                                      <Grid item md={4}>
                                         <FormControl
                                           className="w-100"
                                           error={age.name == "" ? true : false}
@@ -763,7 +800,7 @@ const BankAccountp = () => {
                                           )}
                                         </FormControl>
                                       </Grid>
-                                      <Grid item md={6}>
+                                      <Grid item md={4}>
                                         <FormControl
                                           className="w-100"
                                           error={
@@ -802,9 +839,80 @@ const BankAccountp = () => {
                                           )}
                                         </FormControl>
                                       </Grid>
+                                      <Grid item md={4}>
+                                        <FormControl className="w-100">
+                                          {/* <InputLabel htmlFor="account_no">ACCOUNT NO</InputLabel> */}
+                                          <div className="font-weight-bold mb-2">
+                                            Currency
+                                          </div>
+                                          <Select
+                                            value={age.currency}
+                                            name="currency"
+                                            onChange={handleChange}
+                                            displayEmpty
+                                            inputProps={{
+                                              "aria-label": "Without label",
+                                            }}
+                                            input={<BootstrapInput />}
+                                            className="mt-0 ml-0"
+                                            style={{ width: "100%" }}
+                                            onBlur={trueFalse}
+                                          >
+                                            {cData?.currency.map((item) => {
+                                              return (
+                                                <MenuItem value={item}>
+                                                  {item}
+                                                </MenuItem>
+                                              );
+                                            })}
+                                          </Select>
+                                          {age.currency == "" &&
+                                          infoTrue.currency == true ? (
+                                            <FormHelperText>
+                                              Please Select Currency
+                                            </FormHelperText>
+                                          ) : (
+                                            ""
+                                          )}
+                                          {age.upi_name ? (
+                                            <>
+                                              {" "}
+                                              <label
+                                                htmlFor="upi_crypto_ac_number"
+                                                className="text-info font-weight-bold form-label-head w-100 mt-4 required"
+                                              >
+                                                UPI Id
+                                              </label>
+                                              <BootstrapInput
+                                                name="upi_crypto_ac_number"
+                                                type="text"
+                                                disabled={!sendOtp}
+                                                value={age.upi_crypto_ac_number}
+                                                onChange={handleChange}
+                                                displayEmpty
+                                                onBlur={trueFalse}
+                                                inputProps={{
+                                                  "aria-label": "Without label",
+                                                }}
+                                              />
+                                              {age.upi_crypto_ac_number == "" &&
+                                              infoTrue.upi_crypto_ac_number ==
+                                                true ? (
+                                                <FormHelperText>
+                                                  Please Enter UPI Id
+                                                </FormHelperText>
+                                              ) : (
+                                                ""
+                                              )}
+                                            </>
+                                          ) : (
+                                            ""
+                                          )}
+                                        </FormControl>
+                                      </Grid>
                                       <Grid item md={12}></Grid>
 
-                                      <Grid item md={6}>
+                                      <Grid item md={4}>
                                         <FormControl
                                           className="w-100"
                                           error={
@@ -843,7 +951,7 @@ const BankAccountp = () => {
                                           )}
                                         </FormControl>
                                       </Grid>
-                                      <Grid item md={6}>
+                                      <Grid item md={4}>
                                         <FormControl
                                           className="w-100"
                                           error={
@@ -889,6 +997,26 @@ const BankAccountp = () => {
                                           )}
                                         </FormControl>
                                       </Grid>
+                                      <Grid item md={4}>
+                                        <FormControl className="w-100">
+                                          <div className="font-weight-bold mb-2">
+                                            Swift Code (optional)
+                                          </div>
+                                          <BootstrapInput
+                                            type="text"
+                                            value={age.swift_code}
+                                            name="swift_code"
+                                            onChange={(e) => {
+                                              handleChange(e);
+                                            }}
+                                            displayempty
+                                            inputProps={{
+                                              "aria-label": "Without label",
+                                            }}
+                                            onBlur={trueFalse}
+                                          />
+                                        </FormControl>
+                                      </Grid>
                                       <Grid
                                         item
                                         // md={age.ibanselect == "IFSC" ? 4 : 6}
@@ -918,11 +1046,11 @@ const BankAccountp = () => {
                                                   control={<Radio />}
                                                   label="IBAN"
                                                 />
-                                                <FormControlLabel
+                                                {/* <FormControlLabel
                                                   value="SWIFT"
                                                   control={<Radio />}
                                                   label="SWIFT"
-                                                />
+                                                /> */}
                                               </RadioGroup>
                                             </FormControl>
                                           </div>
