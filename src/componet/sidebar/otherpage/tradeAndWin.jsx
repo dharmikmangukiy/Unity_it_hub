@@ -314,30 +314,45 @@ const TradeAndWin = () => {
                         </div>
                       ) : (
                         <div className="trade-order-list">
-                          {orderList?.map((order) => (
-                            <div className="trade-order-body">
-                              <div className="trade-order-img-block">
-                                <img src={order?.item_image} alt="order" />
-                              </div>
-                              <div className="trade-order-name">
-                                <p>{order.item_name}</p>
-                                <p>{`${order.item_lot_size} lots`}</p>
-                              </div>
-                              {order.status == "0" ? (
-                                <p className="text-color-yellow">Pending</p>
-                              ) : order.status == "1" ? (
-                                <p className="trade-order-status">Delivered</p>
-                              ) : order.status == "2" ? (
-                                <p className="text-color-red">Canceled</p>
-                              ) : (
-                                ""
-                              )}
-                              {/* <p className="trade-order-status">Delivered</p> */}
-                              <p className="trade-order-date">
-                                <NewDate newDate={order.added_datetime} />
-                              </p>
+                          {orderList.length == 0 ? (
+                            <div className="noOrderHistory">
+                              There are no records to display
                             </div>
-                          ))}
+                          ) : (
+                            <>
+                              {" "}
+                              {orderList?.map((order) => (
+                                <div className="trade-order-body">
+                                  <div className="trade-order-img-block">
+                                    <img src={order?.item_image} alt="order" />
+                                  </div>
+                                  <div className="trade-order-name">
+                                    <p>{order.item_name}</p>
+                                    <p>{`${order.item_lot_size} lots`}</p>
+                                  </div>
+                                  {order.status == "0" ? (
+                                    <p className="text-color-yellow font-12m">
+                                      Pending
+                                    </p>
+                                  ) : order.status == "1" ? (
+                                    <p className="trade-order-status  font-12m">
+                                      Delivered
+                                    </p>
+                                  ) : order.status == "2" ? (
+                                    <p className="text-color-red font-12m">
+                                      Canceled
+                                    </p>
+                                  ) : (
+                                    ""
+                                  )}
+                                  {/* <p className="trade-order-status">Delivered</p> */}
+                                  <p className="trade-order-date font-12m">
+                                    {order.added_datetime}
+                                  </p>
+                                </div>
+                              ))}
+                            </>
+                          )}
                         </div>
                       )}
                     </div>

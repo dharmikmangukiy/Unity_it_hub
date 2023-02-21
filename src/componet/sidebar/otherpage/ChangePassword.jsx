@@ -276,9 +276,8 @@ export const ChangePassword = () => {
                                           {mt5AccountList.data.map((item) => {
                                             return (
                                               <MenuItem value={item.mt5_acc_no}>
-                                                {item.mt5_acc_no} (
-                                                {item.mt5_name}
-                                                )-{item.ib_group_name}
+                                                {item.mt5_acc_no}-
+                                                {item.ib_group_name}
                                               </MenuItem>
                                             );
                                           })}

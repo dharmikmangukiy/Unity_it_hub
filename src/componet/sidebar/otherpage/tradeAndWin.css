@@ -406,7 +406,7 @@
   margin-top: 2px;
 }
 
-@media (max-width: 799px) {
+@media (max-width: 1226px) {
   .trade-body {
     flex-direction: column;
     align-items: center;
@@ -432,5 +432,25 @@
   .cart-body {
     flex-direction: column;
     align-items: center;
+  }
+}
+.noOrderHistory {
+  width: 100%;
+  min-height: 55px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px dotted #afb0b5;
+}
+@media (max-width: 450px) {
+  .trade-order-name p:first-child {
+    font-size: 14px;
+  }
+  .trade-order-name p:last-child {
+    font-size: 12px;
+  }
+  .font-12m {
+    font-size: 12px;
   }
 }

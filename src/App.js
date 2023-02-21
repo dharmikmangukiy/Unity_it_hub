@@ -78,6 +78,7 @@ import Deposite_in_Telegram from "./componet/sidebar/deposit/Deposite_in_Telegra
 import SpanTerm from "./componet/sidebar/spinAndWin/SpanTerm";
 import FamtasticHistory from "./componet/sidebar/fantastic/FamtasticHistory";
 import { Affiliate } from "./componet/sidebar/otherpage/Withdraw/Affiliate";
+import SpinReport from "./componet/sidebar/spinAndWin/SpinReport";
 
 function useScrollToTop() {
   const { pathname } = useLocation();
@@ -91,7 +92,7 @@ const THEME = createTheme({
   },
 });
 const App = () => {
-  console.log(localStorage.getItem("login"));
+  // console.log(localStorage.getItem("login"));
   useScrollToTop();
   const [login, setLogin] = useState(localStorage.getItem("login"));
   const [login1, setLogin1] = useState(false);
@@ -105,31 +106,93 @@ const App = () => {
   // console.log(currentLanguageCode)
   const ref = useRef();
   const [sidebar, setSidebar] = useState(false);
-  const [permission, setPermission] = useState({});
-  const [bal, setBal] = useState(0);
+  const [permission, setPermission] = useState({
+    data: "",
+  });
+
+  const [bal, setBal] = useState({
+    data: 0,
+  });
   const [loader, setLoader] = useState(true);
   // console.log("login 123",login)
+
   const fetchUserPref = async () => {
-    if (firstCall) {
+    // if (firstCall) {
+    const param = new FormData();
+    if (IsApprove !== "") {
+      param.append("is_app", IsApprove.is_app);
+      param.append("user_id", IsApprove.user_id);
+      param.append("auth_key", IsApprove.auth);
+    }
+    await axios
+      .post(`${Url}/ajaxfiles/get_user_prefrence.php`, param)
+      .then((res) => {
+        if (res.data.message == "Session has been expired") {
+          localStorage.setItem("login", true);
+
+          setLogin("true");
+        }
+
+        setLoader(false);
+        // setFirstCall(false);
+        // console.log(
+        //   "localStorage.getItem",
+        //   localStorage.getItem("ibPortal"),
+        //   moveToib
+        // );
+        bal.data = res.data.balance;
+        setBal({ ...bal });
+        localStorage.setItem("login", false);
+        setLogin("false");
+
+        if (
+          res.data.is_affiliate == 1 &&
+          localStorage.getItem("affiliate") == 1
+        ) {
+          SetMoveAff(true);
+        } else {
+          SetMoveAff(false);
+        }
+        if (
+          res.data.is_ib_account == 1 &&
+          localStorage.getItem("ibPortal") == 1
+        ) {
+          SetMoveToib(true);
+        } else {
+          SetMoveToib(false);
+        }
+        permission.data = res.data;
+        setPermission({ ...permission });
+      });
+    // }
+  };
+  useEffect(() => {
+    var url = window.location.pathname.split("/");
+
+    if (url.length > 1 && url[1] == "login_as") {
+      localStorage.clear();
+      setLoader(null);
+    } else {
       const param = new FormData();
       if (IsApprove !== "") {
         param.append("is_app", IsApprove.is_app);
         param.append("user_id", IsApprove.user_id);
         param.append("auth_key", IsApprove.auth);
       }
-      await axios
-        .post(`${Url}/ajaxfiles/get_user_prefrence.php`, param)
+      axios
+        .post(`${Url}/ajaxfiles/login_session_check.php`, param)
         .then((res) => {
-          if (res.data.message == "Session has been expired") {
+          if (res.data.status == "error") {
+            localStorage.setItem("login", true);
             setLogin("true");
+          } else {
+            localStorage.setItem("login", false);
+            setLogin("false");
+            fetchUserPref();
           }
-          setLoader(false);
-          setFirstCall(false);
-          setBal(res.data.balance);
-          setPermission(res.data);
         });
     }
-  };
+  }, []);
   const getwallet = () => {
     const param = new FormData();
     param.append("action", "view_balance");
@@ -143,7 +206,9 @@ const App = () => {
       if (res.data.status == "error") {
         // Toast("error", res.data.message);
       } else {
-        setBal(res.data.balance);
+        // setBal(res.data.balance);
+        bal.data = res.data.balance;
+        setBal({ ...bal });
       }
     });
   };
@@ -158,30 +223,49 @@ const App = () => {
             <Route
               exact
               path="/login/:id"
-              element={<Login setLogin={setLogin} />}
+              element={
+                <Login setLogin={setLogin} fetchUserPref={fetchUserPref} />
+              }
             />
             <Route
               exact
               path="/login"
-              element={<Login setLogin={setLogin} />}
+              element={
+                <Login
+                  fetchUserPref={fetchUserPref}
+                  // getCallRefress={() => getCallRefress()}
+                />
+              }
             />
             <Route
               exact
               path="/register"
-              element={<RegisterTest setLogin={setLogin} />}
+              element={
+                <RegisterTest
+                  setLogin={setLogin}
+                  fetchUserPref={fetchUserPref}
+                />
+              }
             />
             {/* <Route exact path="/RegisterTest" element={<Register />} /> */}
 
             <Route
               exact
               path="/register/:id/:id1"
-              element={<RegisterTest setLogin={setLogin} />}
+              element={
+                <RegisterTest
+                  setLogin={setLogin}
+                  fetchUserPref={fetchUserPref}
+                />
+              }
             />
 
             <Route
               exact
               path="/login_as/:id"
-              element={<LoginAs setLogin={setLogin} />}
+              element={
+                <LoginAs setLogin={setLogin} fetchUserPref={fetchUserPref} />
+              }
             />
             <Route
               exact
@@ -194,7 +278,7 @@ const App = () => {
       </ThemeProvider>
     );
   } else {
-    fetchUserPref();
+    // fetchUserPref();
     return (
       <div className={clang == "rtl" ? "dir-ar-ae" : "dir-en-gb"}>
         {loader == true ? (
@@ -214,8 +298,8 @@ const App = () => {
               setSidebar={setSidebar}
               moveToib={moveToib}
               moveAff={moveAff}
-              bal={bal}
-              permission={permission}
+              bal={bal.data}
+              permission={permission.data}
             />
             <div className="app-main">
               <Header
@@ -225,7 +309,7 @@ const App = () => {
                 setMoveToib={SetMoveToib}
                 SetMoveAff={SetMoveAff}
                 moveAff={moveAff}
-                permission={permission}
+                permission={permission.data}
                 moveToib={moveToib}
               />
               <div className="app-content">
@@ -245,11 +329,16 @@ const App = () => {
                   path="/affiliate"
                   element={<Affiliate setLogin={setLogin} />}
                 /> */}
-                  {permission.is_affiliate == "1" ? (
+                  {permission.data.is_affiliate == "1" ? (
                     <Route
                       exact
                       path="/Affiliatedashboard"
-                      element={<AffiliateDashboard setLogin={setLogin} />}
+                      element={
+                        <AffiliateDashboard
+                          setLogin={setLogin}
+                          permission={permission.data}
+                        />
+                      }
                     />
                   ) : (
                     <Route
@@ -266,16 +355,17 @@ const App = () => {
                   <Route
                     exact
                     path="/spinAndWin"
-                    element={<Spin_dash permission={permission} />}
+                    element={<Spin_dash permission={permission.data} />}
+                  />
+                  <Route
+                    exact
+                    path="/spinAndWin/report"
+                    element={<SpinReport permission={permission.data} />}
                   />
                   <Route
                     exact
                     path="/spinTermsConditions"
-                    element={<SpanTerm permission={permission} />}
-                  />
-                  <Route
-                    path="*"
-                    element={<Navigate to="/dashboard" replace />}
+                    element={<SpanTerm permission={permission.data} />}
                   />
                   <Route
                     exact
@@ -317,7 +407,7 @@ const App = () => {
                   <Route
                     exact
                     path="/shipping"
-                    element={<Shipping permission={permission} />}
+                    element={<Shipping permission={permission.data} />}
                   />
                   <Route path="/bonus" element={<BonusDeshboard />} />
                   <Route
@@ -327,7 +417,7 @@ const App = () => {
                   {/* <Route exact path="/depositTest/" element={<DepositeTest />} /> */}
                   <Route exact path="/deposit" element={<DepositeTest />} />
                   <Route path="/partnership" element={<Partnership />} />
-                  {permission.is_affiliate == "1" ? (
+                  {permission.data.is_affiliate == "1" ? (
                     <>
                       <Route path="/earnReport" element={<EarnReport />} />
                     </>
@@ -407,7 +497,11 @@ const App = () => {
                     element={<Android />}
                   />
                   <Route exact path="/Platforms/iphone" element={<Iphone />} />
-                  <Route exact path="/userProfile" element={<UserProfile />} />
+                  <Route
+                    exact
+                    path="/userProfile"
+                    element={<UserProfile permission={permission.data} />}
+                  />
                   <Route exact path="/myDocuments" element={<MyDocuments />} />
                   <Route
                     exact
@@ -461,12 +555,17 @@ const App = () => {
                     path="/portfolio_profile/:id"
                     element={<PammPortfolioProfile />}
                   />
-                  {permission?.is_ib_account == 1 ? (
+                  {permission.data?.is_ib_account == 1 ? (
                     <>
                       <Route
                         exact
                         path="/IBdashboard"
-                        element={<IBDashboard setLogin={setLogin} />}
+                        element={
+                          <IBDashboard
+                            setLogin={setLogin}
+                            permission={permission.data}
+                          />
+                        }
                       />
                       <Route
                         path="/ib_commission_history"
@@ -497,6 +596,10 @@ const App = () => {
                         exact
                         path="/Fantastic_tour"
                         element={<Fantastic_tour />}
+                      />
+                      <Route
+                        path="*"
+                        element={<Navigate to="/dashboard" replace />}
                       />
                     </>
                   ) : (

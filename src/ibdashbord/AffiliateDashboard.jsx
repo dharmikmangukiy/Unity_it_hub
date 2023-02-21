@@ -140,7 +140,7 @@ const AffiliateDashboard = (prop) => {
                                     <label className="text-info font-weight-bold w-100">
                                       <a>
                                         {Url +
-                                          `/register/affiliate/${info.link}`}
+                                          `/register${prop.permission.affiliate_dashboard_link}`}
                                       </a>
                                     </label>
                                     <button
@@ -149,7 +149,7 @@ const AffiliateDashboard = (prop) => {
                                         navigator.clipboard
                                           .writeText(
                                             Url +
-                                              `/register/affiliate/${info.link}`
+                                              `/register${prop.permission.affiliate_dashboard_link}`
                                           )
                                           .then(
                                             function () {

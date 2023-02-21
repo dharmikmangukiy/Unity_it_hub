@@ -119,14 +119,14 @@ export const Withdrawal = (prop) => {
   };
   const fetchMT5AccountDetaiils = (prop) => {
     const param = new FormData();
-    param.append("action", "get_mt5_ac_details");
-    param.append("mt5_acc_no", prop);
-
     if (IsApprove !== "") {
       param.append("is_app", IsApprove.is_app);
       param.append("user_id", IsApprove.user_id);
       param.append("auth_key", IsApprove.auth);
     }
+    param.append("action", "get_mt5_ac_details");
+    param.append("mt5_acc_no", prop);
+
     axios.post(`${Url}/ajaxfiles/account_list.php`, param).then((res) => {
       if (res.data.message == "Session has been expired") {
         navigate("/");
@@ -146,12 +146,20 @@ export const Withdrawal = (prop) => {
       };
     });
     if (value == "Bank" && name == "payment_method") {
-      axios.post(`${Url}/ajaxfiles/view_bank_details.php`).then((res) => {
-        if (res.data.message == "Session has been expired") {
-          navigate("/");
-        }
-        setBankMenu(res.data.data);
-      });
+      const param = new FormData();
+      if (IsApprove !== "") {
+        param.append("is_app", IsApprove.is_app);
+        param.append("user_id", IsApprove.user_id);
+        param.append("auth_key", IsApprove.auth);
+      }
+      axios
+        .post(`${Url}/ajaxfiles/view_bank_details.php`, param)
+        .then((res) => {
+          if (res.data.message == "Session has been expired") {
+            navigate("/");
+          }
+          setBankMenu(res.data.data);
+        });
     }
     console.log(event.target.value);
   };
@@ -449,7 +457,7 @@ export const Withdrawal = (prop) => {
               BANK ACCOUNT
             </label>
             <Select
-              value={age.bankAccount}
+              value={age.user_bank_id}
               name="user_bank_id"
               onChange={handleChange}
               disabled={!sendOtp}
@@ -801,7 +809,8 @@ export const Withdrawal = (prop) => {
                                         {mt5AccountList.map((item) => {
                                           return (
                                             <MenuItem value={item.mt5_acc_no}>
-                                              {item.mt5_acc_no}
+                                              {item.mt5_acc_no}(
+                                              {item.ib_group_name})
                                             </MenuItem>
                                           );
                                         })}

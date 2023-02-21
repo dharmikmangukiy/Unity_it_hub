@@ -579,7 +579,7 @@ export const DemoAccounts = () => {
                                       htmlFor=""
                                       className="text-dark font-weight-bold w-100 text-uppercase"
                                     >
-                                      Executive
+                                      DEMO
                                     </label>
                                   </FormControl>
                                 </Grid>
@@ -988,7 +988,7 @@ export const DemoAccounts = () => {
                                         ></BootstrapInput>
                                       </FormControl>
                                     </Grid>
-                                    <Grid item sm={6} md={3}>
+                                    {/* <Grid item sm={6} md={3}>
                                       <FormControl fullWidth={true}>
                                         <label className="small font-weight-bold text-dark">
                                           {" "}
@@ -1020,7 +1020,7 @@ export const DemoAccounts = () => {
                                           })}
                                         </Select>
                                       </FormControl>
-                                    </Grid>
+                                    </Grid> */}
                                   </Grid>
                                   <Grid container spacing={2}>
                                     <Grid item sm={12} md={12}>

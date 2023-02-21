@@ -301,17 +301,16 @@ const IBCommissionHistory = () => {
                       </FormControl>
                     </Grid>
 
-                    <Grid item sm={1} md={1}>
+                    <Grid item md={6} sx={{ marginTop: "17px" }}>
                       <ColorButton
-                        className="d-block ml-auto mb-3 mr-3 btn-filter depositFilter"
+                        className="depositFilter"
                         onClick={(e) => setRefresh(!refresh)}
                       >
                         Filter
                       </ColorButton>
-                    </Grid>
-                    <Grid item sm={1} md={1}>
                       <ColorButton
-                        className="d-block ml-auto mb-3 mr-3 btn-filter depositFilter"
+                        className="depositFilter"
+                        sx={{ marginLeft: "10px" }}
                         onClick={(e) => setOpen(true)}
                       >
                         Withdrawal

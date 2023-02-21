@@ -186,7 +186,8 @@ const IBDashboard = (prop) => {
                                   <div className="sponsorlink-content-section">
                                     <label className="text-info font-weight-bold w-100">
                                       <a>
-                                        {Url + `/register/sponsor/${info.link}`}
+                                        {Url +
+                                          `/register${prop?.permission?.ib_dashboard_link}`}
                                       </a>
                                     </label>
                                     <button
@@ -195,7 +196,7 @@ const IBDashboard = (prop) => {
                                         navigator.clipboard
                                           .writeText(
                                             Url +
-                                              `/register/sponsor/${info.link}`
+                                              `/register${prop?.permission?.ib_dashboard_link}`
                                           )
                                           .then(
                                             function () {

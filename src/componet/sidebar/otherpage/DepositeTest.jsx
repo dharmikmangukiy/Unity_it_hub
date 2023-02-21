@@ -107,6 +107,7 @@ const DepositeTest = () => {
       console.log("nikunj2", info);
     } else if (
       (info.selectPaymentOption == "UPI" ||
+        info.selectPaymentOption == "Bank" ||
         info.selectPaymentOption == "PhonePe" ||
         info.selectPaymentOption == "Paytm" ||
         info.selectPaymentOption == "Google pay") &&
@@ -133,6 +134,7 @@ const DepositeTest = () => {
       if (
         (info.selectPaymentOption == "UPI" ||
           info.selectPaymentOption == "PhonePe" ||
+          info.selectPaymentOption == "Bank" ||
           info.selectPaymentOption == "Paytm" ||
           info.selectPaymentOption == "Google pay") &&
         info.image
@@ -302,7 +304,7 @@ const DepositeTest = () => {
                                   {dataArray.accountList.map((item) => {
                                     return (
                                       <MenuItem value={item.mt5_acc_no}>
-                                        {item.mt5_acc_no} ({item.acc_type})
+                                        {item.mt5_acc_no} ({item.ib_group_name})
                                       </MenuItem>
                                     );
                                   })}
@@ -1708,8 +1710,8 @@ const DepositeTest = () => {
                                   }}
                                 >
                                   <div>
-                                    <label className="text-info font-weight-bold form-label-head w-100 required">
-                                      Enter UTR Number
+                                    <label className="text-info font-weight-bold form-label-head w-100 ">
+                                      Enter UTR Number (Optional)
                                     </label>
                                     <FormControl
                                       className="w-100"
@@ -1723,7 +1725,6 @@ const DepositeTest = () => {
                                         value={info.utn}
                                         name="utn"
                                         type="text"
-                                        onBlur={trueFalse}
                                         className="w-100"
                                         onChange={(e) => {
                                           // setAmount(e.target.value);
@@ -1735,14 +1736,6 @@ const DepositeTest = () => {
                                           "aria-label": "Without label",
                                         }}
                                       />
-                                      {info.utn == "" &&
-                                      infoTrue.utn == true ? (
-                                        <FormHelperText>
-                                          UTR Number is required
-                                        </FormHelperText>
-                                      ) : (
-                                        ""
-                                      )}
                                     </FormControl>
                                   </div>
                                   <div

@@ -63,10 +63,14 @@ const BootstrapDialogTitle = (props: DialogTitleProps) => {
 const MyClient = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const [maxWidth, setMaxWidth] = useState("sm");
+  const [maxWidth, setMaxWidth] = useState("lg");
   const [dialogTitle, setDialogTitle] = useState("");
   const [fullWidth, setFullWidth] = useState(true);
   const [mainLoader, setMainLoader] = useState(true);
+  const [popLoader, setPopLoader] = useState({
+    data: true,
+  });
+
   const [myTraderData, setMyTraderData] = useState({
     data: {},
     user_name: "",
@@ -84,7 +88,13 @@ const MyClient = () => {
   const handleClose = () => {
     setOpen(false);
   };
+  console.log(
+    "testing header",
+    myTraderData.user_name,
+    myTraderData.main_user_name
+  );
   const manageContent = () => {
+    console.log("popLoader.dat", popLoader.data);
     if (
       dialogTitle == myTraderData.user_name ||
       dialogTitle == myTraderData.main_user_name
@@ -94,196 +104,242 @@ const MyClient = () => {
           className="bankDetailsTabSection downline-table"
           style={{ padding: "0" }}
         >
-          {myChildTraderData.parent_id != "" ? (
-            <div>
-              <ColorButton
-                variant="contained"
-                className="add_note"
-                sx={{
-                  padding: "4px 12px !important",
-                }}
-                onClick={(e) => {
-                  getMyChildTrader(myChildTraderData.parent_id);
-                }}
-              >
-                <ArrowBackIcon sx={{ fontSize: "16px" }} />
-              </ColorButton>
-            </div>
+          {popLoader.data == true ? (
+            <>
+              <div className="myCilentPopLoder">
+                <svg class="spinner" viewBox="0 0 50 50">
+                  <circle
+                    class="path"
+                    cx="25"
+                    cy="25"
+                    r="20"
+                    fill="none"
+                    stroke-width="5"
+                  ></circle>
+                </svg>
+              </div>
+            </>
           ) : (
-            ""
-          )}
+            <>
+              {myChildTraderData.parent_id != "" ? (
+                <div>
+                  <ColorButton
+                    variant="contained"
+                    className="add_note"
+                    sx={{
+                      padding: "4px 12px !important",
+                    }}
+                    onClick={(e) => {
+                      setOpen(true);
 
-          <div
-            className="bankDetailsTabSection downline-table"
-            style={{ padding: "0" }}
-          >
-            <table>
-              <thead>
-                <th colspan="6" scope="colgroup"></th>
-                <th colspan="3" scope="colgroup" className="colcolor"></th>
-                <th colspan="4" scope="colgroup" className="colcolor">
-                  Downline
-                </th>
-                <th colspan="1" scope="colgroup"></th>
+                      popLoader.data = true;
+                      setPopLoader({ ...popLoader });
+                      getMyChildTrader(myChildTraderData.parent_id);
+                    }}
+                  >
+                    <ArrowBackIcon sx={{ fontSize: "16px" }} />
+                  </ColorButton>
+                </div>
+              ) : (
+                ""
+              )}
+              <div
+                className="bankDetailsTabSection downline-table"
+                style={{ padding: "0" }}
+              >
+                <table>
+                  <thead>
+                    <th colspan="6" scope="colgroup"></th>
+                    <th colspan="3" scope="colgroup" className="colcolor"></th>
+                    <th colspan="4" scope="colgroup" className="colcolor">
+                      Downline
+                    </th>
+                    <th colspan="1" scope="colgroup"></th>
 
-                <tr>
-                  <th>SR.NO</th>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>MT Code</th>
-                  <th className="">IB Account</th>
-                  <th>Deposit</th>
-                  <th>Withdraw</th>
-                  <th className="">Lot</th>
-                  <th className="colcolor">Rebate</th>
-                  <th>Team Deposit</th>
-                  <th>Total Lot </th>
-                  <th>IB Commission</th>
+                    <tr>
+                      <th>SR.NO</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>MT Code</th>
+                      <th className="">IB Account</th>
+                      <th>Deposit</th>
+                      <th>Withdraw</th>
+                      <th className="">Lot</th>
+                      <th className="colcolor">Rebate</th>
+                      <th>Team Deposit</th>
+                      <th>Total Lot </th>
+                      <th>IB Commission</th>
 
-                  <th className="colcolor">IB Withdraw</th>
+                      <th className="colcolor">IB Withdraw</th>
 
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {myChildTraderData.data.data != undefined ? (
-                  myChildTraderData.data.data.map((item) => {
-                    return (
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {myChildTraderData.data.data != undefined ? (
+                      myChildTraderData.data.data.map((item) => {
+                        return (
+                          <tr>
+                            <td>{item.sr_no}</td>
+                            <td>{item.name}</td>
+                            <td>{item.user_email}</td>
+                            <td>{item.mt5_acc_ids}</td>
+                            <td className="">
+                              {item.is_ib_account == "1" ? "Yes" : "No"}
+                            </td>
+                            <td>{item.deposit_amount}</td>
+                            <td>{item.withdrawal_amount}</td>
+                            <td>{item.own_lot}</td>
+                            <td className="colcolor">
+                              {item.rebate_generated}
+                            </td>
+                            <td>{item.total_deposit}</td>{" "}
+                            <td>{item.down_line_lot}</td>
+                            <td>{item.total_ib_commission}</td>
+                            <td className="colcolor">
+                              {item.total_ib_withdrawn}
+                            </td>
+                            <td>
+                              {item.is_ib_account == "1" &&
+                              item.has_downline ? (
+                                <ColorButton
+                                  variant="contained"
+                                  className="add_note"
+                                  sx={{ padding: "5px 12px" }}
+                                  onClick={(e) => {
+                                    popLoader.data = true;
+                                    setPopLoader({ ...popLoader });
+                                    // myTraderData.user_name = item.name;
+                                    // myTraderData.main_user_name = item.name;
+                                    myTraderData.user_id = item.client_id;
+                                    setMyTraderData({
+                                      ...myTraderData,
+                                    });
+                                    getMyChildTrader(item.client_id);
+                                  }}
+                                >
+                                  View
+                                </ColorButton>
+                              ) : (
+                                ""
+                              )}
+                            </td>
+                          </tr>
+                        );
+                      })
+                    ) : (
                       <tr>
-                        <td>{item.sr_no}</td>
-                        <td>{item.name}</td>
-                        <td>{item.user_email}</td>
-                        <td>{item.mt5_acc_ids}</td>
-                        <td className="">
-                          {item.is_ib_account == "1" ? "Yes" : "No"}
-                        </td>
-                        <td>{item.deposit_amount}</td>
-                        <td>{item.withdrawal_amount}</td>
-                        <td>{item.own_lot}</td>
-                        <td className="colcolor">{item.rebate_generated}</td>
-                        <td>{item.total_deposit}</td>{" "}
-                        <td>{item.down_line_lot}</td>
-                        <td>{item.total_ib_commission}</td>
-                        <td className="colcolor">{item.total_ib_withdrawn}</td>
-                        <td>
-                          {item.is_ib_account == "1" && item.has_downline ? (
-                            <ColorButton
-                              variant="contained"
-                              className="add_note"
-                              sx={{ padding: "5px 12px" }}
-                              onClick={(e) => {
-                                myTraderData.user_name = item.name;
-                                myTraderData.main_user_name = item.name;
-                                myTraderData.user_id = item.client_id;
-                                setMyTraderData({
-                                  ...myTraderData,
-                                });
-                                getMyChildTrader(item.client_id);
-                              }}
-                            >
-                              View
-                            </ColorButton>
-                          ) : (
-                            ""
-                          )}
+                        <td className="text-center" colSpan={10}>
+                          Recored not found
                         </td>
                       </tr>
-                    );
-                  })
-                ) : (
-                  <tr>
-                    <td className="text-center" colSpan={10}>
-                      Recored not found
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-              <tfoot>
-                <tr>
-                  <td colSpan="5">
-                    <b>
-                      {myChildTraderData.data.footer_count != undefined
-                        ? myChildTraderData.data["footer_count"]["total"]
-                        : ""}
-                    </b>
-                  </td>
-                  <td>
-                    <b>
-                      {myChildTraderData.data.footer_count != undefined
-                        ? myChildTraderData.data["footer_count"][
-                            "total_user_deposit"
-                          ]
-                        : ""}
-                    </b>
-                  </td>
-                  <td>
-                    <b>
-                      {myChildTraderData.data.footer_count != undefined
-                        ? myChildTraderData.data["footer_count"][
-                            "total_user_withdraw"
-                          ]
-                        : ""}
-                    </b>
-                  </td>
-                  <td>
-                    <b>
-                      {myChildTraderData.data.footer_count != undefined
-                        ? myChildTraderData.data["footer_count"][
-                            "total_own_lot"
-                          ]
-                        : ""}
-                    </b>
-                  </td>
-                  <td>
-                    <b>
-                      {myChildTraderData.data.footer_count != undefined
-                        ? myChildTraderData.data["footer_count"][
-                            "total_rebate_generated"
-                          ]
-                        : ""}
-                    </b>
-                  </td>
-                  <td>
-                    <b>
-                      {myChildTraderData.data.footer_count != undefined
-                        ? myChildTraderData.data["footer_count"][
-                            "total_total_user_deposit"
-                          ]
-                        : ""}
-                    </b>
-                  </td>
-                  <td>
-                    <b>
-                      {myChildTraderData.data.footer_count != undefined
-                        ? myChildTraderData.data["footer_count"][
-                            "total_down_line_lot"
-                          ]
-                        : ""}
-                    </b>
-                  </td>
-                  <td>
-                    <b>
-                      {myChildTraderData.data.footer_count != undefined
-                        ? myChildTraderData.data["footer_count"][
-                            "total_total_ib_commission"
-                          ]
-                        : ""}
-                    </b>
-                  </td>{" "}
-                  <td>
-                    <b>
-                      {myChildTraderData.data.footer_count != undefined
-                        ? myChildTraderData.data["footer_count"][
-                            "total_total_ib_withdrawn"
-                          ]
-                        : ""}
-                    </b>
-                  </td>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
+                    )}
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colSpan="5" className="border-right-teble">
+                        <b>
+                          {myChildTraderData.data.footer_count != undefined
+                            ? myChildTraderData.data["footer_count"]["total"]
+                            : ""}
+                        </b>
+                      </td>
+                      <td className="border-right-teble">
+                        <b>
+                          {myChildTraderData.data.footer_count != undefined
+                            ? myChildTraderData.data["footer_count"][
+                                "total_user_deposit"
+                              ]
+                            : ""}
+                        </b>
+                      </td>
+                      <td className="border-right-teble">
+                        <b>
+                          {myChildTraderData.data.footer_count != undefined
+                            ? myChildTraderData.data["footer_count"][
+                                "total_user_withdraw"
+                              ]
+                            : ""}
+                        </b>
+                      </td>
+                      <td>
+                        <b>
+                          {myChildTraderData.data.footer_count != undefined
+                            ? myChildTraderData.data["footer_count"][
+                                "total_own_lot"
+                              ]
+                            : ""}
+                        </b>
+                      </td>
+                      <td>
+                        <b>
+                          {myChildTraderData.data.footer_count != undefined
+                            ? myChildTraderData.data["footer_count"][
+                                "total_rebate_generated"
+                              ]
+                            : ""}
+                        </b>
+                      </td>
+                      <td>
+                        <b>
+                          {myChildTraderData.data.footer_count != undefined
+                            ? myChildTraderData.data["footer_count"][
+                                "total_total_user_deposit"
+                              ]
+                            : ""}
+                        </b>
+                      </td>
+                      <td>
+                        <b>
+                          {myChildTraderData.data.footer_count != undefined
+                            ? myChildTraderData.data["footer_count"][
+                                "total_down_line_lot"
+                              ]
+                            : ""}
+                        </b>
+                      </td>
+                      <td>
+                        <b>
+                          {myChildTraderData.data.footer_count != undefined
+                            ? myChildTraderData.data["footer_count"][
+                                "total_total_ib_commission"
+                              ]
+                            : ""}
+                        </b>
+                      </td>{" "}
+                      <td>
+                        <b>
+                          {myChildTraderData.data.footer_count != undefined
+                            ? myChildTraderData.data["footer_count"][
+                                "total_total_ib_withdrawn"
+                              ]
+                            : ""}
+                        </b>
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </>
+          )}
         </div>
+      );
+    } else if (popLoader.data == true) {
+      return (
+        <>
+          <div className="myCilentPopLoder">
+            <svg class="spinner" viewBox="0 0 50 50">
+              <circle
+                class="path"
+                cx="25"
+                cy="25"
+                r="20"
+                fill="none"
+                stroke-width="5"
+              ></circle>
+            </svg>
+          </div>
+        </>
       );
     }
   };
@@ -319,10 +375,12 @@ const MyClient = () => {
           if (res.data.back_links == "") {
             setDialogTitle(myTraderData.main_user_name);
           } else {
+            myTraderData.user_name = res.data.back_link_name;
+            setMyTraderData({ ...myTraderData });
             setDialogTitle(myTraderData.user_name);
           }
-          setMaxWidth("lg");
-          setOpen(true);
+          popLoader.data = false;
+          setPopLoader({ ...popLoader });
         }
       });
   };
@@ -459,16 +517,18 @@ const MyClient = () => {
                                             sx={{ padding: "5px 12px" }}
                                             className="add_note"
                                             onClick={(e) => {
-                                              myTraderData.user_name =
-                                                item.name;
+                                              // myTraderData.user_name =
+                                              //   item.name;
                                               myTraderData.main_user_name =
                                                 item.name;
-
+                                              popLoader.data = true;
+                                              setPopLoader({ ...popLoader });
                                               myTraderData.user_id =
                                                 item.client_id;
                                               setMyTraderData({
                                                 ...myTraderData,
                                               });
+                                              setOpen(true);
                                               getMyChildTrader(item.client_id);
                                             }}
                                           >
@@ -599,7 +659,7 @@ const MyClient = () => {
               {dialogTitle}
             </BootstrapDialogTitle>
             <DialogContent dividers>{manageContent()}</DialogContent>
-            <DialogActions>{manageDialogActionButton()}</DialogActions>
+            {/* <DialogActions>{manageDialogActionButton()}</DialogActions> */}
           </BootstrapDialog>
         </div>
       </div>

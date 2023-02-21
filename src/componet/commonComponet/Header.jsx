@@ -364,6 +364,7 @@ const Header = (prop) => {
                     <a
                       className="nav-link-simple d-flex "
                       onClick={() => {
+                        localStorage.setItem("ibPortal", 1);
                         prop.setMoveToib(true);
                         navigate("/IBdashboard");
                       }}
@@ -397,7 +398,9 @@ const Header = (prop) => {
                     <a
                       className="nav-link-simple d-flex "
                       onClick={() => {
+                        localStorage.setItem("affiliate", 1);
                         prop.SetMoveAff(true);
+
                         navigate("/Affiliatedashboard");
                       }}
                     >
@@ -434,6 +437,8 @@ const Header = (prop) => {
                 onClick={() => {
                   prop.setMoveToib(false);
                   prop.SetMoveAff(false);
+                  localStorage.setItem("affiliate", 0);
+                  localStorage.setItem("ibPortal", 0);
 
                   navigate("/dashboard");
                 }}

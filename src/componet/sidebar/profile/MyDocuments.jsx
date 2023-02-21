@@ -143,7 +143,6 @@ const MyDocuments = () => {
       }
     }
   };
-  console.log("dsf", doc.fontimg.type);
   const onSubmit = () => {
     setinfoTrue({
       fontimg: true,
@@ -436,7 +435,6 @@ const MyDocuments = () => {
       }
     }
   }, [doc]);
-  console.log("formImage", formImage);
   useEffect(() => {
     if ((addfontimg == "" || addfontimg == null) && adddoc.fontimg) {
       if (!adddoc.fontimg) {
@@ -731,8 +729,12 @@ const MyDocuments = () => {
                                     id="FILE_FRONT_SIDE"
                                     type="file"
                                     name="fontimg"
-                                    // value={doc.fontimg}
+                                    value=""
                                     onChange={(e) => {
+                                      console.log(
+                                        "check doc",
+                                        e.target.files[0]
+                                      );
                                       setDoc((prevalue) => {
                                         return {
                                           ...prevalue,
@@ -803,6 +805,7 @@ const MyDocuments = () => {
                                       id="FILE_BACK_SIDE"
                                       type="file"
                                       name="backimg"
+                                      value=""
                                       // value={doc.backimg}
                                       onChange={(e) =>
                                         setDoc((prevalue) => {
@@ -926,6 +929,7 @@ const MyDocuments = () => {
                                     id="FILE_FRONT_SIDE4"
                                     type="file"
                                     name="fontimg"
+                                    value=""
                                     // value={doc.fontimg}
                                     onChange={(e) => {
                                       var objectUrl1 = URL.createObjectURL(
@@ -1006,6 +1010,7 @@ const MyDocuments = () => {
                                       id="FILE_BACK_SIDE4"
                                       type="file"
                                       name="backimg"
+                                      value=""
                                       // value={doc.backimg}
                                       onChange={(e) => {
                                         var objectUrl1 = URL.createObjectURL(
@@ -1203,6 +1208,7 @@ const MyDocuments = () => {
                                     type="file"
                                     name="fontimg"
                                     // value={doc.fontimg}
+                                    value=""
                                     onChange={(e) =>
                                       setAddDoc((prevalue) => {
                                         return {
@@ -1286,6 +1292,7 @@ const MyDocuments = () => {
                                       id="FILE_BACk_SIDE1"
                                       type="file"
                                       name="backimg"
+                                      value=""
                                       // value={doc.fontimg}
                                       onChange={(e) =>
                                         setAddDoc((prevalue) => {

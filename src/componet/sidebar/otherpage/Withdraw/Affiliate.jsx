@@ -362,7 +362,7 @@ export const Affiliate = () => {
                   }
                 />
               </div>
-              <div className="verify-textCenter">affiliate Request</div>
+              <div className="verify-textCenter">Affiliate Request</div>
             </div>
           </div>
           <div className="verification-button">

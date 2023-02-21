@@ -22,7 +22,11 @@ const Report = () => {
 
   const [age, setAge] = React.useState("");
   const [type, setType] = React.useState("deposit");
-  const [filterData, setFilterData] = useState({});
+  const [filterData, setFilterData] = useState({
+    transfer_status: "",
+    withdrawal_status: "",
+    deposit_status: "",
+  });
   const [refresh, setRefresh] = useState(false);
   const [internalParam, setInternalParam] = useState({
     transfer_status: "",
@@ -161,6 +165,24 @@ const Report = () => {
       grow: 0.1,
     },
     {
+      name: "updated DATE",
+      selector: (row) => {
+        return (
+          <span title={row.approve_datetime}>
+            {row.approve_datetime == "" ? (
+              ""
+            ) : (
+              <NewDate newDate={row.approve_datetime} />
+            )}
+          </span>
+        );
+      },
+      // wrap: true,
+      sortable: true,
+      reorder: true,
+      grow: 0.6,
+    },
+    {
       name: "STATUS",
       selector: (row) => {
         return (
@@ -275,7 +297,7 @@ const Report = () => {
       selector: (row) => {
         return <span title={row.sr_no}>{row.sr_no}</span>;
       },
-      // wrap: true,
+      wrap: true,
       reorder: true,
       grow: 0.1,
     },
@@ -294,14 +316,14 @@ const Report = () => {
       grow: 0.6,
     },
     {
-      name: "ACCOUNT NO",
+      name: "withdrawal from",
       selector: (row) => {
-        return <span title={row.account_number}>{row.account_number}</span>;
+        return <span title={row.withdrawal_from}>{row.withdrawal_from}</span>;
       },
       // wrap: true,
       sortable: true,
       reorder: true,
-      grow: 0.6,
+      grow: 0.9,
     },
     {
       name: "PAYMENT METHOD",
@@ -314,9 +336,36 @@ const Report = () => {
       grow: 0.5,
     },
     {
+      name: "ACCOUNT NO",
+      selector: (row) => {
+        return (
+          <span title={row.account_number}>
+            {row.method == "Bank" ? (
+              <>
+                {row.withdrawal_bank_name}
+                <br />
+                {row.account_number}
+              </>
+            ) : (
+              ""
+            )}
+          </span>
+        );
+      },
+      // wrap: true,
+      sortable: true,
+      reorder: true,
+      grow: 0.9,
+    },
+
+    {
       name: "UPI/CRYPTO TYPE",
       selector: (row) => {
-        return <span title={row.upi_name}>{row.upi_name}</span>;
+        return (
+          <span title={row.upi_name}>
+            {row.method == "crypto" ? row.crypto_name : row.upi_name}
+          </span>
+        );
       },
       // wrap: true,
       sortable: true,
@@ -335,18 +384,9 @@ const Report = () => {
       // wrap: true,
       sortable: true,
       reorder: true,
-      grow: 1,
+      grow: 0.5,
     },
-    {
-      name: "REMARKS",
-      selector: (row) => {
-        return <span title={row.remarks}>{row.remarks}</span>;
-      },
-      // wrap: true,
-      sortable: true,
-      reorder: true,
-      grow: 1,
-    },
+
     {
       name: "AMOUNT",
       selector: (row) => {
@@ -373,7 +413,7 @@ const Report = () => {
       // wrap: true,
       sortable: true,
       reorder: true,
-      grow: 0.5,
+      grow: 0.6,
     },
     {
       name: "STATUS",
@@ -398,8 +438,17 @@ const Report = () => {
       // wrap: true,
       grow: 0.1,
     },
+    {
+      name: "REMARKS",
+      selector: (row) => {
+        return <span title={row.remarks}>{row.remarks}</span>;
+      },
+      // wrap: true,
+      sortable: true,
+      reorder: true,
+      grow: 1,
+    },
   ];
-
   const internalColumn = [
     {
       name: "SR.NO",

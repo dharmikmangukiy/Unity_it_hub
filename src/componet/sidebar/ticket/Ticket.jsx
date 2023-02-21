@@ -413,8 +413,8 @@ const Ticket = () => {
                                           className="deposit-upload-image-preview"
                                         />
                                       ) : (
-                                        <Button
-                                          className="site-button-color"
+                                        <ColorButton
+                                          // className="site-button-color"
                                           variant="contained"
                                           component="span"
                                         >
@@ -422,7 +422,7 @@ const Ticket = () => {
                                             backup
                                           </i>
                                           &nbsp;Upload
-                                        </Button>
+                                        </ColorButton>
                                       )}
                                     </label>
                                   </Grid>
@@ -497,7 +497,7 @@ const Ticket = () => {
                               <CommonTable
                                 url={`${Url}/datatable/ticket_list.php`}
                                 column={column}
-                                sort="2"
+                                sort="0"
                                 refresh={form.refresh}
                               />
                             </Paper>

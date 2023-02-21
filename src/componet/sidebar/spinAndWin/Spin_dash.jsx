@@ -51,6 +51,7 @@ const Spin_dash = (prop) => {
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const [seconds, setSeconds] = React.useState(0);
+  const [link, setLink] = useState("");
   const [selectedItem, setSelectedItem] = useState({
     freeSpin: null,
     freeSpintrue: false,
@@ -309,6 +310,16 @@ const Spin_dash = (prop) => {
                               HOW TO GET SPIN?
                             </span>{" "}
                           </div>
+                          <div className="link">
+                            {" "}
+                            <span
+                              onClick={() => {
+                                navigate("/spinAndWin/report");
+                              }}
+                            >
+                              Spin Report
+                            </span>{" "}
+                          </div>
                         </div>
                         <div className="head_flex ">
                           <div className="text-center mt-5">
@@ -410,20 +421,25 @@ const Spin_dash = (prop) => {
                                   <span className="spin_line">
                                     Refer & get Spin
                                   </span>
-                                  <span style={{ color: "#5d2067" }}>
+                                  <span
+                                    style={{
+                                      color: "#5d2067",
+                                      cursor: "pointer",
+                                    }}
+                                  >
                                     <ContentCopyIcon
                                       style={{ marginRight: "5px" }}
                                       onClick={(e) => {
                                         navigator.clipboard
                                           .writeText(
                                             Url +
-                                              `/register/sponsor/${prop.permission.wallet_code}`
+                                              spinData.data.referral_spin_link
                                           )
                                           .then(
                                             function () {
                                               Toast(
                                                 "success",
-                                                "The sponsor link has been successfully copying"
+                                                "The link has been successfully copying"
                                               );
                                             },
                                             function (err) {
@@ -434,7 +450,7 @@ const Spin_dash = (prop) => {
                                               Toast(
                                                 "error",
 
-                                                "The sponsor link Could not copy, Please try again"
+                                                "The link Could not copy, Please try again"
                                               );
                                             }
                                           );
@@ -579,8 +595,8 @@ const Spin_dash = (prop) => {
                                     >
                                       {spinData.data?.deposit_50_spin_data
                                         .redeem_spins == 1
-                                        ? "Redeem"
-                                        : "Deposit & Spin"}
+                                        ? "Redeemed"
+                                        : "Spin & Win"}
                                     </ColorButton>
                                   )}
                                 </div>
@@ -656,8 +672,8 @@ const Spin_dash = (prop) => {
                                     >
                                       {spinData.data?.deposit_500_spin_data
                                         .redeem_spins == 1
-                                        ? "Redeem"
-                                        : "Deposit & Spin"}
+                                        ? "Redeemed"
+                                        : "Spin & Win"}
                                     </ColorButton>
                                   )}
                                 </div>

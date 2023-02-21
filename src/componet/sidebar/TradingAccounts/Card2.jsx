@@ -174,7 +174,7 @@ const Card2 = (prop) => {
     } else if (form.confirm_password == "") {
       Toast("error", "Please enter Confirm Password");
     } else if (form.confirm_password !== form.password) {
-      Toast("error", "Confirm Password Can be Same as Trading Password");
+      Toast("error", "Trading Password and confirm password did not match");
     } else {
       const param = new FormData();
       param.append("action", "create_mt5_account");
@@ -417,7 +417,7 @@ const Card2 = (prop) => {
                 {form.confirm_password == ""
                   ? "Please enter confirm password"
                   : form.confirm_password !== form.password
-                  ? "Confirm Password And Trading password can be same"
+                  ? "Trading Password and confirm password did not match"
                   : ""}
               </div>
             </div>

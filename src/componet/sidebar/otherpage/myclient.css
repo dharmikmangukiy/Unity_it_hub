@@ -76,3 +76,9 @@
 .colcolor {
   border-right: 1px solid #a9a9a9;
 }
+.myCilentPopLoder {
+  display: flex;
+  justify-content: center;
+  height: 55px;
+  align-items: center;
+}

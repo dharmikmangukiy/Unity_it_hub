@@ -118,7 +118,6 @@ const Dashboard = (prop) => {
   const [verifyModal, setVerifyModal] = React.useState(
     localStorage.getItem("setModel") == "true" ? true : false
   );
-  // console.log(verifyModal);
 
   const { t } = useTranslation();
   const [Dopen, setDOpen] = React.useState(false);
@@ -212,7 +211,6 @@ const Dashboard = (prop) => {
       },
     },
   }));
-  console.log("mt5AndDemoList", mt5AndDemoList);
   // React.useEffect(() => {
   //   if (clOpen) {
   //     const { current: descriptionElement } = descriptionElementRef;
@@ -221,7 +219,6 @@ const Dashboard = (prop) => {
   //     }
   //   }
   // }, [clOpen]);
-  // console.log("verifyModal", verifyModal);
   const [prefrence, setPrefrence] = useState({
     balance: "",
     user_email: "",
@@ -278,7 +275,6 @@ const Dashboard = (prop) => {
       navigate("/open_real_account");
     } else if (prefrence.step_number == "2") {
       navigate("/myDocuments");
-      console.log("locAL", localStorage.getItem("step"));
     } else if (prefrence.step_number == "3") {
       navigate("/deposit");
     } else if (prefrence.step_number == "4") {
@@ -306,7 +302,6 @@ const Dashboard = (prop) => {
     }
   }, [Drefresh]);
   const handleStepChange = (step: number) => {
-    console.log("handleStepChange", step);
     setActiveStep(step);
     var elements = document.getElementsByClassName("MuiMobileStepper-dot");
     for (var i = 0; i < elements.length; i++) {
@@ -401,7 +396,6 @@ const Dashboard = (prop) => {
     setClOpenTrade(true);
   };
   const DropWindow = () => {
-    console.log("okk");
     if (metaTrader == true) {
       setMetaTrader(false);
     } else {
@@ -483,7 +477,6 @@ const Dashboard = (prop) => {
           // Toast("error",res.data.message);
         } else {
           setPrefrence(res.data);
-          console.log("Prefrence", prefrence);
           // prefrence.manager_email=res.data.manager_details.manager_email
           // prefrence.manager_name=res.data.manager_details.manager_name
           // setPrefrence({...prefrence})
@@ -491,7 +484,6 @@ const Dashboard = (prop) => {
           setLiveMT5AccountList({ ...liveMT5AccountList });
           demoMT5AccountList.data = res.data.mt5_demo_accounts;
           setDemoMT5AccountList({ ...demoMT5AccountList });
-          // console.log('mt5Account', liveMT5AccountList.data[0].mt_code);
           if (liveMT5AccountList.data.length > 0) {
             setLiveMT5AccountIndex(0);
             setLiveMT5Account(liveMT5AccountList.data[0].mt_code);
@@ -504,8 +496,6 @@ const Dashboard = (prop) => {
             fetchMT5AccountDetaiils(demoMT5AccountList.data[0].mt_code, "demo");
           }
           setMainLoader(false);
-
-          // console.log('mt5Account', mt5Account);
         }
       });
   };
@@ -562,9 +552,7 @@ const Dashboard = (prop) => {
   const handleChangeIndex = (index) => {
     setValue(index);
   };
-  console.log("accont", accountSelect);
   const selsectImage = (e) => {
-    console.log(e.target.currentSrc);
     const res = bonusImage.filter(
       (x) => x.bonus_offer_image == e.target.currentSrc
     );
@@ -651,16 +639,12 @@ const Dashboard = (prop) => {
       } else {
         liveMT5AccountList.data = res.data.mt5_accounts;
         setLiveMT5AccountList({ ...liveMT5AccountList });
-        console.log("mt5Account", liveMT5AccountList.data[0].mt5_acc_no);
         setLiveMT5Account(liveMT5AccountList.data[0].mt5_acc_no);
-        // console.log('mt5Account', mt5Account);
         fetchMT5AccountDetaiils(liveMT5AccountList.data[0].mt5_acc_no);
       }
     });
   };
-  console.log("liveMT5AccountList.data", liveMT5AccountList);
   const fetchMT5AccountDetaiils = async (mt5_acc_no = "", type = "") => {
-    // console.log('mt5Account', mt5Account);
     if (type == "live") {
       setLiveMT5AccountLoader(true);
       setLiveMT5AccountIndex(
@@ -1692,7 +1676,6 @@ const Dashboard = (prop) => {
                     <Dialog
                       open={clOpen}
                       onClose={() => {
-                        console.log("dssfasdd", clOpen);
                         setCLOpen(false);
                       }}
                       scroll="paper"
@@ -1793,7 +1776,6 @@ const Dashboard = (prop) => {
                     <Dialog
                       open={clOpenAccount}
                       onClose={() => {
-                        console.log("dssfasdd", clOpenAccount);
                         setClOpenAccount(false);
                       }}
                       scroll="paper"
@@ -1996,7 +1978,6 @@ const Dashboard = (prop) => {
                     <Dialog
                       open={clOpenTrade}
                       onClose={() => {
-                        console.log("dssfasdd", clOpenTrade);
                         setClOpenTrade(false);
                       }}
                       scroll="paper"

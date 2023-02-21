@@ -104,13 +104,23 @@ const Sidebar = (prop) => {
     // console.log(prop);
   };
   const handleClick = (e) => {
-    const name = e.target.classList[0];
-    // console.log(name);
+    // const name = e.target.classList[0];
+    const name = e;
+    console.log("name", name);
     setOpen((preValue) => {
       return {
         // ...preValue,
         [name]: !open[name],
       };
+    });
+  };
+  const onOther = () => {
+    setOpen({
+      operation: false,
+      trading: false,
+      platforms: false,
+      contests: false,
+      partnership: false,
     });
   };
 
@@ -207,7 +217,10 @@ const Sidebar = (prop) => {
                     <NavLink
                       className="nav-link-simple "
                       to="/dashboard"
-                      onClick={CloseSidebar}
+                      onClick={() => {
+                        CloseSidebar();
+                        onOther();
+                      }}
                     >
                       {/* <span className="material-icons  icon_Mar">dashboard</span> */}
                       <DASHBORD className="hoverSidebar" />
@@ -271,15 +284,15 @@ const Sidebar = (prop) => {
                   <li>
                     <a
                       className={`trading ${open.trading ? "active" : ""}`}
-                      onClick={handleClick}
+                      onClick={() => handleClick("trading")}
                     >
                       <Accounts
                         stroke="yellow"
                         fill="yellow"
-                        className="hoverSidebar"
+                        className="trading hoverSidebar"
                       />{" "}
                       {t("Accounts")}
-                      <span className="sidebar-icon-indicator">
+                      <span className="trading sidebar-icon-indicator">
                         {/* {open.platforms ?  <ExpandMore /> : <ExpandLess/>} */}
                         {!open.trading ? <ExpandMore /> : <ExpandLess />}{" "}
                       </span>
@@ -343,7 +356,10 @@ const Sidebar = (prop) => {
                     <NavLink
                       className="nav-link-simple "
                       to="/withdrawal"
-                      onClick={CloseSidebar}
+                      onClick={() => {
+                        CloseSidebar();
+                        onOther();
+                      }}
                     >
                       {/* <span className="material-icons  icon_Mar">
                       file_upload
@@ -357,7 +373,10 @@ const Sidebar = (prop) => {
                     <NavLink
                       className="nav-link-simple "
                       to="/internal_transfer"
-                      onClick={CloseSidebar}
+                      onClick={() => {
+                        CloseSidebar();
+                        onOther();
+                      }}
                     >
                       {/* <span className="material-icons  icon_Mar">sync_alt</span> */}
                       <Internal_transfer className="hoverSidebar" />
@@ -368,7 +387,7 @@ const Sidebar = (prop) => {
                   <li>
                     <a
                       className={`operation ${open.operation ? "active" : ""}`}
-                      onClick={handleClick}
+                      onClick={() => handleClick("operation")}
                     >
                       {/* <span className="material-icons icon_Mar">people</span> */}
                       <Your_trnascation className="hoverSidebar" />
@@ -412,7 +431,10 @@ const Sidebar = (prop) => {
                     <NavLink
                       className="nav-link-simple "
                       to="/reports"
-                      onClick={CloseSidebar}
+                      onClick={() => {
+                        CloseSidebar();
+                        onOther();
+                      }}
                     >
                       {/* <span className="material-icons  icon_Mar">analytics</span> */}
                       <Reports className="hoverSidebar" />
@@ -423,7 +445,10 @@ const Sidebar = (prop) => {
                     <NavLink
                       className="nav-link-simple "
                       to="/spinAndWin"
-                      onClick={CloseSidebar}
+                      onClick={() => {
+                        CloseSidebar();
+                        onOther();
+                      }}
                     >
                       {/* <span className="material-icons  icon_Mar">analytics</span> */}
                       <Reports className="hoverSidebar" />
@@ -433,7 +458,7 @@ const Sidebar = (prop) => {
                   <li>
                     <a
                       className={`platforms ${open.platforms ? "active" : ""}`}
-                      onClick={handleClick}
+                      onClick={() => handleClick("platforms")}
                     >
                       {/* <span className="material-icons  icon_Mar">computer</span> */}
                       <Plateform className="hoverSidebar" />
@@ -479,7 +504,7 @@ const Sidebar = (prop) => {
                       <li>
                         <a
                           className={`pamm ${open.pamm ? "active" : ""}`}
-                          onClick={handleClick}
+                          onClick={() => handleClick("pamm")}
                         >
                           <Pamm className="hoverSidebar" />
 
@@ -543,7 +568,10 @@ const Sidebar = (prop) => {
                     <NavLink
                       className="nav-link-simple "
                       to="/Web_Trader"
-                      onClick={CloseSidebar}
+                      onClick={() => {
+                        CloseSidebar();
+                        onOther();
+                      }}
                     >
                       <Web_trader className="hoverSidebar" />
                       {t("Web_Trader")}{" "}
@@ -719,7 +747,10 @@ const Sidebar = (prop) => {
                     <NavLink
                       className="nav-link-simple "
                       to="/IBdashboard"
-                      onClick={CloseSidebar}
+                      onClick={() => {
+                        CloseSidebar();
+                        onOther();
+                      }}
                     >
                       {/* <span className="material-icons  icon_Mar">dashboard</span> */}
                       <DASHBORD className="hoverSidebar" />
@@ -730,7 +761,10 @@ const Sidebar = (prop) => {
                     <NavLink
                       className="nav-link-simple "
                       to="/Fantastic_tour"
-                      onClick={CloseSidebar}
+                      onClick={() => {
+                        CloseSidebar();
+                        onOther();
+                      }}
                     >
                       {/* <span className="material-icons  icon_Mar">dashboard</span> */}
                       <Fantasticfour className="hoverSidebar" />
@@ -742,7 +776,7 @@ const Sidebar = (prop) => {
                       className={`partnership ${
                         open.partnership ? "active" : ""
                       }`}
-                      onClick={handleClick}
+                      onClick={() => handleClick("partnership")}
                     >
                       <span className="material-icons  icon_Mar">
                         handshake
@@ -813,7 +847,7 @@ const Sidebar = (prop) => {
                     <li>
                       <a
                         className={`iBReport ${open.iBReport ? "active" : ""}`}
-                        onClick={handleClick}
+                        onClick={() => handleClick("iBReport")}
                       >
                         <span className="material-icons  icon_Mar">
                           handshake

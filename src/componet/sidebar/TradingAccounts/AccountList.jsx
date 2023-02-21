@@ -123,7 +123,6 @@ export const AccountList = () => {
     deposit_to: "",
   });
   const [param, setParam] = useState({
-    mt5_acc_no: localStorage.getItem("mt5_acc_no"),
     transfer_status: "",
   });
   const [closeParam, setCloseParam] = useState({
@@ -283,6 +282,16 @@ export const AccountList = () => {
       reorder: true,
       sortable: true,
       wrap: true,
+      grow: 1,
+    },
+    {
+      name: "type",
+      selector: (row) => {
+        return <span title={row.entry_type}>{row.entry_type}</span>;
+      },
+      reorder: true,
+      sortable: true,
+      // wrap: true,
       grow: 0.4,
     },
     {
@@ -316,6 +325,16 @@ export const AccountList = () => {
       grow: 1,
     },
     {
+      name: "payment method",
+      selector: (row) => {
+        return <span title={row.payment_method}>{row.payment_method}</span>;
+      },
+      reorder: true,
+      sortable: true,
+      // wrap: true,
+      grow: 1,
+    },
+    {
       name: "AMOUNT",
       selector: (row) => {
         return <span title={row.amount}>{row.amount}</span>;
@@ -324,15 +343,6 @@ export const AccountList = () => {
       // sortable: true,
       wrap: true,
       grow: 0.5,
-    },
-    {
-      name: "TYPE",
-      selector: (row) => {
-        return <span title={row.transaction_type}>{row.transaction_type}</span>;
-      },
-      reorder: true,
-      // wrap: true,
-      grow: 0.1,
     },
     {
       name: "STATUS",
@@ -561,7 +571,16 @@ export const AccountList = () => {
     {
       name: "ACTION",
       selector: (row) => {
-        return <span title={row.action}>{row.action}</span>;
+        return (
+          <span
+            title={row.action}
+            className={
+              row.action == "Sell" ? "text-color-red" : "text-color-green"
+            }
+          >
+            {row.action}
+          </span>
+        );
       },
       reorder: true,
       sortable: true,
@@ -694,7 +713,8 @@ export const AccountList = () => {
                                       htmlFor=""
                                       className="text-dark font-weight-bold w-100 text-uppercase"
                                     >
-                                      Executive
+                                      {accountDetails.account_type}
+                                      {/* Executive */}
                                     </label>
                                   </FormControl>
                                 </Grid>
@@ -859,7 +879,7 @@ export const AccountList = () => {
                                       htmlFor=""
                                       className="text-info font-weight-bold form-label-head w-100"
                                     >
-                                      MARGIN Level
+                                      MARGIN LEVEL
                                     </label>
                                     <label
                                       htmlFor=""
@@ -887,7 +907,7 @@ export const AccountList = () => {
                                 <ColorButton
                                   className="mx-md-3 my-2 my-md-0"
                                   onClick={() => {
-                                    navigate("/change_password");
+                                    navigate(`/change_password/${mt5Account}`);
                                   }}
                                 >
                                   Change Password
@@ -1133,39 +1153,6 @@ export const AccountList = () => {
                                         ></BootstrapInput>
                                       </FormControl>
                                     </Grid>
-                                    <Grid item sm={6} md={3}>
-                                      <FormControl fullWidth={true}>
-                                        <label className="small font-weight-bold text-dark">
-                                          {" "}
-                                          Account Number
-                                        </label>
-                                        <Select
-                                          value={closeParam.mt5_acc_no}
-                                          onChange={(e) =>
-                                            setCloseParam({
-                                              ...closeParam,
-                                              mt5_acc_no: e.target.value,
-                                            })
-                                          }
-                                          displayEmpty
-                                          inputProps={{
-                                            "aria-label": "Without label",
-                                          }}
-                                          input={<BootstrapInput />}
-                                        >
-                                          <MenuItem value="">
-                                            Select Account Number
-                                          </MenuItem>
-                                          {mt5AccountList.data.map((item) => {
-                                            return (
-                                              <MenuItem value={item.mt5_acc_no}>
-                                                {item.mt5_acc_no}
-                                              </MenuItem>
-                                            );
-                                          })}
-                                        </Select>
-                                      </FormControl>
-                                    </Grid>
                                   </Grid>
                                   <Grid container spacing={2}>
                                     <Grid item sm={12} md={12}>
@@ -1281,13 +1268,11 @@ export const AccountList = () => {
                                           input={<BootstrapInput />}
                                         >
                                           <MenuItem value="">All</MenuItem>
-                                          <MenuItem value="pending">
-                                            Pending
-                                          </MenuItem>
-                                          <MenuItem value="approved">
+                                          <MenuItem value="0">Pending</MenuItem>
+                                          <MenuItem value="1">
                                             Approved
                                           </MenuItem>
-                                          <MenuItem value="rejected">
+                                          <MenuItem value="2">
                                             Rejected
                                           </MenuItem>
                                         </Select>
@@ -1304,11 +1289,12 @@ export const AccountList = () => {
                                     </Grid>
                                   </Grid>
                                   <CommonTable
-                                    url={`${Url}/datatable/internal_transfer_list.php`}
+                                    url={`${Url}/datatable/recent_transaction_list.php`}
                                     column={inColumn}
                                     sort="1"
                                     filter={filterData}
                                     mt5Account={mt5Account}
+                                    param={param}
                                     refresh={recentRefresh}
                                   />
                                 </div>

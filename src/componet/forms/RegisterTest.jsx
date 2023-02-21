@@ -259,22 +259,20 @@ const RegisterTest = (prop) => {
       } else {
         param.append("action", "send_otp");
       }
-      if (id == "sponsor") {
-        param.append("sponsor_id", id1);
-      }
-      if (id == "new") {
-        param.append("is_affiliate", 1);
-      }
+      // if (id == "sponsor") {
+      //   param.append("sponsor_id", id1);
+      // }
+      // if (id == "new") {
+      //   param.append("is_affiliate", 1);
+      // }
       if (id == "manager") {
         param.append("managercode", id1);
       }
 
       if (id == "campaign") {
         param.append("campaign_id", compaign.ref);
-      }
-      if (id == "affiliate") {
-        param.append("sponsor_id", id1);
-        param.append("affiliate", 1);
+      } else {
+        param.append(id, id1);
       }
 
       info.isLoader = true;
@@ -302,10 +300,11 @@ const RegisterTest = (prop) => {
               info.send_otp = true;
               setTimer(true);
             } else if (res.data?.send_otp == 0) {
-              localStorage.setItem("login", false);
-              prop.setLogin(false);
+              // localStorage.setItem("login", false);
+              // prop.setLogin(false);
+              localStorage.clear();
+              prop.fetchUserPref();
               navigate("/dashboard");
-              console.log("res.datpa?.send_ot", res.data?.send_otp);
             }
             setinfo({ ...info });
             Toast("success", res.data.message);

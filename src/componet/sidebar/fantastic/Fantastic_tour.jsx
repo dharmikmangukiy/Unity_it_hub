@@ -79,7 +79,10 @@ const Fantastic_tour = () => {
   const [lostSize, setLostSize] = useState(0);
   const navigate = useNavigate();
   const [mainLoader, setMainLoader] = useState(true);
-  const [totalLot, setTotalLot] = useState(0);
+  const [totalLot, setTotalLot] = useState({
+    get_ib_user_all_lots_current: 0,
+    get_ib_user_all_lots: 0,
+  });
   const [tour, setTour] = useState([]);
   const [popData, setPopData] = useState({
     data: {},
@@ -321,7 +324,7 @@ const Fantastic_tour = () => {
         }
         if (res.data.status == "error") {
         } else {
-          setTotalLot(res.data?.get_ib_user_all_lots_current);
+          setTotalLot(res.data);
           setMainLoader(false);
           setTour(res.data.data);
         }
@@ -350,7 +353,13 @@ const Fantastic_tour = () => {
                       <div className="head_prpl ">
                         <div className="reward w-100">
                           {" "}
-                          Total Earned Reward : {totalLot}
+                          Current Month Total Earned Reward :{" "}
+                          {totalLot.get_ib_user_all_lots_current}
+                        </div>
+                        <div className="reward w-100">
+                          {" "}
+                          Pervious Month Total Earned Reward :{" "}
+                          {totalLot.get_ib_user_all_lots_current}
                         </div>
                         <div
                           className="link"

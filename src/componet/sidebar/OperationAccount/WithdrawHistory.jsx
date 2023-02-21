@@ -7,7 +7,9 @@ import {
   MenuItem,
   Paper,
   Select,
+  Tooltip,
 } from "@mui/material";
+import { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
 
 import CommonTable from "../../customComponet/CommonTable";
 import { ColorButton } from "../../customComponet/CustomElement";
@@ -19,6 +21,7 @@ import "./history.css";
 import { Url } from "../../../global.js";
 import TopButton from "../../customComponet/TopButton";
 import NewDate from "../../commonComponet/NewDate";
+import { styled } from "@mui/system";
 
 const WithdrawHistory = () => {
   const [open, setOpen] = React.useState(false);
@@ -27,6 +30,7 @@ const WithdrawHistory = () => {
   const [openTableMenus, setOpenTableMenus] = useState([]);
   const [filterData, setFilterData] = useState({
     withdraw_from: "",
+    withdrawal_status: "",
     withdraw_to: "",
   });
 
@@ -87,9 +91,9 @@ const WithdrawHistory = () => {
       grow: 0.6,
     },
     {
-      name: "ACCOUNT NO",
+      name: "withdrawal from",
       selector: (row) => {
-        return <span title={row.account_number}>{row.account_number}</span>;
+        return <span title={row.withdrawal_from}>{row.withdrawal_from}</span>;
       },
       // wrap: true,
       sortable: true,
@@ -106,6 +110,29 @@ const WithdrawHistory = () => {
       reorder: true,
       grow: 0.5,
     },
+    {
+      name: "ACCOUNT NO",
+      selector: (row) => {
+        return (
+          <span title={row.account_number}>
+            {row.method == "Bank" ? (
+              <>
+                {row.withdrawal_bank_name}
+                <br />
+                {row.account_number}
+              </>
+            ) : (
+              ""
+            )}
+          </span>
+        );
+      },
+      // wrap: true,
+      sortable: true,
+      reorder: true,
+      grow: 0.9,
+    },
+
     {
       name: "UPI/CRYPTO TYPE",
       selector: (row) => {

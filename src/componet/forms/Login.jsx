@@ -13,6 +13,10 @@ import { useState, useEffect } from "react";
 //import CssTextField from './CssTextField';
 import { Email, Phone } from "@mui/icons-material";
 import Toast from "../commonComponet/Toast.jsx";
+import { IconButton, InputAdornment } from "@mui/material";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+
 const ColorButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText("#ff0000"),
   backgroundColor: "black",
@@ -52,7 +56,9 @@ export default function Login1(prop) {
   const descriptionElementRef = React.useRef(null);
   const navigate = useNavigate();
   const [isSubmit, setisSubmit] = useState(false);
+  const [showPassword, setShowPassword] = React.useState(false);
   const [infoErrors, setInfoErrors] = useState({});
+
   const [infoTrue, setinfoTrue] = useState({
     email: false,
   });
@@ -82,7 +88,7 @@ export default function Login1(prop) {
         [name]: value,
       };
     });
-    console.log(info);
+    // console.log(info);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -116,6 +122,8 @@ export default function Login1(prop) {
     }
     return errors;
   };
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
   const notify = (p) => {
     Toast("error", p);
   };
@@ -124,7 +132,7 @@ export default function Login1(prop) {
   };
 
   useEffect(() => {
-    console.log(id);
+    // console.log(id);
     if (id == "success") {
       Toast("success", "Your account has been verified successfully");
     }
@@ -142,24 +150,13 @@ export default function Login1(prop) {
           Toast("error", res.data.message);
           setIsLoader(false);
         } else {
+          localStorage.clear();
+
           notify1("Login successful");
-          console.log(res.data.user_data);
+          // console.log(res.data.user_data);
           localStorage.setItem("login", false);
           // localStorage.setItem("user_id", res.data.user_data.user_id);
           // localStorage.setItem("auth_key", res.data.user_data.auth_key);
-          localStorage.setItem("wallet_code", res.data.user_data.wallet_code);
-          localStorage.setItem("is_pamm", res.data.user_data.is_pamm);
-          localStorage.setItem(
-            "is_ib_account",
-            res.data.user_data.is_ib_account
-          );
-          localStorage.setItem("mt5_acc_no", res.data.user_data.mt5_acc_no);
-          localStorage.setItem("step", res.data.user_data.step_number);
-          if (res.data.user_data.step_number < 4) {
-            localStorage.setItem("setModel", true);
-          } else {
-            localStorage.setItem("setModel", false);
-          }
 
           if (IsApprove !== "") {
             IsApprove.user_id = res.data.user_data.user_id;
@@ -167,7 +164,8 @@ export default function Login1(prop) {
           }
 
           setIsLoader(false);
-          prop.setLogin("false");
+          // prop.setLogin("false");
+          prop.fetchUserPref();
           navigate("/dashboard");
         }
       });
@@ -222,13 +220,38 @@ export default function Login1(prop) {
                 <CssTextField
                   id="standard-password-input"
                   label="Password"
-                  type="password"
+                  type={!showPassword ? "password" : "text"}
                   name="password"
                   autoComplete="current-password"
                   variant="standard"
                   sx={{ width: "100%" }}
                   value={info.password}
                   onBlur={trueFalse}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          //</InputAdornment>
+                          onClick={handleClickShowPassword}
+                          // onMouseDown={handleMouseDownPassword}
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}{" "}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  // endAdornment={
+                  //   <InputAdornment position="end">
+                  //     <IconButton
+                  //       aria-label="toggle password visibility"
+                  //       // onClick={handleClickShowPassword}
+                  //       // onMouseDown={handleMouseDownPassword}
+                  //     >
+                  //       <Visibility />
+                  //     </IconButton>
+                  //   </InputAdornment>
+                  // }
                   // error={
                   //   info.password == "" && infoTrue.password == true
                   //     ? true

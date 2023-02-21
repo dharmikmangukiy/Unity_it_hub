@@ -22,19 +22,22 @@ const LoginAs = (prop) => {
         navigate("/");
       }
       if (res.data.status == "error") {
+        localStorage.clear();
+        prop.setLogin("true");
         Toast("error", res.data.message);
         navigate("/");
       } else {
         localStorage.clear();
-        localStorage.setItem("login", false);
-        localStorage.setItem("user_id", res.data.user_data.user_id);
-        localStorage.setItem("auth_key", res.data.user_data.auth_key);
-        localStorage.setItem("wallet_code", res.data.user_data.wallet_code);
-        localStorage.setItem("is_pamm", res.data.user_data.is_pamm);
-        localStorage.setItem("is_ib_account", res.data.user_data.is_ib_account);
-        localStorage.setItem("mt5_acc_no", res.data.user_data.mt5_acc_no);
-        localStorage.setItem("setModel", true);
-        prop.setLogin("false");
+        // localStorage.setItem("login", false);
+        // localStorage.setItem("user_id", res.data.user_data.user_id);
+        // localStorage.setItem("auth_key", res.data.user_data.auth_key);
+        // localStorage.setItem("wallet_code", res.data.user_data.wallet_code);
+        // localStorage.setItem("is_pamm", res.data.user_data.is_pamm);
+        // localStorage.setItem("is_ib_account", res.data.user_data.is_ib_account);
+        // localStorage.setItem("mt5_acc_no", res.data.user_data.mt5_acc_no);
+        // localStorage.setItem("setModel", true);
+        // prop.setLogin("false");
+        prop.fetchUserPref();
         navigate("/dashboard");
       }
     });

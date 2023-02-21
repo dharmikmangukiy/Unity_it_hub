@@ -38,7 +38,7 @@ import "./user_profile.css";
 import Counter from "../../customComponet/Counter";
 import Toast from "../../commonComponet/Toast";
 
-const UserProfile = () => {
+const UserProfile = (prop) => {
   const navigate = useNavigate();
   // const [countryData, setCountryData] = useState({
   //   data: [],
@@ -654,76 +654,93 @@ const UserProfile = () => {
                   {/* <TopButton /> */}
                   <Grid container spacing={6}>
                     <Grid item md={12}>
-                      <Paper
-                        elevation={1}
-                        style={{ borderRadius: "10px" }}
-                        className="w-100 mb-5"
-                      >
-                        <div className="card-header d-flex align-items-center justify-content-between card-header-alt p-3">
-                          <h5 className="font-weight-bold mb-0 text-dark">
-                            My Reference Links
-                          </h5>
-                        </div>
-                        <div className="divider"></div>
-                        <div className="card-body position-relative">
-                          <Grid
-                            container
-                            spacing={3}
-                            style={{
-                              marginLeft: "-12px",
-                              marginRight: "-12px",
-                            }}
-                          >
-                            <Grid item md={12}>
-                              <FormControl>
-                                <label className="text-dark font-weight-bold form-label-head w-100">
-                                  Sponsor Link
-                                </label>
-                                <div className="sponsorlink-content-section">
-                                  <label className="text-info font-weight-bold w-100">
-                                    <a>
-                                      {Url +
-                                        `/register/sponsor/${prefrence.wallet_code}`}
-                                    </a>
+                      {prop?.permission?.is_ib_account == 1 ||
+                      prop?.permission?.is_affiliate == 1 ? (
+                        <Paper
+                          elevation={1}
+                          style={{ borderRadius: "10px" }}
+                          className="w-100 mb-5"
+                        >
+                          <div className="card-header d-flex align-items-center justify-content-between card-header-alt p-3">
+                            <h5 className="font-weight-bold mb-0 text-dark">
+                              My Reference Links
+                            </h5>
+                          </div>
+                          <div className="divider"></div>
+                          <div className="card-body position-relative">
+                            <Grid
+                              container
+                              spacing={3}
+                              style={{
+                                marginLeft: "-12px",
+                                marginRight: "-12px",
+                              }}
+                            >
+                              <Grid item md={12}>
+                                <FormControl>
+                                  <label className="text-dark font-weight-bold form-label-head w-100">
+                                    {prop?.permission?.is_ib_account == 1
+                                      ? "Sponsor Link"
+                                      : "Affiliate Link"}
                                   </label>
-                                  <button
-                                    className="copy_link"
-                                    onClick={(e) => {
-                                      navigator.clipboard
-                                        .writeText(
-                                          Url +
-                                            `/register/sponsor/${prefrence.wallet_code}`
-                                        )
-                                        .then(
-                                          function () {
-                                            Toast(
-                                              "success",
-                                              "The sponsor link has been successfully copying"
-                                            );
-                                          },
-                                          function (err) {
-                                            console.error(
-                                              "Async: Could not copy text: ",
-                                              err
-                                            );
-                                            Toast(
-                                              "error",
-                                              "The sponsor link Could not copy, Please try again"
-                                            );
-                                          }
-                                        );
-                                    }}
-                                  >
-                                    <span className="blinking">
-                                      <i className="material-icons">
-                                        content_copy
-                                      </i>
-                                    </span>
-                                  </button>
-                                </div>
-                              </FormControl>
-                            </Grid>
-                            {/* <hr className="mt-2.5 mb-1"></hr>
+                                  <div className="sponsorlink-content-section">
+                                    <label className="text-info font-weight-bold w-100">
+                                      <a>
+                                        {prop?.permission?.is_ib_account ==
+                                        1 ? (
+                                          <>
+                                            {Url +
+                                              `/register${prop.permission?.ib_dashboard_link}`}
+                                          </>
+                                        ) : (
+                                          <>
+                                            {Url +
+                                              `/register${prop.permission?.affiliate_dashboard_link}`}
+                                          </>
+                                        )}
+                                      </a>
+                                    </label>
+                                    <button
+                                      className="copy_link"
+                                      onClick={(e) => {
+                                        navigator.clipboard
+                                          .writeText(
+                                            prop?.permission?.is_ib_account == 1
+                                              ? Url +
+                                                  `/register${prop.permission?.ib_dashboard_link}`
+                                              : Url +
+                                                  `/register${prop.permission?.affiliate_dashboard_link}`
+                                          )
+                                          .then(
+                                            function () {
+                                              Toast(
+                                                "success",
+                                                "The link has been successfully copying"
+                                              );
+                                            },
+                                            function (err) {
+                                              console.error(
+                                                "Async: Could not copy text: ",
+                                                err
+                                              );
+                                              Toast(
+                                                "error",
+                                                "The link Could not copy, Please try again"
+                                              );
+                                            }
+                                          );
+                                      }}
+                                    >
+                                      <span className="blinking">
+                                        <i className="material-icons">
+                                          content_copy
+                                        </i>
+                                      </span>
+                                    </button>
+                                  </div>
+                                </FormControl>
+                              </Grid>
+                              {/* <hr className="mt-2.5 mb-1"></hr>
                           <Grid item md={12}>
                             <FormControl>
                               <label className="text-dark font-weight-bold form-label-head w-100">
@@ -734,9 +751,12 @@ const UserProfile = () => {
                               </label>
                             </FormControl>
                           </Grid> */}
-                          </Grid>
-                        </div>
-                      </Paper>
+                            </Grid>
+                          </div>
+                        </Paper>
+                      ) : (
+                        ""
+                      )}
 
                       <Paper
                         elevation={1}
@@ -1475,7 +1495,7 @@ const UserProfile = () => {
                             </Grid>
                             {otp.send_otp == true ? (
                               <Grid item md={4}>
-                                <div className="font-weight-bold mb-2">Otp</div>
+                                <div className="font-weight-bold mb-2">OTP</div>
                                 <FormControl
                                   className="w-100"
                                   error={otp.verify_otp == "" ? true : false}
@@ -1498,7 +1518,7 @@ const UserProfile = () => {
                                   {otp.verify_otp == "" &&
                                   infoTrue.otp == true ? (
                                     <FormHelperText>
-                                      Please Enter Otp
+                                      Please Enter OTP
                                     </FormHelperText>
                                   ) : (
                                     ""
@@ -1786,7 +1806,7 @@ const UserProfile = () => {
                           : submitMobileMail
                       }
                     >
-                      {changeMobileNumber.ismobile ? "Verify Otp" : "Send Code"}
+                      {changeMobileNumber.ismobile ? "Verify OTP" : "Send Code"}
                     </ColorButton>
                   )}
                   {changeMobileNumber.ismobile ? (

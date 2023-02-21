@@ -451,7 +451,8 @@ const InternalTransfer = (prop) => {
                                       ) {
                                         return (
                                           <MenuItem value={item.mt5_acc_no}>
-                                            {item.mt5_acc_no} ({item.mt5_name})
+                                            {item.mt5_acc_no} (
+                                            {item.account_type})
                                           </MenuItem>
                                         );
                                       }
@@ -564,7 +565,8 @@ const InternalTransfer = (prop) => {
                                       ) {
                                         return (
                                           <MenuItem value={item.mt5_acc_no}>
-                                            {item.mt5_acc_no} ({item.mt5_name})
+                                            {item.mt5_acc_no} (
+                                            {item.account_type})
                                           </MenuItem>
                                         );
                                       }

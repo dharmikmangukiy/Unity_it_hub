@@ -9,8 +9,8 @@ const Url = "https://reactrighttest.rightfx.com";
 // };
 // const IsApprove = {
 //   is_app: 1,
-//   auth: "4b001f-952269-55b671",
-//   user_id: "3986",
+//   auth: "299f3f-3efba3-1b9ddd",
+//   user_id: "4048",
 // };
 // const IsApprove = {
 //   is_app: 1,
@@ -19,8 +19,13 @@ const Url = "https://reactrighttest.rightfx.com";
 // };
 // const IsApprove = {
 //   is_app: 1,
-//   auth: "25fe9c-912855-cf5d01",
-//   user_id: "4019",
+//   auth: "56d19b-aa445d-ee4ca3",
+//   user_id: "4156",
+// };
+// const IsApprove = {
+//   is_app: 1,
+//   auth: "4822e6-2fc0fa-cea730",
+//   user_id: "597",
 // };
 const IsApprove = "";
 export { Url, IsApprove };

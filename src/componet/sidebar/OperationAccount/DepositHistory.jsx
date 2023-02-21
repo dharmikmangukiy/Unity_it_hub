@@ -155,6 +155,24 @@ const DepositHistory = () => {
       grow: 0.1,
     },
     {
+      name: "updated DATE",
+      selector: (row) => {
+        return (
+          <span title={row.approve_datetime}>
+            {row.approve_datetime == "" ? (
+              ""
+            ) : (
+              <NewDate newDate={row.approve_datetime} />
+            )}
+          </span>
+        );
+      },
+      // wrap: true,
+      sortable: true,
+      reorder: true,
+      grow: 0.6,
+    },
+    {
       name: "STATUS",
       selector: (row) => {
         return (

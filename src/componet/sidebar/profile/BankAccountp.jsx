@@ -153,6 +153,7 @@ const BankAccountp = () => {
           Toast("success", res.data.message);
           age.isLoader = false;
           setAge({ ...age });
+          setOption(false);
           fetchUserPref1();
         }
       });
@@ -488,6 +489,17 @@ const BankAccountp = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
+                {data.length == 0 ? (
+                  <TableRow>
+                    <TableCell colSpan="7">
+                      <div className="text-center">
+                        There are no records to display
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  ""
+                )}
                 {data.map((item, index) => (
                   <TableRow key={index}>
                     <TableCell align="center">
