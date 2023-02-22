@@ -69,18 +69,24 @@ const FamtasticHistory = () => {
                   <h1 class="fan-history-heading">
                     My Participation Tour’s History
                   </h1>
-                  <div
-                    className="fan-history-Submain"
-                    style={{ padding: "16px 0px" }}
-                  >
-                    <div></div>
-                    <div>Tour name</div>
-                    <div>Duration</div>
-                    <div>Tour type</div>
+                  {orderList.length == 0 ? (
+                    <div className="noOrderHistory">
+                      There are no records to display
+                    </div>
+                  ) : (
+                    <div
+                      className="fan-history-Submain"
+                      style={{ padding: "16px 0px" }}
+                    >
+                      <div></div>
+                      <div>Tour name</div>
+                      <div>Duration</div>
+                      <div>Tour type</div>
 
-                    <div>Eligible lots</div>
-                    <div>Winner Status</div>
-                  </div>
+                      <div>Eligible lots</div>
+                      <div>Winner Status</div>
+                    </div>
+                  )}
 
                   {orderList.map((item, index) => {
                     return (
@@ -129,6 +135,13 @@ const FamtasticHistory = () => {
                     <h1 class="fan-history-heading">
                       My Participation Tour’s History
                     </h1>
+                    {orderList.length == 0 ? (
+                      <div className="noOrderHistory">
+                        There are no records to display
+                      </div>
+                    ) : (
+                      ""
+                    )}
                     {orderList.map((item, index) => {
                       return (
                         <div className="fanMob-history-main">

@@ -359,7 +359,7 @@ const Fantastic_tour = () => {
                         <div className="reward w-100">
                           {" "}
                           Pervious Month Total Earned Reward :{" "}
-                          {totalLot.get_ib_user_all_lots_current}
+                          {totalLot.get_ib_user_all_lots}
                         </div>
                         <div
                           className="link"

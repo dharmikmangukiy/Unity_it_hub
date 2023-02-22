@@ -1,5 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Route, Routes, Navigate, useLocation } from "react-router-dom";
+import {
+  Route,
+  Routes,
+  Navigate,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import Login from "./componet/forms/Login";
 import ComingSoon from "./componet/sidebar/ComingSoon";
 import Dashboard from "./componet/sidebar/Dashboard";
@@ -98,7 +104,7 @@ const App = () => {
   const [login1, setLogin1] = useState(false);
   const [moveToib, SetMoveToib] = useState(false);
   const [moveAff, SetMoveAff] = useState(false);
-
+  const navigate = useNavigate();
   // const[User,setUser]=useState(localStorage.getItem('login'))
   const [firstCall, setFirstCall] = useState(true);
 
@@ -116,8 +122,9 @@ const App = () => {
   const [loader, setLoader] = useState(true);
   // console.log("login 123",login)
 
-  const fetchUserPref = async () => {
+  const fetchUserPref = async (prop) => {
     // if (firstCall) {
+    console.log(prop);
     const param = new FormData();
     if (IsApprove !== "") {
       param.append("is_app", IsApprove.is_app);
@@ -131,38 +138,36 @@ const App = () => {
           localStorage.setItem("login", true);
 
           setLogin("true");
-        }
-
-        setLoader(false);
-        // setFirstCall(false);
-        // console.log(
-        //   "localStorage.getItem",
-        //   localStorage.getItem("ibPortal"),
-        //   moveToib
-        // );
-        bal.data = res.data.balance;
-        setBal({ ...bal });
-        localStorage.setItem("login", false);
-        setLogin("false");
-
-        if (
-          res.data.is_affiliate == 1 &&
-          localStorage.getItem("affiliate") == 1
-        ) {
-          SetMoveAff(true);
         } else {
-          SetMoveAff(false);
+          setLoader(false);
+
+          bal.data = res.data.balance;
+          setBal({ ...bal });
+          localStorage.setItem("login", false);
+          setLogin("false");
+
+          if (
+            res.data.is_affiliate == 1 &&
+            localStorage.getItem("affiliate") == 1
+          ) {
+            SetMoveAff(true);
+          } else {
+            SetMoveAff(false);
+          }
+          if (
+            res.data.is_ib_account == 1 &&
+            localStorage.getItem("ibPortal") == 1
+          ) {
+            SetMoveToib(true);
+          } else {
+            SetMoveToib(false);
+          }
+          permission.data = res.data;
+          setPermission({ ...permission });
+          if (prop) {
+            navigate(prop);
+          }
         }
-        if (
-          res.data.is_ib_account == 1 &&
-          localStorage.getItem("ibPortal") == 1
-        ) {
-          SetMoveToib(true);
-        } else {
-          SetMoveToib(false);
-        }
-        permission.data = res.data;
-        setPermission({ ...permission });
       });
     // }
   };
@@ -340,12 +345,14 @@ const App = () => {
                         />
                       }
                     />
-                  ) : (
+                  ) : permission.data.affiliate_request_status == "0" ? (
                     <Route
                       exact
                       path="/affiliate"
                       element={<Affiliate setLogin={setLogin} />}
                     />
+                  ) : (
+                    ""
                   )}
                   <Route
                     exact
@@ -416,7 +423,11 @@ const App = () => {
                   />
                   {/* <Route exact path="/depositTest/" element={<DepositeTest />} /> */}
                   <Route exact path="/deposit" element={<DepositeTest />} />
-                  <Route path="/partnership" element={<Partnership />} />
+                  {permission.data.ib_request_status == 0 ? (
+                    <Route path="/partnership" element={<Partnership />} />
+                  ) : (
+                    ""
+                  )}
                   {permission.data.is_affiliate == "1" ? (
                     <>
                       <Route path="/earnReport" element={<EarnReport />} />
@@ -597,13 +608,17 @@ const App = () => {
                         path="/Fantastic_tour"
                         element={<Fantastic_tour />}
                       />
-                      <Route
-                        path="*"
-                        element={<Navigate to="/dashboard" replace />}
-                      />
                     </>
                   ) : (
                     <></>
+                  )}
+                  {permission.data ? (
+                    <Route
+                      path="*"
+                      element={<Navigate to="/dashboard" replace />}
+                    />
+                  ) : (
+                    ""
                   )}
                 </Routes>
 

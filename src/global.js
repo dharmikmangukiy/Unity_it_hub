@@ -1,5 +1,5 @@
 // const Url = 'http://localhost:8080/forex';
-// const Url = "https://rightfxtest.alphapixclients.com";
+// const Url = "https://rightfxtest.rightqinfotech.com";
 const Url = "https://reactrighttest.rightfx.com";
 // const Url = "https://user.rightfx.com";
 // const IsApprove = {

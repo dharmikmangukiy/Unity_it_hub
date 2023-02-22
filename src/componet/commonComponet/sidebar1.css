@@ -397,3 +397,21 @@ a:not(.MuiButtonBase-root):hover .hoverSidebar1 {
   align-items: center;
   padding: 6px 3px 6px 37px;
 }
+@media screen and (max-width: 432px) {
+  .hoverSidebarMob {
+    width: 18px;
+    margin-right: 6px;
+  }
+  .headerMenu a {
+    padding: 14px 7px;
+  }
+  .hoverSidebarMobpd {
+    padding: 14px 7px;
+  }
+  .HeaderMenuColor {
+    font-size: 14px;
+  }
+  .liSidebarMobpd {
+    padding-left: 12px;
+  }
+}

@@ -165,7 +165,7 @@ export default function Login1(prop) {
 
           setIsLoader(false);
           // prop.setLogin("false");
-          prop.fetchUserPref();
+          prop.fetchUserPref("/dashboard");
           navigate("/dashboard");
         }
       });

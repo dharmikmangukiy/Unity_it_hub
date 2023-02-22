@@ -303,7 +303,7 @@ const RegisterTest = (prop) => {
               // localStorage.setItem("login", false);
               // prop.setLogin(false);
               localStorage.clear();
-              prop.fetchUserPref();
+              prop.fetchUserPref("/dashboard");
               navigate("/dashboard");
             }
             setinfo({ ...info });

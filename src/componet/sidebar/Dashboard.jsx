@@ -776,55 +776,60 @@ const Dashboard = (prop) => {
                     </Grid> */}
                   </div>
                   <Grid container spacing={6}>
-                    <Grid item md={12}>
-                      <Paper
-                        elevation={2}
-                        sx={{
-                          width: "100%",
-                          height: "100%",
-                          borderRadius: "10px",
-                          // backgroundImage:"url(/image/screenImage.jpg)"
-                        }}
-                      >
-                        <Box
-                          className="image-slider-for-dot-use"
+                    {bonusImage.length == 0 ? (
+                      ""
+                    ) : (
+                      <Grid item md={12}>
+                        <Paper
+                          elevation={2}
                           sx={{
                             width: "100%",
-                            flexGrow: 1,
-                            hight: "100%",
+                            height: "100%",
                             borderRadius: "10px",
+                            // backgroundImage:"url(/image/screenImage.jpg)"
                           }}
                         >
-                          <AutoPlaySwipeableViews
-                            axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-                            index={activeStep}
-                            onChangeIndex={handleStepChange}
-                            onClick={selsectImage}
-                            enableMouseEvents
+                          <Box
+                            className="image-slider-for-dot-use"
+                            sx={{
+                              width: "100%",
+                              flexGrow: 1,
+                              hight: "100%",
+                              borderRadius: "10px",
+                            }}
                           >
-                            {bonusImage.map((step, index) => (
-                              <div key={step.bonus_title}>
-                                {Math.abs(activeStep - index) <= 2 ? (
-                                  <>
-                                    <Box
-                                      component="img"
-                                      sx={{
-                                        height: 160,
-                                        display: "flex",
-                                        borderRadius: "10px",
-                                        // maxWidth: 2200,
-                                        overflow: "hidden",
-                                        width: "100%",
-                                      }}
-                                      src={step.bonus_offer_image}
-                                      alt={step.bonus_title}
-                                    />
-                                  </>
-                                ) : null}
-                              </div>
-                            ))}
-                          </AutoPlaySwipeableViews>
-                          {/* <MobileStepper
+                            <AutoPlaySwipeableViews
+                              axis={
+                                theme.direction === "rtl" ? "x-reverse" : "x"
+                              }
+                              index={activeStep}
+                              onChangeIndex={handleStepChange}
+                              onClick={selsectImage}
+                              enableMouseEvents
+                            >
+                              {bonusImage.map((step, index) => (
+                                <div key={step.bonus_title}>
+                                  {Math.abs(activeStep - index) <= 2 ? (
+                                    <>
+                                      <Box
+                                        component="img"
+                                        sx={{
+                                          height: 160,
+                                          display: "flex",
+                                          borderRadius: "10px",
+                                          // maxWidth: 2200,
+                                          overflow: "hidden",
+                                          width: "100%",
+                                        }}
+                                        src={step.bonus_offer_image}
+                                        alt={step.bonus_title}
+                                      />
+                                    </>
+                                  ) : null}
+                                </div>
+                              ))}
+                            </AutoPlaySwipeableViews>
+                            {/* <MobileStepper
                             steps={maxSteps}
                             activeStep={activeStep}
                             nextButton={
@@ -858,45 +863,47 @@ const Dashboard = (prop) => {
                               </Button>
                             }
                           /> */}
-                          <button
-                            class="carousel-control-prev"
-                            type="button"
-                            data-bs-target="#carouselExample"
-                            data-bs-slide="prev"
-                            disabled={activeStep === 0}
-                          >
-                            <div class="carousel-control-prev-icon">
-                              <i
-                                class="material-icons"
-                                style={{ fontSize: "24px" }}
-                                aria-hidden="true"
-                              >
-                                arrow_back_ios
-                              </i>
-                            </div>
-                            <span class="visually-hidden">Previous</span>
-                          </button>
-                          <button
-                            class="carousel-control-next"
-                            type="button"
-                            data-bs-target="#carouselExample"
-                            data-bs-slide="next"
-                            disabled={activeStep === maxSteps - 1}
-                          >
-                            <div class="carousel-control-next-icon">
-                              <i
-                                class="material-icons"
-                                style={{ fontSize: "24px" }}
-                                aria-hidden="true"
-                              >
-                                arrow_forward_ios
-                              </i>
-                            </div>
-                            <span class="visually-hidden">Next</span>
-                          </button>
-                        </Box>
-                      </Paper>
-                    </Grid>
+                            <button
+                              class="carousel-control-prev"
+                              type="button"
+                              data-bs-target="#carouselExample"
+                              data-bs-slide="prev"
+                              disabled={activeStep === 0}
+                            >
+                              <div class="carousel-control-prev-icon">
+                                <i
+                                  class="material-icons"
+                                  style={{ fontSize: "24px" }}
+                                  aria-hidden="true"
+                                >
+                                  arrow_back_ios
+                                </i>
+                              </div>
+                              <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button
+                              class="carousel-control-next"
+                              type="button"
+                              data-bs-target="#carouselExample"
+                              data-bs-slide="next"
+                              disabled={activeStep === maxSteps - 1}
+                            >
+                              <div class="carousel-control-next-icon">
+                                <i
+                                  class="material-icons"
+                                  style={{ fontSize: "24px" }}
+                                  aria-hidden="true"
+                                >
+                                  arrow_forward_ios
+                                </i>
+                              </div>
+                              <span class="visually-hidden">Next</span>
+                            </button>
+                          </Box>
+                        </Paper>
+                      </Grid>
+                    )}
+
                     <Grid item md={12} className="trading-accounts-wrapper">
                       <Paper
                         elevation={1}

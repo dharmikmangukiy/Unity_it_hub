@@ -433,6 +433,7 @@ const Spin_dash = (prop) => {
                                         navigator.clipboard
                                           .writeText(
                                             Url +
+                                              "/register" +
                                               spinData.data.referral_spin_link
                                           )
                                           .then(

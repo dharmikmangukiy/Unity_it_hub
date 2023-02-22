@@ -37,7 +37,7 @@ const LoginAs = (prop) => {
         // localStorage.setItem("mt5_acc_no", res.data.user_data.mt5_acc_no);
         // localStorage.setItem("setModel", true);
         // prop.setLogin("false");
-        prop.fetchUserPref();
+        prop.fetchUserPref("/dashboard");
         navigate("/dashboard");
       }
     });

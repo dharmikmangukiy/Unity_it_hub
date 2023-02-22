@@ -299,7 +299,7 @@ const Header = (prop) => {
         {/* {prop.permission.is_affiliate == "1" ? (
           ""
         ) : ( */}
-        <ul style={{ marginBottom: "0" }} className="d-flex ">
+        <ul style={{ marginBottom: "0" }} className="d-flex liSidebarMobpd">
           {prop.moveToib == false && prop.moveAff == false ? (
             <>
               {" "}
@@ -370,10 +370,7 @@ const Header = (prop) => {
                       }}
                     >
                       <span>
-                        <Ib_application
-                          className="hoverSidebar"
-                          style={{ width: "24px" }}
-                        />
+                        <Ib_application className="hoverSidebar hoverSidebarMob" />
                       </span>
 
                       <span className="HeaderMenuColor">IB Portal</span>
@@ -383,7 +380,7 @@ const Header = (prop) => {
                       className="nav-link-simple d-flex "
                       to="/partnership"
                     >
-                      <TradeAndWin className="hoverSidebar" />
+                      <TradeAndWin className="hoverSidebar hoverSidebarMob" />
 
                       <span className="HeaderMenuColor">IB Request</span>
                     </NavLink>
@@ -405,10 +402,7 @@ const Header = (prop) => {
                       }}
                     >
                       <span>
-                        <AFFILATE
-                          className="hoverSidebar"
-                          style={{ width: "24px" }}
-                        />
+                        <AFFILATE className="hoverSidebar hoverSidebarMob" />
                       </span>
 
                       <span className="HeaderMenuColor">Affiliate</span>
@@ -418,7 +412,7 @@ const Header = (prop) => {
                       className="nav-link-simple d-flex "
                       to="/affiliate"
                     >
-                      <AFFILATE className="hoverSidebar" />
+                      <AFFILATE className="hoverSidebar hoverSidebarMob" />
 
                       <span className="HeaderMenuColor">Affiliate</span>
                     </NavLink>
@@ -453,7 +447,9 @@ const Header = (prop) => {
                   />
                 </span>
 
-                <span className="HeaderMenuColor">Cilent Portal</span>
+                <span className="HeaderMenuColor hoverSidebarMob">
+                  Cilent Portal
+                </span>
               </a>
             </li>
           )}
@@ -480,11 +476,11 @@ const Header = (prop) => {
         <ButtonBase
           aria-controls={open ? "demo-positioned-menu" : undefined}
           aria-haspopup="true"
-          sx={{ padding: "18px" }}
+          className="hoverSidebarMobpd"
           aria-expanded={open ? "true" : undefined}
           onClick={handleClick}
         >
-          <Setting className="hoverSidebar" style={{ width: "22px" }} />
+          <Setting className="hoverSidebar hoverSidebarMob" />
 
           {/* <span className="MuiButton-label">
             <Avatar sx={{ bgcolor: "#2a3f73", fontSize: "18px" }}>

@@ -872,6 +872,12 @@ export const Withdrawal = (prop) => {
                                           Select Option
                                         </MenuItem> */}
                                         <MenuItem
+                                          value=""
+                                          onClick={() => setOption("bank")}
+                                        >
+                                          Select Option{" "}
+                                        </MenuItem>
+                                        <MenuItem
                                           value="Bank"
                                           onClick={() => setOption("bank")}
                                         >
