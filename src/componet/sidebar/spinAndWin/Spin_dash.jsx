@@ -279,9 +279,9 @@ const Spin_dash = (prop) => {
                     >
                       <div>
                         <div className="head_prpl">
-                          <div className="d-flex">
-                            <div className="reward w-100"> Spin and Win</div>
-                            <div className="reward ">
+                          {/* <div className="d-flex">
+                            <div className="reward reward_min w-100 flex_item_center"> Spin and Win</div>
+                            <div className="reward reward_min ">
                               <div>
                                 Your Credit : ${spinData.data?.spin_win_credit}
                               </div>
@@ -290,17 +290,14 @@ const Spin_dash = (prop) => {
                                 ""
                               ) : (
                                 <div
-                                  style={{
-                                    fontSize: "19px",
-                                    marginTop: "-9px",
-                                  }}
+                                  className="mt5_val"
                                 >
                                   MT5 Account : {spinData.data?.mt5_acc_no}
                                 </div>
                               )}
                             </div>
-                          </div>
-                          <div className="link">
+                          </div> */}
+                          {/* <div className="link margin_lnk">
                             {" "}
                             <span
                               onClick={() => {
@@ -310,7 +307,7 @@ const Spin_dash = (prop) => {
                               HOW TO GET SPIN?
                             </span>{" "}
                           </div>
-                          <div className="link">
+                          <div className="link margin_lnk-2">
                             {" "}
                             <span
                               onClick={() => {
@@ -319,6 +316,50 @@ const Spin_dash = (prop) => {
                             >
                               Spin Report
                             </span>{" "}
+                          </div> */}
+                          <div className="flex_box12">
+                            <div>
+                              <div className="reward reward_min w-100 mb-2 ">
+                                {" "}
+                                Spin and Win
+                              </div>
+                              <div className="link margin_lnk">
+                                {" "}
+                                <span
+                                  onClick={() => {
+                                    navigate("/spinTermsConditions");
+                                  }}
+                                >
+                                  HOW TO GET SPIN?
+                                </span>{" "}
+                              </div>
+                              <div className="link margin_lnk-2">
+                                {" "}
+                                <span
+                                  onClick={() => {
+                                    navigate("/spinAndWin/report");
+                                  }}
+                                >
+                                  Spin Report
+                                </span>{" "}
+                              </div>
+                            </div>
+                            <div>
+                              <div className="reward reward_min ">
+                                <div>
+                                  Your Credit : $
+                                  {spinData.data?.spin_win_credit}
+                                </div>
+                                {spinData.data?.mt5_acc_no == "" ||
+                                spinData.data?.mt5_acc_no == null ? (
+                                  ""
+                                ) : (
+                                  <div className="mt5_val">
+                                    MT5 Account : {spinData.data?.mt5_acc_no}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
                           </div>
                         </div>
                         <div className="head_flex ">

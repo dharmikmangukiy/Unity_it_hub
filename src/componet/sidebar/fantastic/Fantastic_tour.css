@@ -7,12 +7,22 @@
   margin-right: auto;
   padding: 20px;
 }
+.margin_lnk {
+  margin-top: -3%;
+}
+.flex_box12 {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.reward_min {
+  min-width: 116px;
+}
 .reward {
-  width: 328px;
   /* height: 36px; */
   left: 317px;
   top: 137px;
-
+  min-width: 120px !important;
   font-family: "Poppins";
   font-style: normal;
   font-weight: 500;
@@ -21,10 +31,10 @@
   color: #ffffff;
 }
 .link {
-  width: 190px;
   height: 21px;
   left: 320px;
   top: 182px;
+  min-width: 120px !important;
   cursor: pointer;
   font-family: "Poppins";
   font-style: normal;
@@ -439,7 +449,10 @@
     margin-left: 43%; */
     color: #ffc121;
   }
-
+  .mt5_val {
+    font-size: 15px;
+    margin-top: -9px;
+  }
   #btn_1 {
     border-radius: 50px !important;
     height: 35px;
@@ -490,7 +503,7 @@
     height: 35px;
   }
 }
-@media only screen and (max-width: 440px) {
+@media only screen and (max-width: 458px) {
   .u_text {
     /* position: absolute; */
 
@@ -508,8 +521,20 @@
     font-size: 13px;
     height: 35px;
   }
+
+  .margin_lnk {
+    margin-top: -10%;
+    font-size: 10px;
+  }
+  .margin_lnk-2 {
+    font-size: 10px;
+  }
+  .mt5_val {
+    font-size: 12px;
+    margin-top: -9px;
+  }
   .reward {
-    font-size: 16px;
+    font-size: 13px;
   }
 }
 @media only screen and (max-width: 385px) {
@@ -525,6 +550,10 @@
   /* .u_text1 {
     display: none;
   } */
+  .mt5_val {
+    font-size: 10px;
+    margin-top: -9px;
+  }
 }
 .main_content {
   display: flex;

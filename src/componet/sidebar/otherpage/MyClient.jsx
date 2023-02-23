@@ -149,12 +149,12 @@ const MyClient = () => {
               >
                 <table>
                   <thead>
-                    <th colspan="6" scope="colgroup"></th>
+                    {/* <th colspan="6" scope="colgroup"></th>
                     <th colspan="3" scope="colgroup" className="colcolor"></th>
                     <th colspan="4" scope="colgroup" className="colcolor">
                       Downline
                     </th>
-                    <th colspan="1" scope="colgroup"></th>
+                    <th colspan="1" scope="colgroup"></th> */}
 
                     <tr>
                       <th>SR.NO</th>
@@ -166,11 +166,11 @@ const MyClient = () => {
                       <th>Withdraw</th>
                       <th className="">Lot</th>
                       <th className="colcolor">Rebate</th>
-                      <th>Team Deposit</th>
+                      {/* <th>Team Deposit</th>
                       <th>Total Lot </th>
                       <th>IB Commission</th>
 
-                      <th className="colcolor">IB Withdraw</th>
+                      <th className="colcolor">IB Withdraw</th> */}
 
                       <th>Action</th>
                     </tr>
@@ -193,12 +193,12 @@ const MyClient = () => {
                             <td className="colcolor">
                               {item.rebate_generated}
                             </td>
-                            <td>{item.total_deposit}</td>{" "}
+                            {/* <td>{item.total_deposit}</td>{" "}
                             <td>{item.down_line_lot}</td>
                             <td>{item.total_ib_commission}</td>
                             <td className="colcolor">
                               {item.total_ib_withdrawn}
-                            </td>
+                            </td> */}
                             <td>
                               {item.is_ib_account == "1" &&
                               item.has_downline ? (
@@ -280,7 +280,7 @@ const MyClient = () => {
                             : ""}
                         </b>
                       </td>
-                      <td>
+                      {/* <td>
                         <b>
                           {myChildTraderData.data.footer_count != undefined
                             ? myChildTraderData.data["footer_count"][
@@ -315,7 +315,7 @@ const MyClient = () => {
                               ]
                             : ""}
                         </b>
-                      </td>
+                      </td> */}
                     </tr>
                   </tfoot>
                 </table>
@@ -448,7 +448,7 @@ const MyClient = () => {
                         <div className="bankDetailsTabSection downline-table">
                           <table>
                             <thead>
-                              <th colspan="6" scope="colgroup"></th>
+                              {/* <th colspan="6" scope="colgroup"></th>
                               <th
                                 colspan="3"
                                 scope="colgroup"
@@ -461,7 +461,7 @@ const MyClient = () => {
                               >
                                 Downline
                               </th>
-                              <th colspan="1" scope="colgroup"></th>
+                              <th colspan="1" scope="colgroup"></th> */}
 
                               <tr>
                                 <th>SR.NO</th>
@@ -474,11 +474,11 @@ const MyClient = () => {
                                 <th className="">Lot</th>
                                 <th className="colcolor">Rebate</th>
 
-                                <th>Team Deposit</th>
+                                {/* <th>Team Deposit</th>
                                 <th>Total Lot </th>
                                 <th>IB Commission</th>
 
-                                <th className="colcolor">IB Withdraw</th>
+                                <th className="colcolor">IB Withdraw</th> */}
 
                                 <th>Action</th>
                               </tr>
@@ -503,12 +503,12 @@ const MyClient = () => {
                                       <td className="colcolor">
                                         {item.rebate_generated}
                                       </td>
-                                      <td>{item.total_deposit}</td>{" "}
+                                      {/* <td>{item.total_deposit}</td>{" "}
                                       <td>{item.down_line_lot}</td>
                                       <td>{item.total_ib_commission}</td>
                                       <td className="colcolor">
                                         {item.total_ib_withdrawn}
-                                      </td>
+                                      </td> */}
                                       <td>
                                         {item.is_ib_account == "1" &&
                                         item.has_downline ? (
@@ -596,7 +596,7 @@ const MyClient = () => {
                                       : ""}
                                   </b>
                                 </td>
-                                <td>
+                                {/* <td>
                                   <b>
                                     {myTraderData.data.footer_count != undefined
                                       ? myTraderData.data["footer_count"][
@@ -631,7 +631,7 @@ const MyClient = () => {
                                         ]
                                       : ""}
                                   </b>
-                                </td>
+                                </td> */}
                               </tr>
                             </tfoot>
                           </table>

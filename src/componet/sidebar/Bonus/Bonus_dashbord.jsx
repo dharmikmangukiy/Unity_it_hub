@@ -250,7 +250,7 @@ const Bonus_dashbord = (props) => {
                       : ((data.popData.deposit_amount * 10) / 100).toFixed(2)}
                   </span>
                   <span className="money_cell">
-                    (Trade{" "}
+                    (Trade
                     {(
                       (((data.popData.deposit_amount * 10) / 100) * 40) /
                       100
@@ -259,7 +259,7 @@ const Bonus_dashbord = (props) => {
                       : (
                           (((data.popData.deposit_amount * 10) / 100) * 40) /
                           100
-                        ).toFixed()}{" "}
+                        ).toFixed()}
                     lots to complete)
                   </span>
                   <span className="bld_clr3">10%</span>
@@ -278,7 +278,7 @@ const Bonus_dashbord = (props) => {
                       : ((data.popData.deposit_amount * 20) / 100).toFixed(2)}
                   </span>
                   <span className="money_cell">
-                    (Trade{" "}
+                    (Trade
                     {(
                       (((data.popData.deposit_amount * 20) / 100) * 40) /
                       100
@@ -287,7 +287,7 @@ const Bonus_dashbord = (props) => {
                       : (
                           (((data.popData.deposit_amount * 20) / 100) * 40) /
                           100
-                        ).toFixed()}{" "}
+                        ).toFixed()}
                     lots to complete)
                   </span>
                   <span className="bld_clr3">20%</span>
@@ -296,16 +296,16 @@ const Bonus_dashbord = (props) => {
                   <FormControlLabel
                     value={30}
                     control={<Radio color="secondary" />}
-                  />{" "}
+                  />
                   <span className="bld_clr2">
-                    ${" "}
+                    $
                     {((data.popData.deposit_amount * 30) / 100).toFixed(2) >
                     dataOFBonus.bonusAmount
                       ? dataOFBonus.bonusAmount
                       : ((data.popData.deposit_amount * 30) / 100).toFixed(2)}
                   </span>
                   <span className="money_cell">
-                    (Trade{" "}
+                    (Trade
                     {(
                       (((data.popData.deposit_amount * 30) / 100) * 40) /
                       100
@@ -314,7 +314,7 @@ const Bonus_dashbord = (props) => {
                       : (
                           (((data.popData.deposit_amount * 30) / 100) * 40) /
                           100
-                        ).toFixed()}{" "}
+                        ).toFixed()}
                     lots to complete)
                   </span>
                   <span className="bld_clr3">30%</span>
@@ -323,7 +323,7 @@ const Bonus_dashbord = (props) => {
                   <FormControlLabel
                     value={40}
                     control={<Radio color="secondary" />}
-                  />{" "}
+                  />
                   <span className="bld_clr2">
                     $
                     {((data.popData.deposit_amount * 40) / 100).toFixed(2) >
@@ -332,7 +332,7 @@ const Bonus_dashbord = (props) => {
                       : ((data.popData.deposit_amount * 40) / 100).toFixed(2)}
                   </span>
                   <span className="money_cell">
-                    (Trade{" "}
+                    (Trade
                     {(
                       (((data.popData.deposit_amount * 40) / 100) * 40) /
                       100
@@ -341,7 +341,7 @@ const Bonus_dashbord = (props) => {
                       : (
                           (((data.popData.deposit_amount * 40) / 100) * 40) /
                           100
-                        ).toFixed()}{" "}
+                        ).toFixed()}
                     lots to complete)
                   </span>
                   <span className="bld_clr3">40%</span>
@@ -350,7 +350,7 @@ const Bonus_dashbord = (props) => {
                   <FormControlLabel
                     value={50}
                     control={<Radio color="secondary" />}
-                  />{" "}
+                  />
                   <span className="bld_clr2">
                     $
                     {((data.popData.deposit_amount * 50) / 100).toFixed(2) >
@@ -359,7 +359,7 @@ const Bonus_dashbord = (props) => {
                       : ((data.popData.deposit_amount * 50) / 100).toFixed(2)}
                   </span>
                   <span className="money_cell">
-                    (Trade{" "}
+                    (Trade
                     {(
                       (((data.popData.deposit_amount * 50) / 100) * 40) /
                       100
@@ -368,7 +368,7 @@ const Bonus_dashbord = (props) => {
                       : (
                           (((data.popData.deposit_amount * 50) / 100) * 40) /
                           100
-                        ).toFixed()}{" "}
+                        ).toFixed()}
                     lots to complete)
                   </span>
                   <span className="bld_clr3">50%</span>
@@ -428,7 +428,7 @@ const Bonus_dashbord = (props) => {
                       popchange2("pop2");
                     }}
                   >
-                    {" "}
+                    
                     Read More..
                   </span>
                 </span>
