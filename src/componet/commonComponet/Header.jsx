@@ -442,12 +442,12 @@ const Header = (prop) => {
               </span> */}
                 <span>
                   <Ib_application
-                    className="hoverSidebar"
+                    className="hoverSidebar hoverSidebarMob"
                     style={{ width: "24px" }}
                   />
                 </span>
 
-                <span className="HeaderMenuColor hoverSidebarMob">
+                <span className="HeaderMenuColor">
                   Cilent Portal
                 </span>
               </a>
@@ -536,7 +536,9 @@ const Header = (prop) => {
             </div>
           </MenuItem>
 
-          <MenuItem style={{ width: "199px" }}>
+          <MenuItem style={{ width: "199px" }} onClick={()=>{
+            navigate("/userProfile")
+          }}>
             <NavLink to="/userProfile" ariaCurrent onClick={handleClose}>
               {" "}
               <Profile className="hoverSidebar1" />
@@ -544,7 +546,9 @@ const Header = (prop) => {
             </NavLink>{" "}
           </MenuItem>
 
-          <MenuItem>
+          <MenuItem onClick={()=>{
+            navigate("/myDocuments")
+          }}>
             {" "}
             <NavLink to="/myDocuments" onClick={handleClose}>
               {" "}
@@ -552,14 +556,18 @@ const Header = (prop) => {
               {t("My_Documents")}{" "}
             </NavLink>
           </MenuItem>
-          <MenuItem>
+          <MenuItem onClick={()=>{
+            navigate("/bankAccounts")
+          }}>
             <NavLink to="/bankAccounts" onClick={handleClose}>
               {" "}
               <Bank_account className="hoverSidebar1" /> {t("Bank_Accounts")}{" "}
             </NavLink>
           </MenuItem>
 
-          <MenuItem>
+          <MenuItem  onClick={()=>{
+            navigate("/activities")
+          }}>
             {" "}
             <NavLink to="/activities" onClick={handleClose}>
               {" "}
@@ -567,7 +575,9 @@ const Header = (prop) => {
             </NavLink>
           </MenuItem>
 
-          <MenuItem>
+          <MenuItem   onClick={()=>{
+            navigate("/ticket")
+          }}>
             {" "}
             <NavLink
               className="nav-link-simple "
@@ -578,7 +588,9 @@ const Header = (prop) => {
               Ticket
             </NavLink>
           </MenuItem>
-          <MenuItem>
+          <MenuItem onClick={()=>{
+            navigate("/notification")
+          }}>
             {" "}
             <NavLink
               className="nav-link-simple "
@@ -589,9 +601,9 @@ const Header = (prop) => {
               Notification
             </NavLink>
           </MenuItem>
-          <MenuItem>
+          <MenuItem onClick={() => onLogout()}>
             {" "}
-            <a className="nav-link-simple " onClick={() => onLogout()}>
+            <a className="nav-link-simple " >
               <ExitToAppIcon className="hoverSidebar1" />
               Log Out
             </a>

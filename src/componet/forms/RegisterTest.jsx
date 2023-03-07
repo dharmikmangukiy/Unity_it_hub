@@ -1,5 +1,6 @@
 import {
   Autocomplete,
+  createFilterOptions,
   FormControl,
   IconButton,
   InputAdornment,
@@ -21,7 +22,7 @@ import CloseIcon from "@mui/icons-material/Close";
 const RegisterTest = (prop) => {
   var regex = /^[a-zA-Z ]*$/;
   const { id, id1 } = useParams();
-  console.log(id, id1);
+  // console.log(id, id1);
   const [timer, setTimer] = useState(true);
   const navigate = useNavigate();
   const [compaign, setCompaign] = useState({
@@ -294,7 +295,6 @@ const RegisterTest = (prop) => {
             setinfo({ ...info });
           } else {
             info.isLoader = false;
-            console.log("res.datpa?.send_ot", res.data?.send_otp);
 
             if (res.data?.send_otp == 1) {
               info.send_otp = true;
@@ -312,6 +312,9 @@ const RegisterTest = (prop) => {
         });
     }
   };
+  const filterOptions = createFilterOptions({
+    stringify: (option) => option.phonecode,
+  });
   return (
     <div>
       <div className="loginCard">
@@ -356,13 +359,19 @@ const RegisterTest = (prop) => {
                 <div className=" d-flex">
                   <div style={{ width: "35%", marginTop: "19px" }}>
                     <Autocomplete
-                      disablePortal
+                      
                       options={info.contry}
                       value={info.code}
                       getOptionLabel={(option) =>
                         option ? option.phonecode : ""
                       }
-                      onChange={(event, newValue) => {
+                      renderOption={(props, option) => {
+                        return (
+                          <li {...props} key={option.name}>
+                            {option.phonecode}
+                          </li>
+                        );
+                      }}                      onChange={(event, newValue) => {
                         if (newValue == null) {
                         } else {
                           info.code = newValue;
@@ -377,11 +386,14 @@ const RegisterTest = (prop) => {
                           className="w-100"
                           variant="standard"
                           size="small"
+                         
                           onBlur={trueFalse}
                           name="country"
                         />
                       )}
                     />
+                     
+                   
                   </div>
                   <div style={{ width: "65%" }}>
                     <TextField

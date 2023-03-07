@@ -85,6 +85,7 @@ import SpanTerm from "./componet/sidebar/spinAndWin/SpanTerm";
 import FamtasticHistory from "./componet/sidebar/fantastic/FamtasticHistory";
 import { Affiliate } from "./componet/sidebar/otherpage/Withdraw/Affiliate";
 import SpinReport from "./componet/sidebar/spinAndWin/SpinReport";
+import { AdditionalDocuments } from "./componet/sidebar/additionalDocuments/AdditionalDocuments";
 
 function useScrollToTop() {
   const { pathname } = useLocation();
@@ -548,6 +549,10 @@ const App = () => {
                   <Route
                     path="/pamm_trade_history"
                     element={<TradeHistory />}
+                  />
+                  <Route
+                    path="/additional_documents"
+                    element={<AdditionalDocuments />}
                   />
                   <Route
                     path="/pamm_trade_history/:id"

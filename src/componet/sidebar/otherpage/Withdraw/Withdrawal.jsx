@@ -260,7 +260,9 @@ export const Withdrawal = (prop) => {
       }
     });
   };
-  const verifyOtp = () => {
+  const verifyOtp = (e) => {
+    e.preventDefault();
+
     if (age.otp) {
       setIsLoader1(true);
       const param = new FormData();
@@ -755,7 +757,7 @@ export const Withdrawal = (prop) => {
 
                           <Grid container spacing={6}>
                             <Grid item md={12} className="pt-1">
-                              <form onSubmit={handleSubmit}>
+                              <form onSubmit={!sendOtp ?verifyOtp: handleSubmit}>
                                 <Grid
                                   container
                                   spacing={3}
@@ -1092,8 +1094,9 @@ export const Withdrawal = (prop) => {
                                       ) : (
                                         <>
                                           <ColorButton
-                                            onClick={verifyOtp}
+                                            // onClick={}
                                             className=""
+                                            type="submit"
                                           >
                                             Submit
                                           </ColorButton>
@@ -1143,7 +1146,8 @@ export const Withdrawal = (prop) => {
                                         <ColorButton
                                           sx={{ marginLeft: "10px" }}
                                           disabled={timer}
-                                          type="submit"
+                                          // type="submit"
+                                          onClick={handleSubmit}
                                         >
                                           {timer ? (
                                             <Counter

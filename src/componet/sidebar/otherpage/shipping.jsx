@@ -504,7 +504,23 @@ const Shipping = (prop) => {
                         ""
                       )}
                     </Grid>
-                    <Grid item xs={12} sm={4}>
+                    {
+                      countryData.state.length==0 ?      <Grid item xs={12} sm={4}>
+                      <TextField
+                        label="State"
+                        variant="standard"
+                        sx={{ width: "100%" }}
+                        name="city"
+                        value={data?.city}
+                        onBlur={trueFalse}
+                        onChange={(e) => handleChange(e)}
+                      />
+                      {error?.city == true && data?.city == "" ? (
+                        <span className="error">State is required!</span>
+                      ) : (
+                        ""
+                      )}
+                    </Grid>:    <Grid item xs={12} sm={4}>
                       <Autocomplete
                         disablePortal
                         options={countryData.state}
@@ -547,7 +563,24 @@ const Shipping = (prop) => {
                         ""
                       )}
                     </Grid>
-                    <Grid item xs={12} sm={4}>
+                    }
+                {
+                   countryData.state.length==0 || countryData.city.length==0 ?<Grid item xs={12} sm={4}>
+                   <TextField
+                     label="City"
+                     variant="standard"
+                     sx={{ width: "100%" }}
+                     name="city1"
+                     value={data?.city1}
+                     onBlur={trueFalse}
+                     onChange={(e) => handleChange(e)}
+                   />
+                   {error?.city1 == true && data?.city1 == "" ? (
+                     <span className="error">City is required!</span>
+                   ) : (
+                     ""
+                   )}
+                 </Grid>: <Grid item xs={12} sm={4}>
                       <Autocomplete
                         disablePortal
                         options={countryData.city}
@@ -594,6 +627,8 @@ const Shipping = (prop) => {
                         ""
                       )}
                     </Grid>
+                }
+                   
                     <Grid item xs={12} sm={4}>
                       <TextField
                         label="Pincode"

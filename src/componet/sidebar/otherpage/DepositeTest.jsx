@@ -58,7 +58,6 @@ const DepositeTest = () => {
   const [infoTrue, setinfoTrue] = useState({
     amount: false,
   });
-  //   console.log(info.image.name);
   const handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -68,7 +67,6 @@ const DepositeTest = () => {
         [name]: value,
       };
     });
-    console.log(event.target.value);
   };
   const trueFalse = (event) => {
     var { name, value } = event.target;
@@ -88,7 +86,7 @@ const DepositeTest = () => {
       setInfo({ ...info });
     }
   }, []);
-  console.log("dataOFBonus", dataOFBonus);
+  console.log("dataOFBonus", info.image);
   const onsubmit = async () => {
     const param = new FormData();
     if (IsApprove !== "") {
@@ -101,10 +99,8 @@ const DepositeTest = () => {
       Toast("error", "Please select deposit type");
     } else if (info.depositTo == "") {
       Toast("error", "Please select mt5 account");
-      console.log("nikunj1");
     } else if (info.amount == "") {
       Toast("error", "Amount is required");
-      console.log("nikunj2", info);
     } else if (
       (info.selectPaymentOption == "UPI" ||
         info.selectPaymentOption == "Bank" ||
@@ -115,7 +111,6 @@ const DepositeTest = () => {
     ) {
       Toast("error", "image is required");
 
-      console.log("nikunj3");
     } else {
       param.append("deposit_method", info.selectPaymentOption);
       param.append("amount", info.amount);
@@ -130,7 +125,6 @@ const DepositeTest = () => {
 
       param.append("utr_number", info.utn);
 
-      console.log("nikunj4");
       if (
         (info.selectPaymentOption == "UPI" ||
           info.selectPaymentOption == "PhonePe" ||
@@ -621,10 +615,7 @@ const DepositeTest = () => {
                                                       info.selsectRadio =
                                                         e.target.value;
                                                       setInfo({ ...info });
-                                                      console.log(
-                                                        "radio",
-                                                        e.target.value
-                                                      );
+                                               
                                                     }}
                                                   >
                                                     <div className="radioButoon-main">
@@ -1000,7 +991,6 @@ const DepositeTest = () => {
                                       onChange={(e) => {
                                         info.image = e.target.files[0];
                                         setInfo({ ...info });
-                                        console.log(e.target.files[0]);
                                       }}
                                     />
                                     <div className="Neon-input-dragDrop">
@@ -1038,7 +1028,7 @@ const DepositeTest = () => {
                                       fontWeight: "600",
                                     }}
                                   >
-                                    {info.image == "" ? "" : info.image.name}
+                                    {info.image == "" ||info.image == null||info.image == undefined ? "" : info.image.name}
                                   </div>
                                 </div>
                               </Grid>
@@ -1657,7 +1647,6 @@ const DepositeTest = () => {
                                       onChange={(e) => {
                                         info.image = e.target.files[0];
                                         setInfo({ ...info });
-                                        console.log(e.target.files[0]);
                                       }}
                                     />
                                     <div className="Neon-input-dragDrop">
@@ -1695,7 +1684,7 @@ const DepositeTest = () => {
                                       fontWeight: "600",
                                     }}
                                   >
-                                    {info.image == "" ? "" : info.image.name}
+                                    {info.image == "" ||info.image == null||info.image == undefined ? "" : info.image.name}
                                   </div>
                                 </div>
                               </Grid>

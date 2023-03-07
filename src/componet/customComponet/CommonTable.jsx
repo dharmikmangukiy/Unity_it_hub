@@ -276,6 +276,7 @@ const CommonTable = (prop) => {
           onChangeRowsPerPage={handleClientPerRowsChange}
           onChangePage={handleClientPageChange}
           highlightOnHover
+          persistTableHead
           pointerOnHover
           progressComponent={<CustomLoader />}
         />
@@ -292,6 +293,7 @@ const CommonTable = (prop) => {
           // clearSelectedRows={toggleCleared}
           sortServer
           pagination
+          persistTableHead
           paginationServer
           paginationTotalRows={clientTotalRows}
           onChangeRowsPerPage={handleClientPerRowsChange}

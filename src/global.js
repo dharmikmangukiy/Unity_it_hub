@@ -9,23 +9,23 @@ const Url = "https://reactrighttest.rightfx.com";
 // };
 // const IsApprove = {
 //   is_app: 1,
-//   auth: "299f3f-3efba3-1b9ddd",
-//   user_id: "4048",
+//   auth: "93b1df-c3d6f0-23f7a5",
+//   user_id: "4214",
 // };
 // const IsApprove = {
 //   is_app: 1,
 //   auth: "367d88-2eb950-a77a93",
 //   user_id: "3963",
 // };
-// const IsApprove = {
-//   is_app: 1,
-//   auth: "ed7d3a-0834c3-23cd44",
-//   user_id: "4141",
-// };
+const IsApprove = {
+  is_app: 1,
+  auth: "ed7d3a-0834c3-23cd44",
+  user_id: "4141",
+};
 // const IsApprove = {
 //   is_app: 1,
 //   auth: "4822e6-2fc0fa-cea730",
 //   user_id: "597",
 // };
-const IsApprove = "";
+// const IsApprove = "";
 export { Url, IsApprove };

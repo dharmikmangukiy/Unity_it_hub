@@ -566,11 +566,7 @@ const MyDocuments = () => {
       <div className="app-content--inner">
         <div className="app-content--inner__wrapper mh-100-vh">
           {mainLoader == true ? (
-            // <div className="loader1">
-            //   <div className="clock">
-            //     <div className="pointers"></div>
-            //   </div>
-            // </div>
+      
             <div className="loader1">
               <span className="loader2"></span>
             </div>
@@ -1087,7 +1083,7 @@ const MyDocuments = () => {
                           >
                             <i>
                               (Maximum size of document 5MB, Allow File Formats
-                              *jpg, *png)
+                              *jpg, *png, *pdf)
                             </i>
                             {doc.proof == "Proof of ID" ? (
                               doc.isLoder ? (

@@ -459,7 +459,6 @@ const UserProfile = (prop) => {
     // getContry();
     fetchUserPref();
   }, []);
-  console.log("user_dob", prefrence, onEdit);
   const getContry = () => {
     const param = new FormData();
 
@@ -481,7 +480,6 @@ const UserProfile = (prop) => {
           getCityData(onEdit.state);
         }
         setOnEdit({ ...onEdit });
-        console.log("test", onEdit);
       }
     });
   };
@@ -719,10 +717,7 @@ const UserProfile = (prop) => {
                                               );
                                             },
                                             function (err) {
-                                              console.error(
-                                                "Async: Could not copy text: ",
-                                                err
-                                              );
+                                          
                                               Toast(
                                                 "error",
                                                 "The link Could not copy, Please try again"
@@ -1212,6 +1207,13 @@ const UserProfile = (prop) => {
                                     getOptionLabel={(option) =>
                                       option ? option.phonecode : ""
                                     }
+                                    renderOption={(props, option) => {
+                                      return (
+                                        <li {...props} key={option.name}>
+                                          {option.phonecode}
+                                        </li>
+                                      );
+                                    }}
                                     onChange={(event, newValue) => {
                                       if (newValue !== null) {
                                         getStateData(newValue);
@@ -1235,6 +1237,7 @@ const UserProfile = (prop) => {
                                       />
                                     )}
                                   />
+                                  
                                 </div>
                                 <div style={{ width: "60%" }}>
                                   {" "}
@@ -1346,7 +1349,33 @@ const UserProfile = (prop) => {
                                 )}
                               />
                             </Grid>
+
+                           {
+                            countryData.state.length==0?
                             <Grid item md={4}>
+                            <div className="font-weight-bold mb-2">
+                            State
+                            </div>
+                            <FormControl
+                              className="w-100"
+                              error={onEdit.add == "" ? true : false}
+                            >
+                              <BootstrapInput
+                                value={onEdit?.state}
+                                name="state"
+                                onChange={inputedit}
+                                onBlur={trueFalse}
+                                displayempty
+                              />
+                              {onEdit.state == "" && infoTrue.state == true ? (
+                                <FormHelperText>
+                                  Please Enter state
+                                </FormHelperText>
+                              ) : (
+                                ""
+                              )}
+                            </FormControl>
+                          </Grid>: <Grid item md={4}>
                               <div className="font-weight-bold mb-2">State</div>
                               <Autocomplete
                                 disablePortal
@@ -1395,8 +1424,34 @@ const UserProfile = (prop) => {
                                   />
                                 )}
                               />
-                            </Grid>{" "}
-                            <Grid item md={4}>
+                            </Grid>
+                           }
+                           {" "}
+                           {
+                             countryData.state.length==0 || countryData.city==0 ?<Grid item md={4}>
+                             <div className="font-weight-bold mb-2">
+                             City
+                             </div>
+                             <FormControl
+                               className="w-100"
+                               error={onEdit.add == "" ? true : false}
+                             >
+                               <BootstrapInput
+                                 value={onEdit?.city}
+                                 name="city"
+                                 onChange={inputedit}
+                                 onBlur={trueFalse}
+                                 displayempty
+                               />
+                               {onEdit.city == "" && infoTrue.city == true ? (
+                                 <FormHelperText>
+                                   Please Enter City
+                                 </FormHelperText>
+                               ) : (
+                                 ""
+                               )}
+                             </FormControl>
+                           </Grid>:       <Grid item md={4}>
                               <div className="font-weight-bold mb-2">City</div>
                               <Autocomplete
                                 disablePortal
@@ -1444,6 +1499,8 @@ const UserProfile = (prop) => {
                                 )}
                               />
                             </Grid>
+                           }
+                     
                             <Grid item md={4}>
                               <div className="font-weight-bold mb-2">
                                 Address
@@ -1474,7 +1531,7 @@ const UserProfile = (prop) => {
                               </div>
                               <FormControl
                                 className="w-100"
-                                error={onEdit.ladmark == "" ? true : false}
+                                // error={onEdit.ladmark == "" ? true : false}
                               >
                                 <BootstrapInput
                                   value={onEdit.ladmark}
@@ -1483,14 +1540,14 @@ const UserProfile = (prop) => {
                                   onBlur={trueFalse}
                                   displayempty
                                 />
-                                {onEdit.ladmark == "" &&
+                                {/* {onEdit.ladmark == "" &&
                                 infoTrue.ladmark == true ? (
                                   <FormHelperText>
                                     Please Enter Landmark
                                   </FormHelperText>
                                 ) : (
                                   ""
-                                )}
+                                )} */}
                               </FormControl>
                             </Grid>
                             {otp.send_otp == true ? (

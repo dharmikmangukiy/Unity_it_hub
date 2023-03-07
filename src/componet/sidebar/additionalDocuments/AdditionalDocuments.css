@@ -1,0 +1,35 @@
+.addDoc-textbox{
+    padding: 10px;
+}
+.addDoc-textbox{
+    display: flex;
+    gap: 10px;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.addDoc-checkBox{
+    display: flex;
+    align-items: center;
+}
+.addDoc-checkBox input{
+    width: 33px !important;
+    height: 20px !important;
+}
+.addDoc-checkBox label{
+    font-size: 18px;
+}
+.addDoc-main{
+    padding: 10px;
+}
+.addDoc-listView{
+    padding: 10px;
+}
+.addDoc-listView-block-sub-imgF{
+    width: 200px;
+    height: 120px;
+}
+.addDoc-listView-block-sub-imgF embed{
+    width: 200px;
+    height: 120px;
+}

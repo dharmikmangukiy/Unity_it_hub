@@ -334,17 +334,23 @@ const TradeAndWin = () => {
                                     <p className="text-color-yellow font-12m">
                                       Pending
                                     </p>
-                                  ) : order.status == "1" ? (
+                                  ) : order.status == "3" ? (
                                     <p className="trade-order-status  font-12m">
                                       Delivered
                                     </p>
-                                  ) : order.status == "2" ? (
+                                  ) : order.status == "4" ? (
                                     <p className="text-color-red font-12m">
                                       Canceled
                                     </p>
-                                  ) : (
-                                    ""
-                                  )}
+                                  ) :order.status == "2" ? (
+                                    <p className="trade-order-status font-12m">
+                                       Out For Delivery
+                                    </p>
+                                  ) :order.status == "1" ? (
+                                    <p className="trade-order-status font-12m">
+                                      In Transit
+                                    </p>
+                                  ) :""}
                                   {/* <p className="trade-order-status">Delivered</p> */}
                                   <p className="trade-order-date font-12m">
                                     {order.added_datetime}
