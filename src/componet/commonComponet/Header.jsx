@@ -447,9 +447,7 @@ const Header = (prop) => {
                   />
                 </span>
 
-                <span className="HeaderMenuColor">
-                  Cilent Portal
-                </span>
+                <span className="HeaderMenuColor">Cilent Portal</span>
               </a>
             </li>
           )}
@@ -536,9 +534,12 @@ const Header = (prop) => {
             </div>
           </MenuItem>
 
-          <MenuItem style={{ width: "199px" }} onClick={()=>{
-            navigate("/userProfile")
-          }}>
+          <MenuItem
+            style={{ width: "199px" }}
+            onClick={() => {
+              navigate("/userProfile");
+            }}
+          >
             <NavLink to="/userProfile" ariaCurrent onClick={handleClose}>
               {" "}
               <Profile className="hoverSidebar1" />
@@ -546,9 +547,11 @@ const Header = (prop) => {
             </NavLink>{" "}
           </MenuItem>
 
-          <MenuItem onClick={()=>{
-            navigate("/myDocuments")
-          }}>
+          <MenuItem
+            onClick={() => {
+              navigate("/myDocuments");
+            }}
+          >
             {" "}
             <NavLink to="/myDocuments" onClick={handleClose}>
               {" "}
@@ -556,18 +559,35 @@ const Header = (prop) => {
               {t("My_Documents")}{" "}
             </NavLink>
           </MenuItem>
-          <MenuItem onClick={()=>{
-            navigate("/bankAccounts")
-          }}>
+
+          <MenuItem
+            onClick={() => {
+              navigate("/additional_documents");
+            }}
+          >
+            {" "}
+            <NavLink to="/additional_documents" onClick={handleClose}>
+              {" "}
+              <My_documents className="hoverSidebar1" />
+              Additional Documents{" "}
+            </NavLink>
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              navigate("/bankAccounts");
+            }}
+          >
             <NavLink to="/bankAccounts" onClick={handleClose}>
               {" "}
               <Bank_account className="hoverSidebar1" /> {t("Bank_Accounts")}{" "}
             </NavLink>
           </MenuItem>
 
-          <MenuItem  onClick={()=>{
-            navigate("/activities")
-          }}>
+          <MenuItem
+            onClick={() => {
+              navigate("/activities");
+            }}
+          >
             {" "}
             <NavLink to="/activities" onClick={handleClose}>
               {" "}
@@ -575,9 +595,11 @@ const Header = (prop) => {
             </NavLink>
           </MenuItem>
 
-          <MenuItem   onClick={()=>{
-            navigate("/ticket")
-          }}>
+          <MenuItem
+            onClick={() => {
+              navigate("/ticket");
+            }}
+          >
             {" "}
             <NavLink
               className="nav-link-simple "
@@ -588,9 +610,11 @@ const Header = (prop) => {
               Ticket
             </NavLink>
           </MenuItem>
-          <MenuItem onClick={()=>{
-            navigate("/notification")
-          }}>
+          <MenuItem
+            onClick={() => {
+              navigate("/notification");
+            }}
+          >
             {" "}
             <NavLink
               className="nav-link-simple "
@@ -603,7 +627,7 @@ const Header = (prop) => {
           </MenuItem>
           <MenuItem onClick={() => onLogout()}>
             {" "}
-            <a className="nav-link-simple " >
+            <a className="nav-link-simple ">
               <ExitToAppIcon className="hoverSidebar1" />
               Log Out
             </a>

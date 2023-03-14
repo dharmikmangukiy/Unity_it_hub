@@ -1,10 +1,31 @@
 import React, { useEffect } from "react";
-import { DialogContent, Grid, Paper, styled } from "@mui/material";
+import {
+  ButtonBase,
+  DialogContent,
+  Grid,
+  Menu,
+  Paper,
+  styled,
+} from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import "./Spin_dash.css";
+import {
+  FacebookShareButton,
+  FacebookIcon,
+  WhatsappShareButton,
+  WhatsappIcon,
+  TelegramShareButton,
+  TelegramIcon,
+  TwitterShareButton,
+  EmailShareButton,
+  EmailIcon,
+  LinkedinShareButton,
+  LinkedinIcon,
+  TwitterIcon,
+} from "react-share";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
@@ -52,6 +73,8 @@ const Spin_dash = (prop) => {
   const [open, setOpen] = React.useState(false);
   const [seconds, setSeconds] = React.useState(0);
   const [link, setLink] = useState("");
+  const [anchorEl1, setAnchorEl1] = React.useState(null);
+
   const [selectedItem, setSelectedItem] = useState({
     freeSpin: null,
     freeSpintrue: false,
@@ -62,6 +85,7 @@ const Spin_dash = (prop) => {
     depo500Spin: null,
     depo500Spintrue: false,
   });
+  const open1 = Boolean(anchorEl1);
 
   const [popData, setPopData] = useState({
     isLoder: true,
@@ -96,6 +120,12 @@ const Spin_dash = (prop) => {
   useEffect(() => {
     getSpin();
   }, []);
+  const handleClick1 = (event) => {
+    setAnchorEl1(event.currentTarget);
+  };
+  const handleClose1 = () => {
+    setAnchorEl1(null);
+  };
   const claimCredit = (prop) => {
     console.log(prop);
     const param = new FormData();
@@ -498,7 +528,19 @@ const Spin_dash = (prop) => {
                                           );
                                       }}
                                     />
-                                    {/* <ShareOutlinedIcon /> */}
+                                    <ButtonBase
+                                      aria-controls={
+                                        open1
+                                          ? "demo-positioned-menu"
+                                          : undefined
+                                      }
+                                      aria-haspopup="true"
+                                      className="hoverSidebarMobpd"
+                                      aria-expanded={open1 ? "true" : undefined}
+                                      onClick={handleClick1}
+                                    >
+                                      <ShareOutlinedIcon />
+                                    </ButtonBase>
                                   </span>
                                 </div>
                                 <div className="middle_flex">
@@ -731,6 +773,60 @@ const Spin_dash = (prop) => {
             )}
           </div>
         </div>
+        <Menu
+          id="demo- positioned-menu1"
+          aria-labelledby="demo-positioned-button1"
+          anchorEl={anchorEl1}
+          open={open1}
+          onClose={handleClose1}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "left",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "left",
+          }}
+        >
+          <div className="shere-button overflow-hidden p-0">
+            <FacebookShareButton
+              url="https://reactrighttest.rightfx.com/register/referral_sponsor/555797"
+              quote="Right Fx"
+            >
+              <FacebookIcon size={40} round={true} />
+            </FacebookShareButton>
+            <WhatsappShareButton
+              url="https://reactrighttest.rightfx.com/register/referral_sponsor/555797"
+              quote="Right Fx"
+            >
+              <WhatsappIcon size={40} round={true} />
+            </WhatsappShareButton>
+            <TelegramShareButton
+              url="https://reactrighttest.rightfx.com/register/referral_sponsor/555797"
+              quote="Right Fx"
+            >
+              <TelegramIcon size={40} round={true} />
+            </TelegramShareButton>
+            <TwitterShareButton
+              url="https://reactrighttest.rightfx.com/register/referral_sponsor/555797"
+              quote="Right Fx"
+            >
+              <TwitterIcon size={40} round={true} />
+            </TwitterShareButton>
+            <EmailShareButton
+              url="https://reactrighttest.rightfx.com/register/referral_sponsor/555797"
+              quote="Right Fx"
+            >
+              <EmailIcon size={40} round={true} />
+            </EmailShareButton>
+            <LinkedinShareButton
+              url="https://reactrighttest.rightfx.com/register/referral_sponsor/555797"
+              quote="Right Fx"
+            >
+              <LinkedinIcon size={40} round={true} />
+            </LinkedinShareButton>
+          </div>
+        </Menu>
       </div>
       <div>
         <BootstrapDialog

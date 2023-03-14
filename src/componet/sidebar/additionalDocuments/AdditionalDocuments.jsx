@@ -1,20 +1,42 @@
-import { FormControl, Grid, Input, Paper, FormHelperText } from "@mui/material";
+import {
+  FormControl,
+  Grid,
+  Input,
+  Paper,
+  FormHelperText,
+  Button,
+  DialogTitle,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+} from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IsApprove, Url } from "../../../global";
 import Toast from "../../commonComponet/Toast";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import "./AdditionalDocuments.css";
 import {
   BootstrapInput,
   ColorButton,
+  ColorButton1,
+  ColorButton2,
 } from "../../customComponet/CustomElement";
+var id = 0;
 export const AdditionalDocuments = () => {
   const navigate = useNavigate();
   const [mainLoader, setMainLoader] = useState(true);
+  const [open1, setOpen1] = React.useState(false);
   const [listData, setListData] = useState([]);
+  const [deleteData, setDeleteData] = useState({
+    isLoader: "",
+    id: "",
+  });
   const [info, setInfo] = useState({
     fontimg: "",
     ftype: "",
@@ -25,6 +47,8 @@ export const AdditionalDocuments = () => {
     twoSide: false,
     doc_name: "",
     isLoader: false,
+    id: "",
+    addAndEdit: "",
   });
   const [infoTrue, setInfoTrue] = useState({
     fontimg: false,
@@ -56,6 +80,38 @@ export const AdditionalDocuments = () => {
         } else {
           setListData(res.data.aaData);
           setMainLoader(false);
+        }
+      });
+  };
+
+  const deleteAddDoc = () => {
+    const param = new FormData();
+    if (IsApprove !== "") {
+      param.append("is_app", IsApprove.is_app);
+      param.append("user_id", IsApprove.user_id);
+      param.append("auth_key", IsApprove.auth);
+    }
+    deleteData.isLoader = true;
+    setDeleteData({ ...deleteData });
+    param.append("document_id", deleteData.id);
+    param.append("action", "delete_documents");
+
+    axios
+      .post(Url + "/ajaxfiles/additional_documents.php", param)
+      .then((res) => {
+        if (res.data.message == "Session has been expired") {
+          navigate("/");
+        }
+        if (res.data.status == "error") {
+          Toast("error", res.data.message);
+          deleteData.isLoader = false;
+          setDeleteData({ ...deleteData });
+        } else {
+          deleteData.isLoader = false;
+          setDeleteData({ ...deleteData });
+          setOpen1(false);
+          Toast("success", res.data.message);
+          fatchDocuments();
         }
       });
   };
@@ -102,6 +158,78 @@ export const AdditionalDocuments = () => {
               perviewbackimg: "",
               twoSide: false,
               doc_name: "",
+              id: "",
+              addAndEdit: "",
+              isLoader: false,
+            });
+            setInfoTrue({
+              fontimg: false,
+
+              backimg: false,
+              doc_name: false,
+            });
+            Toast("success", res.data.message);
+
+            fatchDocuments();
+          }
+        });
+    }
+  };
+  const onEdit = () => {
+    if (info.doc_name == "") {
+      Toast("error", "Document Name is required");
+    } else if (info.fontimg == "" && info.perviewfontimg == "") {
+      Toast("error", "Font Image is required");
+    } else if (
+      info.backimg == "" &&
+      info.twoSide == true &&
+      info.perviewbackimg == ""
+    ) {
+      Toast("error", "Back Image is required");
+    } else {
+      const param = new FormData();
+      if (IsApprove !== "") {
+        param.append("is_app", IsApprove.is_app);
+        param.append("user_id", IsApprove.user_id);
+        param.append("auth_key", IsApprove.auth);
+      }
+      if (info.fontimg) {
+        param.append("document_front_image", info.fontimg);
+      }
+      if (info.backimg) {
+        param.append("document_back_image", info.backimg);
+      }
+      param.append("document_name", info.doc_name);
+      param.append("document_double_sided", info.twoSide == true ? 1 : 0);
+      param.append("document_id", info.id);
+
+      param.append("action", "update_documents");
+
+      info.isLoader = true;
+      setInfo({ ...info });
+
+      axios
+        .post(Url + "/ajaxfiles/additional_documents.php", param)
+        .then((res) => {
+          if (res.data.message == "Session has been expired") {
+            navigate("/");
+          }
+          if (res.data.status == "error") {
+            Toast("error", res.data.message);
+            info.isLoader = false;
+            setInfo({ ...info });
+          } else {
+            setInfo({
+              fontimg: "",
+              ftype: "",
+              perviewfontimg: "",
+              backimg: "",
+              btype: "",
+              perviewbackimg: "",
+              twoSide: false,
+              doc_name: "",
+              id: "",
+              addAndEdit: "",
               isLoader: false,
             });
             setInfoTrue({
@@ -141,247 +269,403 @@ export const AdditionalDocuments = () => {
                         style={{ borderRadius: "10px" }}
                         className="w-100 mb-5"
                       >
-                        <div className="card-header font-weight-bold mb-0 text-dark h5">
-                          Document
+                        <div className="addDoc-listView-sw">
+                          <div className="card-header font-weight-bold mb-0 text-dark h5">
+                            My Document
+                          </div>
+                          <div>
+                            <a href={`/additional_documents#add-doc-move${id}`}>
+                              <ColorButton
+                                sx={{
+                                  padding: "5px 15px",
+                                  marginRight: "10px",
+                                }}
+                                onClick={() => {
+                                  id = id + 1;
+                                  setInfo({
+                                    fontimg: "",
+                                    ftype: "",
+                                    perviewfontimg: "",
+                                    backimg: "",
+                                    btype: "",
+                                    perviewbackimg: "",
+                                    twoSide: false,
+                                    doc_name: "",
+                                    isLoader: false,
+                                    id: "",
+                                    addAndEdit: "Add",
+                                  });
+                                  setInfoTrue({
+                                    fontimg: false,
+                                    backimg: false,
+                                    doc_name: false,
+                                  });
+                                }}
+                              >
+                                Add
+                              </ColorButton>
+                            </a>
+                          </div>
                         </div>
                         <div className="divider"></div>
                         <div className="addDoc-listView">
-                          {listData.map((item, index) => {
-                            var type1=item.document_front_image.split(".").pop()== "pdf"
-                            ? "application/pdf"
-                            : "image";
-                            var type2=item.document_front_image.split(".").pop()== "pdf"
-                            ? "application/pdf"
-                            : "image";
-                            return (
-                              <>
-                                <div className="addDoc-listView-block" key={index}>
-                                <div className="text-info font-weight-bold">
-                                Document Name:-{item.document_name}
-                                </div>
-                                <div className="addDoc-listView-block-sub">
-                                    <Grid container spacing={3}>
-                                        <Grid item md={6}>
-                                            <div >
-                                                <div>
-                                                    <h5>FRONT SIDE</h5>
+                          {listData.length == 0 ? (
+                            <div
+                              className="text-center"
+                              style={{ margin: "30px 0px" }}
+                            >
+                              There are no records to display
+                            </div>
+                          ) : (
+                            <>
+                              {listData.map((item, index) => {
+                                var type1 =
+                                  item.document_front_image.split(".").pop() ==
+                                  "pdf"
+                                    ? "application/pdf"
+                                    : "image";
+                                var type2 =
+                                  item.document_front_image.split(".").pop() ==
+                                  "pdf"
+                                    ? "application/pdf"
+                                    : "image";
+                                return (
+                                  <>
+                                    <div
+                                      className="addDoc-listView-block"
+                                      key={index}
+                                    >
+                                      <div className="addDoc-listView-sw">
+                                        <div className="text-info font-weight-bold">
+                                          Document Name:-{item.document_name}
+                                        </div>
+                                        <div>
+                                          {item.status == "1" ? (
+                                            ""
+                                          ) : (
+                                            <a
+                                              href={`/additional_documents#add-doc-move${id}`}
+                                            >
+                                              <Button
+                                                onClick={() => {
+                                                  id = id + 1;
+                                                  setInfo({
+                                                    fontimg: "",
+                                                    ftype: type1,
+                                                    perviewfontimg:
+                                                      item.document_front_image,
+                                                    backimg: "",
+                                                    btype: type2,
+                                                    perviewbackimg:
+                                                      item.document_back_image,
+                                                    twoSide:
+                                                      item.document_double_sided ==
+                                                      0
+                                                        ? false
+                                                        : true,
+                                                    doc_name:
+                                                      item.document_name,
+                                                    isLoader: false,
+                                                    id: item.document_id,
+                                                    addAndEdit: "Edit",
+                                                  });
+                                                  setInfoTrue({
+                                                    fontimg: false,
+
+                                                    backimg: false,
+                                                    doc_name: false,
+                                                  });
+                                                }}
+                                              >
+                                                <EditIcon
+                                                  sx={{ color: "green" }}
+                                                />
+                                              </Button>{" "}
+                                            </a>
+                                          )}
+
+                                          <Button
+                                            onClick={() => {
+                                              setDeleteData({
+                                                isLoader: false,
+                                                id: item.document_id,
+                                              });
+                                              setOpen1(true);
+                                            }}
+                                          >
+                                            <DeleteIcon sx={{ color: "red" }} />
+                                          </Button>
+                                        </div>
+                                      </div>
+                                      <div>
+                                        <span
+                                          className={`approvedocument ${
+                                            item.status == 1
+                                              ? "approve"
+                                              : item.status == 2
+                                              ? "rejected"
+                                              : item.status == 0
+                                              ? "padding"
+                                              : ""
+                                          }`}
+                                        >
+                                          {" "}
+                                          {item.status == 1
+                                            ? " Approved"
+                                            : item.status == 2
+                                            ? "Approval Rejected"
+                                            : item.status == 0
+                                            ? "Approval Pending"
+                                            : ""}
+                                        </span>
+                                      </div>
+                                      <div className="addDoc-listView-block-sub">
+                                        <Grid container spacing={3}>
+                                          <Grid
+                                            className="addDoc-listView-Center"
+                                            item
+                                            md={
+                                              item.document_back_image == ""
+                                                ? 12
+                                                : 6
+                                            }
+                                          >
+                                            <div>
+                                              <div className="text-center">
+                                                <h6 className="font-size-xs font-weight-bold">
+                                                  FRONT SIDE
+                                                </h6>
+                                              </div>
+                                              <div className="addDoc-listView-block-sub-imgF">
+                                                <div className="position-Eye-addDoc">
+                                                  <Button
+                                                    onClick={() => {
+                                                      const myWindow =
+                                                        window.open(
+                                                          item.document_front_image,
+                                                          "",
+                                                          "width=320,height=320"
+                                                        );
+                                                    }}
+                                                  >
+                                                    <VisibilityIcon />
+                                                  </Button>
+                                                </div>
+                                                {type1 == "image" ? (
+                                                  <img
+                                                    src={
+                                                      item.document_front_image
+                                                    }
+                                                    alt=""
+                                                    width="200px"
+                                                  />
+                                                ) : (
+                                                  <embed
+                                                    src={
+                                                      item.document_front_image
+                                                    }
+                                                  />
+                                                )}
+                                              </div>
+                                            </div>
+                                          </Grid>
+                                          {item.document_back_image == "" ? (
+                                            ""
+                                          ) : (
+                                            <Grid
+                                              item
+                                              md={6}
+                                              className="addDoc-listView-Center"
+                                            >
+                                              <div>
+                                                <div className="text-center">
+                                                  <h6 className="font-size-xs font-weight-bold">
+                                                    BACK SIDE
+                                                  </h6>
                                                 </div>
                                                 <div className="addDoc-listView-block-sub-imgF">
-                                                    {
-                                                        type1=="image" ?<img src={item.document_front_image} alt="" width="200px" />:<embed
-                                                        src={item.document_front_image}
-                                                      />
-                                                    }
+                                                  <div className="position-Eye-addDoc">
+                                                    <Button
+                                                      onClick={() => {
+                                                        const myWindow =
+                                                          window.open(
+                                                            item.document_back_image,
+                                                            "",
+                                                            "width=320,height=320"
+                                                          );
+                                                      }}
+                                                    >
+                                                      <VisibilityIcon />
+                                                    </Button>
+                                                  </div>
+                                                  {type2 == "image" ? (
+                                                    <img
+                                                      src={
+                                                        item.document_back_image
+                                                      }
+                                                      alt=""
+                                                      width="200px"
+                                                    />
+                                                  ) : (
+                                                    <embed
+                                                      src={
+                                                        item.document_back_image
+                                                      }
+                                                    />
+                                                  )}
                                                 </div>
-                                            </div>
+                                              </div>
+                                            </Grid>
+                                          )}
                                         </Grid>
-                                        <Grid item md={6}></Grid>
-
-                                    </Grid>
-                                </div>
-                                </div>
-                                <div className="divider"></div>
-                              </>
-                            );
-                          })}
-                        </div>
-                      </Paper>
-                      <Paper
-                        elevation={1}
-                        style={{ borderRadius: "10px" }}
-                        className="w-100 mb-5"
-                      >
-                        <div className="card-header font-weight-bold mb-0 text-dark h5">
-                          Add New Documents
-                        </div>
-                        <div className="divider"></div>
-                        <div className="addDoc-main">
-                          <div className="addDoc-textbox">
-                            <div>
-                              <label className="text-info font-weight-bold form-label-head w-100 required">
-                                Document Name
-                              </label>
-                              <FormControl
-                                className="w-100"
-                                error={
-                                  info.doc_name == "" &&
-                                  infoTrue.doc_name == true
-                                    ? true
-                                    : false
-                                }
-                              >
-                                <BootstrapInput
-                                  //   value={info.amount}
-                                  name="doc_name"
-                                  type="text"
-                                  className="w-100"
-                                  //   onBlur={trueFalse}
-                                  onChange={(e) => {
-                                    info.doc_name = e.target.value;
-                                    setInfo({ ...info });
-                                  }}
-                                  onBlur={() => {
-                                    infoTrue.doc_name = true;
-                                    setInfoTrue({ ...infoTrue });
-                                  }}
-                                  displayEmpty
-                                  inputProps={{
-                                    "aria-label": "Without label",
-                                  }}
-                                />
-                                {info.doc_name == "" && infoTrue.doc_name ? (
-                                  <FormHelperText>
-                                    Document Name is required
-                                  </FormHelperText>
-                                ) : (
-                                  ""
-                                )}
-                              </FormControl>
-                            </div>
-                            <div className="addDoc-checkBox">
-                              <input
-                                type="checkbox"
-                                name="tos"
-                                // value={!twoSide.main}
-                                // checked={twoSide.main}
-                                // disabled={
-                                //   kycStatus.master_status == 1 ? true : false
-                                // }
-                                onChange={(e) => {
-                                  info.twoSide = e.target.checked;
-                                  setInfo({ ...info });
-                                }}
-                                id="gridCheck"
-                                className="form-check-input"
-                              />
-                              <label
-                                htmlFor="gridCheck"
-                                className="form-check-label"
-                              >
-                                <span> Double side</span>
-                              </label>
-                            </div>
-                          </div>
-                          <Grid
-                            container
-                            spacing={7}
-                            className="justify-content-center"
-                            style={{ marginLeft: "-28px", marginTop: "-7px" }}
-                          >
-                            <Grid
-                              item
-                              sm={6}
-                              lg={4}
-                              className="d-flex flex-column align-items-center upload-zone p-4"
-                            >
-                              <h6 className="mb-3  font-size-xs font-weight-bold">
-                                FRONT SIDE*
-                              </h6>
-                              <div className="uploaderDropZone">
-                                <Input
-                                  accept="image/*"
-                                  id="FILE_FRONT_SIDE4"
-                                  type="file"
-                                  name="fontimg"
-                                  value=""
-                                  // value={doc.fontimg}
-                                  onChange={(e) => {
-                                    var objectUrl1 = URL.createObjectURL(
-                                      e.target.files[0]
-                                    );
-
-                                    setInfo((prevalue) => {
-                                      return {
-                                        ...prevalue,
-                                        fontimg: e.target.files[0],
-                                        ftype: e.target.files[0].type,
-                                        perviewfontimg: objectUrl1,
-                                      };
-                                    });
-                                  }}
-                                  style={{ display: "none" }}
-                                />
-
-                                {!info.perviewfontimg ? (
-                                  <label
-                                    htmlFor="FILE_FRONT_SIDE4"
-                                    className="text-dark font-weight-bold font-size-xs"
-                                  >
-                                    UPLOAD
-                                  </label>
-                                ) : (
-                                  <>
-                                    <button
-                                      className="bg-transparent p-0 border-0"
-                                      onClick={() => {
-                                        info.perviewfontimg = "";
-                                        info.fontimg = "";
-                                        setInfo({ ...info });
-                                      }}
-                                    >
-                                      <CloseOutlinedIcon className="fontimgclose" />
-                                    </button>
-
-                                    {info?.ftype == "application/pdf" ? (
-                                      <embed
-                                        src={info.perviewfontimg}
-                                        className="deposit-upload-image-preview1"
-                                      />
+                                      </div>
+                                    </div>
+                                    <div className="divider"></div>
+                                    {index == listData.length - 1 ? (
+                                      <div
+                                        id={`add-doc-move${id}`}
+                                        style={{ marginBottom: "10px" }}
+                                      ></div>
                                     ) : (
-                                      <img
-                                        src={info.perviewfontimg}
-                                        className="deposit-upload-image-preview1"
-                                      />
+                                      ""
                                     )}
                                   </>
-                                )}
-                                {/* {infotrue.fontimg2 == true &&
-                                  !formImage.perviewfontimg ? (
-                                    <span className="doc-Requied">
-                                      Requied!
-                                    </span>
+                                );
+                              })}
+                            </>
+                          )}
+                        </div>
+                      </Paper>
+                      {info.addAndEdit == "" ? (
+                        ""
+                      ) : (
+                        <Paper
+                          id="add-doc-move"
+                          elevation={1}
+                          style={{ borderRadius: "10px" }}
+                          className="w-100 mb-5"
+                        >
+                          <div className="card-header font-weight-bold mb-0 text-dark h5">
+                            {info.addAndEdit == "Add"
+                              ? "Add New Documents"
+                              : "Edit Documents"}
+                          </div>
+                          <div className="divider"></div>
+                          <div className="addDoc-main">
+                            <div className="addDoc-textbox">
+                              <div>
+                                <label className="text-info font-weight-bold form-label-head w-100 required">
+                                  Document Name
+                                </label>
+                                <FormControl
+                                  className="w-100"
+                                  error={
+                                    info.doc_name == "" &&
+                                    infoTrue.doc_name == true
+                                      ? true
+                                      : false
+                                  }
+                                >
+                                  <BootstrapInput
+                                    //   value={info.amount}
+                                    name="doc_name"
+                                    type="text"
+                                    className="w-100"
+                                    //   onBlur={trueFalse}
+                                    value={info.doc_name}
+                                    onChange={(e) => {
+                                      info.doc_name = e.target.value;
+                                      setInfo({ ...info });
+                                    }}
+                                    onBlur={() => {
+                                      infoTrue.doc_name = true;
+                                      setInfoTrue({ ...infoTrue });
+                                    }}
+                                    displayEmpty
+                                    inputProps={{
+                                      "aria-label": "Without label",
+                                    }}
+                                  />
+                                  {info.doc_name == "" && infoTrue.doc_name ? (
+                                    <FormHelperText>
+                                      Document Name is required
+                                    </FormHelperText>
                                   ) : (
                                     ""
-                                  )} */}
+                                  )}
+                                </FormControl>
                               </div>
-                            </Grid>
-                            {info.twoSide ? (
+                              <div className="addDoc-checkBox">
+                                <input
+                                  type="checkbox"
+                                  name="tos"
+                                  value={info.twoSide}
+                                  // value={!twoSide.main}
+                                  checked={info.twoSide}
+                                  // disabled={
+                                  //   kycStatus.status == 1 ? true : false
+                                  // }
+                                  onChange={(e) => {
+                                    info.twoSide = e.target.checked;
+                                    setInfo({ ...info });
+                                  }}
+                                  id="gridCheck"
+                                  className="form-check-input"
+                                />
+                                <label
+                                  htmlFor="gridCheck"
+                                  className="form-check-label"
+                                >
+                                  <span> Double side</span>
+                                </label>
+                              </div>
+                            </div>
+                            <Grid
+                              container
+                              spacing={7}
+                              className="justify-content-center"
+                              style={{
+                                marginLeft: "-28px",
+                                marginTop: "-7px",
+                              }}
+                            >
                               <Grid
                                 item
                                 sm={6}
                                 lg={4}
                                 className="d-flex flex-column align-items-center upload-zone p-4"
                               >
-                                <h6 className="mb-3 font-size-xs font-weight-bold">
-                                  BACK SIDE*
+                                <h6 className="mb-3  font-size-xs font-weight-bold">
+                                  FRONT SIDE*
                                 </h6>
                                 <div className="uploaderDropZone">
                                   <Input
                                     accept="image/*"
-                                    id="FILE_BACK_SIDE4"
+                                    id="FILE_FRONT_SIDE4"
                                     type="file"
-                                    name="backimg"
+                                    name="fontimg"
                                     value=""
-                                    // value={doc.backimg}
+                                    // value={doc.fontimg}
                                     onChange={(e) => {
                                       var objectUrl1 = URL.createObjectURL(
                                         e.target.files[0]
                                       );
+
                                       setInfo((prevalue) => {
                                         return {
                                           ...prevalue,
-                                          backimg: e.target.files[0],
-                                          btype: e.target.files[0].type,
-                                          perviewbackimg: objectUrl1,
+                                          fontimg: e.target.files[0],
+                                          ftype: e.target.files[0].type,
+                                          perviewfontimg: objectUrl1,
                                         };
                                       });
                                     }}
                                     style={{ display: "none" }}
                                   />
 
-                                  {!info.perviewbackimg ? (
+                                  {!info.perviewfontimg ? (
                                     <label
-                                      htmlFor="FILE_BACK_SIDE4"
+                                      htmlFor="FILE_FRONT_SIDE4"
                                       className="text-dark font-weight-bold font-size-xs"
                                     >
                                       UPLOAD
@@ -391,28 +675,105 @@ export const AdditionalDocuments = () => {
                                       <button
                                         className="bg-transparent p-0 border-0"
                                         onClick={() => {
-                                          info.backimg = "";
-                                          info.perviewbackimg = "";
+                                          info.perviewfontimg = "";
+                                          info.fontimg = "";
                                           setInfo({ ...info });
                                         }}
                                       >
                                         <CloseOutlinedIcon className="fontimgclose" />
                                       </button>
 
-                                      {info?.btype == "application/pdf" ? (
+                                      {info?.ftype == "application/pdf" ? (
                                         <embed
-                                          src={info.perviewbackimg}
+                                          src={info.perviewfontimg}
                                           className="deposit-upload-image-preview1"
                                         />
                                       ) : (
                                         <img
-                                          src={info.perviewbackimg}
+                                          src={info.perviewfontimg}
                                           className="deposit-upload-image-preview1"
                                         />
                                       )}
                                     </>
                                   )}
-                                  {/* {infotrue.backimg2 == true &&
+                                  {/* {infotrue.fontimg2 == true &&
+                                  !formImage.perviewfontimg ? (
+                                    <span className="doc-Requied">
+                                      Requied!
+                                    </span>
+                                  ) : (
+                                    ""
+                                  )} */}
+                                </div>
+                              </Grid>
+                              {info.twoSide ? (
+                                <Grid
+                                  item
+                                  sm={6}
+                                  lg={4}
+                                  className="d-flex flex-column align-items-center upload-zone p-4"
+                                >
+                                  <h6 className="mb-3 font-size-xs font-weight-bold">
+                                    BACK SIDE*
+                                  </h6>
+                                  <div className="uploaderDropZone">
+                                    <Input
+                                      accept="image/*"
+                                      id="FILE_BACK_SIDE4"
+                                      type="file"
+                                      name="backimg"
+                                      value=""
+                                      // value={doc.backimg}
+                                      onChange={(e) => {
+                                        var objectUrl1 = URL.createObjectURL(
+                                          e.target.files[0]
+                                        );
+                                        setInfo((prevalue) => {
+                                          return {
+                                            ...prevalue,
+                                            backimg: e.target.files[0],
+                                            btype: e.target.files[0].type,
+                                            perviewbackimg: objectUrl1,
+                                          };
+                                        });
+                                      }}
+                                      style={{ display: "none" }}
+                                    />
+
+                                    {!info.perviewbackimg ? (
+                                      <label
+                                        htmlFor="FILE_BACK_SIDE4"
+                                        className="text-dark font-weight-bold font-size-xs"
+                                      >
+                                        UPLOAD
+                                      </label>
+                                    ) : (
+                                      <>
+                                        <button
+                                          className="bg-transparent p-0 border-0"
+                                          onClick={() => {
+                                            info.backimg = "";
+                                            info.perviewbackimg = "";
+                                            setInfo({ ...info });
+                                          }}
+                                        >
+                                          <CloseOutlinedIcon className="fontimgclose" />
+                                        </button>
+
+                                        {info?.btype == "application/pdf" ? (
+                                          <embed
+                                            src={info.perviewbackimg}
+                                            className="deposit-upload-image-preview1"
+                                          />
+                                        ) : (
+                                          <img
+                                            src={info.perviewbackimg}
+                                            className="deposit-upload-image-preview1"
+                                          />
+                                        )}
+                                      </>
+                                    )}
+                                    {/* {infotrue.backimg2 == true &&
                                     !formImage.perviewbackimg ? (
                                       <span className="doc-Requied">
                                         Requied!
@@ -420,47 +781,58 @@ export const AdditionalDocuments = () => {
                                     ) : (
                                       ""
                                     )} */}
-                                </div>
-                              </Grid>
-                            ) : (
-                              ""
-                            )}
-                          </Grid>
-                          <div className="text-dark font-size-xs d-flex justify-content-between align-items-center">
-                            <i>
-                              (Maximum size of document 5MB, Allow File Formats
-                              *jpg, *png, *pdf)
-                            </i>
-                            {info.isLoader == true ? (
-                              <>
+                                  </div>
+                                </Grid>
+                              ) : (
+                                ""
+                              )}
+                            </Grid>
+                            <div className="text-dark font-size-xs d-flex justify-content-between align-items-center">
+                              <i>
+                                (Maximum size of document 5MB, Allow File
+                                Formats *jpg, *png, *pdf)
+                              </i>
+                              {info.isLoader == true ? (
+                                <>
+                                  <ColorButton
+                                    tabindex="0"
+                                    size="large"
+                                    className=" btn-gradient  btn-success "
+                                    sx={{
+                                      padding: "20px 57px",
+                                      marginTop: "10px",
+                                    }}
+                                    disabled
+                                  >
+                                    <svg class="spinner" viewBox="0 0 50 50">
+                                      <circle
+                                        class="path"
+                                        cx="25"
+                                        cy="25"
+                                        r="20"
+                                        fill="none"
+                                        stroke-width="5"
+                                      ></circle>
+                                    </svg>
+                                  </ColorButton>
+                                </>
+                              ) : (
                                 <ColorButton
-                                  tabindex="0"
-                                  size="large"
-                                  className=" btn-gradient  btn-success "
-                                  sx={{
-                                    padding: "20px 57px",
-                                    marginTop: "10px",
+                                  onClick={() => {
+                                    if (info.addAndEdit == "Add") {
+                                      onsubmit();
+                                    } else {
+                                      onEdit();
+                                    }
                                   }}
-                                  disabled
                                 >
-                                  <svg class="spinner" viewBox="0 0 50 50">
-                                    <circle
-                                      class="path"
-                                      cx="25"
-                                      cy="25"
-                                      r="20"
-                                      fill="none"
-                                      stroke-width="5"
-                                    ></circle>
-                                  </svg>
+                                  save
                                 </ColorButton>
-                              </>
-                            ) : (
-                              <ColorButton onClick={onsubmit}>save</ColorButton>
-                            )}
+                              )}
+                            </div>
                           </div>
-                        </div>
-                      </Paper>
+                        </Paper>
+                      )}
                     </Grid>
                   </Grid>
                 </Grid>
@@ -469,6 +841,50 @@ export const AdditionalDocuments = () => {
           )}
         </div>
       </div>
+      <Dialog
+        open={open1}
+        onClose={() => {
+          setOpen1(false);
+        }}
+      >
+        <DialogTitle sx={{ borderBottom: "0px solid #e6e7f1 !important" }}>
+          Are you sure?
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            Do you want to Delete this?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <ColorButton1
+            onClick={() => {
+              setOpen1(false);
+            }}
+          >
+            No
+          </ColorButton1>
+          {deleteData.isLoader == true ? (
+            <ColorButton2 disabled>
+              <svg
+                class="spinner"
+                style={{ position: "unset" }}
+                viewBox="0 0 50 50"
+              >
+                <circle
+                  class="path"
+                  cx="25"
+                  cy="25"
+                  r="20"
+                  fill="none"
+                  stroke-width="5"
+                ></circle>
+              </svg>
+            </ColorButton2>
+          ) : (
+            <ColorButton2 onClick={deleteAddDoc}>Delete</ColorButton2>
+          )}
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
