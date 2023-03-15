@@ -28,7 +28,14 @@ export const Withdrawal = (prop) => {
   const [disable, setDisable] = useState(false);
   const [checked, setChecked] = useState();
   const navigate = useNavigate();
-  const [mainLoader, setMainLoader] = useState(true);
+  const [mainLoader, setMainLoader] = useState({
+    main:true,
+    methodtype:true,
+  });
+  const[methodType,setMethodType]=useState({
+    list:[],
+    subList:[]
+  })
   const [isSubmit, setIsSubmit] = useState(false);
   const [ageErrors, setAgeErrors] = useState({});
   const [upiType, setUpiType] = useState("");
@@ -114,6 +121,31 @@ export const Withdrawal = (prop) => {
           setAge({ ...age });
           walletbalancefun();
         }
+      }
+    });
+  };
+  const getMethodType =  () => {
+    const param = new FormData();
+    param.append("action", "withdrawal_payment_methods");
+    if (IsApprove !== "") {
+      param.append("is_app", IsApprove.is_app);
+      param.append("user_id", IsApprove.user_id);
+      param.append("auth_key", IsApprove.auth);
+    }
+     axios.post(`${Url}/ajaxfiles/common_api.php`, param).then((res) => {
+      if (res.data.message == "Session has been expired") {
+        navigate("/");
+      }
+      if (res.data.status == "error") {
+        Toast("error", res.data.message);
+        mainLoader.methodtype=true
+          setMainLoader({...mainLoader});
+      } else {
+        mainLoader.methodtype=false
+          setMainLoader({...mainLoader});
+          methodType.list=res.data.payment_method
+          methodType.subList=res.data.data
+          setMethodType({...methodType})
       }
     });
   };
@@ -356,11 +388,12 @@ export const Withdrawal = (prop) => {
           navigate("/");
         }
         if (res.data.status == "error") {
-          setMainLoader(false);
+          mainLoader.main=true
+          setMainLoader({...mainLoader});
           setStatus(res.data.kyc_data.master_status);
         } else {
-          setMainLoader(false);
-
+          mainLoader.main=false
+          setMainLoader({...mainLoader});
           setStatus(res.data.kyc_data.master_status);
           // if (res.data.kyc_data.master_status == "2") {
 
@@ -371,6 +404,7 @@ export const Withdrawal = (prop) => {
       });
   };
   useEffect(() => {
+    getMethodType()
     fetchMT5AccountList();
     fatchKycStatus();
     // walletbalancefun();
@@ -442,7 +476,7 @@ export const Withdrawal = (prop) => {
   }, [ageErrors, isSubmit, navigate]);
 
   const menuItem = () => {
-    if (option == "bank") {
+    if (option == "Bank") {
       return (
         <Grid
           item
@@ -679,7 +713,7 @@ export const Withdrawal = (prop) => {
     <div>
       <div className="app-content--inner">
         <div className="app-content--inner__wrapper mh-100-vh">
-          {mainLoader == true ? (
+          {mainLoader.main == true || mainLoader.methodtype==true ? (
             // <div className="loader1">
             //   <div className="clock">
             //     <div className="pointers"></div>
@@ -875,11 +909,20 @@ export const Withdrawal = (prop) => {
                                         </MenuItem> */}
                                         <MenuItem
                                           value=""
-                                          onClick={() => setOption("bank")}
                                         >
                                           Select Option{" "}
                                         </MenuItem>
-                                        <MenuItem
+                                        {
+                                          methodType.list.map((item)=>{
+                                            return                                        <MenuItem
+                                            value={item}
+                                            onClick={() => setOption(item)}
+                                          >
+                                            {item}{" "}
+                                          </MenuItem>
+                                          })
+                                        }
+                                        {/* <MenuItem
                                           value="Bank"
                                           onClick={() => setOption("bank")}
                                         >
@@ -902,7 +945,7 @@ export const Withdrawal = (prop) => {
                                           onClick={() => setOption("Crypto")}
                                         >
                                           Crypto{" "}
-                                        </MenuItem>
+                                        </MenuItem> */}
                                       </Select>
                                       {age.payment_method == "" &&
                                       infoTrue.payment_method == true ? (
@@ -919,7 +962,7 @@ export const Withdrawal = (prop) => {
 
                                   {menuItem()}
 
-                                  {option !== "Cash" && option != "" ? (
+                                  {option !== "Exchange" && option != "" ? (
                                     <hr className="m-0"></hr>
                                   ) : (
                                     ""
