@@ -34,6 +34,9 @@ import { ReactComponent as Your_trnascation } from "../../svg/your_trnascation.s
 import { ReactComponent as Fantasticfour } from "../../svg/fantasticfour.svg";
 import { ReactComponent as Wallet } from "../../svg/wallet.svg";
 import { ReactComponent as AFFILATE } from "../../svg/AFFILATE.svg";
+import { ReactComponent as AffiliatePromo } from "../../svg/affiliatePromo.svg";
+import { ReactComponent as EarnHistory } from "../../svg/EarnHistory.svg";
+import { ReactComponent as Spin } from "../../svg/spin.svg";
 
 import Toast from "./Toast";
 
@@ -451,7 +454,7 @@ const Sidebar = (prop) => {
                       }}
                     >
                       {/* <span className="material-icons  icon_Mar">analytics</span> */}
-                      <Reports className="hoverSidebar" />
+                      <Spin className="hoverSidebar" />
                       Spin & Win
                     </NavLink>
                   </li>
@@ -877,6 +880,15 @@ const Sidebar = (prop) => {
                               IB Withdrawal Report
                             </NavLink>
                           </li>
+                          <li>
+                            <NavLink
+                              className="nav-link-simple "
+                              to="/IbUserHistory"
+                              onClick={CloseSidebar}
+                            >
+                              Ib User History
+                            </NavLink>
+                          </li>
                         </ul>
                       </Collapse>
                     </li>
@@ -904,8 +916,19 @@ const Sidebar = (prop) => {
                       onClick={CloseSidebar}
                     >
                       {/* <span className="material-icons  icon_Mar">dashboard</span> */}
-                      <Reports className="hoverSidebar" />
+                      <EarnHistory className="hoverSidebar" />
                       Earn History
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      className="nav-link-simple "
+                      to="/AffiliatePromo"
+                      onClick={CloseSidebar}
+                    >
+                      {/* <span className="material-icons  icon_Mar">dashboard</span> */}
+                      <AffiliatePromo className="hoverSidebar" />
+                      Affiliate Promo
                     </NavLink>
                   </li>
                 </ul>

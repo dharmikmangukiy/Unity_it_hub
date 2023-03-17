@@ -29,13 +29,13 @@ export const Withdrawal = (prop) => {
   const [checked, setChecked] = useState();
   const navigate = useNavigate();
   const [mainLoader, setMainLoader] = useState({
-    main:true,
-    methodtype:true,
+    main: true,
+    methodtype: true,
   });
-  const[methodType,setMethodType]=useState({
-    list:[],
-    subList:[]
-  })
+  const [methodType, setMethodType] = useState({
+    list: [],
+    subList: [],
+  });
   const [isSubmit, setIsSubmit] = useState(false);
   const [ageErrors, setAgeErrors] = useState({});
   const [upiType, setUpiType] = useState("");
@@ -108,9 +108,15 @@ export const Withdrawal = (prop) => {
         setMt5AccountList(res.data.mt5_accounts);
         if (res.data.mt5_accounts.length !== 0) {
           if (id) {
-            age.withdraw_from = id;
-            setAge({ ...age });
-            fetchMT5AccountDetaiils(id);
+            if (id == "wallet") {
+              age.withdraw_from = "wallte";
+              setAge({ ...age });
+              walletbalancefun();
+            } else {
+              age.withdraw_from = id;
+              setAge({ ...age });
+              fetchMT5AccountDetaiils(id);
+            }
           } else {
             age.withdraw_from = res.data.mt5_accounts[0].mt5_acc_no;
             setAge({ ...age });
@@ -124,7 +130,7 @@ export const Withdrawal = (prop) => {
       }
     });
   };
-  const getMethodType =  () => {
+  const getMethodType = () => {
     const param = new FormData();
     param.append("action", "withdrawal_payment_methods");
     if (IsApprove !== "") {
@@ -132,20 +138,20 @@ export const Withdrawal = (prop) => {
       param.append("user_id", IsApprove.user_id);
       param.append("auth_key", IsApprove.auth);
     }
-     axios.post(`${Url}/ajaxfiles/common_api.php`, param).then((res) => {
+    axios.post(`${Url}/ajaxfiles/common_api.php`, param).then((res) => {
       if (res.data.message == "Session has been expired") {
         navigate("/");
       }
       if (res.data.status == "error") {
         Toast("error", res.data.message);
-        mainLoader.methodtype=true
-          setMainLoader({...mainLoader});
+        mainLoader.methodtype = true;
+        setMainLoader({ ...mainLoader });
       } else {
-        mainLoader.methodtype=false
-          setMainLoader({...mainLoader});
-          methodType.list=res.data.payment_method
-          methodType.subList=res.data.data
-          setMethodType({...methodType})
+        mainLoader.methodtype = false;
+        setMainLoader({ ...mainLoader });
+        methodType.list = res.data.payment_method;
+        methodType.subList = res.data.data;
+        setMethodType({ ...methodType });
       }
     });
   };
@@ -236,8 +242,6 @@ export const Withdrawal = (prop) => {
     } else if (age.payment_method == "Crypto") {
       param.append("crypto_name", age.crypto_name);
       param.append("upi_crypto_ac_number", age.upi_crypto_ac_number);
-    } else if (age.payment_method == "cash") {
-      // param.append("username", info.email);
     }
     if (age.withdraw_from == "wallte") {
       param.append(
@@ -266,7 +270,11 @@ export const Withdrawal = (prop) => {
         if (age.withdraw_from == "wallte") {
           prop.getwallet();
         }
-        navigate("/withdraw_history");
+        if (age.payment_method == "Exchange") {
+          navigate(`/withdrawal/t/${res.data.withdrawal_id}`);
+        } else {
+          navigate("/withdraw_history");
+        }
         setIsLoader1(false);
         Toast("success", res.data.message);
 
@@ -388,12 +396,12 @@ export const Withdrawal = (prop) => {
           navigate("/");
         }
         if (res.data.status == "error") {
-          mainLoader.main=true
-          setMainLoader({...mainLoader});
+          mainLoader.main = true;
+          setMainLoader({ ...mainLoader });
           setStatus(res.data.kyc_data.master_status);
         } else {
-          mainLoader.main=false
-          setMainLoader({...mainLoader});
+          mainLoader.main = false;
+          setMainLoader({ ...mainLoader });
           setStatus(res.data.kyc_data.master_status);
           // if (res.data.kyc_data.master_status == "2") {
 
@@ -404,7 +412,7 @@ export const Withdrawal = (prop) => {
       });
   };
   useEffect(() => {
-    getMethodType()
+    getMethodType();
     fetchMT5AccountList();
     fatchKycStatus();
     // walletbalancefun();
@@ -713,7 +721,7 @@ export const Withdrawal = (prop) => {
     <div>
       <div className="app-content--inner">
         <div className="app-content--inner__wrapper mh-100-vh">
-          {mainLoader.main == true || mainLoader.methodtype==true ? (
+          {mainLoader.main == true || mainLoader.methodtype == true ? (
             // <div className="loader1">
             //   <div className="clock">
             //     <div className="pointers"></div>
@@ -791,7 +799,9 @@ export const Withdrawal = (prop) => {
 
                           <Grid container spacing={6}>
                             <Grid item md={12} className="pt-1">
-                              <form onSubmit={!sendOtp ?verifyOtp: handleSubmit}>
+                              <form
+                                onSubmit={!sendOtp ? verifyOtp : handleSubmit}
+                              >
                                 <Grid
                                   container
                                   spacing={3}
@@ -907,21 +917,19 @@ export const Withdrawal = (prop) => {
                                         >
                                           Select Option
                                         </MenuItem> */}
-                                        <MenuItem
-                                          value=""
-                                        >
+                                        <MenuItem value="">
                                           Select Option{" "}
                                         </MenuItem>
-                                        {
-                                          methodType.list.map((item)=>{
-                                            return                                        <MenuItem
-                                            value={item}
-                                            onClick={() => setOption(item)}
-                                          >
-                                            {item}{" "}
-                                          </MenuItem>
-                                          })
-                                        }
+                                        {methodType.list.map((item) => {
+                                          return (
+                                            <MenuItem
+                                              value={item}
+                                              onClick={() => setOption(item)}
+                                            >
+                                              {item}{" "}
+                                            </MenuItem>
+                                          );
+                                        })}
                                         {/* <MenuItem
                                           value="Bank"
                                           onClick={() => setOption("bank")}

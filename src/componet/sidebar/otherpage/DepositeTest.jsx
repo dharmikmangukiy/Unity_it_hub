@@ -45,6 +45,7 @@ const DepositeTest = () => {
     paymentOption: true,
     accountList: true,
   });
+  const [spinMt5, setSpinMt5] = useState("");
   const [hideBonus, setHideBonus] = useState(true);
   const [info, setInfo] = useState({
     amount: "",
@@ -110,7 +111,6 @@ const DepositeTest = () => {
       !info.image
     ) {
       Toast("error", "image is required");
-
     } else {
       param.append("deposit_method", info.selectPaymentOption);
       param.append("amount", info.amount);
@@ -190,6 +190,13 @@ const DepositeTest = () => {
             info.depositTo = res.data.mt5_accounts[0].mt5_acc_no;
             setInfo({ ...info });
           }
+          let test = res.data.mt5_accounts.filter(
+            (x) => x.ib_group_name == "SPIN"
+          )[0];
+          if (test == undefined || test == "" || test == null) {
+          } else {
+            setSpinMt5(test.mt5_acc_no);
+          }
         } else {
           info.depositTo =
             res.data.mt5_accounts.length == 0
@@ -197,6 +204,7 @@ const DepositeTest = () => {
               : res.data.mt5_accounts[0].mt5_acc_no;
           setInfo({ ...info });
         }
+        // setSpinMt5()
         setDataArray({ ...dataArray });
         // setDepositType(type);
         mainLoader.accountList = false;
@@ -475,110 +483,120 @@ const DepositeTest = () => {
                         </Paper>
                       </Grid>
                     </Grid>
-                    {info.depositTo !== "wallet" && info.cryptoData == "" ? (
-                      <Grid container spacing={3}>
-                        <Grid item md={12} className="d-flex">
-                          <Paper
-                            elevation={1}
-                            style={{ borderRadius: "10px" }}
-                            className="w-100 mb-3"
-                          >
-                            <div
-                              className="card-header d-flex align-items-center justify-content-between card-header-alt p-3"
-                              style={
-                                hideBonus == false
-                                  ? { borderRadius: "4.65rem 4.65rem 0 0" }
-                                  : { borderRadius: "4.65rem" }
-                              }
-                            >
-                              <Grid container spacing={3}>
-                                <Grid item md={12} xs={12} sm={12}>
-                                  <div
-                                    className=""
-                                    style={{
-                                      justifyContent: "space-between",
-                                      display: "flex",
-                                    }}
-                                  >
-                                    <h5
-                                      className="font-weight-bold mb-0 text-dark text-align-center "
-                                      //   style={{ textAlign: "center" }}
-                                    >
-                                      Advantages of Bonus
-                                    </h5>
-
-                                    <span>
-                                      <ColorButton
-                                        sx={{ padding: "0px 12px" }}
-                                        onClick={() => {
-                                          setHideBonus(!hideBonus);
-                                        }}
-                                      >
-                                        {hideBonus == true ? (
-                                          <ArrowDropDownIcon />
-                                        ) : (
-                                          <ArrowDropUpIcon />
-                                        )}
-                                      </ColorButton>
-                                    </span>
-                                  </div>
-                                </Grid>
-                              </Grid>
-                            </div>
-                            {hideBonus == true ? (
-                              ""
-                            ) : (
-                              <>
-                                {" "}
-                                <div className="divider"></div>
-                                <Grid container spacing={3}>
-                                  <Grid item md={12}>
-                                    <div>
+                    {spinMt5 == info.depositTo ? (
+                      ""
+                    ) : (
+                      <>
+                        {" "}
+                        {info.depositTo !== "wallet" &&
+                        info.cryptoData == "" ? (
+                          <Grid container spacing={3}>
+                            <Grid item md={12} className="d-flex">
+                              <Paper
+                                elevation={1}
+                                style={{ borderRadius: "10px" }}
+                                className="w-100 mb-3"
+                              >
+                                <div
+                                  className="card-header d-flex align-items-center justify-content-between card-header-alt p-3"
+                                  style={
+                                    hideBonus == false
+                                      ? { borderRadius: "4.65rem 4.65rem 0 0" }
+                                      : { borderRadius: "4.65rem" }
+                                  }
+                                >
+                                  <Grid container spacing={3}>
+                                    <Grid item md={12} xs={12} sm={12}>
                                       <div
+                                        className=""
                                         style={{
-                                          padding: "10px",
-                                          textAlign: "center",
+                                          justifyContent: "space-between",
+                                          display: "flex",
                                         }}
                                       >
-                                        <ul
-                                          style={{
-                                            display: "flex",
-                                            gap: "30px",
-                                            paddingLeft: "0",
-                                            justifyContent: "center",
-                                          }}
+                                        <h5
+                                          className="font-weight-bold mb-0 text-dark text-align-center "
+                                          //   style={{ textAlign: "center" }}
                                         >
-                                          <li className={`bounsBox mar-10 `}>
-                                            <img
-                                              src="https://admin.rightfx.com/uploads/bonus_offer_image/bonus_offer_1673360159_50.png"
-                                              alt="50%"
+                                          Advantages of Bonus
+                                        </h5>
+
+                                        <span>
+                                          <ColorButton
+                                            sx={{ padding: "0px 12px" }}
+                                            onClick={() => {
+                                              setHideBonus(!hideBonus);
+                                            }}
+                                          >
+                                            {hideBonus == true ? (
+                                              <ArrowDropDownIcon />
+                                            ) : (
+                                              <ArrowDropUpIcon />
+                                            )}
+                                          </ColorButton>
+                                        </span>
+                                      </div>
+                                    </Grid>
+                                  </Grid>
+                                </div>
+                                {hideBonus == true ? (
+                                  ""
+                                ) : (
+                                  <>
+                                    {" "}
+                                    <div className="divider"></div>
+                                    <Grid container spacing={3}>
+                                      <Grid item md={12}>
+                                        <div>
+                                          <div
+                                            style={{
+                                              padding: "10px",
+                                              textAlign: "center",
+                                            }}
+                                          >
+                                            <ul
                                               style={{
-                                                width: "100%",
-                                                borderRadius: "10px",
+                                                display: "flex",
+                                                gap: "30px",
+                                                paddingLeft: "0",
+                                                justifyContent: "center",
                                               }}
-                                            />
-                                          </li>
-                                          <li className={`bounsBox mar-10`}>
-                                            <img
-                                              src="https://admin.rightfx.com/uploads/bonus_offer_image/bonus_offer_1673360159_50.png"
-                                              alt="50%"
-                                              style={{
-                                                width: "100%",
-                                                borderRadius: "10px",
-                                              }}
-                                            />
-                                          </li>{" "}
-                                          <li className={`bounsBox mar-10 `}>
-                                            <img
-                                              src="https://admin.rightfx.com/uploads/bonus_offer_image/bonus_offer_1673360159_50.png"
-                                              alt="50%"
-                                              style={{
-                                                width: "100%",
-                                                borderRadius: "10px",
-                                              }}
-                                            />
-                                          </li>
-                                          {/* <li className={`bounsBox mar-10 `}>
+                                            >
+                                              <li
+                                                className={`bounsBox mar-10 `}
+                                              >
+                                                <img
+                                                  src="https://admin.rightfx.com/uploads/bonus_offer_image/bonus_offer_1673360159_50.png"
+                                                  alt="50%"
+                                                  style={{
+                                                    width: "100%",
+                                                    borderRadius: "10px",
+                                                  }}
+                                                />
+                                              </li>
+                                              <li className={`bounsBox mar-10`}>
+                                                <img
+                                                  src="https://admin.rightfx.com/uploads/bonus_offer_image/bonus_offer_1673360159_50.png"
+                                                  alt="50%"
+                                                  style={{
+                                                    width: "100%",
+                                                    borderRadius: "10px",
+                                                  }}
+                                                />
+                                              </li>{" "}
+                                              <li
+                                                className={`bounsBox mar-10 `}
+                                              >
+                                                <img
+                                                  src="https://admin.rightfx.com/uploads/bonus_offer_image/bonus_offer_1673360159_50.png"
+                                                  alt="50%"
+                                                  style={{
+                                                    width: "100%",
+                                                    borderRadius: "10px",
+                                                  }}
+                                                />
+                                              </li>
+                                              {/* <li className={`bounsBox mar-10 `}>
                                     <img
                                       src="https://admin.rightfx.com/uploads/bonus_offer_image/bonus_offer_1673360159_50.png"
                                       alt="50%"
@@ -588,266 +606,277 @@ const DepositeTest = () => {
                                       }}
                                     />
                                   </li> */}
-                                        </ul>
-                                        <Grid container spacing={2}>
-                                          <Grid item md={12}>
-                                            <div>
-                                              <h5
-                                                className="font-weight-bold mb-0 "
-                                                style={{
-                                                  marginTop: "30px",
-                                                  color: "#5d2067",
-                                                }}
-                                              >
-                                                Select Bonus Amount
-                                              </h5>
-                                              <div
-                                                className="d-flex"
-                                                style={{ padding: "10px" }}
-                                              >
-                                                <FormControl className="w-100">
-                                                  <RadioGroup
-                                                    aria-labelledby="demo-row-radio-buttons-group-label"
-                                                    name="row-radio-buttons-group"
-                                                    value={info.selsectRadio}
-                                                    className="w-100"
-                                                    onChange={(e) => {
-                                                      info.selsectRadio =
-                                                        e.target.value;
-                                                      setInfo({ ...info });
-                                               
+                                            </ul>
+                                            <Grid container spacing={2}>
+                                              <Grid item md={12}>
+                                                <div>
+                                                  <h5
+                                                    className="font-weight-bold mb-0 "
+                                                    style={{
+                                                      marginTop: "30px",
+                                                      color: "#5d2067",
                                                     }}
                                                   >
-                                                    <div className="radioButoon-main">
-                                                      <FormControlLabel
-                                                        value={10}
-                                                        control={
-                                                          <Radio
-                                                            size="small"
-                                                            className="radiobutoon-padding"
-                                                          />
+                                                    Select Bonus Amount
+                                                  </h5>
+                                                  <div
+                                                    className="d-flex"
+                                                    style={{ padding: "10px" }}
+                                                  >
+                                                    <FormControl className="w-100">
+                                                      <RadioGroup
+                                                        aria-labelledby="demo-row-radio-buttons-group-label"
+                                                        name="row-radio-buttons-group"
+                                                        value={
+                                                          info.selsectRadio
                                                         }
-                                                        label="10%"
-                                                      />
-                                                      <div className="radiobutoon-padding">
-                                                        Bonus Amount :{" "}
-                                                        {(
-                                                          (info.amount * 10) /
-                                                          100
-                                                        ).toFixed(2) >
-                                                        dataOFBonus.bonusAmount
-                                                          ? dataOFBonus.bonusAmount
-                                                          : (
+                                                        className="w-100"
+                                                        onChange={(e) => {
+                                                          info.selsectRadio =
+                                                            e.target.value;
+                                                          setInfo({ ...info });
+                                                        }}
+                                                      >
+                                                        <div className="radioButoon-main">
+                                                          <FormControlLabel
+                                                            value={10}
+                                                            control={
+                                                              <Radio
+                                                                size="small"
+                                                                className="radiobutoon-padding"
+                                                              />
+                                                            }
+                                                            label="10%"
+                                                          />
+                                                          <div className="radiobutoon-padding">
+                                                            Bonus Amount :{" "}
+                                                            {(
                                                               (info.amount *
                                                                 10) /
                                                               100
-                                                            ).toFixed(2)}
-                                                      </div>
-                                                      <div className="radiobutoon-padding">
-                                                        Lots Required:{" "}
-                                                        {(
-                                                          (((info.amount * 10) /
-                                                            100) *
-                                                            40) /
-                                                          100
-                                                        ).toFixed(2) >
-                                                        dataOFBonus.lot
-                                                          ? dataOFBonus.lot
-                                                          : (
+                                                            ).toFixed(2) >
+                                                            dataOFBonus.bonusAmount
+                                                              ? dataOFBonus.bonusAmount
+                                                              : (
+                                                                  (info.amount *
+                                                                    10) /
+                                                                  100
+                                                                ).toFixed(2)}
+                                                          </div>
+                                                          <div className="radiobutoon-padding">
+                                                            Lots Required:{" "}
+                                                            {(
                                                               (((info.amount *
                                                                 10) /
                                                                 100) *
                                                                 40) /
                                                               100
-                                                            ).toFixed(2)}
-                                                      </div>
-                                                    </div>
-                                                    <div className="radioButoon-main">
-                                                      <FormControlLabel
-                                                        value={20}
-                                                        control={
-                                                          <Radio
-                                                            size="small"
-                                                            className="radiobutoon-padding"
+                                                            ).toFixed(2) >
+                                                            dataOFBonus.lot
+                                                              ? dataOFBonus.lot
+                                                              : (
+                                                                  (((info.amount *
+                                                                    10) /
+                                                                    100) *
+                                                                    40) /
+                                                                  100
+                                                                ).toFixed(2)}
+                                                          </div>
+                                                        </div>
+                                                        <div className="radioButoon-main">
+                                                          <FormControlLabel
+                                                            value={20}
+                                                            control={
+                                                              <Radio
+                                                                size="small"
+                                                                className="radiobutoon-padding"
+                                                              />
+                                                            }
+                                                            label="20%"
                                                           />
-                                                        }
-                                                        label="20%"
-                                                      />
-                                                      <div className="radiobutoon-padding">
-                                                        Bonus Amount :{" "}
-                                                        {(
-                                                          (info.amount * 20) /
-                                                          100
-                                                        ).toFixed(2) >
-                                                        dataOFBonus.bonusAmount
-                                                          ? dataOFBonus.bonusAmount
-                                                          : (
+                                                          <div className="radiobutoon-padding">
+                                                            Bonus Amount :{" "}
+                                                            {(
                                                               (info.amount *
                                                                 20) /
                                                               100
-                                                            ).toFixed(2)}
-                                                      </div>
-                                                      <div className="radiobutoon-padding">
-                                                        Lots Required:{" "}
-                                                        {(
-                                                          (((info.amount * 20) /
-                                                            100) *
-                                                            40) /
-                                                          100
-                                                        ).toFixed(2) >
-                                                        dataOFBonus.lot
-                                                          ? dataOFBonus.lot
-                                                          : (
+                                                            ).toFixed(2) >
+                                                            dataOFBonus.bonusAmount
+                                                              ? dataOFBonus.bonusAmount
+                                                              : (
+                                                                  (info.amount *
+                                                                    20) /
+                                                                  100
+                                                                ).toFixed(2)}
+                                                          </div>
+                                                          <div className="radiobutoon-padding">
+                                                            Lots Required:{" "}
+                                                            {(
                                                               (((info.amount *
                                                                 20) /
                                                                 100) *
                                                                 40) /
                                                               100
-                                                            ).toFixed(2)}
-                                                      </div>
-                                                    </div>
-                                                    <div className="radioButoon-main">
-                                                      <FormControlLabel
-                                                        value={30}
-                                                        control={
-                                                          <Radio
-                                                            size="small"
-                                                            className="radiobutoon-padding"
+                                                            ).toFixed(2) >
+                                                            dataOFBonus.lot
+                                                              ? dataOFBonus.lot
+                                                              : (
+                                                                  (((info.amount *
+                                                                    20) /
+                                                                    100) *
+                                                                    40) /
+                                                                  100
+                                                                ).toFixed(2)}
+                                                          </div>
+                                                        </div>
+                                                        <div className="radioButoon-main">
+                                                          <FormControlLabel
+                                                            value={30}
+                                                            control={
+                                                              <Radio
+                                                                size="small"
+                                                                className="radiobutoon-padding"
+                                                              />
+                                                            }
+                                                            label="30%"
                                                           />
-                                                        }
-                                                        label="30%"
-                                                      />
-                                                      <div className="radiobutoon-padding">
-                                                        Bonus Amount :{" "}
-                                                        {(
-                                                          (info.amount * 30) /
-                                                          100
-                                                        ).toFixed(2) >
-                                                        dataOFBonus.bonusAmount
-                                                          ? dataOFBonus.bonusAmount
-                                                          : (
+                                                          <div className="radiobutoon-padding">
+                                                            Bonus Amount :{" "}
+                                                            {(
                                                               (info.amount *
                                                                 30) /
                                                               100
-                                                            ).toFixed(2)}
-                                                      </div>
-                                                      <div className="radiobutoon-padding">
-                                                        Lots Required:{" "}
-                                                        {(
-                                                          (((info.amount * 30) /
-                                                            100) *
-                                                            40) /
-                                                          100
-                                                        ).toFixed(2) >
-                                                        dataOFBonus.lot
-                                                          ? dataOFBonus.lot
-                                                          : (
+                                                            ).toFixed(2) >
+                                                            dataOFBonus.bonusAmount
+                                                              ? dataOFBonus.bonusAmount
+                                                              : (
+                                                                  (info.amount *
+                                                                    30) /
+                                                                  100
+                                                                ).toFixed(2)}
+                                                          </div>
+                                                          <div className="radiobutoon-padding">
+                                                            Lots Required:{" "}
+                                                            {(
                                                               (((info.amount *
                                                                 30) /
                                                                 100) *
                                                                 40) /
                                                               100
-                                                            ).toFixed(2)}
-                                                      </div>
-                                                    </div>
-                                                    <div className="radioButoon-main">
-                                                      <FormControlLabel
-                                                        value={40}
-                                                        control={
-                                                          <Radio
-                                                            size="small"
-                                                            className="radiobutoon-padding"
+                                                            ).toFixed(2) >
+                                                            dataOFBonus.lot
+                                                              ? dataOFBonus.lot
+                                                              : (
+                                                                  (((info.amount *
+                                                                    30) /
+                                                                    100) *
+                                                                    40) /
+                                                                  100
+                                                                ).toFixed(2)}
+                                                          </div>
+                                                        </div>
+                                                        <div className="radioButoon-main">
+                                                          <FormControlLabel
+                                                            value={40}
+                                                            control={
+                                                              <Radio
+                                                                size="small"
+                                                                className="radiobutoon-padding"
+                                                              />
+                                                            }
+                                                            label="40%"
                                                           />
-                                                        }
-                                                        label="40%"
-                                                      />
-                                                      <div className="radiobutoon-padding">
-                                                        Bonus Amount :{" "}
-                                                        {(
-                                                          (info.amount * 40) /
-                                                          100
-                                                        ).toFixed(2) >
-                                                        dataOFBonus.bonusAmount
-                                                          ? dataOFBonus.bonusAmount
-                                                          : (
+                                                          <div className="radiobutoon-padding">
+                                                            Bonus Amount :{" "}
+                                                            {(
                                                               (info.amount *
                                                                 40) /
                                                               100
-                                                            ).toFixed(2)}
-                                                      </div>
-                                                      <div className="radiobutoon-padding">
-                                                        Lots Required:{" "}
-                                                        {(
-                                                          (((info.amount * 40) /
-                                                            100) *
-                                                            40) /
-                                                          100
-                                                        ).toFixed(2) >
-                                                        dataOFBonus.lot
-                                                          ? dataOFBonus.lot
-                                                          : (
+                                                            ).toFixed(2) >
+                                                            dataOFBonus.bonusAmount
+                                                              ? dataOFBonus.bonusAmount
+                                                              : (
+                                                                  (info.amount *
+                                                                    40) /
+                                                                  100
+                                                                ).toFixed(2)}
+                                                          </div>
+                                                          <div className="radiobutoon-padding">
+                                                            Lots Required:{" "}
+                                                            {(
                                                               (((info.amount *
                                                                 40) /
                                                                 100) *
                                                                 40) /
                                                               100
-                                                            ).toFixed(2)}
-                                                      </div>
-                                                    </div>
-                                                    <div className="radioButoon-main">
-                                                      <FormControlLabel
-                                                        value={50}
-                                                        control={
-                                                          <Radio
-                                                            size="small"
-                                                            className="radiobutoon-padding"
+                                                            ).toFixed(2) >
+                                                            dataOFBonus.lot
+                                                              ? dataOFBonus.lot
+                                                              : (
+                                                                  (((info.amount *
+                                                                    40) /
+                                                                    100) *
+                                                                    40) /
+                                                                  100
+                                                                ).toFixed(2)}
+                                                          </div>
+                                                        </div>
+                                                        <div className="radioButoon-main">
+                                                          <FormControlLabel
+                                                            value={50}
+                                                            control={
+                                                              <Radio
+                                                                size="small"
+                                                                className="radiobutoon-padding"
+                                                              />
+                                                            }
+                                                            label="50%"
                                                           />
-                                                        }
-                                                        label="50%"
-                                                      />
-                                                      <div className="radiobutoon-padding">
-                                                        Bonus Amount :{" "}
-                                                        {(
-                                                          (info.amount * 50) /
-                                                          100
-                                                        ).toFixed(2) >
-                                                        dataOFBonus.bonusAmount
-                                                          ? dataOFBonus.bonusAmount
-                                                          : (
+                                                          <div className="radiobutoon-padding">
+                                                            Bonus Amount :{" "}
+                                                            {(
                                                               (info.amount *
                                                                 50) /
                                                               100
-                                                            ).toFixed(2)}
-                                                      </div>
-                                                      <div className="radiobutoon-padding">
-                                                        Lots Required:{" "}
-                                                        {(
-                                                          (((info.amount * 50) /
-                                                            100) *
-                                                            40) /
-                                                          100
-                                                        ).toFixed(2) >
-                                                        dataOFBonus.lot
-                                                          ? dataOFBonus.lot
-                                                          : (
+                                                            ).toFixed(2) >
+                                                            dataOFBonus.bonusAmount
+                                                              ? dataOFBonus.bonusAmount
+                                                              : (
+                                                                  (info.amount *
+                                                                    50) /
+                                                                  100
+                                                                ).toFixed(2)}
+                                                          </div>
+                                                          <div className="radiobutoon-padding">
+                                                            Lots Required:{" "}
+                                                            {(
                                                               (((info.amount *
                                                                 50) /
                                                                 100) *
                                                                 40) /
                                                               100
-                                                            ).toFixed(2)}
-                                                      </div>
-                                                    </div>
-                                                  </RadioGroup>
-                                                </FormControl>
-                                              </div>
-                                            </div>
-                                          </Grid>
-                                        </Grid>
-                                      </div>
-                                    </div>
-                                  </Grid>
-                                  {/* <Grid item md={4}>
+                                                            ).toFixed(2) >
+                                                            dataOFBonus.lot
+                                                              ? dataOFBonus.lot
+                                                              : (
+                                                                  (((info.amount *
+                                                                    50) /
+                                                                    100) *
+                                                                    40) /
+                                                                  100
+                                                                ).toFixed(2)}
+                                                          </div>
+                                                        </div>
+                                                      </RadioGroup>
+                                                    </FormControl>
+                                                  </div>
+                                                </div>
+                                              </Grid>
+                                            </Grid>
+                                          </div>
+                                        </div>
+                                      </Grid>
+                                      {/* <Grid item md={4}>
                             <div className="w-100">
                               <img
                                 src="./rightfx_login_files/bonus30.png"
@@ -856,14 +885,16 @@ const DepositeTest = () => {
                               />
                             </div>
                           </Grid> */}
-                                </Grid>
-                              </>
-                            )}
-                          </Paper>
-                        </Grid>
-                      </Grid>
-                    ) : (
-                      ""
+                                    </Grid>
+                                  </>
+                                )}
+                              </Paper>
+                            </Grid>
+                          </Grid>
+                        ) : (
+                          ""
+                        )}
+                      </>
                     )}
 
                     {info.selectPaymentOption == "UPI" ||
@@ -1028,7 +1059,11 @@ const DepositeTest = () => {
                                       fontWeight: "600",
                                     }}
                                   >
-                                    {info.image == "" ||info.image == null||info.image == undefined ? "" : info.image.name}
+                                    {info.image == "" ||
+                                    info.image == null ||
+                                    info.image == undefined
+                                      ? ""
+                                      : info.image.name}
                                   </div>
                                 </div>
                               </Grid>
@@ -1684,7 +1719,11 @@ const DepositeTest = () => {
                                       fontWeight: "600",
                                     }}
                                   >
-                                    {info.image == "" ||info.image == null||info.image == undefined ? "" : info.image.name}
+                                    {info.image == "" ||
+                                    info.image == null ||
+                                    info.image == undefined
+                                      ? ""
+                                      : info.image.name}
                                   </div>
                                 </div>
                               </Grid>

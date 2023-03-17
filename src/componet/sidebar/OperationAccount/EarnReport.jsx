@@ -208,6 +208,13 @@ const EarnReport = () => {
                   style={{ borderRadius: "10px" }}
                   className="pending-all-15px"
                 >
+                  <ColorButton
+                    onClick={() => {
+                      navigate("/withdrawal/wallet");
+                    }}
+                  >
+                    Withdraw
+                  </ColorButton>
                   <CommonTable
                     url={`${Url}/datatable/affiliate_earning_list.php`}
                     column={column}

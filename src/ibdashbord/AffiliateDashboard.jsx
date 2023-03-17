@@ -71,7 +71,7 @@ const AffiliateDashboard = (prop) => {
                                   {info.data.refferal_availabel}
                                 </h5>
                                 <p className="no-margin font-weight-700 text-uppercase">
-                                  Refferal Availabel
+                                  Commision Availabel
                                 </p>
                               </div>
                             </div>
@@ -83,7 +83,7 @@ const AffiliateDashboard = (prop) => {
                                   {info.data.refferal_rebate}
                                 </h5>
                                 <p className="no-margin font-weight-700 text-uppercase">
-                                  rebate
+                                  Total Earning
                                 </p>
                               </div>
                             </div>
@@ -95,7 +95,7 @@ const AffiliateDashboard = (prop) => {
                                   {info.data.refferal_withdraw}
                                 </h5>
                                 <p className="no-margin font-weight-700 text-uppercase">
-                                  withdraw
+                                  Total withdraw
                                 </p>
                               </div>
                             </div>
@@ -105,7 +105,31 @@ const AffiliateDashboard = (prop) => {
                               <div className="col s12 m12 text-align-center">
                                 <h5 className="mb-0">{info.data.total_user}</h5>
                                 <p className="no-margin font-weight-700 text-uppercase">
-                                  total user
+                                  total referral
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="card padding-9 animate fadeLeft boxsize">
+                            <div className="row">
+                              <div className="col s12 m12 text-align-center">
+                                <h5 className="mb-0">
+                                  {info.data.deposited_users}
+                                </h5>
+                                <p className="no-margin font-weight-700 text-uppercase">
+                                  deposited users
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="card padding-9 animate fadeLeft boxsize">
+                            <div className="row">
+                              <div className="col s12 m12 text-align-center">
+                                <h5 className="mb-0">
+                                  {info.data.refferal_link_unique_visit}
+                                </h5>
+                                <p className="no-margin font-weight-700 text-uppercase">
+                                  unique Cilck
                                 </p>
                               </div>
                             </div>

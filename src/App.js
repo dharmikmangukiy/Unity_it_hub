@@ -86,6 +86,9 @@ import FamtasticHistory from "./componet/sidebar/fantastic/FamtasticHistory";
 import { Affiliate } from "./componet/sidebar/otherpage/Withdraw/Affiliate";
 import SpinReport from "./componet/sidebar/spinAndWin/SpinReport";
 import { AdditionalDocuments } from "./componet/sidebar/additionalDocuments/AdditionalDocuments";
+import Withdrawal_in_Telegram from "./componet/sidebar/otherpage/Withdrawal_in_Telegram";
+import AffiliatePromo from "./componet/AffiliatePromo";
+import IbUserHistory from "./componet/sidebar/ibReport/IbUserHistory";
 
 function useScrollToTop() {
   const { pathname } = useLocation();
@@ -355,6 +358,15 @@ const App = () => {
                   ) : (
                     ""
                   )}
+                  {permission.data.is_affiliate == "1" ? (
+                    <Route
+                      exact
+                      path="/AffiliatePromo"
+                      element={<AffiliatePromo permission={permission.data} />}
+                    />
+                  ) : (
+                    ""
+                  )}
                   <Route
                     exact
                     path="/"
@@ -470,6 +482,11 @@ const App = () => {
                     exact
                     path="/withdrawal/:id"
                     element={<Withdrawal getwallet={getwallet} />}
+                  />
+                  <Route
+                    exact
+                    path="/withdrawal/t/:id"
+                    element={<Withdrawal_in_Telegram />}
                   />
                   {/* <Route exact path="/BankAccount" element={<BankAccount/>} /> */}
                   <Route
@@ -590,6 +607,10 @@ const App = () => {
                       <Route
                         path="/ib_withdraw_history"
                         element={<IBWithdrawalReport />}
+                      />
+                      <Route
+                        path="/IbUserHistory"
+                        element={<IbUserHistory />}
                       />
                       <Route path="/partnership" element={<Partnership />} />
                       <Route

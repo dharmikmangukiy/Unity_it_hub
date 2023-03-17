@@ -24,6 +24,12 @@ const IsApprove = {
 //   auth: "ed7d3a-0834c3-23cd44",
 //   user_id: "4141",
 // };
+// A NEW ACCOUNT
+// const IsApprove = {
+//   is_app: 1,
+//   auth: "030a32-820a80-ac5ea3",
+//   user_id: "3991",
+// };
 // const IsApprove = {
 //   is_app: 1,
 //   auth: "4822e6-2fc0fa-cea730",

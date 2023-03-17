@@ -41,6 +41,7 @@ import { ReactComponent as Profile } from "../../svg/profile.svg";
 import { ReactComponent as Setting } from "../../svg/setting123.svg";
 import { ReactComponent as User } from "../../svg/user.svg";
 import { ReactComponent as AFFILATE } from "../../svg/AFFILATE.svg";
+import { ReactComponent as Ibrequest } from "../../svg/ibrequest.svg";
 
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 const languages = [
@@ -380,7 +381,7 @@ const Header = (prop) => {
                       className="nav-link-simple d-flex "
                       to="/partnership"
                     >
-                      <TradeAndWin className="hoverSidebar hoverSidebarMob" />
+                      <Ibrequest className="hoverSidebar hoverSidebarMob" />
 
                       <span className="HeaderMenuColor">IB Request</span>
                     </NavLink>

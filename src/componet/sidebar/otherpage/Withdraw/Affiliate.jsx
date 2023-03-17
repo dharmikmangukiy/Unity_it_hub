@@ -133,7 +133,7 @@ export const Affiliate = () => {
       param.append("audiance", field.numberField);
       param.append(
         "platform",
-        field.Platform == "yes" ? field.other : field.Platform
+        field.Platform == "Yes" ? field.other : field.Platform
       );
       param.append("audience_geography", note());
       field.loader = true;
@@ -604,12 +604,12 @@ export const Affiliate = () => {
                                 onBlur={trueFalse}
                                 input={<BootstrapInput />}
                               >
-                                <MenuItem value={1}>Whatsapp</MenuItem>
-                                <MenuItem value={2}>Instagram</MenuItem>
-                                <MenuItem value={3}>Facebook</MenuItem>
-                                <MenuItem value={4}>Twitter</MenuItem>
-                                <MenuItem value={5}>Skype</MenuItem>
-                                <MenuItem value={6}>Telegram</MenuItem>
+                                <MenuItem value="Whatsapp">Whatsapp</MenuItem>
+                                <MenuItem value="Instagram">Instagram</MenuItem>
+                                <MenuItem value="Facebook">Facebook</MenuItem>
+                                <MenuItem value="Twitter">Twitter</MenuItem>
+                                <MenuItem value="Skype">Skype</MenuItem>
+                                <MenuItem value="Telegram">Telegram</MenuItem>
                                 <MenuItem
                                   value="Yes"
                                   style={{ fontWeight: "700", color: "black" }}
