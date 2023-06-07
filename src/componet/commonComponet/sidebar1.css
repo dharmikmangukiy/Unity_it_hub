@@ -356,6 +356,9 @@ a:not(.MuiButtonBase-root):hover .hoverSidebar1 {
   .webViewHeader {
     display: none !important;
   }
+  .sidebar-wallet-balance {
+    margin-top: 20px;
+  }
   /* .mobileHeader {
     display: flex;
     justify-content: end;
@@ -414,4 +417,32 @@ a:not(.MuiButtonBase-root):hover .hoverSidebar1 {
   .liSidebarMobpd {
     padding-left: 12px;
   }
+}
+.justify-content-center {
+  justify-content: center;
+}
+.font_size {
+  font-size: 25px !important;
+}
+.footer-social-icon {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+}
+.footer-social-icon-size {
+  font-size: 35px !important;
+}
+.border_left {
+  border-left: 1px solid #989898;
+  padding: 0px 15px !important;
+  font-size: 12px;
+  color: #989898;
+  font-weight: 400 !important;
+}
+.only_color {
+  padding: 0px 15px !important;
+  font-size: 12px;
+  color: #989898;
+  font-weight: 400 !important;
 }

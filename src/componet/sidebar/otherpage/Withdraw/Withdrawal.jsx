@@ -21,6 +21,7 @@ import { use } from "i18next";
 import Counter from "../../../customComponet/Counter";
 import Verification from "../../../customComponet/Verification";
 import Toast from "../../../commonComponet/Toast";
+import { SafetyDividerRounded } from "@mui/icons-material";
 
 export const Withdrawal = (prop) => {
   const { id } = useParams();
@@ -199,7 +200,6 @@ export const Withdrawal = (prop) => {
           setBankMenu(res.data.data);
         });
     }
-    console.log(event.target.value);
   };
   const walletbalancefun = () => {
     const param = new FormData();
@@ -230,12 +230,10 @@ export const Withdrawal = (prop) => {
     setIsSubmit(true);
   };
   const withdrawAmount = () => {
-    console.log("withdrawAmount", age);
     const param = new FormData();
     param.append("payment_method", age.payment_method);
     if (age.payment_method == "Bank") {
       param.append("user_bank_id", age.user_bank_id);
-      console.log("age.user_bank_id", age.user_bank_id);
     } else if (age.payment_method == "UPI") {
       param.append("upi_name", age.upi_name);
       param.append("upi_crypto_ac_number", age.upi_crypto_ac_number);
@@ -379,9 +377,6 @@ export const Withdrawal = (prop) => {
     Toast("error", p);
   };
 
-  console.log("age", age);
-  console.log("FinalData", finalData);
-
   const fatchKycStatus = async () => {
     const param = new FormData();
     if (IsApprove !== "") {
@@ -394,9 +389,8 @@ export const Withdrawal = (prop) => {
       .then((res) => {
         if (res.data.message == "Session has been expired") {
           navigate("/");
-        }
-        if (res.data.status == "error") {
-          mainLoader.main = true;
+        } else if (res.data.status == "error") {
+          mainLoader.main = false;
           setMainLoader({ ...mainLoader });
           setStatus(res.data.kyc_data.master_status);
         } else {
@@ -430,7 +424,6 @@ export const Withdrawal = (prop) => {
 
       if (age.payment_method == "Bank") {
         param.append("user_bank_id", age.user_bank_id);
-        console.log("age.user_bank_id", age.user_bank_id);
       } else if (age.payment_method == "UPI") {
         param.append("upi_name", age.upi_name);
         param.append("upi_crypto_ac_number", age.upi_crypto_ac_number);
@@ -469,8 +462,6 @@ export const Withdrawal = (prop) => {
             setSendOtp(false);
             setIsLoader(false);
           } else {
-            console.log("dbsad");
-
             setIsLoader(false);
             notify(res.data.message);
             setFinalData(param);
@@ -598,9 +589,20 @@ export const Withdrawal = (prop) => {
               onBlur={trueFalse}
             >
               <MenuItem value="">Select Option</MenuItem>
-              <MenuItem value="Google Pay">Google Pay</MenuItem>
+              {methodType.subList.map((item, index) => {
+                var html = "";
+                if (item.payment_type == "UPI") {
+                  return item.payment_upi.map((item1, index1) => {
+                    return <MenuItem value={item1}>{item1}</MenuItem>;
+                  });
+                }
+                {
+                  /* return <div dangerouslySetInnerHTML={{ __html: html }}></div>; */
+                }
+              })}
+              {/* <MenuItem value="Google Pay">Google Pay</MenuItem>
               <MenuItem value="Phone Pay">Phone Pay</MenuItem>
-              <MenuItem value="Paytm">Paytm</MenuItem>
+              <MenuItem value="Paytm">Paytm</MenuItem> */}
             </Select>
             {age.upi_name == "" && infoTrue.upi_name == true ? (
               <FormHelperText>Please Select UPI Type</FormHelperText>
@@ -672,10 +674,17 @@ export const Withdrawal = (prop) => {
               onBlur={trueFalse}
             >
               <MenuItem value="">Select Option</MenuItem>
-              <MenuItem value="BTC">Bitcoin</MenuItem>
+              {methodType.subList.map((item, index) => {
+                if (item.payment_type == "Crypto") {
+                  return item.payment_crypto.map((item1, index1) => {
+                    return <MenuItem value={item1.slug}>{item1.name}</MenuItem>;
+                  });
+                }
+              })}
+              {/* <MenuItem value="BTC">Bitcoin</MenuItem>
               <MenuItem value="ETH ">Ethereum</MenuItem>
               <MenuItem value="USDT">USDT</MenuItem>
-              <MenuItem value="LIT">Litecoin</MenuItem>
+              <MenuItem value="LIT">Litecoin</MenuItem> */}
             </Select>
             {age.crypto_name == "" && infoTrue.crypto_name == true ? (
               <FormHelperText>Please Select Crypto type</FormHelperText>
@@ -1007,6 +1016,7 @@ export const Withdrawal = (prop) => {
                                             handleChange(e);
                                           }
                                         }}
+                                        autoComplete="off"
                                         displayEmpty
                                         inputProps={{
                                           "aria-label": "Without label",
@@ -1065,7 +1075,6 @@ export const Withdrawal = (prop) => {
                                                 e.target.value === "" ||
                                                 /^[0-9]*$/.test(e.target.value)
                                               ) {
-                                                console.log("ok right");
                                                 handleChange(e);
                                               }
                                             }}

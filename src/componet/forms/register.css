@@ -167,10 +167,7 @@ footer .office-links .partner-form .tabMobRes .tab-content form .accuImg h5 {
   /* padding: 17px; */
   font-size: 23px;
 }
-.mbr-4 {
-  margin-bottom: 0rem !important;
-  padding: 0;
-}
+
 button,
 input {
   overflow: visible;
@@ -712,4 +709,8 @@ select {
 }
 .val-reg-true svg {
   color: #24835b;
+}
+.mbr-4 {
+  margin-bottom: 0rem !important;
+  padding: 0;
 }

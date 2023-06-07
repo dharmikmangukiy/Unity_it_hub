@@ -197,7 +197,6 @@ const BankAccountp = () => {
     setOnEdit(true);
     // setData(data.map((item) => (item.index === index ? index : item)));
   };
-  console.log("age", age);
 
   const fetchUserPref1 = () => {
     const param = new FormData();
@@ -215,8 +214,6 @@ const BankAccountp = () => {
       setCData({ ...cData });
       setData(res.data.data);
       setMainLoader(false);
-      console.log("res.data.data", res.data.data);
-      console.log("res.data", res.data);
     });
   };
   useEffect(() => {
@@ -231,10 +228,8 @@ const BankAccountp = () => {
         [name]: value,
       };
     });
-    console.log(event.target.value);
   };
 
-  console.log("ifscData", ifscData);
   const currency = [{ label: "Indian rupee (INR)" }];
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -334,7 +329,6 @@ const BankAccountp = () => {
               if (res.data.message == "Session has been expired") {
                 navigate("/");
               }
-              console.log("status", res.data);
               if (res.data.status == "error") {
                 Toast("error", res.data.message);
                 setAge((prevalue) => {
@@ -367,7 +361,6 @@ const BankAccountp = () => {
               if (res.data.message == "Session has been expired") {
                 navigate("/");
               }
-              console.log("status", res.data);
               if (res.data.status == "error") {
                 sendOtp.otpLoder = false;
                 setSendOtp({ ...sendOtp });
@@ -408,7 +401,6 @@ const BankAccountp = () => {
               if (res.data.message == "Session has been expired") {
                 navigate("/");
               }
-              console.log("status", res.data);
               if (res.data.status == "error") {
                 Toast("error", res.data.message);
                 setAge((prevalue) => {
@@ -441,7 +433,6 @@ const BankAccountp = () => {
               if (res.data.message == "Session has been expired") {
                 navigate("/");
               }
-              console.log("status", res.data);
               if (res.data.status == "error") {
                 sendOtp.otpLoder = false;
                 Toast("error", res.data.message);
@@ -459,9 +450,7 @@ const BankAccountp = () => {
       }
     }
   }, [ageErrors, isSubmit]);
-  console.log("data", data);
   const submit = () => {
-    console.log(submitted);
     if (data) {
       return (
         <Grid
@@ -667,7 +656,7 @@ const BankAccountp = () => {
                       <Paper
                         elevation={1}
                         style={{ borderRadius: "10px", alignItems: "center" }}
-                        className="w-100 mb-5"
+                        className="w-100"
                       >
                         <div className="card-header d-flex align-items-center justify-content-between card-header-alt p-3">
                           <h5 className="font-weight-bold mb-0 text-dark">
@@ -754,7 +743,7 @@ const BankAccountp = () => {
                       <Grid item md={12} className="d-flex">
                         <Paper
                           elevation={1}
-                          style={{ borderRadius: "10px" }}
+                          style={{ borderRadius: "10px", marginTop: "3rem" }}
                           className="w-100"
                         >
                           <div className="card-header d-flex align-items-center justify-content-between card-header-alt p-3">
@@ -788,7 +777,6 @@ const BankAccountp = () => {
                                                 re.test(e.target.value) ||
                                                 e.target.value === " "
                                               ) {
-                                                console.log("ok right");
                                                 handleChange(e);
                                               }
                                             }}
@@ -831,7 +819,6 @@ const BankAccountp = () => {
                                                 re.test(e.target.value) ||
                                                 e.target.value === " "
                                               ) {
-                                                console.log("ok right");
                                                 handleChange(e);
                                               }
                                             }}

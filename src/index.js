@@ -7,13 +7,15 @@ import HttpApi from "i18next-http-backend";
 import LanguageDetector from "i18next-browser-languagedetector";
 // import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from "react-router-dom";
-
+if (window !== window.top) {
+  window.top.location.replace(window.location.href);
+}
 i18next
   .use(HttpApi)
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    supportedLngs: ["en", "ar", "jp","ru","es","fa","cn"],
+    supportedLngs: ["en", "ar", "jp", "ru", "es", "fa", "cn"],
     fallbackLng: "en",
     debug: false,
     // Options for language detector
@@ -26,24 +28,17 @@ i18next
       loadPath: "./assets/locales/{{lng}}/translation.json",
     },
   });
-  const loadingMarkup = (
-    <div className="py-4 text-center">
-      <h3>Loading..</h3>
-    </div>
-  )
-  
-ReactDOM.render(
-  <Suspense fallback={loadingMarkup}>
-
-    <BrowserRouter >
-      <App />
-    </BrowserRouter>
-    </Suspense>
-  ,
-  document.getElementById("root")
+const loadingMarkup = (
+  <div className="py-4 text-center">
+    <h3>Loading..</h3>
+  </div>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-// reportWebVitals();
+ReactDOM.render(
+  <Suspense fallback={loadingMarkup}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Suspense>,
+  document.getElementById("root")
+);

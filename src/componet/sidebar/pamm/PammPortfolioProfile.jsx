@@ -246,7 +246,6 @@ const PammPortfolioProfile = () => {
         } else {
           moneyManagerListMenu = res.data.data;
           setMoneyManagerListMenu([...moneyManagerListMenu]);
-          console.log(res.data.data);
         }
       });
   };
@@ -382,7 +381,6 @@ const PammPortfolioProfile = () => {
           res.data.data.get_monthly_pnl_data.x;
         setdailySalesOptions({ ...dailySalesOptions });
         setIsLoaderButton(false);
-        console.log("setIsLoaderButton", isLoderButton);
       });
   };
   const columnWithdraw = [
@@ -763,11 +761,9 @@ const PammPortfolioProfile = () => {
           res.data.data.get_monthly_pnl_data.x;
         setdailySalesOptions({ ...dailySalesOptions });
         setYear(res.data.data.filter_profit_years[0]);
-        console.log(res.data);
         setIsLoader(false);
       });
   }, []);
-  console.log(info);
 
   return (
     <div className="money-manager-profile-section portfolio-profile">
@@ -991,7 +987,6 @@ const PammPortfolioProfile = () => {
                               <Select
                                 value={year}
                                 onChange={(e) => {
-                                  console.log("e.target.value", e.target.value);
                                   setYear(e.target.value);
                                   changeYear(e.target.value);
                                 }}

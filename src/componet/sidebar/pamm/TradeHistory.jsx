@@ -29,9 +29,7 @@ const TradeHistory = () => {
   const navigate = useNavigate();
 
   const { id } = useParams();
-  const depositFilter = () => {
-    console.log("dsa");
-  };
+  const depositFilter = () => {};
   useEffect(() => {
     if (id !== undefined) {
       filterData.pid = id;
@@ -40,7 +38,6 @@ const TradeHistory = () => {
   }, []);
 
   const handleContextClick = (event, index) => {
-    console.log(event.currentTarget.getAttribute("id"), index);
     let tableMenus = [...openTableMenus];
     tableMenus[index] = event.currentTarget;
     setOpenTableMenus(tableMenus);
@@ -53,7 +50,6 @@ const TradeHistory = () => {
   };
 
   const gotoProfile = (e) => {
-    console.log("goto profile page", e);
     navigate("/master/" + e.user_id);
   };
 

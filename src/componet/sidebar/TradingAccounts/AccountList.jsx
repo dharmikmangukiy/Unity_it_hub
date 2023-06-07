@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { CardContent, Grid } from "@mui/material";
 import TopButton from "../../customComponet/TopButton";
+import CachedIcon from "@mui/icons-material/Cached";
+
 import { Paper } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import InputBase from "@mui/material/InputBase";
@@ -102,6 +104,7 @@ export const AccountList = () => {
       fetchMT5AccountList();
     }
   }, [Drefresh]);
+  const [refresh, setRefresh] = useState(false);
   const [accountType, setAccountType] = useState(0);
   const [age, setAge] = React.useState("");
   const [showButton, setShowButton] = useState("false");
@@ -216,10 +219,8 @@ export const AccountList = () => {
           // mt5AccountList.data = [];
 
           setMT5AccountList({ ...mt5AccountList });
-          console.log("mt5Account", mt5AccountList.data[0].mt5_acc_no);
-          setMT5Account(mt5AccountList.data[0].mt5_acc_no);
-          console.log("mt5Account", mt5Account);
           fetchMT5AccountDetaiils(mt5AccountList.data[0].mt5_acc_no);
+          setMT5Account(mt5AccountList.data[0].mt5_acc_no);
         } else {
           setMT5AccountLoader(false);
         }
@@ -228,7 +229,6 @@ export const AccountList = () => {
   };
 
   const fetchMT5AccountDetaiils = async (mt5_acc_no = "") => {
-    console.log("mt5Account", mt5Account);
     setMT5AccountLoader(true);
     const param = new FormData();
     param.append("action", "get_mt5_ac_details");
@@ -254,7 +254,6 @@ export const AccountList = () => {
         // }
         // setAccountDetails({ ...res.data.data });
         setMT5AccountLoader(false);
-        console.log("saddsv", mT5AccountLoader);
         setAccountDetails({ ...res.data.data });
       } else {
       }
@@ -589,19 +588,6 @@ export const AccountList = () => {
     },
   ];
 
-  /* const fetchPlantDetaiils = async() => {
-    // setMT5AccountLoader(true);
-      const param = new FormData();
-      await axios.post(`${Url}/ajaxfiles/get_mt5_live_packages.php`, param).then((res) => {
-        // setMT5AccountLoader(false);
-        if (res.data.status == "error") {
-          Toast("error",res.data.message);
-        } else {
-          // setAccountDetails({...res.data.data});
-        }
-      });
-  } */
-
   return (
     <div>
       <div className="app-content--inner">
@@ -904,17 +890,26 @@ export const AccountList = () => {
                                 >
                                   Open Additional Live Account
                                 </ColorButton>
-                                <ColorButton
-                                  className="mx-md-3 my-2 my-md-0"
-                                  onClick={() => {
-                                    navigate(`/change_password/${mt5Account}`);
-                                  }}
-                                >
-                                  Change Password
-                                </ColorButton>
-                                <ColorButton onClick={getLeverage}>
-                                  Change Leverage
-                                </ColorButton>
+                                {accountDetails.account_type !== "SPIN" ? (
+                                  <>
+                                    <ColorButton
+                                      className="mx-md-3 my-2 my-md-0"
+                                      onClick={() => {
+                                        navigate(
+                                          `/change_password/${mt5Account}`
+                                        );
+                                      }}
+                                    >
+                                      Change Password
+                                    </ColorButton>
+                                    <ColorButton onClick={getLeverage}>
+                                      Change Leverage
+                                    </ColorButton>
+                                  </>
+                                ) : (
+                                  ""
+                                )}
+
                                 {Dopen ? (
                                   <OpenDemoModel
                                     Dopen={Dopen}
@@ -1056,10 +1051,20 @@ export const AccountList = () => {
                       className="w-100 mb-5"
                     >
                       <div className="card-header d-flex align-items-center justify-content-between card-header-alt p-3">
-                        <div>
+                        <div className="d-flex">
                           <h5 className="font-weight-bold mb-0 text-dark">
                             Open Positions
                           </h5>
+                          <ColorButton
+                            style={{
+                              height: "26px",
+                              width: "10px",
+                              marginLeft: "10px",
+                            }}
+                            onClick={() => setRefresh(!refresh)}
+                          >
+                            <CachedIcon />
+                          </ColorButton>
                         </div>
                       </div>
                       <div className="divider"></div>
@@ -1078,6 +1083,7 @@ export const AccountList = () => {
                                 url={`${Url}/datatable/open_position.php`}
                                 column={column}
                                 mt5Account={mt5Account}
+                                refresh={refresh}
                                 sort="0"
                                 fetchData="mt5_open_trade_data"
                               />
@@ -1185,7 +1191,7 @@ export const AccountList = () => {
                     <Paper
                       elevation={1}
                       style={{ borderRadius: "10px" }}
-                      className="w-100 mb-5 "
+                      className="w-100  "
                     >
                       <div className="card-header d-flex align-items-center justify-content-between card-header-alt p-3">
                         <div>

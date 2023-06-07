@@ -24,6 +24,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import NewDate from "../../commonComponet/NewDate";
 import CloseIcon from "@mui/icons-material/Close";
 import PropTypes from "prop-types";
+import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 
 function BootstrapDialogTitle(props) {
   const { children, onClose, ...other } = props;
@@ -62,7 +63,7 @@ BootstrapDialogTitle.propTypes = {
 };
 const IbUserHistory = () => {
   const [dialogTitle, setDialogTitle] = useState("");
-
+  const [resData, setResData] = useState({});
   const [open, setOpen] = React.useState(false);
   const [refresh, setRefresh] = React.useState(false);
   const navigate = useNavigate();
@@ -75,12 +76,9 @@ const IbUserHistory = () => {
   const handleClose = () => {
     setOpen(false);
   };
-  const depositFilter = () => {
-    console.log("dsa");
-  };
+  const depositFilter = () => {};
 
   const handleContextClick = (event, index) => {
-    console.log(event.currentTarget.getAttribute("id"), index);
     let tableMenus = [...openTableMenus];
     tableMenus[index] = event.currentTarget;
     setOpenTableMenus(tableMenus);
@@ -93,7 +91,6 @@ const IbUserHistory = () => {
   };
 
   const gotoProfile = (e) => {
-    console.log("goto profile page", e);
     navigate("/master/" + e.user_id);
   };
 
@@ -152,6 +149,41 @@ const IbUserHistory = () => {
         return (
           <span title={row.ib_comission_amount}>
             <span className="text-color-green">${row.ib_comission_amount}</span>
+          </span>
+        );
+      },
+      // wrap: true,
+      sortable: true,
+      reorder: true,
+      grow: 0.4,
+    },
+    {
+      name: "CSV",
+      selector: (row) => {
+        return (
+          <span>
+            <a
+              href={
+                Url +
+                "/" +
+                "datatable/ib_commission_history_export.php" +
+                `?request_id=${row.from_user_id}`
+              }
+              className="main-color"
+              target="_blank"
+            >
+              <DownloadForOfflineIcon />
+            </a>
+            {/* <Button
+              onClick={() => {
+                param.from_user_id = row.from_user_id;
+                setParam({ ...param });
+                setDialogTitle(row.name);
+                setOpen(true);
+              }}
+            >
+              <VisibilityIcon />
+            </Button> */}
           </span>
         );
       },
@@ -299,13 +331,86 @@ const IbUserHistory = () => {
   const manageContent = () => {
     return (
       <>
+        <div>
+          <a
+            href={
+              Url +
+              "/" +
+              "datatable/ib_commission_history_export.php" +
+              `?request_id=${param.from_user_id}`
+            }
+            className=""
+            style={{
+              padding: "8px 12px",
+              background: "#5d2067",
+              color: "white",
+              borderRadius: "5px",
+            }}
+            // target="_blank"
+          >
+            CSV{" "}
+          </a>
+        </div>
         <CommonTable
           url={`${Url}/datatable/ib_commission_history.php`}
           column={column1}
           sort="2"
+          setResData={setResData}
           param={param}
           refresh={refresh}
         />
+        {/* <div className="ibcomhistory">
+          <div className="row1 boxSection">
+            <div className="card padding-9 animate fadeLeft boxsize">
+              <div className="row">
+                <div className="col s12 m12 text-align-center">
+                  <h5 className="mb-0">{resData.total_lots}</h5>
+                  <p className="no-margin">Total LOTS</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="row1 boxSection">
+            <div className="card padding-9 animate fadeLeft boxsize">
+              <div className="row">
+                <div className="col s12 m12 text-align-center">
+                  <h5 className="mb-0">${resData.earning}</h5>
+                  <p className="no-margin">Total Earning</p>
+                </div>
+              </div>
+            </div>
+          </div>{" "}
+          <div className="row1 boxSection">
+            <div className="card padding-9 animate fadeLeft boxsize">
+              <div className="row">
+                <div className="col s12 m12 text-align-center">
+                  <h5 className="mb-0">${resData.balance}</h5>
+                  <p className="no-margin">Available</p>
+                </div>
+              </div>
+            </div>
+          </div>{" "}
+          <div className="row1 boxSection">
+            <div className="card padding-9 animate fadeLeft boxsize">
+              <div className="row">
+                <div className="col s12 m12 text-align-center">
+                  <h5 className="mb-0">${resData.pending}</h5>
+                  <p className="no-margin">Pending</p>
+                </div>
+              </div>
+            </div>
+          </div>{" "}
+          <div className="row1 boxSection">
+            <div className="card padding-9 animate fadeLeft boxsize">
+              <div className="row">
+                <div className="col s12 m12 text-align-center">
+                  <h5 className="mb-0">${resData.withdaw}</h5>
+                  <p className="no-margin">Withdrawal</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> */}
       </>
     );
   };
@@ -334,7 +439,6 @@ const IbUserHistory = () => {
                         </label>
                         <BootstrapInput
                           type="date"
-                          inputProps={{ max: "2022-04-13" }}
                           onChange={(e) =>
                             setFilterData({
                               ...filterData,

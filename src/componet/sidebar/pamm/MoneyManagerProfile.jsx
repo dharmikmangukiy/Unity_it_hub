@@ -295,7 +295,6 @@ const MoneyManagerProfile = () => {
         } else {
           moneyManagerListMenu = res.data.data;
           setMoneyManagerListMenu([...moneyManagerListMenu]);
-          console.log(res.data.data);
         }
       });
   };
@@ -715,7 +714,6 @@ const MoneyManagerProfile = () => {
         });
     }
   };
-  console.log("withdrawForm", withdrawForm);
   const column = [
     /*     {
       name: "Portfolio Id",
@@ -981,7 +979,6 @@ const MoneyManagerProfile = () => {
         setdailySalesOptions({ ...dailySalesOptions });
         setYear(res.data.data.filter_profit_years[0]);
 
-        console.log(res.data);
         setIsLoader(false);
       });
   };
@@ -989,8 +986,6 @@ const MoneyManagerProfile = () => {
   useEffect(() => {
     getalldetail();
   }, []);
-  console.log(info);
-  console.log("treadShow", treadShow);
   return (
     <div className="money-manager-profile-section">
       <div className="px-md-5">
@@ -1396,7 +1391,6 @@ const MoneyManagerProfile = () => {
                                 // value={filterData.withdrawal_status}
                                 value={year}
                                 onChange={(e) => {
-                                  console.log("e.target.value", e.target.value);
                                   setYear(e.target.value);
 
                                   changeYear(e.target.value);

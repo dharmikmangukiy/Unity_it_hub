@@ -1,4 +1,4 @@
-.app-sidebar--content{
+.app-sidebar--content {
   max-height: calc(100vh - 100px);
   overflow-y: auto;
 }
@@ -10,26 +10,29 @@
   width: 10px; /* Mostly for vertical scrollbars */
   height: 10px; /* Mostly for horizontal scrollbars */
 }
-.app-sidebar--content::-webkit-scrollbar-thumb { /* Foreground */
+.app-sidebar--content::-webkit-scrollbar-thumb {
+  /* Foreground */
   background: rgba(247, 33, 33, 0);
 }
-.app-sidebar--content::-webkit-scrollbar-track { /* Background */
+.app-sidebar--content::-webkit-scrollbar-track {
+  /* Background */
   background: rgba(117, 39, 39, 0);
 }
 
-.imgdes
-{
+.imgdes {
   margin: 26px;
   width: 7%;
 }
-.textCenter
-{
+.textCenter {
   text-align: center;
 }
-.loginPading
-{
-  padding: 0 2.5rem !important;
+.loginPading {
+  padding: 0 1.5rem !important;
 }
-.text-light{
+.text-light {
   color: gray;
+}
+.marginregonput {
+  margin-left: 2px;
+  margin-top: 2px;
 }

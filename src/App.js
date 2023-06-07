@@ -89,6 +89,7 @@ import { AdditionalDocuments } from "./componet/sidebar/additionalDocuments/Addi
 import Withdrawal_in_Telegram from "./componet/sidebar/otherpage/Withdrawal_in_Telegram";
 import AffiliatePromo from "./componet/AffiliatePromo";
 import IbUserHistory from "./componet/sidebar/ibReport/IbUserHistory";
+import RightgFxAndroid from "./componet/sidebar/Platforms/RightgFxAndroid";
 
 function useScrollToTop() {
   const { pathname } = useLocation();
@@ -102,18 +103,15 @@ const THEME = createTheme({
   },
 });
 const App = () => {
-  // console.log(localStorage.getItem("login"));
   useScrollToTop();
   const [login, setLogin] = useState(localStorage.getItem("login"));
   const [login1, setLogin1] = useState(false);
   const [moveToib, SetMoveToib] = useState(false);
   const [moveAff, SetMoveAff] = useState(false);
   const navigate = useNavigate();
-  // const[User,setUser]=useState(localStorage.getItem('login'))
   const [firstCall, setFirstCall] = useState(true);
 
   const currentLanguageCode = cookies.get("i18next") || "en";
-  // console.log(currentLanguageCode)
   const ref = useRef();
   const [sidebar, setSidebar] = useState(false);
   const [permission, setPermission] = useState({
@@ -124,11 +122,9 @@ const App = () => {
     data: 0,
   });
   const [loader, setLoader] = useState(true);
-  // console.log("login 123",login)
 
   const fetchUserPref = async (prop) => {
-    // if (firstCall) {
-    console.log(prop);
+    var pathname = window.location.pathname;
     const param = new FormData();
     if (IsApprove !== "") {
       param.append("is_app", IsApprove.is_app);
@@ -152,7 +148,10 @@ const App = () => {
 
           if (
             res.data.is_affiliate == 1 &&
-            localStorage.getItem("affiliate") == 1
+            (localStorage.getItem("affiliate") == 1 ||
+              pathname == "/Affiliatedashboard" ||
+              pathname == "/AffiliatePromo" ||
+              pathname == "/earnReport")
           ) {
             SetMoveAff(true);
           } else {
@@ -160,7 +159,17 @@ const App = () => {
           }
           if (
             res.data.is_ib_account == 1 &&
-            localStorage.getItem("ibPortal") == 1
+            (localStorage.getItem("ibPortal") == 1 ||
+              pathname == "/IBdashboard" ||
+              pathname == "/ib_commission_history" ||
+              pathname == "/ib_withdraw_history" ||
+              pathname == "/IbUserHistory" ||
+              pathname == "/partnership" ||
+              pathname == "/ib_commision_group" ||
+              pathname == "/my_client" ||
+              pathname == "/fantasticHistory" ||
+              pathname == "/How_to_participate" ||
+              pathname == "/Fantastic_tour")
           ) {
             SetMoveToib(true);
           } else {
@@ -173,7 +182,6 @@ const App = () => {
           }
         }
       });
-    // }
   };
   useEffect(() => {
     var url = window.location.pathname.split("/");
@@ -410,7 +418,11 @@ const App = () => {
                   />
                   <Route exact path="/Comingsoon" element={<ComingSoon />} />
                   <Route exact path="/reports" element={<Report />} />
-                  <Route exact path="/deposit/:id" element={<DepositeTest />} />
+                  <Route
+                    exact
+                    path="/deposit/:id"
+                    element={<DepositeTest permission={permission.data} />}
+                  />
                   {/* <Route exact path="/deposit/" element={<Deposite />} /> */}
                   <Route
                     exact
@@ -435,7 +447,11 @@ const App = () => {
                     element={<HOW_TO_ACTIVE_BONUS />}
                   />
                   {/* <Route exact path="/depositTest/" element={<DepositeTest />} /> */}
-                  <Route exact path="/deposit" element={<DepositeTest />} />
+                  <Route
+                    exact
+                    path="/deposit"
+                    element={<DepositeTest permission={permission.data} />}
+                  />
                   {permission.data.ib_request_status == 0 ? (
                     <Route path="/partnership" element={<Partnership />} />
                   ) : (
@@ -524,6 +540,11 @@ const App = () => {
                     exact
                     path="/Platforms/android"
                     element={<Android />}
+                  />
+                  <Route
+                    exact
+                    path="/Platforms/RightFxAndroid"
+                    element={<RightgFxAndroid />}
                   />
                   <Route exact path="/Platforms/iphone" element={<Iphone />} />
                   <Route
@@ -639,10 +660,22 @@ const App = () => {
                     <></>
                   )}
                   {permission.data ? (
-                    <Route
-                      path="*"
-                      element={<Navigate to="/dashboard" replace />}
-                    />
+                    moveToib == true ? (
+                      <Route
+                        path="*"
+                        element={<Navigate to="/IBdashboard" replace />}
+                      />
+                    ) : moveAff == true ? (
+                      <Route
+                        path="*"
+                        element={<Navigate to="/Affiliatedashboard" replace />}
+                      />
+                    ) : (
+                      <Route
+                        path="*"
+                        element={<Navigate to="/dashboard" replace />}
+                      />
+                    )
                   ) : (
                     ""
                   )}

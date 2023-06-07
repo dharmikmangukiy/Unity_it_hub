@@ -89,6 +89,7 @@ const Spin_dash = (prop) => {
 
   const [popData, setPopData] = useState({
     isLoder: true,
+    link: "",
     data: "",
     error: "",
     data1: "",
@@ -127,7 +128,6 @@ const Spin_dash = (prop) => {
     setAnchorEl1(null);
   };
   const claimCredit = (prop) => {
-    console.log(prop);
     const param = new FormData();
     if (IsApprove !== "") {
       param.append("is_app", IsApprove.is_app);
@@ -149,6 +149,8 @@ const Spin_dash = (prop) => {
       } else {
         popData.error = "";
         popData.data1 = res.data.message;
+        popData.link = res.data.app_link;
+
         popData.isLoder = false;
         setPopData({ ...popData });
       }
@@ -181,7 +183,6 @@ const Spin_dash = (prop) => {
       }
     });
   };
-  console.log("second", seconds);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -279,6 +280,22 @@ const Spin_dash = (prop) => {
                 <span style={{ fontSize: "22px" }}>
                   {popData.error !== "" ? popData.error : popData.data1}
                 </span>
+                <br />
+                {popData.error !== "" ? (
+                  ""
+                ) : (
+                  <>
+                    <span style={{ fontSize: "22px" }}>
+                      Wish you happy trading!
+                    </span>
+                    <br />
+                    <span style={{ fontSize: "22px" }}>
+                      <a href={popData.link} style={{ color: "white" }}>
+                        Download App Now
+                      </a>
+                    </span>
+                  </>
+                )}
               </div>
             </div>
           )}
@@ -305,7 +322,7 @@ const Spin_dash = (prop) => {
                     <Paper
                       elevation={1}
                       style={{ borderRadius: "10px", padding: "20px" }}
-                      className="w-100 mb-5 internal-transfer-form"
+                      className="w-100 internal-transfer-form"
                     >
                       <div>
                         <div className="head_prpl">
@@ -396,14 +413,15 @@ const Spin_dash = (prop) => {
                           <div className="text-center mt-5">
                             <span className="btn_type "> Free Spin</span>
                             <div className="boxi1">
-                              <h1 className="text_left">
-                                <ErrorOutlineIcon />
-                              </h1>
                               <div>
                                 <Wheel
                                   items={
                                     spinData.data?.free_spin_data
                                       .spin_amount_list
+                                  }
+                                  colorSpin={
+                                    spinData.data?.free_spin_data
+                                      .spin_color_list
                                   }
                                   selectedItem={selectedItem.freeSpin}
                                   spinning1={selectedItem.freeSpintrue}
@@ -468,14 +486,15 @@ const Spin_dash = (prop) => {
                           <div className="text-center mt-5">
                             <span className="btn_type "> Invite Spin</span>
                             <div className="boxi1">
-                              <h1 className="text_left">
-                                <ErrorOutlineIcon />
-                              </h1>
                               <div>
                                 <Wheel
                                   items={
                                     spinData.data?.referral_spin_data
                                       .spin_amount_list
+                                  }
+                                  colorSpin={
+                                    spinData.data?.referral_spin_data
+                                      .spin_color_list
                                   }
                                   selectedItem={selectedItem.refSpin}
                                   spinning1={selectedItem.refSpintrue}
@@ -619,14 +638,15 @@ const Spin_dash = (prop) => {
                                 $50 Deposit & Win
                               </span>
                               <div className="boxi2">
-                                <h1 className="text_left">
-                                  <ErrorOutlineIcon />
-                                </h1>
                                 <div>
                                   <Wheel
                                     items={
                                       spinData.data?.deposit_50_spin_data
                                         .spin_amount_list
+                                    }
+                                    colorSpin={
+                                      spinData.data?.deposit_50_spin_data
+                                        .spin_color_list
                                     }
                                     selectedItem={selectedItem.depo50Spin}
                                     spinning1={selectedItem.depo50Spintrue}
@@ -696,14 +716,15 @@ const Spin_dash = (prop) => {
                                 $500 Deposit & Win
                               </span>
                               <div className="boxi2">
-                                <h1 className="text_left">
-                                  <ErrorOutlineIcon />
-                                </h1>
                                 <div>
                                   <Wheel
                                     items={
                                       spinData.data?.deposit_500_spin_data
                                         .spin_amount_list
+                                    }
+                                    colorSpin={
+                                      spinData.data?.deposit_500_spin_data
+                                        .spin_color_list
                                     }
                                     selectedItem={selectedItem.depo500Spin}
                                     spinning1={selectedItem.depo500Spintrue}
@@ -790,37 +811,37 @@ const Spin_dash = (prop) => {
         >
           <div className="shere-button overflow-hidden p-0">
             <FacebookShareButton
-              url="https://reactrighttest.rightfx.com/register/referral_sponsor/555797"
+              url={Url + "/register" + spinData.data.referral_spin_link}
               quote="Right Fx"
             >
               <FacebookIcon size={40} round={true} />
             </FacebookShareButton>
             <WhatsappShareButton
-              url="https://reactrighttest.rightfx.com/register/referral_sponsor/555797"
+              url={Url + "/register" + spinData.data.referral_spin_link}
               quote="Right Fx"
             >
               <WhatsappIcon size={40} round={true} />
             </WhatsappShareButton>
             <TelegramShareButton
-              url="https://reactrighttest.rightfx.com/register/referral_sponsor/555797"
+              url={Url + "/register" + spinData.data.referral_spin_link}
               quote="Right Fx"
             >
               <TelegramIcon size={40} round={true} />
             </TelegramShareButton>
             <TwitterShareButton
-              url="https://reactrighttest.rightfx.com/register/referral_sponsor/555797"
+              url={Url + "/register" + spinData.data.referral_spin_link}
               quote="Right Fx"
             >
               <TwitterIcon size={40} round={true} />
             </TwitterShareButton>
             <EmailShareButton
-              url="https://reactrighttest.rightfx.com/register/referral_sponsor/555797"
+              url={Url + "/register" + spinData.data.referral_spin_link}
               quote="Right Fx"
             >
               <EmailIcon size={40} round={true} />
             </EmailShareButton>
             <LinkedinShareButton
-              url="https://reactrighttest.rightfx.com/register/referral_sponsor/555797"
+              url={Url + "/register" + spinData.data.referral_spin_link}
               quote="Right Fx"
             >
               <LinkedinIcon size={40} round={true} />

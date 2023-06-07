@@ -54,11 +54,8 @@ const TradeAndWin = () => {
         setMainLoader({ ...mainLoader });
         setProductList(data?.data?.data);
       }
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
-  console.log("mainLoader", mainLoader);
   const fetchOrder = async () => {
     try {
       const param = new FormData();
@@ -76,9 +73,7 @@ const TradeAndWin = () => {
         setMainLoader({ ...mainLoader });
         setOrderList(data?.data?.data);
       }
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
 
   const handleAddToCart = async (product, action) => {
@@ -110,9 +105,7 @@ const TradeAndWin = () => {
           setMainLoader({ ...mainLoader });
         }
       }
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
 
   const fetchCart = async () => {
@@ -131,9 +124,7 @@ const TradeAndWin = () => {
         setMainLoader({ ...mainLoader });
         setCartData(data?.data);
       }
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
 
   const fetchAvailableLots = async () => {
@@ -152,9 +143,7 @@ const TradeAndWin = () => {
         setMainLoader({ ...mainLoader });
         setAvailableLot(data?.data?.available_lots);
       }
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
 
   return (
@@ -342,15 +331,17 @@ const TradeAndWin = () => {
                                     <p className="text-color-red font-12m">
                                       Canceled
                                     </p>
-                                  ) :order.status == "2" ? (
+                                  ) : order.status == "2" ? (
                                     <p className="trade-order-status font-12m">
-                                       Out For Delivery
+                                      Out For Delivery
                                     </p>
-                                  ) :order.status == "1" ? (
+                                  ) : order.status == "1" ? (
                                     <p className="trade-order-status font-12m">
                                       In Transit
                                     </p>
-                                  ) :""}
+                                  ) : (
+                                    ""
+                                  )}
                                   {/* <p className="trade-order-status">Delivered</p> */}
                                   <p className="trade-order-date font-12m">
                                     {order.added_datetime}

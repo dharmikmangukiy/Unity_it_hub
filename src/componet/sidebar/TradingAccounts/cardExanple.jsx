@@ -11,7 +11,6 @@ const Card1 = () => {
     pro: true,
     Executive: false,
   });
-  console.log(active);
   const CssTextField = styled(TextField)({
     "& label.Mui-focused": {
       color: "#666666",
@@ -299,24 +298,29 @@ const Card1 = () => {
 
 export default Card1;
 
-
-
 <Dialog
-open={Dopen}
-onClose={()=>setDOpen(false)}
-maxWidth="lg"
-fullWidth={true}
-scroll="paper"
-aria-labelledby="scroll-dialog-title"
-aria-describedby="scroll-dialog-description"
+  open={Dopen}
+  onClose={() => setDOpen(false)}
+  maxWidth="lg"
+  fullWidth={true}
+  scroll="paper"
+  aria-labelledby="scroll-dialog-title"
+  aria-describedby="scroll-dialog-description"
 >
-<div id="form-dialog-title" className="d-flex align-items-center p-3 create-account-header">
- <h5 className="w-100 text-center text-primary m-0 font-weight-bold">CREATE A TRADING ACCOUNT</h5>
- <Button><CloseIcon/></Button>
-</div>
-<DialogContent className="create-account-content">
+  <div
+    id="form-dialog-title"
+    className="d-flex align-items-center p-3 create-account-header"
+  >
+    <h5 className="w-100 text-center text-primary m-0 font-weight-bold">
+      CREATE A TRADING ACCOUNT
+    </h5>
+    <Button>
+      <CloseIcon />
+    </Button>
+  </div>
+  <DialogContent className="create-account-content">
     <Grid container spacing={2} className="MuiGrid-justify-xs-space-between">
-    <Card1/>
+      <Card1 />
     </Grid>
-</DialogContent>
-</Dialog>
+  </DialogContent>
+</Dialog>;

@@ -73,11 +73,9 @@ function MasterCopy(prop) {
         }
         setInfo(res.data.aaData);
         setUserId(res.data.aaData.user_id);
-        console.log(res.data);
         setIsLoader(false);
       });
   }, []);
-  console.log(info);
 
   return (
     <div>

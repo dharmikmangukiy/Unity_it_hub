@@ -39,8 +39,8 @@ function BootstrapDialogTitle(props) {
           onClick={onClose}
           sx={{
             position: "absolute",
-            right: 8,
-            top: 8,
+            right: 0,
+            top: -5,
             color: (theme) => theme.palette.grey[500],
           }}
         >
@@ -187,7 +187,6 @@ const Bonus_dashbord = (props) => {
     inputProps: { "aria-label": item },
   });
   const popchange = (e) => {
-    console.log("okkkkkkkk");
     if (e == "pop1" && popData.pop1 == false) {
       popData.pop1 = true;
       setCheckPop({ ...popData });
@@ -217,7 +216,7 @@ const Bonus_dashbord = (props) => {
     if (open == true) {
       return (
         <>
-          <div className="px-5">
+          <div className="px-5 bonuspoppading0">
             <div className="text-center">
               <span className="head_txt_main">
                 ACTIVE A BONUS FOR DEPOSIT{" "}
@@ -233,7 +232,6 @@ const Bonus_dashbord = (props) => {
                 onChange={(e) => {
                   data.radioButton = e.target.value;
                   setData({ ...data });
-                  console.log("radio", e.target.value);
                 }}
               >
                 <div className="">
@@ -250,7 +248,7 @@ const Bonus_dashbord = (props) => {
                       : ((data.popData.deposit_amount * 10) / 100).toFixed(2)}
                   </span>
                   <span className="money_cell">
-                    (Trade
+                    ({"Trade "}
                     {(
                       (((data.popData.deposit_amount * 10) / 100) * 40) /
                       100
@@ -260,7 +258,7 @@ const Bonus_dashbord = (props) => {
                           (((data.popData.deposit_amount * 10) / 100) * 40) /
                           100
                         ).toFixed()}
-                    lots to complete)
+                    {" lots"} to complete)
                   </span>
                   <span className="bld_clr3">10%</span>
                 </div>
@@ -278,7 +276,7 @@ const Bonus_dashbord = (props) => {
                       : ((data.popData.deposit_amount * 20) / 100).toFixed(2)}
                   </span>
                   <span className="money_cell">
-                    (Trade
+                    ({"Trade "}
                     {(
                       (((data.popData.deposit_amount * 20) / 100) * 40) /
                       100
@@ -288,7 +286,7 @@ const Bonus_dashbord = (props) => {
                           (((data.popData.deposit_amount * 20) / 100) * 40) /
                           100
                         ).toFixed()}
-                    lots to complete)
+                    {" lots"} to complete)
                   </span>
                   <span className="bld_clr3">20%</span>
                 </div>
@@ -305,7 +303,7 @@ const Bonus_dashbord = (props) => {
                       : ((data.popData.deposit_amount * 30) / 100).toFixed(2)}
                   </span>
                   <span className="money_cell">
-                    (Trade
+                    ({"Trade "}
                     {(
                       (((data.popData.deposit_amount * 30) / 100) * 40) /
                       100
@@ -315,7 +313,7 @@ const Bonus_dashbord = (props) => {
                           (((data.popData.deposit_amount * 30) / 100) * 40) /
                           100
                         ).toFixed()}
-                    lots to complete)
+                    {" lots"} to complete)
                   </span>
                   <span className="bld_clr3">30%</span>
                 </div>
@@ -332,7 +330,7 @@ const Bonus_dashbord = (props) => {
                       : ((data.popData.deposit_amount * 40) / 100).toFixed(2)}
                   </span>
                   <span className="money_cell">
-                    (Trade
+                    ({"Trade "}
                     {(
                       (((data.popData.deposit_amount * 40) / 100) * 40) /
                       100
@@ -342,7 +340,7 @@ const Bonus_dashbord = (props) => {
                           (((data.popData.deposit_amount * 40) / 100) * 40) /
                           100
                         ).toFixed()}
-                    lots to complete)
+                    {" lots"} to complete)
                   </span>
                   <span className="bld_clr3">40%</span>
                 </div>
@@ -359,7 +357,7 @@ const Bonus_dashbord = (props) => {
                       : ((data.popData.deposit_amount * 50) / 100).toFixed(2)}
                   </span>
                   <span className="money_cell">
-                    (Trade
+                    ({"Trade "}
                     {(
                       (((data.popData.deposit_amount * 50) / 100) * 40) /
                       100
@@ -369,7 +367,7 @@ const Bonus_dashbord = (props) => {
                           (((data.popData.deposit_amount * 50) / 100) * 40) /
                           100
                         ).toFixed()}
-                    lots to complete)
+                    {" lots"} to complete)
                   </span>
                   <span className="bld_clr3">50%</span>
                 </div>
@@ -386,66 +384,64 @@ const Bonus_dashbord = (props) => {
                 </span>
               </div>
               <div>
-                <span>
+                <span className="bonuspads">
                   Limited time events may suggest higher bonus amounts up to
                   100% deposit bonus.
-                  <span
+                  {/* <span
                     className="cndton_head2"
                     onClick={() => {
                       popchange("pop1");
                     }}
                   >
                     Read More..
-                  </span>
+                  </span> */}
                   .
                 </span>
               </div>
-              {popData.pop1 == true ? (
-                <div>
-                  <span className="blur_row">
-                    The bonus cannot be added to internal transfer deposits and
-                    to deposits from contests/ promotions, etc. unless stated
-                    otherwise.
-                    <br />
-                    The Client can only claim a new bonus if the sum of this
-                    bonus and the amount of all other bonus funds in the
-                    relevant trading account is less than the amount of the
-                    Client's funds (excluding bonuses) in this account's free
-                    margin.
-                  </span>
-                </div>
-              ) : (
+              {/* {popData.pop1 == true ? ( */}
+              <div>
+                <span className="blur_row">
+                  The bonus cannot be added to internal transfer deposits and to
+                  deposits from contests/ promotions, etc. unless stated
+                  otherwise.
+                  <br />
+                  The Client can only claim a new bonus if the sum of this bonus
+                  and the amount of all other bonus funds in the relevant
+                  trading account is less than the amount of the Client's funds
+                  (excluding bonuses) in this account's free margin.
+                </span>
+              </div>
+              {/* ) : (
                 ""
-              )}
+              )} */}
 
               <div>
-                <span>
+                <span className="bonuspads">
                   It is advised to claim a bonus right after your deposit is
                   credited to your trading account.
-                  <span
+                  {/* <span
                     className="cndton_head2"
                     onClick={() => {
                       popchange2("pop2");
                     }}
                   >
-                    
                     Read More..
-                  </span>
+                  </span> */}
                 </span>
               </div>
-              {popData.pop2 == true ? (
-                <div>
-                  <span className="blur_row">
-                    The bonus shall be credited to your account and locked until
-                    the volume requirements are met. After the required volume
-                    is completed, the bonus will be deducted from your MT4, MT5,
-                    or RightTrader credit and simultaneously deposited into your
-                    balance.
-                  </span>
-                </div>
-              ) : (
+              {/* {popData.pop2 == true ? ( */}
+              <div>
+                <span className="blur_row">
+                  The bonus shall be credited to your account and locked until
+                  the volume requirements are met. After the required volume is
+                  completed, the bonus will be deducted from your MT5, or
+                  RightTrader credit and simultaneously deposited into your
+                  balance.
+                </span>
+              </div>
+              {/* ) : (
                 ""
-              )}
+              )} */}
             </div>
             <div>
               <Checkbox onClick={handelCheck} checked={checkpop} />

@@ -100,7 +100,6 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
     fontSize: 16,
     padding: "8px 26px 8px 10px",
     transition: theme.transitions.create(["border-color", "box-shadow"]),
-    // Use the system font instead of the default Roboto font.
     fontFamily: [
       "-apple-system",
       "BlinkMacSystemFont",
@@ -158,7 +157,6 @@ const Header = (prop) => {
   };
   const handleClick4 = (e) => {
     const name = e.target.classList[0];
-    // console.log(name);
     setOpen11((preValue) => {
       return {
         ...preValue,
@@ -202,68 +200,29 @@ const Header = (prop) => {
   const currentLanguageCode = cookies.get("i18next") || "en";
   const currentLanguage = languages.find((l) => l.code === currentLanguageCode);
   useEffect(() => {
-    // console.log(currentLanguage.dir);
     document.body.dir = currentLanguage.dir || "ltr";
-    // document.title = t('app_title')
     prop.setClang(currentLanguage.dir);
   }, [currentLanguage]);
   useEffect(() => {
     if (open) {
-      // fetchUserPref();
     }
   }, [open]);
-  // useEffect(() => {
-  //   fetchUserPref();
-  // }, []);
+
   const [age, setAge] = React.useState("en");
   const handleChange = (event) => {
     setAge(event.target.value);
-    // console.log(event.target.value);
     i18next.changeLanguage(event.target.value);
   };
 
-  // const fetchUserPref = async () => {
-  //   const param = new FormData();
-  //   if (IsApprove !== "") {
-  //     param.append("is_app", IsApprove.is_app);
-  //     param.append("user_id", IsApprove.user_id);
-  //     param.append("auth_key", IsApprove.auth);
-  //   }
-  //   await axios
-  //     .post(`${Url}/ajaxfiles/get_user_prefrence.php`, param)
-  //     .then((res) => {
-  //       if (res.data.message == "Session has been expired") {
-  //         localStorage.setItem("login", true);
-  //         prop.setLogin("true");
-  //         navigate("/login");
-  //       }
-  //       setPrefrence(res.data);
-  //       localStorage.setItem("is_ib_account", res.data.is_ib_account);
-  //       localStorage.setItem("step", res.data.step_number);
-  //       localStorage.setItem("is_pamm", res.data.is_pamm);
-  //     });
-  // };
   const str = () => {
     if (prop.permission.user_name) {
       const str = prop.permission.user_name.split(" ");
       const firstname = str[0].charAt(0);
       const lastname = str[1].charAt(0);
-      console.log("lastname", firstname + lastname);
       return (firstname + lastname).toUpperCase();
     }
   };
-  // prefrence.user_name.split(' ')
-  // const strUserName=()=>{
-  //   if(prefrence.user_name)
-  //   {
-  //     return prefrence.user_name.toLowerCase()
-  //   }else
-  //   {
-  //     return ""
-  //   }
-  // }
 
-  // console.log("Prefrence", prefrence);
   return (
     <div className="app-header app-header--shadow app-header--opacity-bg mobileHeader">
       {/* <div className="app-header--pane"> */}
@@ -297,63 +256,47 @@ const Header = (prop) => {
             <span className="hamburger-inner"></span>
           </span>
         </button>
-        {/* {prop.permission.is_affiliate == "1" ? (
-          ""
-        ) : ( */}
+
         <ul style={{ marginBottom: "0" }} className="d-flex liSidebarMobpd">
           {prop.moveToib == false && prop.moveAff == false ? (
             <>
               {" "}
               <li className="headerMenu webViewHeader">
-                <NavLink
-                  className="nav-link-simple d-flex "
-                  to="/deposit"
-                  // onClick={CloseSidebar}
-                >
+                <NavLink className="nav-link-simple d-flex " to="/deposit">
                   <Deposit className="hoverSidebar" />
-
-                  {/* <span className="material-icons  icon_Mar">add</span> */}
 
                   <span className="HeaderMenuColor">{t("Deposit")}</span>
                 </NavLink>
               </li>
               <li className="headerMenu webViewHeader">
-                <NavLink
-                  className="nav-link-simple d-flex "
-                  to="/Web_Trader"
-                  // onClick={CloseSidebar}
+                <a
+                  className="nav-link-simple  d-flex"
+                  href="https://app.rightfx.com/"
+                  target="_blank"
                 >
-                  {/* <span className="material-icons  icon_Mar">
-                data_thresholding
-              </span> */}
                   <Web_trader
                     className="hoverSidebar"
                     style={{ width: "20px" }}
                   />
-
                   <span className="HeaderMenuColor">{t("Web_Trader")} </span>
-                </NavLink>
+                </a>
               </li>
-              <li className="headerMenu webViewHeader">
-                <NavLink
-                  className="nav-link-simple d-flex "
-                  to="/bonus"
-                  // onClick={CloseSidebar}
-                >
-                  <Bonus className="hoverSidebar" />
+              {prop.permission.is_deposit_bonus_claim_active == "1" ? (
+                <li className="headerMenu webViewHeader">
+                  <NavLink className="nav-link-simple d-flex " to="/bonus">
+                    <Bonus className="hoverSidebar" />
 
-                  <span className="HeaderMenuColor">Bonus</span>
-                </NavLink>
-              </li>
+                    <span className="HeaderMenuColor">Bonus</span>
+                  </NavLink>
+                </li>
+              ) : (
+                ""
+              )}
               <li className="headerMenu webViewHeader">
                 <NavLink
                   className="nav-link-simple d-flex "
                   to="/trade-and-win"
-                  // onClick={CloseSidebar}
                 >
-                  {/* <span className="material-icons  icon_Mar">
-                data_thresholding
-              </span> */}
                   <TradeAndWin className="hoverSidebar" />
 
                   <span className="HeaderMenuColor">Trade & Win </span>
@@ -427,8 +370,6 @@ const Header = (prop) => {
             <li className="headerMenu">
               <a
                 className="nav-link-simple d-flex "
-                // to="/Web_Trader"
-                // onClick={handleClick2}
                 onClick={() => {
                   prop.setMoveToib(false);
                   prop.SetMoveAff(false);
@@ -438,9 +379,6 @@ const Header = (prop) => {
                   navigate("/dashboard");
                 }}
               >
-                {/* <span className="material-icons  icon_Mar">
-                data_thresholding
-              </span> */}
                 <span>
                   <Ib_application
                     className="hoverSidebar hoverSidebarMob"
@@ -448,7 +386,7 @@ const Header = (prop) => {
                   />
                 </span>
 
-                <span className="HeaderMenuColor">Cilent Portal</span>
+                <span className="HeaderMenuColor">Client Portal</span>
               </a>
             </li>
           )}

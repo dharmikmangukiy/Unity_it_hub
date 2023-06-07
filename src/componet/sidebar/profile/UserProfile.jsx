@@ -594,7 +594,6 @@ const UserProfile = (prop) => {
   //     } else {
   //       countryData.data = res.data.aaData;
   //       setCountryData({ ...countryData });
-  //       console.log("countryData", countryData);
   //     }
   //   });
   // };
@@ -717,7 +716,6 @@ const UserProfile = (prop) => {
                                               );
                                             },
                                             function (err) {
-                                          
                                               Toast(
                                                 "error",
                                                 "The link Could not copy, Please try again"
@@ -756,7 +754,7 @@ const UserProfile = (prop) => {
                       <Paper
                         elevation={1}
                         style={{ borderRadius: "10px" }}
-                        className="w-100 mb-5"
+                        className="w-100"
                       >
                         <div className="card-header d-flex align-items-center justify-content-between card-header-alt p-3">
                           <h5 className="font-weight-bold mb-0 text-dark">
@@ -1001,381 +999,369 @@ const UserProfile = (prop) => {
                   <DialogContent className="customscroll">
                     <Grid container spacing={6}>
                       <Grid item md={12}>
-                        <form>
-                          <Grid container spacing={2}>
-                            <Grid item md={4}>
-                              <div className="font-weight-bold mb-2">Title</div>
-                              <FormControl
-                                className="w-100"
-                                error={onEdit.user_title == "" ? true : false}
-                              >
-                                <Select
-                                  name="user_title"
-                                  value={onEdit.user_title}
-                                  onChange={inputedit}
-                                  displayempty
-                                  inputProps={{
-                                    "aria-label": "Without label",
-                                  }}
-                                  input={<BootstrapInput />}
-                                  className="mt-0 ml-0"
-                                  id="fullWidth"
-                                  onBlur={trueFalse}
-                                >
-                                  {/* <MenuItem value="">Select Option</MenuItem> */}
-                                  <MenuItem value="Mr.">Mr.</MenuItem>
-                                  <MenuItem value="Mrs">Mrs</MenuItem>
-                                  <MenuItem value="Miss">Miss</MenuItem>
-                                  <MenuItem value="Ms">Ms</MenuItem>
-                                  <MenuItem value="Dr">Dr</MenuItem>
-                                </Select>
-                                {onEdit.user_title == "" &&
-                                infoTrue.user_title == true ? (
-                                  <FormHelperText>
-                                    Please Select Title
-                                  </FormHelperText>
-                                ) : (
-                                  ""
-                                )}
-                              </FormControl>
-                            </Grid>
-                            <Grid item md={4}>
-                              <div className="font-weight-bold mb-2">
-                                First Name
-                              </div>
-                              <FormControl
-                                className="w-100"
-                                error={
-                                  onEdit.user_first_name == "" ? true : false
-                                }
-                              >
-                                <BootstrapInput
-                                  value={onEdit.user_first_name}
-                                  name="user_first_name"
-                                  onChange={inputedit}
-                                  onBlur={trueFalse}
-                                  displayempty
-                                />
-                                {onEdit.user_first_name == "" &&
-                                infoTrue.user_first_name == true ? (
-                                  <FormHelperText>
-                                    Please Enter First Name
-                                  </FormHelperText>
-                                ) : (
-                                  ""
-                                )}
-                              </FormControl>
-                            </Grid>
-                            <Grid item md={4}>
-                              <div className="font-weight-bold mb-2">
-                                Last Name
-                              </div>
-                              <FormControl
-                                className="w-100"
-                                error={
-                                  onEdit.user_last_name == "" ? true : false
-                                }
-                              >
-                                <BootstrapInput
-                                  name="user_last_name"
-                                  value={onEdit.user_last_name}
-                                  onChange={inputedit}
-                                  onBlur={trueFalse}
-                                  displayempty
-                                />
-                                {onEdit.user_last_name == "" &&
-                                infoTrue.user_last_name == true ? (
-                                  <FormHelperText>
-                                    Please Enter Last Name
-                                  </FormHelperText>
-                                ) : (
-                                  ""
-                                )}
-                              </FormControl>
-                            </Grid>
-                            <Grid item md={4}>
-                              <FormControl>
-                                <div className="font-weight-bold mb-2">
-                                  Gender
-                                </div>
-
-                                <RadioGroup
-                                  aria-labelledby="demo-radio-buttons-group-label"
-                                  name="gender"
-                                  value={onEdit.gender}
-                                  onChange={inputedit}
-                                  row
-                                >
-                                  <FormControlLabel
-                                    value="female"
-                                    control={<Radio />}
-                                    label="Female"
-                                  />
-                                  <FormControlLabel
-                                    value="male"
-                                    control={<Radio />}
-                                    label="Male"
-                                  />
-                                  <FormControlLabel
-                                    value="other"
-                                    control={<Radio />}
-                                    label="Other"
-                                  />
-                                </RadioGroup>
-                              </FormControl>
-                            </Grid>
-                            <Grid item md={4}>
-                              <div className="font-weight-bold mb-2">
-                                Date of Birth
-                              </div>
-                              <FormControl
-                                className="w-100"
-                                error={onEdit.dob == "" ? true : false}
-                              >
-                                <BootstrapInput
-                                  name="dob"
-                                  type="date"
-                                  value={onEdit.dob}
-                                  onChange={inputedit}
-                                  onBlur={trueFalse}
-                                  displayempty
-                                />
-                                {onEdit.dob == "" && infoTrue.dob == true ? (
-                                  <FormHelperText>
-                                    Please Enter Date
-                                  </FormHelperText>
-                                ) : (
-                                  ""
-                                )}
-                              </FormControl>
-                            </Grid>
-                            <Grid item md={4}>
-                              <div className="font-weight-bold mb-2">Email</div>
-                              <FormControl
-                                className="w-100"
-                                error={
-                                  (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
-                                    onEdit.email
-                                  ) ||
-                                    onEdit.email == "") &&
-                                  infoTrue.email == true
-                                    ? true
-                                    : false
-                                }
-                              >
-                                <BootstrapInput
-                                  value={onEdit.email}
-                                  name="email"
-                                  disabled={
-                                    prefrence.email_verified == 1 ? true : false
-                                  }
-                                  onChange={inputedit}
-                                  onBlur={trueFalse}
-                                  displayempty
-                                />
-                                {onEdit.email == "" &&
-                                infoTrue.email == true ? (
-                                  <FormHelperText>
-                                    Please Enter Email
-                                  </FormHelperText>
-                                ) : !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
-                                    onEdit.email
-                                  ) && infoTrue.email == true ? (
-                                  <FormHelperText>
-                                    Enter a valid email
-                                  </FormHelperText>
-                                ) : (
-                                  ""
-                                )}
-                              </FormControl>
-                            </Grid>
-                            <Grid item md={4}>
-                              <div className="font-weight-bold mb-2">
-                                Mobile Number
-                              </div>
-                              <div style={{ display: "flex", gap: "10px" }}>
-                                <div style={{ width: "40%" }}>
-                                  <Autocomplete
-                                    disablePortal
-                                    options={countryData.country}
-                                    value={onEdit.country}
-                                    disabled={
-                                      prefrence.phone_verified == 1
-                                        ? true
-                                        : false
-                                    }
-                                    getOptionLabel={(option) =>
-                                      option ? option.phonecode : ""
-                                    }
-                                    renderOption={(props, option) => {
-                                      return (
-                                        <li {...props} key={option.name}>
-                                          {option.phonecode}
-                                        </li>
-                                      );
-                                    }}
-                                    onChange={(event, newValue) => {
-                                      if (newValue !== null) {
-                                        getStateData(newValue);
-                                        onEdit.city = "";
-                                        onEdit.state = "";
-                                        onEdit.country = newValue;
-                                        setOnEdit({ ...onEdit });
-                                      }
-                                    }}
-                                    sx={{ padding: "0px" }}
-                                    className="w-100"
-                                    renderInput={(params) => (
-                                      <TextField
-                                        {...params}
-                                        onBlur={trueFalse}
-                                        className="autoComplte-textfild mobileCode"
-                                        name="state"
-                                        size="small"
-                                        sx={{ padding: "0px" }}
-                                        variant="outlined"
-                                      />
-                                    )}
-                                  />
-                                  
-                                </div>
-                                <div style={{ width: "60%" }}>
-                                  {" "}
-                                  <FormControl
-                                    className="w-100"
-                                    error={
-                                      (onEdit.phone.toString().length < 4 ||
-                                        onEdit.phone.toString().length > 12 ||
-                                        onEdit.phone == "") &&
-                                      infoTrue.phone
-                                        ? true
-                                        : false
-                                    }
-                                  >
-                                    <BootstrapInput
-                                      value={onEdit.phone}
-                                      name="phone"
-                                      disabled={
-                                        prefrence.phone_verified == 1
-                                          ? true
-                                          : false
-                                      }
-                                      // onChange={inputedit}
-                                      onChange={(e) => {
-                                        if (!isNaN(Number(e.target.value))) {
-                                          if (
-                                            prefrence.user_country == "India"
-                                          ) {
-                                            if (e.target.value.length <= 20)
-                                              inputedit(e);
-                                          } else {
-                                            inputedit(e);
-                                          }
-                                        }
-                                      }}
-                                      onBlur={trueFalse}
-                                      displayempty
-                                    />
-                                    {onEdit.phone == "" && infoTrue.phone ? (
-                                      <FormHelperText>
-                                        Mobile Number is required
-                                      </FormHelperText>
-                                    ) : (onEdit.phone.toString().length < 4 ||
-                                        onEdit.phone.toString().length > 12) &&
-                                      infoTrue.phone ? (
-                                      <FormHelperText>
-                                        Mobile Number is not valid
-                                      </FormHelperText>
-                                    ) : (
-                                      ""
-                                    )}
-                                  </FormControl>
-                                </div>
-                              </div>
-                            </Grid>
-                            <Grid item md={4}>
-                              <div className="font-weight-bold mb-2">
-                                Country
-                              </div>
-                              <Autocomplete
-                                disablePortal
-                                options={countryData.country}
-                                value={onEdit.country}
-                                disabled={
-                                  prefrence.phone_verified == 1 ? true : false
-                                }
-                                getOptionLabel={(option) =>
-                                  option ? option.nicename : ""
-                                }
-                                onChange={(event, newValue) => {
-                                  if (newValue == null) {
-                                    // onEdit.country = newValue;
-                                    // setOnEdit({ ...onEdit });
-                                  } else {
-                                    getStateData(newValue);
-                                    onEdit.city = "";
-                                    onEdit.state = "";
-                                    onEdit.country = newValue;
-                                    setOnEdit({ ...onEdit });
-                                  }
-                                }}
-                                sx={{ padding: "0px" }}
-                                className="w-100"
-                                renderInput={(params) => (
-                                  <TextField
-                                    {...params}
-                                    label=""
-                                    // variant="standard"
-                                    size="small"
-                                    onBlur={trueFalse}
-                                    name="country"
-                                    className="autoComplte-textfild"
-                                    helperText={
-                                      (onEdit.country == null ||
-                                        onEdit.country == "") &&
-                                      infoTrue.country
-                                        ? "Country is required"
-                                        : ""
-                                    }
-                                    error={
-                                      (onEdit.country == null ||
-                                        onEdit.country == "") &&
-                                      onEdit.country
-                                        ? true
-                                        : false
-                                    }
-                                    sx={{ padding: "0px" }}
-                                  />
-                                )}
-                              />
-                            </Grid>
-
-                           {
-                            countryData.state.length==0?
-                            <Grid item md={4}>
-                            <div className="font-weight-bold mb-2">
-                            State
-                            </div>
+                        <Grid container spacing={2}>
+                          <Grid item md={4}>
+                            <div className="font-weight-bold mb-2">Title</div>
                             <FormControl
                               className="w-100"
-                              error={onEdit.add == "" ? true : false}
+                              error={onEdit.user_title == "" ? true : false}
                             >
-                              <BootstrapInput
-                                value={onEdit?.state}
-                                name="state"
+                              <Select
+                                name="user_title"
+                                value={onEdit.user_title}
                                 onChange={inputedit}
-                                onBlur={trueFalse}
                                 displayempty
-                              />
-                              {onEdit.state == "" && infoTrue.state == true ? (
+                                inputProps={{
+                                  "aria-label": "Without label",
+                                }}
+                                input={<BootstrapInput />}
+                                className="mt-0 ml-0"
+                                id="fullWidth"
+                                onBlur={trueFalse}
+                              >
+                                {/* <MenuItem value="">Select Option</MenuItem> */}
+                                <MenuItem value="Mr.">Mr.</MenuItem>
+                                <MenuItem value="Mrs">Mrs</MenuItem>
+                                <MenuItem value="Miss">Miss</MenuItem>
+                                <MenuItem value="Ms">Ms</MenuItem>
+                                <MenuItem value="Dr">Dr</MenuItem>
+                              </Select>
+                              {onEdit.user_title == "" &&
+                              infoTrue.user_title == true ? (
                                 <FormHelperText>
-                                  Please Enter state
+                                  Please Select Title
                                 </FormHelperText>
                               ) : (
                                 ""
                               )}
                             </FormControl>
-                          </Grid>: <Grid item md={4}>
+                          </Grid>
+                          <Grid item md={4}>
+                            <div className="font-weight-bold mb-2">
+                              First Name
+                            </div>
+                            <FormControl
+                              className="w-100"
+                              error={
+                                onEdit.user_first_name == "" ? true : false
+                              }
+                            >
+                              <BootstrapInput
+                                value={onEdit.user_first_name}
+                                name="user_first_name"
+                                onChange={inputedit}
+                                onBlur={trueFalse}
+                                displayempty
+                              />
+                              {onEdit.user_first_name == "" &&
+                              infoTrue.user_first_name == true ? (
+                                <FormHelperText>
+                                  Please Enter First Name
+                                </FormHelperText>
+                              ) : (
+                                ""
+                              )}
+                            </FormControl>
+                          </Grid>
+                          <Grid item md={4}>
+                            <div className="font-weight-bold mb-2">
+                              Last Name
+                            </div>
+                            <FormControl
+                              className="w-100"
+                              error={onEdit.user_last_name == "" ? true : false}
+                            >
+                              <BootstrapInput
+                                name="user_last_name"
+                                value={onEdit.user_last_name}
+                                onChange={inputedit}
+                                onBlur={trueFalse}
+                                displayempty
+                              />
+                              {onEdit.user_last_name == "" &&
+                              infoTrue.user_last_name == true ? (
+                                <FormHelperText>
+                                  Please Enter Last Name
+                                </FormHelperText>
+                              ) : (
+                                ""
+                              )}
+                            </FormControl>
+                          </Grid>
+                          <Grid item md={4}>
+                            <FormControl>
+                              <div className="font-weight-bold mb-2">
+                                Gender
+                              </div>
+
+                              <RadioGroup
+                                aria-labelledby="demo-radio-buttons-group-label"
+                                name="gender"
+                                value={onEdit.gender}
+                                onChange={inputedit}
+                                row
+                              >
+                                <FormControlLabel
+                                  value="female"
+                                  control={<Radio />}
+                                  label="Female"
+                                />
+                                <FormControlLabel
+                                  value="male"
+                                  control={<Radio />}
+                                  label="Male"
+                                />
+                                <FormControlLabel
+                                  value="other"
+                                  control={<Radio />}
+                                  label="Other"
+                                />
+                              </RadioGroup>
+                            </FormControl>
+                          </Grid>
+                          <Grid item md={4}>
+                            <div className="font-weight-bold mb-2">
+                              Date of Birth
+                            </div>
+                            <FormControl
+                              className="w-100"
+                              error={onEdit.dob == "" ? true : false}
+                            >
+                              <BootstrapInput
+                                name="dob"
+                                type="date"
+                                value={onEdit.dob}
+                                onChange={inputedit}
+                                onBlur={trueFalse}
+                                displayempty
+                              />
+                              {onEdit.dob == "" && infoTrue.dob == true ? (
+                                <FormHelperText>
+                                  Please Enter Date
+                                </FormHelperText>
+                              ) : (
+                                ""
+                              )}
+                            </FormControl>
+                          </Grid>
+                          <Grid item md={4}>
+                            <div className="font-weight-bold mb-2">Email</div>
+                            <FormControl
+                              className="w-100"
+                              error={
+                                (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+                                  onEdit.email
+                                ) ||
+                                  onEdit.email == "") &&
+                                infoTrue.email == true
+                                  ? true
+                                  : false
+                              }
+                            >
+                              <BootstrapInput
+                                value={onEdit.email}
+                                name="email"
+                                disabled={
+                                  prefrence.email_verified == 1 ? true : false
+                                }
+                                onChange={inputedit}
+                                onBlur={trueFalse}
+                                displayempty
+                              />
+                              {onEdit.email == "" && infoTrue.email == true ? (
+                                <FormHelperText>
+                                  Please Enter Email
+                                </FormHelperText>
+                              ) : !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+                                  onEdit.email
+                                ) && infoTrue.email == true ? (
+                                <FormHelperText>
+                                  Enter a valid email
+                                </FormHelperText>
+                              ) : (
+                                ""
+                              )}
+                            </FormControl>
+                          </Grid>
+                          <Grid item md={4}>
+                            <div className="font-weight-bold mb-2">
+                              Mobile Number
+                            </div>
+                            <div style={{ display: "flex", gap: "10px" }}>
+                              <div style={{ width: "40%" }}>
+                                <Autocomplete
+                                  disablePortal
+                                  options={countryData.country}
+                                  value={onEdit.country}
+                                  disabled={
+                                    prefrence.phone_verified == 1 ? true : false
+                                  }
+                                  getOptionLabel={(option) =>
+                                    option ? option.phonecode : ""
+                                  }
+                                  renderOption={(props, option) => {
+                                    return (
+                                      <li {...props} key={option.name}>
+                                        {option.phonecode}
+                                      </li>
+                                    );
+                                  }}
+                                  onChange={(event, newValue) => {
+                                    if (newValue !== null) {
+                                      getStateData(newValue);
+                                      onEdit.city = "";
+                                      onEdit.state = "";
+                                      onEdit.country = newValue;
+                                      setOnEdit({ ...onEdit });
+                                    }
+                                  }}
+                                  sx={{ padding: "0px" }}
+                                  className="w-100"
+                                  renderInput={(params) => (
+                                    <TextField
+                                      {...params}
+                                      onBlur={trueFalse}
+                                      className="autoComplte-textfild mobileCode"
+                                      name="state"
+                                      size="small"
+                                      sx={{ padding: "0px" }}
+                                      variant="outlined"
+                                    />
+                                  )}
+                                />
+                              </div>
+                              <div style={{ width: "60%" }}>
+                                {" "}
+                                <FormControl
+                                  className="w-100"
+                                  error={
+                                    (onEdit.phone.toString().length < 4 ||
+                                      onEdit.phone.toString().length > 12 ||
+                                      onEdit.phone == "") &&
+                                    infoTrue.phone
+                                      ? true
+                                      : false
+                                  }
+                                >
+                                  <BootstrapInput
+                                    value={onEdit.phone}
+                                    name="phone"
+                                    disabled={
+                                      prefrence.phone_verified == 1
+                                        ? true
+                                        : false
+                                    }
+                                    // onChange={inputedit}
+                                    onChange={(e) => {
+                                      if (!isNaN(Number(e.target.value))) {
+                                        if (prefrence.user_country == "India") {
+                                          if (e.target.value.length <= 20)
+                                            inputedit(e);
+                                        } else {
+                                          inputedit(e);
+                                        }
+                                      }
+                                    }}
+                                    onBlur={trueFalse}
+                                    displayempty
+                                  />
+                                  {onEdit.phone == "" && infoTrue.phone ? (
+                                    <FormHelperText>
+                                      Mobile Number is required
+                                    </FormHelperText>
+                                  ) : (onEdit.phone.toString().length < 4 ||
+                                      onEdit.phone.toString().length > 12) &&
+                                    infoTrue.phone ? (
+                                    <FormHelperText>
+                                      Mobile Number is not valid
+                                    </FormHelperText>
+                                  ) : (
+                                    ""
+                                  )}
+                                </FormControl>
+                              </div>
+                            </div>
+                          </Grid>
+                          <Grid item md={4}>
+                            <div className="font-weight-bold mb-2">Country</div>
+                            <Autocomplete
+                              disablePortal
+                              options={countryData.country}
+                              value={onEdit.country}
+                              disabled={
+                                prefrence.phone_verified == 1 ? true : false
+                              }
+                              getOptionLabel={(option) =>
+                                option ? option.nicename : ""
+                              }
+                              onChange={(event, newValue) => {
+                                if (newValue == null) {
+                                  // onEdit.country = newValue;
+                                  // setOnEdit({ ...onEdit });
+                                } else {
+                                  getStateData(newValue);
+                                  onEdit.city = "";
+                                  onEdit.state = "";
+                                  onEdit.country = newValue;
+                                  setOnEdit({ ...onEdit });
+                                }
+                              }}
+                              sx={{ padding: "0px" }}
+                              className="w-100"
+                              renderInput={(params) => (
+                                <TextField
+                                  {...params}
+                                  label=""
+                                  // variant="standard"
+                                  size="small"
+                                  onBlur={trueFalse}
+                                  name="country"
+                                  className="autoComplte-textfild"
+                                  helperText={
+                                    (onEdit.country == null ||
+                                      onEdit.country == "") &&
+                                    infoTrue.country
+                                      ? "Country is required"
+                                      : ""
+                                  }
+                                  error={
+                                    (onEdit.country == null ||
+                                      onEdit.country == "") &&
+                                    onEdit.country
+                                      ? true
+                                      : false
+                                  }
+                                  sx={{ padding: "0px" }}
+                                />
+                              )}
+                            />
+                          </Grid>
+                          {countryData.state.length == 0 ? (
+                            <Grid item md={4}>
+                              <div className="font-weight-bold mb-2">State</div>
+                              <FormControl
+                                className="w-100"
+                                error={onEdit.add == "" ? true : false}
+                              >
+                                <BootstrapInput
+                                  value={onEdit?.state}
+                                  name="state"
+                                  onChange={inputedit}
+                                  onBlur={trueFalse}
+                                  displayempty
+                                />
+                                {onEdit.state == "" &&
+                                infoTrue.state == true ? (
+                                  <FormHelperText>
+                                    Please Enter state
+                                  </FormHelperText>
+                                ) : (
+                                  ""
+                                )}
+                              </FormControl>
+                            </Grid>
+                          ) : (
+                            <Grid item md={4}>
                               <div className="font-weight-bold mb-2">State</div>
                               <Autocomplete
                                 disablePortal
@@ -1425,33 +1411,33 @@ const UserProfile = (prop) => {
                                 )}
                               />
                             </Grid>
-                           }
-                           {" "}
-                           {
-                             countryData.state.length==0 || countryData.city==0 ?<Grid item md={4}>
-                             <div className="font-weight-bold mb-2">
-                             City
-                             </div>
-                             <FormControl
-                               className="w-100"
-                               error={onEdit.add == "" ? true : false}
-                             >
-                               <BootstrapInput
-                                 value={onEdit?.city}
-                                 name="city"
-                                 onChange={inputedit}
-                                 onBlur={trueFalse}
-                                 displayempty
-                               />
-                               {onEdit.city == "" && infoTrue.city == true ? (
-                                 <FormHelperText>
-                                   Please Enter City
-                                 </FormHelperText>
-                               ) : (
-                                 ""
-                               )}
-                             </FormControl>
-                           </Grid>:       <Grid item md={4}>
+                          )}{" "}
+                          {countryData.state.length == 0 ||
+                          countryData.city == 0 ? (
+                            <Grid item md={4}>
+                              <div className="font-weight-bold mb-2">City</div>
+                              <FormControl
+                                className="w-100"
+                                error={onEdit.add == "" ? true : false}
+                              >
+                                <BootstrapInput
+                                  value={onEdit?.city}
+                                  name="city"
+                                  onChange={inputedit}
+                                  onBlur={trueFalse}
+                                  displayempty
+                                />
+                                {onEdit.city == "" && infoTrue.city == true ? (
+                                  <FormHelperText>
+                                    Please Enter City
+                                  </FormHelperText>
+                                ) : (
+                                  ""
+                                )}
+                              </FormControl>
+                            </Grid>
+                          ) : (
+                            <Grid item md={4}>
                               <div className="font-weight-bold mb-2">City</div>
                               <Autocomplete
                                 disablePortal
@@ -1499,48 +1485,45 @@ const UserProfile = (prop) => {
                                 )}
                               />
                             </Grid>
-                           }
-                     
-                            <Grid item md={4}>
-                              <div className="font-weight-bold mb-2">
-                                Address
-                              </div>
-                              <FormControl
-                                className="w-100"
-                                error={onEdit.add == "" ? true : false}
-                              >
-                                <BootstrapInput
-                                  value={onEdit?.add}
-                                  name="add"
-                                  onChange={inputedit}
-                                  onBlur={trueFalse}
-                                  displayempty
-                                />
-                                {onEdit.add == "" && infoTrue.add == true ? (
-                                  <FormHelperText>
-                                    Please Enter Address
-                                  </FormHelperText>
-                                ) : (
-                                  ""
-                                )}
-                              </FormControl>
-                            </Grid>
-                            <Grid item md={4}>
-                              <div className="font-weight-bold mb-2">
-                                Landmark (Optional)
-                              </div>
-                              <FormControl
-                                className="w-100"
-                                // error={onEdit.ladmark == "" ? true : false}
-                              >
-                                <BootstrapInput
-                                  value={onEdit.ladmark}
-                                  name="ladmark"
-                                  onChange={inputedit}
-                                  onBlur={trueFalse}
-                                  displayempty
-                                />
-                                {/* {onEdit.ladmark == "" &&
+                          )}
+                          <Grid item md={4}>
+                            <div className="font-weight-bold mb-2">Address</div>
+                            <FormControl
+                              className="w-100"
+                              error={onEdit.add == "" ? true : false}
+                            >
+                              <BootstrapInput
+                                value={onEdit?.add}
+                                name="add"
+                                onChange={inputedit}
+                                onBlur={trueFalse}
+                                displayempty
+                              />
+                              {onEdit.add == "" && infoTrue.add == true ? (
+                                <FormHelperText>
+                                  Please Enter Address
+                                </FormHelperText>
+                              ) : (
+                                ""
+                              )}
+                            </FormControl>
+                          </Grid>
+                          <Grid item md={4}>
+                            <div className="font-weight-bold mb-2">
+                              Landmark (Optional)
+                            </div>
+                            <FormControl
+                              className="w-100"
+                              // error={onEdit.ladmark == "" ? true : false}
+                            >
+                              <BootstrapInput
+                                value={onEdit.ladmark}
+                                name="ladmark"
+                                onChange={inputedit}
+                                onBlur={trueFalse}
+                                displayempty
+                              />
+                              {/* {onEdit.ladmark == "" &&
                                 infoTrue.ladmark == true ? (
                                   <FormHelperText>
                                     Please Enter Landmark
@@ -1548,117 +1531,114 @@ const UserProfile = (prop) => {
                                 ) : (
                                   ""
                                 )} */}
+                            </FormControl>
+                          </Grid>
+                          {otp.send_otp == true ? (
+                            <Grid item md={4}>
+                              <div className="font-weight-bold mb-2">OTP</div>
+                              <FormControl
+                                className="w-100"
+                                error={otp.verify_otp == "" ? true : false}
+                              >
+                                <BootstrapInput
+                                  value={otp.verify_otp}
+                                  name="otp"
+                                  onChange={(e) => {
+                                    if (!isNaN(Number(e.target.value))) {
+                                      otp.verify_otp = e.target.value;
+                                      setOtp({ ...otp });
+                                    } else if (e.target.value == "") {
+                                      otp.verify_otp = e.target.value;
+                                      setOtp({ ...otp });
+                                    }
+                                  }}
+                                  onBlur={trueFalse}
+                                  displayempty
+                                />
+                                {otp.verify_otp == "" &&
+                                infoTrue.otp == true ? (
+                                  <FormHelperText>
+                                    Please Enter OTP
+                                  </FormHelperText>
+                                ) : (
+                                  ""
+                                )}
                               </FormControl>
                             </Grid>
+                          ) : (
+                            ""
+                          )}
+                          <Grid
+                            item
+                            md={12}
+                            className="centerflexjus"
+                            sx={{ gap: "10px" }}
+                          >
                             {otp.send_otp == true ? (
-                              <Grid item md={4}>
-                                <div className="font-weight-bold mb-2">OTP</div>
-                                <FormControl
-                                  className="w-100"
-                                  error={otp.verify_otp == "" ? true : false}
-                                >
-                                  <BootstrapInput
-                                    value={otp.verify_otp}
-                                    name="otp"
-                                    onChange={(e) => {
-                                      if (!isNaN(Number(e.target.value))) {
-                                        otp.verify_otp = e.target.value;
-                                        setOtp({ ...otp });
-                                      } else if (e.target.value == "") {
-                                        otp.verify_otp = e.target.value;
-                                        setOtp({ ...otp });
-                                      }
+                              <>
+                                {otp.isLoder == true ? (
+                                  <ColorButton
+                                    disabled
+                                    sx={{ padding: "20px 50px" }}
+                                  >
+                                    <svg class="spinner" viewBox="0 0 50 50">
+                                      <circle
+                                        class="path"
+                                        cx="25"
+                                        cy="25"
+                                        r="20"
+                                        fill="none"
+                                        stroke-width="5"
+                                      ></circle>
+                                    </svg>
+                                  </ColorButton>
+                                ) : (
+                                  <ColorButton
+                                    sx={{ marginLeft: "10px" }}
+                                    disabled={timer}
+                                    onClick={() => {
+                                      otp.resend_otp = true;
+                                      setOtp({ ...otp });
+                                      onEditsubmit();
                                     }}
-                                    onBlur={trueFalse}
-                                    displayempty
-                                  />
-                                  {otp.verify_otp == "" &&
-                                  infoTrue.otp == true ? (
-                                    <FormHelperText>
-                                      Please Enter OTP
-                                    </FormHelperText>
-                                  ) : (
-                                    ""
-                                  )}
-                                </FormControl>
-                              </Grid>
+                                  >
+                                    {timer ? (
+                                      <Counter
+                                        reset={timer}
+                                        setReset={setTimer}
+                                      />
+                                    ) : (
+                                      "Resend OTP"
+                                    )}
+                                  </ColorButton>
+                                )}{" "}
+                              </>
                             ) : (
                               ""
                             )}
-                            <Grid
-                              item
-                              md={12}
-                              className="centerflexjus"
-                              sx={{ gap: "10px" }}
-                            >
-                              {otp.send_otp == true ? (
-                                <>
-                                  {otp.isLoder == true ? (
-                                    <ColorButton
-                                      type="submit"
-                                      disabled
-                                      sx={{ padding: "20px 50px" }}
-                                    >
-                                      <svg class="spinner" viewBox="0 0 50 50">
-                                        <circle
-                                          class="path"
-                                          cx="25"
-                                          cy="25"
-                                          r="20"
-                                          fill="none"
-                                          stroke-width="5"
-                                        ></circle>
-                                      </svg>
-                                    </ColorButton>
-                                  ) : (
-                                    <ColorButton
-                                      sx={{ marginLeft: "10px" }}
-                                      disabled={timer}
-                                      onClick={() => {
-                                        otp.resend_otp = true;
-                                        setOtp({ ...otp });
-                                        onEditsubmit();
-                                      }}
-                                    >
-                                      {timer ? (
-                                        <Counter
-                                          reset={timer}
-                                          setReset={setTimer}
-                                        />
-                                      ) : (
-                                        "Resend OTP"
-                                      )}
-                                    </ColorButton>
-                                  )}{" "}
-                                </>
-                              ) : (
-                                ""
-                              )}
-                              {onEdit.isLoder ? (
-                                <ColorButton
-                                  type="submit"
-                                  sx={{ padding: "20px 50px" }}
-                                  disabled
-                                >
-                                  <svg class="spinner" viewBox="0 0 50 50">
-                                    <circle
-                                      class="path"
-                                      cx="25"
-                                      cy="25"
-                                      r="20"
-                                      fill="none"
-                                      stroke-width="5"
-                                    ></circle>
-                                  </svg>
-                                </ColorButton>
-                              ) : (
-                                <ColorButton onClick={onEditsubmit}>
-                                  Update
-                                </ColorButton>
-                              )}
-                            </Grid>
+                            {onEdit.isLoder ? (
+                              <ColorButton
+                                sx={{ padding: "20px 50px" }}
+                                disabled
+                              >
+                                <svg class="spinner" viewBox="0 0 50 50">
+                                  <circle
+                                    class="path"
+                                    cx="25"
+                                    cy="25"
+                                    r="20"
+                                    fill="none"
+                                    stroke-width="5"
+                                  ></circle>
+                                </svg>
+                              </ColorButton>
+                            ) : (
+                              <ColorButton onClick={onEditsubmit}>
+                                Update
+                              </ColorButton>
+                            )}
                           </Grid>
-                        </form>
+                        </Grid>
                       </Grid>
                     </Grid>
                   </DialogContent>
@@ -1705,7 +1685,7 @@ const UserProfile = (prop) => {
           <DialogContent className="customscroll">
             <Grid container spacing={6}>
               <Grid item md={12}>
-                <form>
+                <div>
                   <div className="mb-4">
                     <div className="font-weight-bold mb-2">
                       Country of Residence
@@ -1780,7 +1760,7 @@ const UserProfile = (prop) => {
                       )}
                     </FormControl>
                   </div>
-                </form>
+                </div>
                 <div className="mb-4">
                   <p className="profileText">
                     <strong>
@@ -1937,7 +1917,8 @@ const UserProfile = (prop) => {
         <DialogContent className="customscroll">
           <Grid container spacing={6}>
             <Grid item md={12}>
-              <form>
+              <div>
+                {" "}
                 <div className="mb-4">
                   <div className="font-weight-bold mb-2">Old Password</div>
                   <FormControl
@@ -2057,14 +2038,9 @@ const UserProfile = (prop) => {
                     )}
                   </FormControl>
                 </div>
-
                 <div className="mb-4 text-center">
                   {data.isLoder ? (
-                    <ColorButton
-                      type="submit"
-                      sx={{ padding: "20px 55px" }}
-                      disabled
-                    >
+                    <ColorButton sx={{ padding: "20px 55px" }} disabled>
                       <svg class="spinner" viewBox="0 0 50 50">
                         <circle
                           class="path"
@@ -2080,7 +2056,7 @@ const UserProfile = (prop) => {
                     <ColorButton onClick={onSubmit}>Save</ColorButton>
                   )}
                 </div>
-              </form>
+              </div>
             </Grid>
           </Grid>
         </DialogContent>

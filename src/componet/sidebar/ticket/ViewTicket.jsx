@@ -50,8 +50,16 @@ const ViewTicket = () => {
       setSelectedFile(undefined);
       return;
     }
-    setForm({ ...form, file: e.target.files[0] });
-    setSelectedFile(e.target.files[0]);
+    if (
+      e.target.files[0].type == "image/jpeg" ||
+      e.target.files[0].type == "image/png" ||
+      e.target.files[0].type == "image/jpg"
+    ) {
+      setForm({ ...form, file: e.target.files[0] });
+      setSelectedFile(e.target.files[0]);
+    } else {
+      Toast("error", "Only JPG, JPEG and PNG types are accepted.");
+    }
   };
 
   const fetchViewTicketDetails = async () => {
@@ -70,15 +78,12 @@ const ViewTicket = () => {
       if (res.data.status == "error") {
         Toast("error", res.data.message);
       } else {
-        console.log(res.data.data[0]);
         // viewTicketData.data = res.data.data[0];
         // setViewTicketData({ ...viewTicketData });
-        // console.log('view ticket', viewTicketData.data);
 
         if (res.data.data.length > 0) {
           viewTicketData.data = res.data.data[0];
           setViewTicketData({ ...viewTicketData });
-          console.log("view ticket", viewTicketData);
         }
         setMainLoader(false);
       }
@@ -115,7 +120,6 @@ const ViewTicket = () => {
           if (res.data.status == "error") {
             Toast("error", res.data.message);
           } else {
-            console.log(res.data);
             setSelectedFile(undefined);
             setForm({
               message: "",
@@ -159,7 +163,7 @@ const ViewTicket = () => {
                       <Paper
                         elevation={1}
                         style={{ borderRadius: "10px" }}
-                        className="w-100 mb-5"
+                        className="w-100 "
                       >
                         <div className="view-ticket card-header">
                           <div>

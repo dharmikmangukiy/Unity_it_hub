@@ -67,7 +67,6 @@ const BonusDeshboard = () => {
     setValue(index);
   };
 
-  console.log("value", value);
   const handleChanges = (e, newValue) => {
     setValue(newValue);
   };
@@ -88,7 +87,7 @@ const BonusDeshboard = () => {
                   <Paper
                     elevation={1}
                     style={{ borderRadius: "10px", padding: "20px" }}
-                    className="w-100 mb-5 internal-transfer-form"
+                    className="w-100  internal-transfer-form"
                   >
                     <div>
                       <div className="head_prpl ">

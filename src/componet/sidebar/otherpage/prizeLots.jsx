@@ -22,8 +22,8 @@ const PrizeLots = () => {
                 <p>ICON</p>
               </div>
               <p className="prize-description">
-                Prize lots are bonus points that you get after trading on your
-                real accounts.
+                Prizes won using lots are non-transferable and will not be
+                monetized under no circumstances
               </p>
             </div>
             <div className="prize-card">
@@ -31,8 +31,8 @@ const PrizeLots = () => {
                 <p>ICON</p>
               </div>
               <p className="prize-description">
-                Prize lots are bonus points that you get after trading on your
-                real accounts.
+                Only Standard account types are eligible to win prizes using
+                lots.
               </p>
             </div>
           </div>

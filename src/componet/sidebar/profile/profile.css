@@ -39,6 +39,7 @@
 }
 .uploaderDropZone {
   width: 150px;
+  text-align: center;
   height: 150px;
 }
 .uploaderDropZone > .received-file {
@@ -67,8 +68,8 @@
   margin-top: 119px;
 }
 .deposit-upload-image-preview1 {
-  width: 151px;
-  height: 151px;
+  max-height: 151px;
+  max-width: 151px;
 }
 .kyc-status-section h5 {
   display: flex;
@@ -182,4 +183,10 @@
   display: block;
   text-align: center;
   color: red;
+}
+.maginAutoDoc {
+  display: block;
+  text-align: center;
+  /* align-items: center; */
+  margin: auto;
 }

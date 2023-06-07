@@ -143,8 +143,16 @@ const Ticket = () => {
       setSelectedFile(undefined);
       return;
     }
-    setForm({ ...form, file: e.target.files[0] });
-    setSelectedFile(e.target.files[0]);
+    if (
+      e.target.files[0].type == "image/jpeg" ||
+      e.target.files[0].type == "image/png" ||
+      e.target.files[0].type == "image/jpg"
+    ) {
+      setForm({ ...form, file: e.target.files[0] });
+      setSelectedFile(e.target.files[0]);
+    } else {
+      Toast("error", "Only JPG, JPEG and PNG types are accepted.");
+    }
   };
   const trueFalse = (event) => {
     var { name, value } = event.target;
@@ -191,7 +199,6 @@ const Ticket = () => {
           } else {
             Toast("success", res.data.message);
             setSelectedFile(undefined);
-            console.log(res.data);
             setinfoTrue({
               title: false,
               subject: false,
@@ -212,7 +219,6 @@ const Ticket = () => {
   };
 
   const chatSection = (data) => {
-    console.log(data);
     navigate(`/view_ticket/${data.ticketChatID}`);
   };
 
@@ -474,7 +480,7 @@ const Ticket = () => {
                     <Paper
                       elevation={1}
                       style={{ borderRadius: "10px" }}
-                      className="w-100 mb-5"
+                      className="w-100"
                     >
                       <div className="card-header">
                         <h5 className="font-weight-bold mb-0 text-dark">

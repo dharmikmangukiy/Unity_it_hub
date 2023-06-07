@@ -719,3 +719,7 @@ button {
     display: block;
   }
 }
+.accountInfoGrid {
+  display: grid !important;
+  grid-template-columns: 55% 45%;
+}

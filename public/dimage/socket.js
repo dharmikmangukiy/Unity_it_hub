@@ -1,3 +1,2 @@
 // client.emit('playSound');
-client.emit('playSound');
-console.log("true gfhjmk")
+client.emit("playSound");

@@ -13,7 +13,6 @@ import StepConnector, {
 } from "@mui/material/StepConnector";
 function QontoStepIcon(props) {
   const { active, completed, className } = props;
-  console.log(props);
   return (
     <QontoStepIconRoot ownerState={{ active }} className={className}>
       {completed ? (
@@ -127,7 +126,6 @@ const ProgresBar = (prop) => {
                       <StepLabel
                         StepIconComponent={QontoStepIcon}
                         onClick={() => {
-                          console.log("step", index);
                           if (index == 0) {
                             navigate("/userProfile");
                           } else if (index == 1) {

@@ -119,7 +119,6 @@ const PammDashboard = () => {
       }
     });
   };
-  console.log("chartvalue", chartvalue);
   useEffect(() => {
     getDashboard();
   }, []);
@@ -251,7 +250,6 @@ const PammDashboard = () => {
                               <Select
                                 value={year}
                                 onChange={(e) => {
-                                  console.log("e.target.value", e.target.value);
                                   setYear(e.target.value);
                                   changeYear(e.target.value);
                                 }}

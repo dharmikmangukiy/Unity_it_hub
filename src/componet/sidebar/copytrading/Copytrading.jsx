@@ -75,10 +75,8 @@ const Copytrading = () => {
   const navigate = useNavigate();
   const [value, setValue] = React.useState(0);
   let { id } = useParams();
-  console.log(id);
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    console.log("DFSDFa", newValue);
     if (newValue == 0) {
       navigate("/copytrading");
     }

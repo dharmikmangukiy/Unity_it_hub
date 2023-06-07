@@ -32,9 +32,7 @@ const FamtasticHistory = () => {
         // setMainLoader({ ...mainLoader });
         setOrderList(data?.data?.data);
       }
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
   useEffect(() => {
     fetchOrder();

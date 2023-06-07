@@ -13,13 +13,9 @@ const Verification = (prop) => {
   const verifySubmit = () => {
     if (prop.ibstatus.email_status == 0 || prop.ibstatus.mobile_status == 0) {
       navigate("/userProfile");
-      console.log("1111");
     } else if (prop.ibstatus.kyc_status == 0 || prop.ibstatus.kyc_status == 2) {
       navigate("/myDocuments");
-      console.log("2222");
     } else {
-      //   handleClickOpen("paper");
-      //   console.log("333");
     }
   };
   return (

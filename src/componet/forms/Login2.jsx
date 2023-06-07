@@ -20,8 +20,6 @@ const Login = (setLogin) => {
         [name]: value,
       };
     });
-
-    console.log(info);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -36,7 +34,6 @@ const Login = (setLogin) => {
     } else if (
       !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(values.email)
     ) {
-      console.log(values.email);
       notify("Email format is invaild ");
       errors.email = "Email format is invaild";
     }

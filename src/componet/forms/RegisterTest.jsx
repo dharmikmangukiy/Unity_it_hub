@@ -1,5 +1,6 @@
 import {
   Autocomplete,
+  Checkbox,
   createFilterOptions,
   FormControl,
   IconButton,
@@ -22,7 +23,6 @@ import CloseIcon from "@mui/icons-material/Close";
 const RegisterTest = (prop) => {
   var regex = /^[a-zA-Z ]*$/;
   const { id, id1 } = useParams();
-  // console.log(id, id1);
   const [timer, setTimer] = useState(true);
   const navigate = useNavigate();
   const [compaign, setCompaign] = useState({
@@ -42,17 +42,11 @@ const RegisterTest = (prop) => {
     password: "",
     contry: [],
     otp: "",
+    tos: false,
     showPassword: false,
     send_otp: false,
   });
   useEffect(() => {
-    getContry();
-    if (id == "sponsor") {
-      ibLink();
-    }
-    if (id == "affiliate") {
-      affiliateLink();
-    }
     if (id == "campaign") {
       var compaignData = id1.split("&");
       var compaignId = compaignData[0].split("=");
@@ -60,6 +54,38 @@ const RegisterTest = (prop) => {
       compaign.campaign_id = compaignId[1];
       compaign.ref = refId[1];
       setCompaign({ ...compaign });
+    }
+    // var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+    // if (
+    //   /android/i.test(userAgent) ||
+    //   (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream)
+    // ) {
+    //   if (id == "campaign") {
+    //     window.open(`${Url}/deeplink/campaign_id/${compaign.ref}`, "_parent");
+    //   } else if (id == "managercode") {
+    //     window.open(`${Url}/deeplink/managercode/${id1}`, "_parent");
+    //   } else if (id == "affiliate") {
+    //     window.open(`${Url}/deeplink/affiliate/${id1}`, "_parent");
+    //   } else if (id == "sponsor") {
+    //     window.open(`${Url}/deeplink/sponsor/${id1}`, "_parent");
+    //   } else if (id == "referrer") {
+    //     window.open(`${Url}/deeplink/referrer/${id1}`, "_parent");
+    //   } else if (id == "referral_sponsor") {
+    //     window.open(`${Url}/deeplink/referral_sponsor/${id1}`, "_parent");
+    //   }
+    // }
+
+    // iOS detection from: http://stackoverflow.com/a/9039885/177710
+    // if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+    //   console.log("iPhone");
+    // }
+    getContry();
+    if (id == "sponsor") {
+      ibLink();
+    }
+    if (id == "affiliate") {
+      affiliateLink();
     }
   }, []);
   const [infoTrue, setinfoTrue] = useState({
@@ -126,6 +152,8 @@ const RegisterTest = (prop) => {
         "error",
         "Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"
       );
+    } else if (info.tos == false) {
+      Toast("error", "You must tick the consent form");
     } else {
       const param = new FormData();
       param.append("user_full_name", info.fullName);
@@ -168,7 +196,6 @@ const RegisterTest = (prop) => {
   };
   const verifyEmail = (prop) => {
     if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(prop)) {
-      // console.log("ds");
     } else {
       const param = new FormData();
       param.append("action", "validate_email");
@@ -197,7 +224,6 @@ const RegisterTest = (prop) => {
         let test = res.data.aaData.filter(
           (x) => x.nicename == res.data.user_country
         )[0];
-        // console.log("code", test);
         info.code = test;
         info.contry = res.data.aaData;
         setinfo({ ...info });
@@ -213,7 +239,6 @@ const RegisterTest = (prop) => {
         [name]: value,
       };
     });
-    // console.log(info);
   };
   const handleSubmit = (e) => {
     onSubmitForm();
@@ -237,7 +262,7 @@ const RegisterTest = (prop) => {
     ) {
       Toast("error", "Enter a valid email");
     } else if (info.password == "") {
-      Toast("error", "Owner password is required");
+      Toast("error", "Password is required");
     } else if (
       !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/.test(
         info.password
@@ -247,6 +272,8 @@ const RegisterTest = (prop) => {
         "error",
         "Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"
       );
+    } else if (info.tos == false) {
+      Toast("error", "You must tick the consent form");
     } else {
       const param = new FormData();
       param.append("user_full_name", info.fullName);
@@ -300,11 +327,13 @@ const RegisterTest = (prop) => {
               info.send_otp = true;
               setTimer(true);
             } else if (res.data?.send_otp == 0) {
-              // localStorage.setItem("login", false);
-              // prop.setLogin(false);
-              localStorage.clear();
-              prop.fetchUserPref("/dashboard");
-              navigate("/dashboard");
+              if (res.data.return_url) {
+                window.open(res.data.return_url, "_self");
+              } else {
+                localStorage.clear();
+                prop.fetchUserPref("/dashboard");
+                navigate("/dashboard");
+              }
             }
             setinfo({ ...info });
             Toast("success", res.data.message);
@@ -359,7 +388,6 @@ const RegisterTest = (prop) => {
                 <div className=" d-flex">
                   <div style={{ width: "35%", marginTop: "19px" }}>
                     <Autocomplete
-                      
                       options={info.contry}
                       value={info.code}
                       getOptionLabel={(option) =>
@@ -371,7 +399,8 @@ const RegisterTest = (prop) => {
                             {option.phonecode}
                           </li>
                         );
-                      }}                      onChange={(event, newValue) => {
+                      }}
+                      onChange={(event, newValue) => {
                         if (newValue == null) {
                         } else {
                           info.code = newValue;
@@ -386,14 +415,11 @@ const RegisterTest = (prop) => {
                           className="w-100"
                           variant="standard"
                           size="small"
-                         
                           onBlur={trueFalse}
                           name="country"
                         />
                       )}
                     />
-                     
-                   
                   </div>
                   <div style={{ width: "65%" }}>
                     <TextField
@@ -576,7 +602,7 @@ const RegisterTest = (prop) => {
                 ""
               )}
 
-              <div className="mbr-4 row">
+              <div className="row mbr-4 ">
                 <ul className="validation-reg">
                   <li
                     className={
@@ -625,78 +651,82 @@ const RegisterTest = (prop) => {
                   </li>
                   <li
                     className={
-                      info.password.match(/[!@#$%^&*()_+=]/g)
+                      info.password.match(/[!@$%^&*()_+=]/g)
                         ? "val-reg-true"
                         : "val-reg-false"
                     }
                   >
-                    {info.password.match(/[!@#$%^&*()_+=]/g) ? (
+                    {info.password.match(/[!@$%^&*()_+=]/g) ? (
                       <CheckIcon />
                     ) : (
                       <CloseIcon />
                     )}
-                    Special Characters Ex.@#$%^&*
+                    Special Characters Ex.@$%^&*
                   </li>
                 </ul>
-                {/* <div className="mb-2 mt-0 col-12">
-                  <div
-                    className={`badge rounded-pill me-1 centerRegister ${
-                      info.password.length >= 8 && info.password.length <= 20
-                        ? "passcolortrue"
-                        : "passcolorfalse"
-                    }`}
-                    style={{
-                      backgroundColor: "black !important",
-                      fontSize: "11px",
-                      // alignItems: "baseline",
-                    }}
-                  >
-                    8-20 characters
-                  </div>
-                  <div
-                    className={`badge rounded-pill me-1 centerRegister ${
-                      info.password.match(/[A-Z]/g) &&
-                      info.password.match(/[a-z]/g)
-                        ? "passcolortrue"
-                        : "passcolorfalse"
-                    }`}
-                    style={{
-                      textTransform: "none",
-                      fontSize: "11px",
-                      // alignItems: "baseline",
-                    }}
-                  >
-                    LATIN LETTERS EX.A-Z,a-z
-                  </div>
-                  <div
-                    className={`badge rounded-pill me-1 centerRegister ${
-                      info.password.match(/[0-9]/g)
-                        ? "passcolortrue"
-                        : "passcolorfalse"
-                    }`}
-                    style={{
-                      fontSize: "11px",
-                      // alignItems: "baseline",
-                    }}
-                  >
-                    Numbers EX.0-9
-                  </div>
-                  <div
-                    className={`badge rounded-pill me-1 centerRegister ${
-                      info.password.match(/[!@#$%^&*()_+=]/g)
-                        ? "passcolortrue"
-                        : "passcolorfalse"
-                    }`}
-                    style={{
-                      fontSize: "11px",
-                      // alignItems: "baseline",
-                    }}
-                  >
-                    Special Characters Ex.@#$%^&*
-                  </div>
-                </div> */}
               </div>
-
+              <div className="row mbr-4">
+                <div className="d-flex" style={{ marginBottom: "10px" }}>
+                  {/* <FormGroup>
+                                  <FormControlLabel control={<CheckBox name="tos" checked={info.tos} onChange={input1} />} label="tos" />
+                                </FormGroup> */}
+                  {/* <input
+                    type="checkbox"
+                    name="tos"
+                    style={{
+                      height: "auto",
+                      width: "20px",
+                      marginBottom: "auto",
+                    }}
+                    value={info.tos}
+                    onChange={(e) => {
+                      info.tos = e.target.checked;
+                      setinfo({ ...info });
+                    }}
+                    
+                    className="form-check-input"
+                  /> */}
+                  <Checkbox
+                    id="gridCheck"
+                    onChange={(e) => {
+                      info.tos = e.target.checked;
+                      setinfo({ ...info });
+                    }}
+                    className="form-check-input marginregonput"
+                    value={info.tos}
+                    size="small"
+                    sx={{
+                      color: "#5d2067",
+                      "&.Mui-checked": {
+                        color: "#5d2067",
+                      },
+                      marginRight: "5px",
+                      marginTop: "2px",
+                    }}
+                  />
+                  <label
+                    htmlFor="gridCheck"
+                    // className="form-check-label"
+                    style={{ fontSize: "12px", cursor: "pointer" }}
+                  >
+                    <span>
+                      I declare and confirm that I am not a citizen or resident
+                      of the US for tax purposes and I am not violating any laws
+                      of my country of residence. also here i confirm that i
+                      have read and agree {"with "}
+                    </span>
+                    <a
+                      href="https://rightfx.com/legal-documents"
+                      target="_blank"
+                    >
+                      Customer Agreement and All T&C.
+                    </a>
+                  </label>
+                  {/* <div className="invalid-tooltip">
+                    Accept Terms &amp; Conditions is required
+                  </div> */}
+                </div>
+              </div>
               <div className="text-center mx-auto">
                 <div className="loginButton-main">
                   {info.send_otp == true ? (
@@ -740,6 +770,7 @@ const RegisterTest = (prop) => {
                     <div>
                       <button
                         type="submit"
+                        disabled={!info.tos}
                         className="btn btn-primary loginbutton"
                       >
                         Register

@@ -96,7 +96,7 @@ const Activities = () => {
                     <Paper
                       elevation={1}
                       style={{ borderRadius: "10px" }}
-                      className="w-100 mb-5"
+                      className="w-100 "
                     >
                       <div className="card-header">
                         <h5 className="font-weight-bold mb-0 text-dark">

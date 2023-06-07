@@ -87,7 +87,6 @@ const Card1 = (prop) => {
           });
           planList.data[1].isActive = true;
           setPlanList({ ...planList });
-          console.log(planList);
         }
       });
   };

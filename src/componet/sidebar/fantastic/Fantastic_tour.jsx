@@ -97,7 +97,6 @@ const Fantastic_tour = () => {
   const handleClose = () => {
     setOpen(false);
   };
-  console.log("test", open1);
   const manageContent = () => {
     if (open1 == true) {
       return (
@@ -179,18 +178,18 @@ const Fantastic_tour = () => {
                     you are eligible for participate.
                   </span>
                   <br />
-                  <img
-                    className="image3 mr-2 mt-2"
-                    src={popData.data?.offer_image[0]}
-                  />
-                  <img
+                  {popData.data?.offer_image.map((item, index) => {
+                    return <img className="image3 mr-2 mt-2" src={item} />;
+                  })}
+
+                  {/* <img
                     className="image3 mr-2  mt-2"
                     src={popData.data?.offer_image[1]}
                   />
                   <img
                     className="image3  mt-2"
                     src={popData.data?.offer_image[2]}
-                  />
+                  /> */}
                 </div>
               </Grid>
             </Grid>
@@ -239,42 +238,7 @@ const Fantastic_tour = () => {
       );
     }
   };
-  const Tour = [
-    {
-      image:
-        "./image/beautiful-landscape-beach-sea-ocean-with-empty-chair-deck-umbrella-nearly-coconut-palm-tree-with-white-cloud-blue-sky.jpg",
-      content1: "Congratulations",
-      content_1: " you are eligible for participate.",
-      content2: "Total Participants ",
-      content3: "157",
-      val: "2500",
-      text: "Explore Goa With RightFX",
-    },
-    {
-      image: "./image/bali-pagoda-indonesia.jpg",
-      content_1: "You are 12000 reward points away to participate.",
-      content2: "Total Participants ",
-      content3: "81",
-      val: "25000",
-      text: "Explore Bali With RightFX",
-    },
-    {
-      image: "./image/houseboat-kerala-backwaters-india.jpg",
-      content_1: "You are 1200 reward points away to participate.",
-      content2: "Total Participants ",
-      content3: "250",
-      val: "3500",
-      text: "Explore Kerala With RightFX",
-    },
-    {
-      image: "./image/summer-is-all-yearround.jpg",
-      content_1: "You are 32000 reward points away to participate.",
-      content2: "Total Participants ",
-      content3: "50",
-      val: "35000",
-      text: "Explore Dubai With RightFX",
-    },
-  ];
+
   useEffect(() => {
     fatchKycStatus();
   }, []);
@@ -347,7 +311,7 @@ const Fantastic_tour = () => {
                   <Paper
                     elevation={1}
                     style={{ borderRadius: "10px", padding: "20px" }}
-                    className="w-100 mb-5 internal-transfer-form"
+                    className="w-100  internal-transfer-form"
                   >
                     <div>
                       <div className="head_prpl ">

@@ -10,7 +10,6 @@ import Card2 from "../sidebar/TradingAccounts/Card2";
 const OpenDemoModel = (prop) => {
   // const [width,setWidth]=useState("lg")
   const descriptionElementRef = React.useRef(null);
-  console.log(prop);
   React.useEffect(() => {
     if (prop.Dopen) {
       const { current: descriptionElement } = descriptionElementRef;

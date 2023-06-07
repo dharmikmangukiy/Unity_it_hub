@@ -23,7 +23,7 @@ const Iphone = () => {
                     <Paper
                       elevation={1}
                       style={{ borderRadius: "10px" }}
-                      className="w-100 mb-5 platforms"
+                      className="w-100  platforms"
                     >
                       <div className="card-body position-relative">
                         <div className="ribbon">

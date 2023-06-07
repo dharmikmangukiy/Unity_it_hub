@@ -314,7 +314,6 @@ const PammPortfolio = () => {
               variant="standard"
               onChange={(e) => {
                 if (!isNaN(Number(e.target.value))) {
-                  console.log("gelloo", e.target.value);
                   createPortfolioInput(e);
                 }
               }}
@@ -961,11 +960,9 @@ const PammPortfolio = () => {
         } else {
           moneyManagerListMenu = res.data.data;
           setMoneyManagerListMenu([...moneyManagerListMenu]);
-          console.log(res.data.data);
         }
       });
   };
-  console.log("moneyManagerListMenu", moneyManagerListMenu);
 
   const getMyPortfolio = () => {
     setPortfolioLoader(true);
@@ -1520,7 +1517,6 @@ const PammPortfolio = () => {
                                             //   setDialogTitle("Trade History");
                                             //   setMaxWidth("xl");
                                             //   setOpen(true);
-                                            //   console.log("hi");
 
                                             navigate(
                                               `/pamm_trade_history/${item.pid}`

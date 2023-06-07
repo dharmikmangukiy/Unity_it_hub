@@ -35,7 +35,17 @@
   <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
-  <title>RightFx</title>
+  <title>RightFX</title>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZ96MCELTM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-BZ96MCELTM');
+  </script>
+
   <script type="text/javascript">
 
     (function (l) {
@@ -49,34 +59,10 @@
       }
     }(window.location))
   </script>
-  <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"
-    data-react-helmet="true"></script> -->
+  <script src="//code.tidio.co/l5fenguugepw2qw77ikkhhmjuw5ioxud.js" async></script>
+  <script src="//code.tidio.co/yo1tybrk1pncexyqkffx5m2iikik1x0h.js" async></script>
   <script src="https://trade.mql5.com/trade/widget.js"></script>
-  <!-- <script type="text/javascript">
-    var websocketurl1 = "https://gainwellconsultant.com:2053";
 
-    var client = io.connect(websocketurl1, {
-      secure: true,
-      reconnection: true,
-      rejectUnauthorized: false,
-      reconnectionDelay: 1,
-      reconnectionDelayMax: 30000,
-      reconnectionAttempts: 300,
-      forceNew: true
-    }, {
-      forceNew: true
-    }, {
-      pingInterval: 2000,
-      pingTimeout: 15000
-    }, {
-      transports: ['websocket'],
-      upgrade: true
-    });
-
-    client.on('connect', function (data) {
-      console.log("data websocket", data)
-    });
-  </script> -->
 </head>
 
 <body>

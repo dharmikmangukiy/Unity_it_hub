@@ -6,7 +6,8 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
-import InnerImageZoom from "react-inner-image-zoom";
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 const style = {
   position: "absolute",
@@ -27,7 +28,7 @@ const CustomImageModal = (prop) => {
 
   const manageContent = () => {
     if (prop.isIcon) {
-      return <i className="material-icons">preview</i>;
+      return <VisibilityIcon />;
     } else {
       return <img src={prop.image} className={prop.className} />;
     }
@@ -51,8 +52,15 @@ const CustomImageModal = (prop) => {
       >
         <Fade in={open}>
           <Box sx={style} className="modalbody image-popup">
-            {/* <img src={prop.image} /> */}
-            <InnerImageZoom src={prop.image} zoomSrc={prop.image} />
+            <TransformWrapper
+              defaultScale={1}
+              defaultPositionX={1}
+              defaultPositionY={1}
+            >
+              <TransformComponent>
+                <img src={prop.image} style={{ width: "100%" }} />
+              </TransformComponent>
+            </TransformWrapper>
           </Box>
         </Fade>
       </Modal>

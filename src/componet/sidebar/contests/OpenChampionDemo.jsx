@@ -71,7 +71,6 @@ const OpenChampionDemo = () => {
         [name]: value,
       };
     });
-    console.log(event.target.value);
   };
   return (
     <>

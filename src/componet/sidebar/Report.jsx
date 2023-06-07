@@ -38,14 +38,9 @@ const Report = () => {
     deposit_status: "",
   });
 
-  console.log(filterData);
-
-  const depositFilter = () => {
-    console.log("dsa");
-  };
+  const depositFilter = () => {};
 
   const handleContextClick = (event, index) => {
-    console.log(event.currentTarget.getAttribute("id"), index);
     let tableMenus = [...openTableMenus];
     tableMenus[index] = event.currentTarget;
     setOpenTableMenus(tableMenus);
@@ -58,7 +53,6 @@ const Report = () => {
   };
   const handleChange = (event) => {
     setAge(event.target.value);
-    console.log(event.target.value);
   };
   const depositColumn = [
     {

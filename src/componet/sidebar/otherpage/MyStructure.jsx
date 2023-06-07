@@ -66,7 +66,7 @@ const MyStructure = () => {
                       <Paper
                         elevation={1}
                         style={{ borderRadius: "10px" }}
-                        className="w-100 mb-5"
+                        className="w-100 "
                       >
                         <div className="main-content-input .partnership-main-section">
                           <div className="ib-structure view-commission-content-section">

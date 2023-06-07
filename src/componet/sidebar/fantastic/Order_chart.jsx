@@ -39,7 +39,6 @@ const Order_chart = () => {
     param.append("fantastic_id", prop);
 
     param.append("action", "view_my_participants");
-    console.log(image);
     await axios
       .post(Url + "/ajaxfiles/fantastic_four_offer.php", param)
       .then((res) => {
@@ -48,7 +47,6 @@ const Order_chart = () => {
         }
         if (res.data.status == "error") {
         } else {
-          console.log("view_my_participants", res.data.data);
           setMainLoader(false);
           setimage(res.data.data);
         }

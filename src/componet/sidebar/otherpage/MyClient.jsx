@@ -88,13 +88,8 @@ const MyClient = () => {
   const handleClose = () => {
     setOpen(false);
   };
-  console.log(
-    "testing header",
-    myTraderData.user_name,
-    myTraderData.main_user_name
-  );
+
   const manageContent = () => {
-    console.log("popLoader.dat", popLoader.data);
     if (
       dialogTitle == myTraderData.user_name ||
       dialogTitle == myTraderData.main_user_name
@@ -165,7 +160,7 @@ const MyClient = () => {
                       <th>Deposit</th>
                       <th>Withdraw</th>
                       <th className="">Lot</th>
-                      <th className="colcolor">Rebate</th>
+                      <th className="colcolor">Downline Rebate</th>
                       {/* <th>Team Deposit</th>
                       <th>Total Lot </th>
                       <th>IB Commission</th>
@@ -434,7 +429,7 @@ const MyClient = () => {
                       <Paper
                         elevation={1}
                         style={{ borderRadius: "10px" }}
-                        className="w-100 mb-5"
+                        className="w-100 "
                       >
                         <div className="headerSection header-title">
                           {/* <Button
@@ -472,7 +467,7 @@ const MyClient = () => {
                                 <th>Deposit</th>
                                 <th>Withdraw</th>
                                 <th className="">Lot</th>
-                                <th className="colcolor">Rebate</th>
+                                <th className="colcolor">Downline Rebate</th>
 
                                 {/* <th>Team Deposit</th>
                                 <th>Total Lot </th>

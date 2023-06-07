@@ -1,21 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  FormHelperText,
-  FormLabel,
-  Grid,
-  Input,
-  InputAdornment,
-  MenuItem,
-  Select,
-} from "@mui/material";
+import { FormHelperText, Grid, MenuItem, Select } from "@mui/material";
 import { Paper } from "@mui/material";
-import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
 
 import { NavLink, useParams } from "react-router-dom";
-import AccountCircle from "@mui/icons-material/AccountCircle";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
-// import useCountdown from "../../customComponet/useCountdown";
 import {
   BootstrapInput,
   ColorButton,
@@ -29,7 +18,8 @@ import { IsApprove, Url } from "../../../global";
 import { useNavigate } from "react-router-dom";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import Toast from "../../commonComponet/Toast";
-const DepositeTest = () => {
+import { toast } from "react-toastify";
+const DepositeTest = (prop) => {
   const { id } = useParams();
   const [dataArray, setDataArray] = useState({
     accountList: [],
@@ -39,6 +29,9 @@ const DepositeTest = () => {
     aed_rate: "",
     usd_rate: "",
     bonusAmount: "",
+    bonus_image1: "",
+    bonus_image2: "",
+    bonus_image3: "",
     lot: "",
   });
   const [mainLoader, setMainLoader] = useState({
@@ -53,8 +46,21 @@ const DepositeTest = () => {
     depositTo: "",
     selectPaymentOption: "",
     selsectRadio: "",
+    bank_details: [],
     utn: "",
+    slug: "",
+    qrcode_url: "",
     cryptoData: "",
+  });
+  const [epayData, setEpayData] = useState({
+    refrence_no: "",
+    customer_id: "",
+    amount: "",
+    epay_is_demo: "0",
+  });
+  const [bankShow, setBankShow] = useState({
+    show_bank_method: true,
+    minimum_deposit: "",
   });
   const [infoTrue, setinfoTrue] = useState({
     amount: false,
@@ -87,7 +93,125 @@ const DepositeTest = () => {
       setInfo({ ...info });
     }
   }, []);
-  console.log("dataOFBonus", info.image);
+  // useEffect(() => {
+  //   const script = document.createElement("script");
+
+  //   script.src = "https://epay.me/sdk/v2/stage-websdk.js";
+
+  //   // script.async = true;
+
+  //   document.body.appendChild(script);
+
+  //   setTimeout(() => {
+
+  //   }, 100);
+  //   return () => {
+  //     document.body.removeChild(script);
+  //   };
+  // }, []);
+  const onsubmitEpay = () => {
+    if (info.selectPaymentOption == "") {
+      Toast("error", "Please select deposit type");
+    } else if (info.depositTo == "") {
+      Toast("error", "Please select mt5 account");
+    } else if (info.amount == "") {
+      Toast("error", "Amount is required");
+    } else {
+      const script = document.createElement("script");
+      if (epayData.epay_is_demo == 0) {
+        script.src = " https://epay.me/sdk/v2/websdk.js";
+        script.async = true;
+      } else if (epayData.epay_is_demo == 1) {
+        script.src = "https://epay.me/sdk/v2/stage-websdk.js";
+        script.async = true;
+      }
+
+      document.body.appendChild(script);
+      info.isLoader = true;
+      setInfo({ ...info });
+      const param = new FormData();
+      if (IsApprove !== "") {
+        param.append("is_app", IsApprove.is_app);
+        param.append("user_id", IsApprove.user_id);
+        param.append("auth_key", IsApprove.auth);
+      }
+      if (info.depositTo == "wallet") {
+        param.append("deposit_to", "wallet");
+      } else {
+        param.append("deposit_to", "MT5");
+        param.append("mt5_acc_no", info.depositTo);
+      }
+      param.append("bonus_percentage", info.selsectRadio);
+      param.append("deposit_method", info.slug);
+      param.append("amount", info.amount);
+      axios.post(Url + "/ajaxfiles/add_deposit.php", param).then((res) => {
+        if (res.data.message == "Session has been expired") {
+          navigate("/");
+        }
+        if (res.data.status == "error") {
+          Toast("error", res.data.message);
+          info.isLoader = false;
+          setInfo({ ...info });
+        } else {
+          info.isLoader = false;
+          epayData.refrence_no = res.data.refrence_no;
+          epayData.customer_id = res.data.customer_id;
+          epayData.amount = res.data.amount;
+          epayData.mid = res.data.mid;
+          setEpayData({ ...epayData });
+          setInfo({ ...info });
+          var oneTime = true;
+          const option = {
+            channelId: "WEB",
+            merchantId: res.data.mid,
+            orderID: res.data.refrence_no,
+            orderDescription: "ds",
+            emailId: "gray@rightfx.com",
+            customerId: res.data.customer_id,
+            merchantType: "ECOMMS",
+            orderAmount: res.data.amount,
+            orderCurrency: "USD",
+            showSavedCardsFeature: true,
+            merchantLogo: "",
+            successHandler: async function (res1) {
+              if (res1.response.transt == "failed" && res1.status == "ok") {
+                if (oneTime) {
+                  const param1 = new FormData();
+                  param1.append("mid", res.data.mid);
+                  param1.append("orderid", res.data.refrence_no);
+                  axios
+                    .post(Url + "/api/epay_deposit_failed.php", param1)
+                    .then((res2) => {
+                      Toast("error", res2.data.message);
+                    });
+
+                  oneTime = false;
+                }
+              } else if (
+                res1.status == "ok" &&
+                res1.response.transt == "completed"
+              ) {
+                navigate(`/deposit_history`);
+              }
+
+              document.body.removeChild(script);
+            },
+            failedHandler: async function (res) {
+              document.body.removeChild(script);
+              if (oneTime) {
+                Toast("error", "Please Try Again");
+                oneTime = false;
+              }
+            },
+          };
+          // eslint-disable-next-line
+          const epay = new Epay(option);
+          epay.open(option);
+          // Toast("success", res.data.message);
+        }
+      });
+    }
+  };
   const onsubmit = async () => {
     const param = new FormData();
     if (IsApprove !== "") {
@@ -103,16 +227,16 @@ const DepositeTest = () => {
     } else if (info.amount == "") {
       Toast("error", "Amount is required");
     } else if (
-      (info.selectPaymentOption == "UPI" ||
-        info.selectPaymentOption == "Bank" ||
-        info.selectPaymentOption == "PhonePe" ||
-        info.selectPaymentOption == "Paytm" ||
-        info.selectPaymentOption == "Google pay") &&
+      (info.slug == "upi" ||
+        info.slug == "bank" ||
+        info.slug == "phonepe" ||
+        info.slug == "paytm" ||
+        info.slug == "gpay") &&
       !info.image
     ) {
       Toast("error", "image is required");
     } else {
-      param.append("deposit_method", info.selectPaymentOption);
+      param.append("deposit_method", info.slug);
       param.append("amount", info.amount);
       // param.append("bonus_percentage", info.selsectRadio);
       if (info.depositTo == "wallet") {
@@ -126,11 +250,11 @@ const DepositeTest = () => {
       param.append("utr_number", info.utn);
 
       if (
-        (info.selectPaymentOption == "UPI" ||
-          info.selectPaymentOption == "PhonePe" ||
-          info.selectPaymentOption == "Bank" ||
-          info.selectPaymentOption == "Paytm" ||
-          info.selectPaymentOption == "Google pay") &&
+        (info.slug == "upi" ||
+          info.slug == "bank" ||
+          info.slug == "phonepe" ||
+          info.slug == "paytm" ||
+          info.slug == "gpay") &&
         info.image
       ) {
         param.append("deposit_proof", info.image);
@@ -157,7 +281,7 @@ const DepositeTest = () => {
               //   setShowData("none");
               info.cryptoData = res.data.data;
               setInfo({ ...info });
-            } else if (info.selectPaymentOption == "India Cash") {
+            } else if (info.slug == "cash") {
               navigate(`/deposit/t/${res.data.deposit_id}`);
             } else {
               navigate(`/deposit/${info.amount}/${info.depositTo}`);
@@ -186,9 +310,22 @@ const DepositeTest = () => {
         dataArray.accountList = res.data.mt5_accounts;
         if (res.data.mt5_accounts.length != 0) {
           if (id) {
+            res.data.mt5_accounts.map((item, index) => {
+              if (item.mt5_acc_no == id) {
+                bankShow.minimum_deposit = parseFloat(item.minimum_deposit);
+                bankShow.show_bank_method = item.show_bank_method;
+                setBankShow({ ...bankShow });
+              }
+            });
           } else {
             info.depositTo = res.data.mt5_accounts[0].mt5_acc_no;
             setInfo({ ...info });
+            bankShow.minimum_deposit = parseFloat(
+              res.data.mt5_accounts[0].minimum_deposit
+            );
+            bankShow.show_bank_method =
+              res.data.mt5_accounts[0].show_bank_method;
+            setBankShow({ ...bankShow });
           }
           let test = res.data.mt5_accounts.filter(
             (x) => x.ib_group_name == "SPIN"
@@ -203,6 +340,8 @@ const DepositeTest = () => {
               ? "wallet"
               : res.data.mt5_accounts[0].mt5_acc_no;
           setInfo({ ...info });
+          bankShow.show_bank_method = true;
+          setBankShow({ ...bankShow });
         }
         // setSpinMt5()
         setDataArray({ ...dataArray });
@@ -232,7 +371,12 @@ const DepositeTest = () => {
       } else {
         dataOFBonus.bonusAmount = res.data.deposit_bonus_max_amount;
         dataOFBonus.usd_rate = res.data.usd_rate;
+        dataOFBonus.bonus_image1 = res.data.bonus_image1;
+        dataOFBonus.bonus_image2 = res.data.bonus_image2;
+        dataOFBonus.bonus_image3 = res.data.bonus_image3;
         dataOFBonus.aed_rate = res.data.aed_rate;
+        epayData.epay_is_demo = res.data.epay_is_demo;
+        setEpayData({ ...epayData });
         dataOFBonus.lot = parseFloat(
           ((res.data.deposit_bonus_max_amount * 40) / 100).toFixed(2)
         );
@@ -305,12 +449,29 @@ const DepositeTest = () => {
                                 >
                                   {dataArray.accountList.map((item) => {
                                     return (
-                                      <MenuItem value={item.mt5_acc_no}>
+                                      <MenuItem
+                                        value={item.mt5_acc_no}
+                                        onClick={() => {
+                                          bankShow.show_bank_method =
+                                            item.show_bank_method;
+                                          bankShow.minimum_deposit =
+                                            item.minimum_deposit;
+                                          setBankShow({ ...bankShow });
+                                        }}
+                                      >
                                         {item.mt5_acc_no} ({item.ib_group_name})
                                       </MenuItem>
                                     );
                                   })}
-                                  <MenuItem value="wallet">Wallet</MenuItem>
+                                  <MenuItem
+                                    value="wallet"
+                                    onClick={() => {
+                                      bankShow.show_bank_method = true;
+                                      setBankShow({ ...bankShow });
+                                    }}
+                                  >
+                                    Wallet
+                                  </MenuItem>
                                 </Select>
                               </FormControl>
                             </Grid>
@@ -438,6 +599,9 @@ const DepositeTest = () => {
                                         info.image = "";
                                         info.utn = "";
                                         info.cryptoData = "";
+                                        info.qrcode_url = item.qr_code;
+                                        info.slug = item.slug;
+                                        info.bank_details = item.bank_details;
 
                                         setInfo({ ...info });
                                       }}
@@ -456,6 +620,10 @@ const DepositeTest = () => {
                                             info.image = "";
                                             info.utn = "";
                                             info.cryptoData = "";
+                                            info.bank_details =
+                                              item.bank_details;
+                                            info.qrcode_url = item.qr_code;
+                                            info.slug = item.slug;
                                             setInfo({ ...info });
                                           }}
                                           //   onClick={modalopen}
@@ -476,6 +644,121 @@ const DepositeTest = () => {
                                       </a>
                                     </li>
                                   );
+                                  {
+                                    /* if (
+                                    item.slug == "bank" &&
+                                    ((info.amount >=
+                                      parseFloat(bankShow.minimum_deposit) &&
+                                      bankShow.show_bank_method == false) ||
+                                      bankShow.show_bank_method == true)
+                                  ) {
+                                    return (
+                                      <li
+                                        onClick={() => {
+                                          info.selectPaymentOption = item.title;
+                                          info.image = "";
+                                          info.utn = "";
+                                          info.cryptoData = "";
+                                          info.qrcode_url = item.qr_code;
+                                          info.slug = item.slug;
+                                          info.bank_details = item.bank_details;
+
+                                          setInfo({ ...info });
+                                        }}
+                                        className={`lideposit mar-10 ${
+                                          item.title == info.selectPaymentOption
+                                            ? "active"
+                                            : ""
+                                        }`}
+                                      >
+                                        <a>
+                                          <div
+                                            title={item.title}
+                                            onClick={() => {
+                                              info.selectPaymentOption =
+                                                item.title;
+                                              info.image = "";
+                                              info.utn = "";
+                                              info.cryptoData = "";
+                                              info.bank_details =
+                                                item.bank_details;
+                                              info.qrcode_url = item.qr_code;
+                                              info.slug = item.slug;
+                                              setInfo({ ...info });
+                                            }}
+                                            //   onClick={modalopen}
+                                            className=""
+                                          >
+                                            <img
+                                              src={item.image_url}
+                                              alt={item.title}
+                                              title={item.title}
+                                              className="h-80 m-auto"
+                                              style={{
+                                                objectFit: "contain",
+                                                width: "100px",
+                                                height: "40px",
+                                              }}
+                                            ></img>
+                                          </div>
+                                        </a>
+                                      </li>
+                                    );
+                                  } else if (item.slug !== "bank") {
+                                    return (
+                                      <li
+                                        onClick={() => {
+                                          info.selectPaymentOption = item.title;
+                                          info.image = "";
+                                          info.utn = "";
+                                          info.cryptoData = "";
+                                          info.qrcode_url = item.qr_code;
+                                          info.slug = item.slug;
+                                          info.bank_details = item.bank_details;
+
+                                          setInfo({ ...info });
+                                        }}
+                                        className={`lideposit mar-10 ${
+                                          item.title == info.selectPaymentOption
+                                            ? "active"
+                                            : ""
+                                        }`}
+                                      >
+                                        <a>
+                                          <div
+                                            title={item.title}
+                                            onClick={() => {
+                                              info.selectPaymentOption =
+                                                item.title;
+                                              info.image = "";
+                                              info.utn = "";
+                                              info.cryptoData = "";
+                                              info.bank_details =
+                                                item.bank_details;
+                                              info.qrcode_url = item.qr_code;
+                                              info.slug = item.slug;
+                                              setInfo({ ...info });
+                                            }}
+                                            //   onClick={modalopen}
+                                            className=""
+                                          >
+                                            <img
+                                              src={item.image_url}
+                                              alt={item.title}
+                                              title={item.title}
+                                              className="h-80 m-auto"
+                                              style={{
+                                                objectFit: "contain",
+                                                width: "100px",
+                                                height: "40px",
+                                              }}
+                                            ></img>
+                                          </div>
+                                        </a>
+                                      </li>
+                                    );
+                                  } */
+                                  }
                                 }
                               })}
                             </ul>
@@ -489,7 +772,8 @@ const DepositeTest = () => {
                       <>
                         {" "}
                         {info.depositTo !== "wallet" &&
-                        info.cryptoData == "" ? (
+                        info.cryptoData == "" &&
+                        prop.permission.is_deposit_bonus_claim_active == "1" ? (
                           <Grid container spacing={3}>
                             <Grid item md={12} className="d-flex">
                               <Paper
@@ -566,7 +850,7 @@ const DepositeTest = () => {
                                                 className={`bounsBox mar-10 `}
                                               >
                                                 <img
-                                                  src="https://admin.rightfx.com/uploads/bonus_offer_image/bonus_offer_1673360159_50.png"
+                                                  src={dataOFBonus.bonus_image1}
                                                   alt="50%"
                                                   style={{
                                                     width: "100%",
@@ -576,7 +860,7 @@ const DepositeTest = () => {
                                               </li>
                                               <li className={`bounsBox mar-10`}>
                                                 <img
-                                                  src="https://admin.rightfx.com/uploads/bonus_offer_image/bonus_offer_1673360159_50.png"
+                                                  src={dataOFBonus.bonus_image2}
                                                   alt="50%"
                                                   style={{
                                                     width: "100%",
@@ -588,7 +872,7 @@ const DepositeTest = () => {
                                                 className={`bounsBox mar-10 `}
                                               >
                                                 <img
-                                                  src="https://admin.rightfx.com/uploads/bonus_offer_image/bonus_offer_1673360159_50.png"
+                                                  src={dataOFBonus.bonus_image3}
                                                   alt="50%"
                                                   style={{
                                                     width: "100%",
@@ -897,10 +1181,10 @@ const DepositeTest = () => {
                       </>
                     )}
 
-                    {info.selectPaymentOption == "UPI" ||
-                    info.selectPaymentOption == "PhonePe" ||
-                    info.selectPaymentOption == "Paytm" ||
-                    info.selectPaymentOption == "Google pay" ? (
+                    {info.slug == "upi" ||
+                    info.slug == "phonepe" ||
+                    info.slug == "paytm" ||
+                    info.slug == "gpay" ? (
                       <Grid container spacing={3}>
                         <Grid item md={12} className="d-flex">
                           <Paper
@@ -937,8 +1221,6 @@ const DepositeTest = () => {
                                     marginTop: "10px",
                                     padding: "10px",
 
-                                    paddingLeft: "59px",
-
                                     height: "90%",
                                   }}
                                 >
@@ -954,10 +1236,7 @@ const DepositeTest = () => {
                                     </h5>
                                   </div>
                                   <div className="instUpi">
-                                    <img
-                                      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANwAAADcCAMAAAAshD+zAAAAMFBMVEX///8AAABUVFSqqqo4ODjHx8eNjY1ubm5iYmKxsbHj4+OKioqbm5tMTEx+fn5ycnIqcEgyAAAFJ0lEQVR4nO2d7ZLaMAxFA2wI0P14/7ftTJ2d+m6vJRsCS9tz/3QwcuwTdyxH0pJpQgghhBBCCA3quB9S6TSXD0v9zbFzjLXT3DYfm1Ew7rTfDal0OpQPL/U3+84x1k6HtvnYjIJxgQMOOOA2h/s4JBI4N5kXA6wgbbiDsdtlM/rohgtupIz4QLhsRgfggAPuqeEuZlOazYir3aV8evmlt/LPqT7Unkrbj2Iudud6Emdpk6FmM6XLVXCfG36tvRnR3elgRYLVbF9vJ/MTyWSBAw444J4XbnUF72XDX32AtBW7s7iCoh+y7Rfrd3Et3wynfcVuX9vpirRXSScIHHDAAfcvwwWPNy/tvm5KwAEHHHDPDje3k3syojs4v8khWbOT5Svpe6rbAjiXHJ2vggskIwaPPOkqHdp2bqi2gAMOOOC+Aa5XpZOGvyWGIlv86lpea/fw3rbTyH2n7pU2do8twSPPmB1wwAEH3FPB3aLUf+XFOGKQOttHCjjggHusnh5urfMoH7S+xNlJbcqxTjRqUbckGqU2RQuupV5FalPcXLRN5mKVxvbVzt19p7EVyXMKri2fC3ATcLWAGwBxbf853FJ2YdmST2aLf63LCpfylbgCVbv8UOVcQeoeJIy/BHAumeEccfrYoupdOWeX9u3+XwQccMABtxmcG8Q9oqQXDHIA7ib0Xi8ABg444IB7INxs6kYWczA91m1rovFsCrPXs3I71rJKDuxHmUv5oMXftfVnktLFZFSprwqiVa6kPoh0peMG0bTu/4LAAQcccPeBk+1XJdvvYlzBGuZw7sG5kfa27+pV9E9CXeg8dwWB0hUJHHGvXVHusNvzuzJtDBxwwAF3O1xvAKY3zyCTyYNBveMCd3Vn4H4LuAm4TrigvkQOv+6AvbSLteUULb+bonEQl6RMk4pufqN3QdrSRxR3vXxFrlo5Nz/ggAMOuPvCBa6gtL3KFr92Mm3uelqS6OIqzk7GDSoOXVwlV+qcc4ctdsHjkrMbG2NUwAEHHHC3gMjV3eNIGiAK8gep/xqto+y1Aw444IDbDE7iES6+kScfJVkoh2SNjZRv9EcD5eDs/qje/S2PS3CO3oV2m67SOs32qqfl83lETPqOppKBAw444G6HC0LTV7mCdTuXPfu9rkM5pdu+C8WLG+l2BWn0a9CJp6Xy20W68r7AAQcccJvBpRfsnbQDviX3cK/ol0wGOOCAA65XLvk41wfTvakvcfUq+jIGV8MiBddSw6K/MytxFVfAHRSdq3rvfq8/dP7rqjL73L8CBxxwwD0QLnAF7bZXE1fRV7RJ36B0UeIqsu2fxT04tySuZTvld1rMA+fsVt31Tf93AAcccMDdF0465+qFS4Hdzer1kRNwwAEH3N8BN7cPzm8mIflWH5xXuUJvqVdxsZYvU08Pznu5aW0JnPsqSCUHvk8MAj+XTc8LuAk44L6MC9w2cL2vaFsl4fRBV7DUsRGNv4ifkWLJo4w76AoOuz+1b8P1FpP2rtxg9EvagAMOOOD+abipHjfwkfJhNEAEHHDAAfdNcJd2YnCpD7Xu3carFlNzIgfsWfrK9dyLIbaDGyyBD9LGYyvs+m6+csABBxxwKdzl8Kf0hcNTbSclhFqbUuxczYn+pmw7/hLEUFydTA4XaJfd1fwnCNyddivXbhvNfwMHHHDfAvdh9knR3wzXKwciA6fAwY0ZzBXkwMABBxxwm8FJIi9X6aR1KHKoDd537MYVO3cGDl6aKeMihBBCCCGE+vUTu/p9Nm2qdPsAAAAASUVORK5CYII="
-                                      alt=""
-                                    />
+                                    <img src={info.qrcode_url} alt="" />
                                   </div>
                                 </div>
                               </Grid>
@@ -981,7 +1260,6 @@ const DepositeTest = () => {
                                   <div
                                     style={{
                                       height: "100%",
-                                      paddingRight: "59px",
                                     }}
                                   >
                                     <ol className="instUpi">
@@ -1011,7 +1289,7 @@ const DepositeTest = () => {
                                 </div>
                               </Grid>
                               <Grid item md={12}>
-                                <div style={{ padding: "12px 59px" }}>
+                                <div style={{ padding: "10px" }}>
                                   <div className="Neon Neon-theme-dragdropbox">
                                     <input
                                       className="imageUplodeUpi"
@@ -1020,8 +1298,21 @@ const DepositeTest = () => {
                                       //   multiple="multiple"
                                       type="file"
                                       onChange={(e) => {
-                                        info.image = e.target.files[0];
-                                        setInfo({ ...info });
+                                        if (
+                                          e.target.files[0].type ==
+                                            "image/jpeg" ||
+                                          e.target.files[0].type ==
+                                            "image/png" ||
+                                          e.target.files[0].type == "image/jpg"
+                                        ) {
+                                          info.image = e.target.files[0];
+                                          setInfo({ ...info });
+                                        } else {
+                                          Toast(
+                                            "error",
+                                            "Only JPG, JPEG and PNG types are accepted."
+                                          );
+                                        }
                                       }}
                                     />
                                     <div className="Neon-input-dragDrop">
@@ -1074,7 +1365,7 @@ const DepositeTest = () => {
                               >
                                 <div
                                   style={{
-                                    padding: "0px 59px 17px 59px",
+                                    padding: "10px 10px 17px 10px",
                                   }}
                                 >
                                   <div>
@@ -1119,6 +1410,7 @@ const DepositeTest = () => {
                                     style={{
                                       textAlign: "center",
                                       marginTop: "20px",
+                                      marginBottom: "10px",
                                     }}
                                   >
                                     {info.isLoader == true ? (
@@ -1155,7 +1447,7 @@ const DepositeTest = () => {
                     ) : (
                       ""
                     )}
-                    {info.selectPaymentOption == "India Cash" ? (
+                    {info.slug == "cash" ? (
                       <>
                         <Grid container spacing={3}>
                           <Grid item md={12} className="d-flex">
@@ -1188,10 +1480,43 @@ const DepositeTest = () => {
                     ) : (
                       ""
                     )}
-                    {(info.selectPaymentOption == "USDT" ||
-                      info.selectPaymentOption == "BTC" ||
-                      info.selectPaymentOption == "ETH" ||
-                      info.selectPaymentOption == "LTC") &&
+                    {info.slug == "epay" ? (
+                      <>
+                        <Grid container spacing={3}>
+                          <Grid item md={12} className="d-flex">
+                            <div style={{ textAlign: "center", width: "100%" }}>
+                              {info.isLoader == true ? (
+                                <ColorButton
+                                  className="makeapaymentbutoon"
+                                  disabled
+                                >
+                                  <svg className="spinner" viewBox="0 0 50 50">
+                                    <circle
+                                      className="path"
+                                      cx="25"
+                                      cy="25"
+                                      r="20"
+                                      fill="none"
+                                      stroke-width="5"
+                                    ></circle>
+                                  </svg>
+                                </ColorButton>
+                              ) : (
+                                <ColorButton onClick={onsubmitEpay}>
+                                  Submit
+                                </ColorButton>
+                              )}
+                            </div>
+                          </Grid>
+                        </Grid>
+                      </>
+                    ) : (
+                      ""
+                    )}
+                    {(info.slug == "USDT.TRC20" ||
+                      info.slug == "BTC" ||
+                      info.slug == "ETH" ||
+                      info.slug == "LTC") &&
                     (info.cryptoData == "" || info.cryptoData == null) ? (
                       <>
                         <Grid container spacing={3}>
@@ -1226,10 +1551,10 @@ const DepositeTest = () => {
                       ""
                     )}
 
-                    {(info.selectPaymentOption == "USDT" ||
-                      info.selectPaymentOption == "BTC" ||
-                      info.selectPaymentOption == "ETH" ||
-                      info.selectPaymentOption == "LTC") &&
+                    {(info.slug == "USDT.TRC20" ||
+                      info.slug == "BTC" ||
+                      info.slug == "ETH" ||
+                      info.slug == "LTC") &&
                     info.cryptoData !== "" ? (
                       <Grid
                         container
@@ -1270,7 +1595,6 @@ const DepositeTest = () => {
                                   style={{
                                     marginTop: "10px",
                                     padding: "10px",
-                                    paddingLeft: "59px",
                                     height: "90%",
                                   }}
                                 >
@@ -1325,6 +1649,25 @@ const DepositeTest = () => {
                                             </span>
                                           </button>
                                         </div>
+                                        {info.cryptoData.total_crypto_amount ? (
+                                          <div>
+                                            <span
+                                              style={{
+                                                fontSize: "21px",
+                                                fontWeight: "600",
+                                              }}
+                                            >
+                                              Transfer{" "}
+                                              {info.selectPaymentOption} :{" "}
+                                              {
+                                                info.cryptoData
+                                                  .total_crypto_amount
+                                              }
+                                            </span>
+                                          </div>
+                                        ) : (
+                                          ""
+                                        )}
                                       </div>
                                     </div>
                                   </div>
@@ -1350,7 +1693,6 @@ const DepositeTest = () => {
                                   <div
                                     style={{
                                       height: "100%",
-                                      paddingRight: "59px",
                                     }}
                                   >
                                     <ol className="instUpi">
@@ -1387,13 +1729,14 @@ const DepositeTest = () => {
                               >
                                 <div
                                   style={{
-                                    padding: "0px 59px 17px 59px",
+                                    padding: "0px 10pxpx 17px 10px",
                                   }}
                                 >
                                   <div
                                     style={{
                                       textAlign: "center",
                                       marginTop: "20px",
+                                      marginBottom: "10px",
                                     }}
                                   >
                                     {info.isLoader == true ? (
@@ -1430,7 +1773,10 @@ const DepositeTest = () => {
                     ) : (
                       ""
                     )}
-                    {info.selectPaymentOption == "Bank" ? (
+                    {info.slug == "bank" &&
+                    ((info.amount >= parseFloat(bankShow.minimum_deposit) &&
+                      bankShow.show_bank_method == false) ||
+                      bankShow.show_bank_method == true) ? (
                       <Grid container spacing={3}>
                         <Grid item md={12} className="d-flex">
                           <Paper
@@ -1466,7 +1812,6 @@ const DepositeTest = () => {
                                   style={{
                                     marginTop: "10px",
                                     padding: "10px",
-                                    paddingLeft: "59px",
                                     height: "90%",
                                   }}
                                 >
@@ -1490,12 +1835,12 @@ const DepositeTest = () => {
                                     >
                                       <div className="f-600">Bank Name</div>
                                       <div>
-                                        hdfc
+                                        {info.bank_details[0].bank_name}
                                         <button
                                           className="copy_link"
                                           onClick={(e) => {
                                             navigator.clipboard.writeText(
-                                              "hdfc"
+                                              info.bank_details[0].bank_name
                                             );
                                             Toast(
                                               "success",
@@ -1524,12 +1869,12 @@ const DepositeTest = () => {
                                         Bank Holder Name
                                       </div>
                                       <div>
-                                        MR Gray{" "}
+                                        {info.bank_details[0].bank_ac_name}{" "}
                                         <button
                                           className="copy_link"
                                           onClick={(e) => {
                                             navigator.clipboard.writeText(
-                                              "MR Gray"
+                                              info.bank_details[0].bank_ac_name
                                             );
                                             Toast(
                                               "success",
@@ -1558,12 +1903,13 @@ const DepositeTest = () => {
                                         Bank Account Number{" "}
                                       </div>
                                       <div>
-                                        12345678901234
+                                        {info.bank_details[0].bank_ac_number}
                                         <button
                                           className="copy_link"
                                           onClick={(e) => {
                                             navigator.clipboard.writeText(
-                                              "12345678901234"
+                                              info.bank_details[0]
+                                                .bank_ac_number
                                             );
                                             Toast(
                                               "success",
@@ -1590,12 +1936,13 @@ const DepositeTest = () => {
                                     >
                                       <div className="f-600">IFSC Code</div>
                                       <div>
-                                        BARB0SARSUR{" "}
+                                        {info.bank_details[0].bank_ifsc_code}
                                         <button
                                           className="copy_link"
                                           onClick={(e) => {
                                             navigator.clipboard.writeText(
-                                              "BARB0SARSUR"
+                                              info.bank_details[0]
+                                                .bank_ifsc_code
                                             );
                                             Toast(
                                               "success",
@@ -1623,7 +1970,6 @@ const DepositeTest = () => {
                                     style={{
                                       textAlign: "center",
                                       marginTop: "10px",
-                                      paddingRight: "59px",
                                     }}
                                   >
                                     <h5
@@ -1638,7 +1984,6 @@ const DepositeTest = () => {
                                   <div
                                     style={{
                                       height: "100%",
-                                      paddingRight: "59px",
                                     }}
                                   >
                                     <ol className="instUpi">
@@ -1671,7 +2016,7 @@ const DepositeTest = () => {
                                 </div>
                               </Grid>
                               <Grid item md={12}>
-                                <div style={{ padding: "12px 59px" }}>
+                                <div style={{ padding: "12px" }}>
                                   <div className="Neon Neon-theme-dragdropbox">
                                     <input
                                       className="imageUplodeUpi"
@@ -1680,8 +2025,21 @@ const DepositeTest = () => {
                                       //   multiple="multiple"
                                       type="file"
                                       onChange={(e) => {
-                                        info.image = e.target.files[0];
-                                        setInfo({ ...info });
+                                        if (
+                                          e.target.files[0].type ==
+                                            "image/jpeg" ||
+                                          e.target.files[0].type ==
+                                            "image/png" ||
+                                          e.target.files[0].type == "image/jpg"
+                                        ) {
+                                          info.image = e.target.files[0];
+                                          setInfo({ ...info });
+                                        } else {
+                                          Toast(
+                                            "error",
+                                            "Only JPG, JPEG, and PNG types are accepted."
+                                          );
+                                        }
                                       }}
                                     />
                                     <div className="Neon-input-dragDrop">
@@ -1734,7 +2092,7 @@ const DepositeTest = () => {
                               >
                                 <div
                                   style={{
-                                    padding: "0px 59px 17px 59px",
+                                    padding: "0px 10px 17px 10px",
                                   }}
                                 >
                                   <div>
@@ -1770,6 +2128,7 @@ const DepositeTest = () => {
                                     style={{
                                       textAlign: "center",
                                       marginTop: "20px",
+                                      marginBottom: "10px",
                                     }}
                                   >
                                     {info.isLoader == true ? (

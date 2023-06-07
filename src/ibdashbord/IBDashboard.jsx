@@ -4,6 +4,13 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Toast from "../componet/commonComponet/Toast";
+import {
+  BrowserView,
+  MobileView,
+  isBrowser,
+  isMobile,
+} from "react-device-detect";
+
 import { IsApprove, Url } from "../global";
 const IBDashboard = (prop) => {
   const navigate = useNavigate();
@@ -29,7 +36,6 @@ const IBDashboard = (prop) => {
           navigate("/");
         }
         if (res.data.ibData) {
-          console.log(res.data.ibData);
           info.data = res.data.ibData;
           info.link = res.data.wallet_code;
           setInfo({ ...info });
@@ -39,6 +45,22 @@ const IBDashboard = (prop) => {
   };
   useEffect(() => {
     getDashboardData();
+    if (isMobile == true) {
+    } else {
+    }
+    var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+    // Windows Phone must come first because its UA also contains "Android"
+    if (/windows phone/i.test(userAgent)) {
+    } else if (/android/i.test(userAgent)) {
+    }
+
+    // iOS detection from: http://stackoverflow.com/a/9039885/177710
+    else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+    } else {
+    }
+
+    // return "unknown";
   }, []);
   return (
     <div>
@@ -79,7 +101,7 @@ const IBDashboard = (prop) => {
                             <div className="row">
                               <div className="col s12 m12 text-align-center">
                                 <h5 className="mb-0">
-                                  {info.data.total_deposit}
+                                  ${info.data.total_deposit}
                                 </h5>
                                 <p className="no-margin font-weight-700 text-uppercase">
                                   total deposit
@@ -101,7 +123,7 @@ const IBDashboard = (prop) => {
                             <div className="row">
                               <div className="col s12 m12 text-align-center">
                                 <h5 className="mb-0">
-                                  {info.data.total_rebate}
+                                  ${info.data.total_rebate}
                                 </h5>
                                 <p className="no-margin font-weight-700 text-uppercase">
                                   total rebate
@@ -113,10 +135,10 @@ const IBDashboard = (prop) => {
                             <div className="row">
                               <div className="col s12 m12 text-align-center">
                                 <h5 className="mb-0">
-                                  {info.data.total_rebate_availabel}
+                                  ${info.data.total_rebate_availabel}
                                 </h5>
                                 <p className="no-margin font-weight-700 text-uppercase">
-                                  rebate availabel
+                                  rebate AVAILABLE
                                 </p>
                               </div>
                             </div>
@@ -125,7 +147,7 @@ const IBDashboard = (prop) => {
                             <div className="row">
                               <div className="col s12 m12 text-align-center">
                                 <h5 className="mb-0">
-                                  {info.data.total_rebate_withdraw}
+                                  ${info.data.total_rebate_withdraw}
                                 </h5>
                                 <p className="no-margin font-weight-700 text-uppercase">
                                   rebate withdraw
@@ -161,7 +183,7 @@ const IBDashboard = (prop) => {
                         <Paper
                           elevation={1}
                           style={{ borderRadius: "10px" }}
-                          className="w-100 mb-5"
+                          className="w-100 "
                         >
                           <div className="card-header d-flex align-items-center justify-content-between card-header-alt p-3">
                             <h5 className="font-weight-bold mb-0 text-dark">
@@ -200,9 +222,6 @@ const IBDashboard = (prop) => {
                                           )
                                           .then(
                                             function () {
-                                              console.log(
-                                                "Async: Copying to clipboard was successful!"
-                                              );
                                               Toast(
                                                 "success",
                                                 "The IB link has been successfully copying"

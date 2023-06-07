@@ -90,7 +90,6 @@ export const ChangePassword = () => {
         [name]: value,
       };
     });
-    console.log(event.target.value);
   };
   const trueFalse = (event) => {
     var { name, value } = event.target;
@@ -102,7 +101,6 @@ export const ChangePassword = () => {
     });
   };
 
-  console.log(age);
   const handleClickShowPassword = () => {
     setAge({
       ...age,
@@ -233,7 +231,7 @@ export const ChangePassword = () => {
                           <Paper
                             elevation={1}
                             style={{ borderRadius: "10px" }}
-                            className="w-100 mb-5"
+                            className="w-100 "
                           >
                             <div className="card-header d-flex align-items-center justify-content-between card-header-alt p-3">
                               <h5 className="font-weight-bold mb-0 text-dark">
@@ -274,12 +272,16 @@ export const ChangePassword = () => {
                                             Select Option
                                           </MenuItem>
                                           {mt5AccountList.data.map((item) => {
-                                            return (
-                                              <MenuItem value={item.mt5_acc_no}>
-                                                {item.mt5_acc_no}-
-                                                {item.ib_group_name}
-                                              </MenuItem>
-                                            );
+                                            if (item.ib_group_name !== "SPIN") {
+                                              return (
+                                                <MenuItem
+                                                  value={item.mt5_acc_no}
+                                                >
+                                                  {item.mt5_acc_no}-
+                                                  {item.ib_group_name}
+                                                </MenuItem>
+                                              );
+                                            }
                                           })}
                                         </Select>
                                         {age.account == "" &&

@@ -47,7 +47,6 @@ const ResetPassword = () => {
     password: "",
     confirmPassword: "",
   });
-  console.log("q", id);
   const [isLoader, setIsLoader] = useState(false);
   const input1 = (event) => {
     const { name, value } = event.target;
@@ -57,7 +56,6 @@ const ResetPassword = () => {
         [name]: value,
       };
     });
-    console.log(info);
   };
 
   const onSubmit = () => {

@@ -135,7 +135,6 @@ const Card2 = (prop) => {
           activeData = planList.data[0];
           setActiveData({ ...activeData });
           setPlanList({ ...planList });
-          console.log("activeData", activeData);
         }
       });
   };
@@ -231,7 +230,6 @@ const Card2 = (prop) => {
   };
 
   useEffect(() => {
-    console.log("planList.data", planList.data);
     if (planList.data.length > 0) {
       setActivePlanName(planList.data[activeIndex]["plan_title"]);
       activeData = planList.data[activeIndex];

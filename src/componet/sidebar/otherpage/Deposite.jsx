@@ -48,7 +48,6 @@ export const Deposite = () => {
   const [selectedMT5AccountList, setSelectedMT5AccountList] = useState("");
   const [bankList, setBankList] = useState([]);
   var [otherAmount, setOtherAmount] = useState("");
-  console.log(dMethod);
   const notify = (p) => {
     Toast("error", p);
   };
@@ -97,7 +96,6 @@ export const Deposite = () => {
     var sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
     return hDisplay + mDisplay + sDisplay;
   };
-  console.log("amount", data);
 
   const showCrypto = () => {
     return (
@@ -229,7 +227,6 @@ export const Deposite = () => {
               setShowData("none");
             }
 
-            console.log(cryptoData);
             Toast("success", res.data.message);
 
             setData("");
@@ -262,7 +259,6 @@ export const Deposite = () => {
         Toast("error", res.data.message);
       } else {
         // setDepositType(type);
-        console.log(res.data);
         setBankList(res.data.bank_list);
       }
     });
@@ -320,7 +316,6 @@ export const Deposite = () => {
         Toast("error", res.data.message);
       } else {
         // setDepositType(type);
-        console.log(res.data);
         setMT5AccountList(res.data.mt5_accounts);
         if (res.data.mt5_accounts.length != 0) {
           setSelectedMT5AccountList(res.data.mt5_accounts[0].mt5_acc_no);
@@ -341,7 +336,6 @@ export const Deposite = () => {
       modalData == "USDT" ||
       modalData == "Wire Transfer"
     ) {
-      // console.log(modalData);
       return (
         <div
           className="card-body position-relative scrolldown"
@@ -422,7 +416,6 @@ export const Deposite = () => {
                       value={lastRadio}
                       onClick={(e) => {
                         setOtherAmount("select");
-                        console.log("otherAmount", otherAmount);
                       }}
                       onChange={(e) => {
                         // if (selectR) {
@@ -512,7 +505,6 @@ export const Deposite = () => {
       );
     } else {
       var number = [1, 2, 3, 4];
-      // console.log(modalData);
       return (
         <div className="card-body position-relative p-5">
           <Grid container spacing={5}>
@@ -651,7 +643,6 @@ export const Deposite = () => {
                           value={lastRadio}
                           onClick={(e) => {
                             setOtherAmount("select");
-                            console.log("otherAmount", otherAmount);
                           }}
                           onChange={(e) => {
                             // if (selectR) {

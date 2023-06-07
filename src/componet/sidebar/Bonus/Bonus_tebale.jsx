@@ -78,18 +78,7 @@ const Bonus_tebale = () => {
       name: "lots to be traded",
       selector: (row) => {
         return (
-          <span
-            title={(
-              (((row.deposit_amount * row.bonus_percentage) / 100) * 40) /
-              100
-            ).toFixed()}
-          >
-            {" "}
-            {(
-              (((row.deposit_amount * row.bonus_percentage) / 100) * 40) /
-              100
-            ).toFixed()}
-          </span>
+          <span title={row.lots_to_be_traded}>{row.lots_to_be_traded}</span>
         );
       },
       // wrap: true,

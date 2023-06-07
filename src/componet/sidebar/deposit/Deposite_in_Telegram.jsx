@@ -164,7 +164,7 @@ const Deposite_in_Telegram = () => {
                           // to="https://t.me/rightfx_bot"
                           // disableElevation
                         >
-                          <b>Join Telegram Bot</b>
+                          <b>Visit Telegram</b>
                         </ColorButton>
                       </a>
                     </div>

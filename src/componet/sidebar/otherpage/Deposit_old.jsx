@@ -49,11 +49,7 @@ export const Deposite = () => {
   }, [ageErrors, isSubmit]);
 
   const modalopen = (event) => {
-    // console.log(modalData);
-    // console.log("name",event.target.Name)
     setModalData(event.target.title);
-    // SetOpenModal(true);
-    // myRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
   };
 
   const paymetOption = () => {
@@ -67,7 +63,6 @@ export const Deposite = () => {
       modalData == "Ethereum" ||
       modalData == "USDT"
     ) {
-      console.log(modalData);
       return (
         <div className="card-body position-relative">
           <div style={{ marginBottom: "20px" }}>
@@ -113,7 +108,6 @@ export const Deposite = () => {
       );
     } else {
       var number = [1, 2, 3, 4];
-      console.log(modalData);
       return (
         <div className="card-body position-relative p-5">
           <Grid container spacing={5}>
@@ -559,7 +553,6 @@ className="w-100 mb-5"
 // modelopen and makemodeakl function
 
 // const modalopen = (event) => {
-//   console.log(modalData);
 //   setModalData(event.target.title);
 //   SetOpenModal(true);
 // };

@@ -32,9 +32,7 @@ const Cart = () => {
         setCartData(data?.data);
         setMainLoader(false);
       }
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
 
   const handleRemoveToCart = async (product) => {
@@ -57,9 +55,7 @@ const Cart = () => {
           Toast("success", data.data.message);
         }
       }
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
   return (
     <div className="app-content--inner">

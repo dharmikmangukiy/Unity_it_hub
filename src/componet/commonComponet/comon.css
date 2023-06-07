@@ -89,3 +89,34 @@
 .autoComplte-textfild {
   margin-top: 5px !important;
 }
+.tableSearchField.space-between {
+  align-items: center;
+
+  justify-content: space-between;
+}
+
+.tableSearchField .btn-export-style {
+  align-items: center;
+  background-color: #5d2067;
+  border: 0;
+  border-radius: 4px;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  justify-content: center;
+  letter-spacing: 0.02857em;
+  margin: 0;
+  padding: 6px 16px;
+  position: relative;
+  text-transform: uppercase;
+  transition: all 0.2s ease-in-out 0s;
+  -webkit-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+}

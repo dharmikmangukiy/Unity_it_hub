@@ -64,6 +64,7 @@ const Card1 = (prop) => {
     trad: false,
     main: false,
   });
+  const [mainLoader, setMainLoader] = useState(true);
   const [formLoader, setFormLoader] = useState(false);
   const [activeIndex, setactiveIndex] = useState(0);
   const [formTrue, setFormTrue] = useState({
@@ -114,6 +115,8 @@ const Card1 = (prop) => {
       param.append("user_id", IsApprove.user_id);
       param.append("auth_key", IsApprove.auth);
     }
+    setMainLoader(true);
+
     await axios
       .post(`${Url}/ajaxfiles/get_mt5_live_packages.php`, param)
       .then((res) => {
@@ -123,7 +126,10 @@ const Card1 = (prop) => {
         }
         if (res.data.status == "error") {
           Toast("error", res.data.message);
+          setMainLoader(false);
         } else {
+          setMainLoader(false);
+
           planList.data = res.data.data;
           planList.data.forEach((element) => {
             element.isActive = false;
@@ -136,7 +142,6 @@ const Card1 = (prop) => {
           activeData = planList.data[0];
           setActiveData({ ...activeData });
           setPlanList({ ...planList });
-          // console.log("activeData", activeData);
         }
       });
   };
@@ -162,7 +167,7 @@ const Card1 = (prop) => {
     if (prop.type == "0" && form.balance == "") {
       Toast("error", "Please enter MT5 Balance");
     } else if (form.password == "") {
-      Toast("error", "Please enter Trading password");
+      Toast("error", "Create Your MT5 Password is Required");
     } else if (
       !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/.test(
         form.password
@@ -175,7 +180,10 @@ const Card1 = (prop) => {
     } else if (form.confirm_password == "") {
       Toast("error", "Please enter Confirm Password");
     } else if (form.password !== form.confirm_password) {
-      Toast("error", "Trading Password and confirm password did not match");
+      Toast(
+        "error",
+        "Create Your MT5 Password and confirm password did not match"
+      );
     } else {
       setFormLoader(true);
       const param = new FormData();
@@ -224,7 +232,6 @@ const Card1 = (prop) => {
   };
 
   useEffect(() => {
-    // console.log("planList.data", planList.data);
     if (planList.data.length > 0) {
       setActivePlanName(planList.data[activeIndex]["plan_title"]);
       activeData = planList.data[activeIndex];
@@ -232,231 +239,248 @@ const Card1 = (prop) => {
     }
   }, [activeIndex]);
   return (
-    <div style={{ width: "100%" }}>
-      <div style={{ display: "contents" }}>
-        <div className="main-plan-section">
-          <div className="form-section">
-            <div className="element">
-              <FormControl>
-                <FormLabel className="plan-form-input-label">
-                  Platform
-                </FormLabel>
-                <RadioGroup
-                  row
-                  name="row-radio-buttons-group"
-                  defaultValue="mt5"
-                >
-                  <FormControlLabel
-                    value="mt5"
-                    control={<Radio />}
-                    label="MT5"
-                  />
-                </RadioGroup>
-              </FormControl>
-            </div>
-            <div className="element">
-              <FormControl sx={{ width: "100%" }}>
-                <FormLabel className="plan-form-input-label">
-                  Account Type
-                </FormLabel>
-                <Select
-                  displayEmpty
-                  inputProps={{ "aria-label": "Without label" }}
-                  input={<BootstrapInput />}
-                  value={activePlanName}
-                  onChange={(e) => {
-                    // console.log("plan data", e.target.value);
-                    var index = planList.data.findIndex(
-                      (x) => x.plan_title == e.target.value
-                    );
-                    // console.log("index", index);
-                    setactiveIndex(index);
-                  }}
-                >
-                  {planList.data.map((item) => {
-                    return (
-                      <MenuItem value={item.plan_title}>
-                        {item.plan_title}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl>
-            </div>
-            <div className="element">
-              <FormControl>
-                <FormLabel className="plan-form-input-label">
-                  Account Currency
-                </FormLabel>
-                <RadioGroup
-                  row
-                  name="row-radio-buttons-group"
-                  defaultValue="usd"
-                >
-                  <FormControlLabel
-                    value="usd"
-                    control={<Radio />}
-                    label="USD"
-                  />
-                </RadioGroup>
-              </FormControl>
-            </div>
-            <div className="element">
-              <label className="plan-form-input-label">
-                MT5 Trading Password
-              </label>
-              <input
-                type={viewPassword.trad ? "text" : "password"}
-                // className="trading-account-password form-control1 is-invalid"
+    <>
+      {mainLoader == true ? (
+        <div className="card-body position-relative pt-0 get-mt5-account-details">
+          <svg class="spinner" viewBox="0 0 50 50">
+            <circle
+              class="path"
+              cx="25"
+              cy="25"
+              r="20"
+              fill="none"
+              stroke-width="5"
+            ></circle>
+          </svg>
+        </div>
+      ) : (
+        <div style={{ width: "100%" }}>
+          <div style={{ display: "contents" }}>
+            <div className="main-plan-section">
+              <div className="form-section">
+                <div className="element">
+                  <FormControl>
+                    <FormLabel className="plan-form-input-label">
+                      Platform
+                    </FormLabel>
+                    <RadioGroup
+                      row
+                      name="row-radio-buttons-group"
+                      defaultValue="mt5"
+                    >
+                      <FormControlLabel
+                        value="mt5"
+                        control={<Radio />}
+                        label="MT5"
+                      />
+                    </RadioGroup>
+                  </FormControl>
+                </div>
+                <div className="element">
+                  <FormControl sx={{ width: "100%" }}>
+                    <FormLabel className="plan-form-input-label">
+                      Account Type
+                    </FormLabel>
+                    <Select
+                      displayEmpty
+                      inputProps={{ "aria-label": "Without label" }}
+                      input={<BootstrapInput />}
+                      value={activePlanName}
+                      onChange={(e) => {
+                        var index = planList.data.findIndex(
+                          (x) => x.plan_title == e.target.value
+                        );
+                        setactiveIndex(index);
+                      }}
+                    >
+                      {planList.data.map((item) => {
+                        return (
+                          <MenuItem value={item.plan_title}>
+                            {item.plan_title}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </FormControl>
+                </div>
+                <div className="element">
+                  <FormControl>
+                    <FormLabel className="plan-form-input-label">
+                      Account Currency
+                    </FormLabel>
+                    <RadioGroup
+                      row
+                      name="row-radio-buttons-group"
+                      defaultValue="usd"
+                    >
+                      <FormControlLabel
+                        value="usd"
+                        control={<Radio />}
+                        label="USD"
+                      />
+                    </RadioGroup>
+                  </FormControl>
+                </div>
+                <div className="element">
+                  <label className="plan-form-input-label">
+                    Create Your MT5 Password
+                  </label>
+                  <input
+                    type={viewPassword.trad ? "text" : "password"}
+                    // className="trading-account-password form-control1 is-invalid"
 
-                className={`trading-account-password form-control1 ${
-                  formTrue.password == true &&
-                  (form.password == "" ||
-                    form.password.length < 8 ||
-                    form.password.length > 20 ||
-                    !form.password.match(/[A-Z]/g) ||
-                    !form.password.match(/[a-z]/g) ||
-                    !form.password.match(/[0-9]/g) ||
-                    !form.password.match(/[!@#$%^&*()_+=]/g))
-                    ? "is-invalid"
-                    : ""
-                }`}
-                name="password"
-                onBlur={trueFalse}
-                onChange={(e) => {
-                  setForm((prevalue) => {
-                    return {
-                      ...prevalue,
-                      ["password"]: e.target.value,
-                    };
-                  });
-                  // formTrue.password = true;
-                  // setFormTrue({ ...formTrue });
-                }}
-              />
-              {viewPassword.trad ? (
-                <span
-                  className="material-icons eye"
-                  onClick={(e) => {
-                    viewPassword.trad = !viewPassword.trad;
-                    setViewPassword({ ...viewPassword });
-                  }}
-                >
-                  visibility_off
-                </span>
-              ) : (
-                <span
-                  className="material-icons eye"
-                  onClick={(e) => {
-                    viewPassword.trad = !viewPassword.trad;
-                    setViewPassword({ ...viewPassword });
-                  }}
-                >
-                  visibility
-                </span>
-              )}
-              <div className="invalid-tooltip">
-                {/* {form.password == ""
+                    className={`trading-account-password form-control1 ${
+                      formTrue.password == true &&
+                      (form.password == "" ||
+                        form.password.length < 8 ||
+                        form.password.length > 20 ||
+                        !form.password.match(/[A-Z]/g) ||
+                        !form.password.match(/[a-z]/g) ||
+                        !form.password.match(/[0-9]/g) ||
+                        !form.password.match(/[!@#$%^&*()_+=]/g))
+                        ? "is-invalid"
+                        : ""
+                    }`}
+                    name="password"
+                    onBlur={trueFalse}
+                    onChange={(e) => {
+                      setForm((prevalue) => {
+                        return {
+                          ...prevalue,
+                          ["password"]: e.target.value,
+                        };
+                      });
+                      // formTrue.password = true;
+                      // setFormTrue({ ...formTrue });
+                    }}
+                  />
+                  {viewPassword.trad ? (
+                    <span
+                      className="material-icons eye"
+                      onClick={(e) => {
+                        viewPassword.trad = !viewPassword.trad;
+                        setViewPassword({ ...viewPassword });
+                      }}
+                    >
+                      visibility_off
+                    </span>
+                  ) : (
+                    <span
+                      className="material-icons eye"
+                      onClick={(e) => {
+                        viewPassword.trad = !viewPassword.trad;
+                        setViewPassword({ ...viewPassword });
+                      }}
+                    >
+                      visibility
+                    </span>
+                  )}
+                  <div className="invalid-tooltip">
+                    {/* {form.password == ""
                   ? "Enter your MT5 trading password"
                   : " MT5 trading password must contain atleast 8 to 20 characters"} */}
-                {form.password == ""
-                  ? "Please enter MT5 Trading password"
-                  : form.password.length < 8 || form.password.length > 20
-                  ? "MT5 Trading Password must contain atleast 8 to 20 characters"
-                  : !form.password.match(/[A-Z]/g) ||
-                    !form.password.match(/[a-z]/g) ||
-                    !form.password.match(/[0-9]/g) ||
-                    !form.password.match(/[!@#$%^&*()_+=]/g)
-                  ? "Atleast one lower case, upper case,special character and number required"
-                  : ""}
-                {/* getErrorMessage(form.password) */}
-              </div>
-            </div>
-            <div className="element">
-              <label className="plan-form-input-label">Confirm Password</label>
-              <input
-                type={viewPassword.main ? "text" : "password"}
-                // className="trading-account-password"
-                // className={`trading-account-password form-control1 ${
-                //   formTrue.confirm_password == true &&
-                //   (form.confirm_password == "" ||
-                //     form.confirm_password.length < 8)
-                //     ? "is-invalid"
-                //     : ""
-                // }`}
-                className={`trading-account-password form-control1 ${
-                  formTrue.confirm_password == true &&
-                  (form.confirm_password == "" ||
-                    form.confirm_password !== form.password)
-                    ? "is-invalid"
-                    : ""
-                }`}
-                name="confirm_password"
-                onBlur={trueFalse}
-                onChange={(e) => {
-                  setForm((prevalue) => {
-                    return {
-                      ...prevalue,
-                      ["confirm_password"]: e.target.value,
-                    };
-                  });
-                  // formTrue.confirm_password = true;
-                  // setFormTrue({ ...formTrue });
-                }}
-              />
-              {viewPassword.main ? (
-                <span
-                  className="material-icons eye"
-                  onClick={(e) => {
-                    viewPassword.main = !viewPassword.main;
-                    setViewPassword({ ...viewPassword });
-                  }}
-                >
-                  visibility_off
-                </span>
-              ) : (
-                <span
-                  className="material-icons eye"
-                  onClick={(e) => {
-                    viewPassword.main = !viewPassword.main;
-                    setViewPassword({ ...viewPassword });
-                  }}
-                >
-                  visibility
-                </span>
-              )}
-              <div className="invalid-tooltip">
-                {form.confirm_password == ""
-                  ? "Please enter confirm password"
-                  : form.confirm_password !== form.password
-                  ? "Trading Password and confirm password did not match"
-                  : ""}
-                {/* //getErrorMessage(form.confirm_password) */}
-              </div>
-            </div>
-            <div className="element">
-              <div className="form-btn-action">
-                {formLoader ? (
-                  <ColorButton
-                    className="plan-active-submit-disabled-btn"
-                    disabled
-                  >
-                    <svg class="spinner" viewBox="0 0 50 50">
-                      <circle
-                        class="path"
-                        cx="25"
-                        cy="25"
-                        r="20"
-                        fill="none"
-                        stroke-width="5"
-                      ></circle>
-                    </svg>
-                  </ColorButton>
-                ) : (
-                  <ColorButton onClick={submitActivePlan}>Submit</ColorButton>
-                )}
+                    {form.password == ""
+                      ? "Create Your MT5 Password is Required"
+                      : form.password.length < 8 || form.password.length > 20
+                      ? "Create Your MT5 Password  must contain atleast 8 to 20 characters"
+                      : !form.password.match(/[A-Z]/g) ||
+                        !form.password.match(/[a-z]/g) ||
+                        !form.password.match(/[0-9]/g) ||
+                        !form.password.match(/[!@#$%^&*()_+=]/g)
+                      ? "Atleast one lower case, upper case,special character and number required"
+                      : ""}
+                    {/* getErrorMessage(form.password) */}
+                  </div>
+                </div>
+                <div className="element">
+                  <label className="plan-form-input-label">
+                    Confirm Password
+                  </label>
+                  <input
+                    type={viewPassword.main ? "text" : "password"}
+                    // className="trading-account-password"
+                    // className={`trading-account-password form-control1 ${
+                    //   formTrue.confirm_password == true &&
+                    //   (form.confirm_password == "" ||
+                    //     form.confirm_password.length < 8)
+                    //     ? "is-invalid"
+                    //     : ""
+                    // }`}
+                    className={`trading-account-password form-control1 ${
+                      formTrue.confirm_password == true &&
+                      (form.confirm_password == "" ||
+                        form.confirm_password !== form.password)
+                        ? "is-invalid"
+                        : ""
+                    }`}
+                    name="confirm_password"
+                    onBlur={trueFalse}
+                    onChange={(e) => {
+                      setForm((prevalue) => {
+                        return {
+                          ...prevalue,
+                          ["confirm_password"]: e.target.value,
+                        };
+                      });
+                      // formTrue.confirm_password = true;
+                      // setFormTrue({ ...formTrue });
+                    }}
+                  />
+                  {viewPassword.main ? (
+                    <span
+                      className="material-icons eye"
+                      onClick={(e) => {
+                        viewPassword.main = !viewPassword.main;
+                        setViewPassword({ ...viewPassword });
+                      }}
+                    >
+                      visibility_off
+                    </span>
+                  ) : (
+                    <span
+                      className="material-icons eye"
+                      onClick={(e) => {
+                        viewPassword.main = !viewPassword.main;
+                        setViewPassword({ ...viewPassword });
+                      }}
+                    >
+                      visibility
+                    </span>
+                  )}
+                  <div className="invalid-tooltip">
+                    {form.confirm_password == ""
+                      ? "Please enter confirm password"
+                      : form.confirm_password !== form.password
+                      ? "Create Your MT5 Password and confirm password did not match"
+                      : ""}
+                    {/* //getErrorMessage(form.confirm_password) */}
+                  </div>
+                </div>
+                <div className="element">
+                  <div className="form-btn-action">
+                    {formLoader ? (
+                      <ColorButton
+                        className="plan-active-submit-disabled-btn"
+                        disabled
+                      >
+                        <svg class="spinner" viewBox="0 0 50 50">
+                          <circle
+                            class="path"
+                            cx="25"
+                            cy="25"
+                            r="20"
+                            fill="none"
+                            stroke-width="5"
+                          ></circle>
+                        </svg>
+                      </ColorButton>
+                    ) : (
+                      <ColorButton onClick={submitActivePlan}>
+                        Submit
+                      </ColorButton>
+                    )}
 
-                {/* <span
+                    {/* <span
                   className="skip-span"
                   onClick={(e) => {
                     setDOpen(false);
@@ -466,188 +490,190 @@ const Card1 = (prop) => {
                 >
                   Skip
                 </span> */}
+                  </div>
+                </div>
+              </div>
+              <div className="plan-section">
+                <div className="plan-content">
+                  <div className="plan-header">
+                    <Button
+                      className="plan-prev-btn plan-btn"
+                      disabled={0 >= activeIndex ? true : false}
+                      onClick={(e) => {
+                        setactiveIndex(activeIndex - 1);
+                      }}
+                    >
+                      <span className="material-icons">arrow_back</span>
+                    </Button>
+                    <label className="plan-title">{activePlanName}</label>
+                    <Button
+                      className="plan-next-btn plan-btn"
+                      disabled={
+                        planList.data.length <= activeIndex + 1 ? true : false
+                      }
+                      onClick={(e) => {
+                        setactiveIndex(activeIndex + 1);
+                      }}
+                    >
+                      <span className="material-icons">arrow_forward</span>
+                    </Button>
+                  </div>
+                  <div className="plan-body-section">
+                    <div className="element">
+                      <label className="plan-form-input-label">
+                        Minimum Deposit
+                      </label>
+                      <span className="plan-form-input-value">
+                        {activeData.minimum_deposit}
+                      </span>
+                    </div>
+                    <div className="element">
+                      <label className="plan-form-input-label">Spread</label>
+                      <span className="plan-form-input-value">
+                        {activeData.spread}
+                      </span>
+                    </div>
+                    <div className="element">
+                      <label className="plan-form-input-label">
+                        Commission
+                      </label>
+                      <span className="plan-form-input-value">
+                        {activeData.commission}
+                      </span>
+                    </div>
+                    <div className="element">
+                      <label className="plan-form-input-label">Leverage</label>
+                      <span className="plan-form-input-value">
+                        {activeData.leverage}
+                      </span>
+                    </div>
+                    <div className="element">
+                      <label className="plan-form-input-label">Swap Free</label>
+                      <span className="plan-form-input-value">
+                        {activeData.swap_free}
+                      </span>
+                    </div>
+                    <div className="element">
+                      <label className="plan-form-input-label">
+                        Trading Platform
+                      </label>
+                      <span className="plan-form-input-value">
+                        {activeData.trading_plaform}
+                      </span>
+                    </div>
+                    <div className="element">
+                      <label className="plan-form-input-label">Execution</label>
+                      <span className="plan-form-input-value">
+                        {activeData.execution}
+                      </span>
+                    </div>
+                    <div className="element">
+                      <label className="plan-form-input-label">
+                        Trading Instrument
+                      </label>
+                      <span className="plan-form-input-value">
+                        {activeData.trading_instrument}
+                      </span>
+                    </div>
+                    <div className="element">
+                      <label className="plan-form-input-label">
+                        Account Currency
+                      </label>
+                      <span className="plan-form-input-value">
+                        {activeData.account_currency}
+                      </span>
+                    </div>
+                    <div className="element">
+                      <label className="plan-form-input-label">
+                        Minimum Trade Size
+                      </label>
+                      <span className="plan-form-input-value">
+                        {activeData.minimum_trade_size}
+                      </span>
+                    </div>
+                    <div className="element">
+                      <label className="plan-form-input-label">
+                        Stop Out Level
+                      </label>
+                      <span className="plan-form-input-value">
+                        {activeData.stop_out_level}
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="plan-section">
-            <div className="plan-content">
-              <div className="plan-header">
+            <div>
+              <Dialog
+                open={Dopen}
+                onClose={() => setDOpen(false)}
+                className="passwordmodel"
+              >
                 <Button
-                  className="plan-prev-btn plan-btn"
-                  disabled={0 >= activeIndex ? true : false}
-                  onClick={(e) => {
-                    setactiveIndex(activeIndex - 1);
-                  }}
+                  sx={{ position: "absolute", right: "0px", color: "#ff0000" }}
+                  onClick={() => setDOpen(false)}
                 >
-                  <span className="material-icons">arrow_back</span>
+                  <CloseIcon />
                 </Button>
-                <label className="plan-title">{activePlanName}</label>
-                <Button
-                  className="plan-next-btn plan-btn"
-                  disabled={
-                    planList.data.length <= activeIndex + 1 ? true : false
-                  }
-                  onClick={(e) => {
-                    setactiveIndex(activeIndex + 1);
-                  }}
-                >
-                  <span className="material-icons">arrow_forward</span>
-                </Button>
-              </div>
-              <div className="plan-body-section">
-                <div className="element">
-                  <label className="plan-form-input-label">
-                    Minimum Deposit
-                  </label>
-                  <span className="plan-form-input-value">
-                    {activeData.minimum_deposit}
-                  </span>
+                <div className="p-2 text-center">
+                  <h4 className="font-size-lg font-weight-bold my-2">
+                    {planList.data[activeIndex]
+                      ? planList.data[activeIndex].plan_title
+                      : ""}
+                  </h4>
                 </div>
-                <div className="element">
-                  <label className="plan-form-input-label">Spread</label>
-                  <span className="plan-form-input-value">
-                    {activeData.spread}
-                  </span>
-                </div>
-                <div className="element">
-                  <label className="plan-form-input-label">Commission</label>
-                  <span className="plan-form-input-value">
-                    {activeData.commission}
-                  </span>
-                </div>
-                <div className="element">
-                  <label className="plan-form-input-label">Leverage</label>
-                  <span className="plan-form-input-value">
-                    {activeData.leverage}
-                  </span>
-                </div>
-                <div className="element">
-                  <label className="plan-form-input-label">Swap Free</label>
-                  <span className="plan-form-input-value">
-                    {activeData.swap_free}
-                  </span>
-                </div>
-                <div className="element">
-                  <label className="plan-form-input-label">
-                    Trading Platform
-                  </label>
-                  <span className="plan-form-input-value">
-                    {activeData.trading_plaform}
-                  </span>
-                </div>
-                <div className="element">
-                  <label className="plan-form-input-label">Execution</label>
-                  <span className="plan-form-input-value">
-                    {activeData.execution}
-                  </span>
-                </div>
-                <div className="element">
-                  <label className="plan-form-input-label">
-                    Trading Instrument
-                  </label>
-                  <span className="plan-form-input-value">
-                    {activeData.trading_instrument}
-                  </span>
-                </div>
-                <div className="element">
-                  <label className="plan-form-input-label">
-                    Account Currency
-                  </label>
-                  <span className="plan-form-input-value">
-                    {activeData.account_currency}
-                  </span>
-                </div>
-                <div className="element">
-                  <label className="plan-form-input-label">
-                    Minimum Trade Size
-                  </label>
-                  <span className="plan-form-input-value">
-                    {activeData.minimum_trade_size}
-                  </span>
-                </div>
-                <div className="element">
-                  <label className="plan-form-input-label">
-                    Stop Out Level
-                  </label>
-                  <span className="plan-form-input-value">
-                    {activeData.stop_out_level}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div>
-          <Dialog
-            open={Dopen}
-            onClose={() => setDOpen(false)}
-            className="passwordmodel"
-          >
-            <Button
-              sx={{ position: "absolute", right: "0px", color: "#ff0000" }}
-              onClick={() => setDOpen(false)}
-            >
-              <CloseIcon />
-            </Button>
-            <div className="p-2 text-center">
-              <h4 className="font-size-lg font-weight-bold my-2">
-                {planList.data[activeIndex]
-                  ? planList.data[activeIndex].plan_title
-                  : ""}
-              </h4>
-            </div>
 
-            <div
-              className="create-account-content"
-              style={{ margin: "0 17px", textAlign: "center" }}
-            >
-              <div>
-                {prop.type == "0" ? (
-                  <>
+                <div
+                  className="create-account-content"
+                  style={{ margin: "0 17px", textAlign: "center" }}
+                >
+                  <div>
+                    {prop.type == "0" ? (
+                      <>
+                        <div>
+                          <TextField
+                            type="text"
+                            label="MT5 Balance"
+                            variant="standard"
+                            sx={{ width: "100%" }}
+                            name="balance"
+                            onChange={(e) => {
+                              if (!isNaN(Number(e.target.value))) {
+                                setForm((prevalue) => {
+                                  return {
+                                    ...prevalue,
+                                    ["balance"]: e.target.value,
+                                  };
+                                });
+                              }
+                            }}
+                          />
+                        </div>
+                        <br />
+                      </>
+                    ) : (
+                      ""
+                    )}
+
                     <div>
                       <TextField
-                        type="text"
-                        label="MT5 Balance"
+                        type="password"
+                        label="Password"
                         variant="standard"
                         sx={{ width: "100%" }}
-                        name="balance"
-                        onChange={(e) => {
-                          if (!isNaN(Number(e.target.value))) {
-                            setForm((prevalue) => {
-                              return {
-                                ...prevalue,
-                                ["balance"]: e.target.value,
-                              };
-                            });
-                          }
-                        }}
+                        name="password"
+                        onChange={(e) =>
+                          setForm((prevalue) => {
+                            return {
+                              ...prevalue,
+                              ["password"]: e.target.value,
+                            };
+                          })
+                        }
                       />
                     </div>
-                    <br />
-                  </>
-                ) : (
-                  ""
-                )}
-
-                <div>
-                  <TextField
-                    type="password"
-                    label="Password"
-                    variant="standard"
-                    sx={{ width: "100%" }}
-                    name="password"
-                    onChange={(e) =>
-                      setForm((prevalue) => {
-                        return {
-                          ...prevalue,
-                          ["password"]: e.target.value,
-                        };
-                      })
-                    }
-                  />
-                </div>
-                <div>
-                  {/* <CssTextField
+                    <div>
+                      {/* <CssTextField
                     label="Confirm Password"
                     type="password"
                     name="password"
@@ -662,59 +688,63 @@ const Card1 = (prop) => {
                       };
                     })}
                   /> */}
-                  <br />
-                  <TextField
-                    type="password"
-                    label="Confirm Password"
-                    variant="standard"
-                    sx={{ width: "100%" }}
-                    name="confirm_password"
-                    onChange={(e) =>
-                      setForm((prevalue) => {
-                        return {
-                          ...prevalue,
-                          ["confirm_password"]: e.target.value,
-                        };
-                      })
-                    }
-                  />
-                </div>
-              </div>
-              <div
-                style={{
-                  textAlign: "center",
-                  marginTop: "14px",
-                  marginBottom: "14px",
-                }}
-              >
-                {formLoader ? (
-                  <ColorButton
-                    className="plan-active-submit-disabled-btn"
-                    disabled
+                      <br />
+                      <TextField
+                        type="password"
+                        label="Confirm Password"
+                        variant="standard"
+                        sx={{ width: "100%" }}
+                        name="confirm_password"
+                        onChange={(e) =>
+                          setForm((prevalue) => {
+                            return {
+                              ...prevalue,
+                              ["confirm_password"]: e.target.value,
+                            };
+                          })
+                        }
+                      />
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      textAlign: "center",
+                      marginTop: "14px",
+                      marginBottom: "14px",
+                    }}
                   >
-                    <svg class="spinner" viewBox="0 0 50 50">
-                      <circle
-                        class="path"
-                        cx="25"
-                        cy="25"
-                        r="20"
-                        fill="none"
-                        stroke-width="5"
-                      ></circle>
-                    </svg>
-                  </ColorButton>
-                ) : (
-                  <ColorButton onClick={submitActivePlan}>Submit</ColorButton>
-                )}
-              </div>
+                    {formLoader ? (
+                      <ColorButton
+                        className="plan-active-submit-disabled-btn"
+                        disabled
+                      >
+                        <svg class="spinner" viewBox="0 0 50 50">
+                          <circle
+                            class="path"
+                            cx="25"
+                            cy="25"
+                            r="20"
+                            fill="none"
+                            stroke-width="5"
+                          ></circle>
+                        </svg>
+                      </ColorButton>
+                    ) : (
+                      <ColorButton onClick={submitActivePlan}>
+                        Submit
+                      </ColorButton>
+                    )}
+                  </div>
+                </div>
+              </Dialog>
             </div>
-          </Dialog>
+          </div>
+          <div className="cardsubmit">
+            <div></div>
+          </div>
         </div>
-      </div>
-      <div className="cardsubmit">
-        <div></div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

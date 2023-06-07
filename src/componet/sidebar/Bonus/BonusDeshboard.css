@@ -210,13 +210,13 @@
 
 .cndton_head {
   color: #000000;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
 }
 
 .blur_row {
   color: #787878;
-  font-size: 15px;
+  font-size: 14px;
 }
 
 .cndton_head2 {
@@ -224,4 +224,29 @@
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
+}
+.bonuspads {
+  color: #060606;
+  font-weight: 500;
+  font-size: 19px;
+}
+@media only screen and (max-width: 562px) {
+  .bonuspoppading0 {
+    padding: 0 !important;
+  }
+  .bonuspoppading0 label {
+    margin: 0 !important;
+  }
+  .bld_clr2 {
+    font-size: 12.5px;
+  }
+  .money_cell {
+    font-size: 9px;
+  }
+  .bld_clr3 {
+    margin-left: 10px;
+  }
+  .head_txt_main {
+    font-size: "17px";
+  }
 }

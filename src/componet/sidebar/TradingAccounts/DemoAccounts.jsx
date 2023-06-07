@@ -213,9 +213,7 @@ export const DemoAccounts = () => {
           // mt5AccountList.data = [];
 
           setMT5AccountList({ ...mt5AccountList });
-          console.log("mt5Account", mt5AccountList.data[0].mt5_acc_no);
           setMT5Account(mt5AccountList.data[0].mt5_acc_no);
-          console.log("mt5Account", mt5Account);
           fetchMT5AccountDetaiils(mt5AccountList.data[0].mt5_acc_no);
         } else {
           setMT5AccountLoader(false);
@@ -225,7 +223,6 @@ export const DemoAccounts = () => {
   };
 
   const fetchMT5AccountDetaiils = async (mt5_acc_no = "") => {
-    console.log("mt5Account", mt5Account);
     setMT5AccountLoader(true);
     const param = new FormData();
     param.append("action", "get_mt5_ac_details");
@@ -251,7 +248,6 @@ export const DemoAccounts = () => {
         // }
         // setAccountDetails({ ...res.data.data });
         setMT5AccountLoader(false);
-        console.log("saddsv", mT5AccountLoader);
         setAccountDetails({ ...res.data.data });
       } else {
       }
@@ -929,7 +925,7 @@ export const DemoAccounts = () => {
                     <Paper
                       elevation={1}
                       style={{ borderRadius: "10px" }}
-                      className="w-100 mb-5 "
+                      className="w-100 "
                     >
                       <div className="card-header d-flex align-items-center justify-content-between card-header-alt p-3">
                         <div>

@@ -28,12 +28,9 @@ const DepositHistory = () => {
   const [openTableMenus, setOpenTableMenus] = useState([]);
   const [filterData, setFilterData] = useState({});
 
-  const depositFilter = () => {
-    console.log("dsa");
-  };
+  const depositFilter = () => {};
 
   const handleContextClick = (event, index) => {
-    console.log(event.currentTarget.getAttribute("id"), index);
     let tableMenus = [...openTableMenus];
     tableMenus[index] = event.currentTarget;
     setOpenTableMenus(tableMenus);
@@ -46,7 +43,6 @@ const DepositHistory = () => {
   };
 
   const gotoProfile = (e) => {
-    console.log("goto profile page", e);
     navigate("/master/" + e.user_id);
   };
 

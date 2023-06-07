@@ -12,15 +12,13 @@ export default class Wheel extends React.Component {
 
   render() {
     // const { selectedItem } = this.state;
-    const { items, isLocked, selectedItem, spinning1 } = this.props;
-    console.log("sad", selectedItem, items);
+    const { items, isLocked, selectedItem, spinning1, colorSpin } = this.props;
     const wheelVars = {
       "--nb-item": items.length,
       "--selected-item": selectedItem,
     };
     const spinning = selectedItem !== null ? "spinning" : "";
     const blurOpacity = isLocked ? "blur-opacity" : "";
-    console.log("djhgdsbnm", this.state.isLocked);
     return (
       <div className="ring-container">
         <div className="wheel-container">
@@ -32,7 +30,7 @@ export default class Wheel extends React.Component {
               <div
                 className="wheel-item"
                 key={index}
-                style={{ "--item-nb": index }}
+                style={{ "--item-color": colorSpin[index], "--item-nb": index }}
               >
                 {item}
               </div>

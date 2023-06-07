@@ -23,7 +23,7 @@ const Android = () => {
                     <Paper
                       elevation={1}
                       style={{ borderRadius: "10px" }}
-                      className="w-100 mb-5 platforms"
+                      className="w-100  platforms"
                     >
                       <div className="card-body position-relative">
                         <div className="ribbon">
@@ -36,13 +36,13 @@ const Android = () => {
                           <Grid className="text-center" md={12}>
                             <div>
                               <h3 className="text-dark font-weight-bold pt-3">
-                                MT5 PLATFORMS
+                                MT5 PLATFORM
                               </h3>
                               <h4 className="text-info font-weight-bold pt-3 d-flex align-items-center justify-content-center">
                                 Android MOBILE TRADING
                               </h4>
                               <p className="text-dark pt-3 mx-500 mx-auto">
-                                MT5 Prime is available on Android device, for
+                                MT5 Platform is available on Android device, for
                                 traders who want access to Mobile Trading.
                                 <br />
                                 <br />

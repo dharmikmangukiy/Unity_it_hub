@@ -384,7 +384,6 @@ const Ibasign = () => {
     //     error = true;
     // } else {
     //   updateDate.structure_data.forEach(element => {
-    //         console.log(element.ib_group_name, element.group_rebate);
     //         if (element.group_rebate === "") {
     //             Toast("error",`Please enter ${element.ib_group_name} rebate`);
     //             error = true;
@@ -946,7 +945,6 @@ export const Partnership = () => {
     numberOfClients: "",
     isLoader: false,
   });
-  console.log(age);
   const handleChange = (event) => {
     const { name, value } = event.target;
     setAge((prevalue) => {
@@ -955,7 +953,6 @@ export const Partnership = () => {
         [name]: value,
       };
     });
-    console.log(event.target.value);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -994,7 +991,6 @@ export const Partnership = () => {
   const notify = (p) => {
     Toast("error", p);
   };
-  console.log("age.countries", age.countries);
   useEffect(() => {
     if (Object.keys(ageErrors).length === 0 && isSubmit) {
       setAge((prevalue) => {
@@ -1116,38 +1112,24 @@ export const Partnership = () => {
       } else {
         countryData.data = res.data.aaData;
         setCountryData({ ...countryData });
-        console.log("countryData", countryData);
       }
     });
   }, []);
-  // const handleClickOpen = (scrollType) => () => {
-  //   console.log("SAdaSDFDf");
-  //   setOpen(true);
-  //   setScroll(scrollType);
-  // };
+
   const handleClickOpen = (prop) => {
-    console.log("444");
     setOpen(true);
     setScroll(prop);
   };
   const verifySubmit = () => {
     if (ibstatus.email_status == 0 || ibstatus.mobile_status == 0) {
       navigate("/userProfile");
-      console.log("1111");
     } else if (ibstatus.kyc_status == 0 || ibstatus.kyc_status == 2) {
       navigate("/myDocuments");
-      console.log("2222");
     } else {
       handleClickOpen("paper");
-      console.log("333");
     }
   };
   const partner = () => {
-    console.log(
-      "ibstatus.ib_applied_status",
-      ibstatus.ib_applied_status,
-      ibstatus
-    );
     if (ibstatus.ib_applied_status == "0" && ibstatus.ib_status == "0") {
       return (
         <div className="text-dark w-100 h-100">
@@ -1433,7 +1415,7 @@ export const Partnership = () => {
                         <Paper
                           elevation={1}
                           style={{ borderRadius: "10px" }}
-                          className="w-100 mb-5"
+                          className="w-100 "
                         >
                           <div className="card-header d-flex align-items-center justify-content-between card-header-alt p-3">
                             <h5 className="font-weight-bold mb-0 text-dark">
@@ -1689,7 +1671,6 @@ export const Partnership = () => {
                                       };
                                       age.countries = note();
                                       setAge({ ...age });
-                                      console.log("esdfv", value, event);
                                     }}
                                     options={countryData.data}
                                     getOptionLabel={(option) => option.nicename}

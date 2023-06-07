@@ -27,6 +27,7 @@ import {
   ColorButton1,
   ColorButton2,
 } from "../../customComponet/CustomElement";
+import CustomImageModal from "../../customComponet/CustomImageModal";
 var id = 0;
 export const AdditionalDocuments = () => {
   const navigate = useNavigate();
@@ -267,7 +268,7 @@ export const AdditionalDocuments = () => {
                       <Paper
                         elevation={1}
                         style={{ borderRadius: "10px" }}
-                        className="w-100 mb-5"
+                        className="w-100 "
                       >
                         <div className="addDoc-listView-sw">
                           <div className="card-header font-weight-bold mb-0 text-dark h5">
@@ -437,34 +438,47 @@ export const AdditionalDocuments = () => {
                                                 </h6>
                                               </div>
                                               <div className="addDoc-listView-block-sub-imgF">
-                                                <div className="position-Eye-addDoc">
-                                                  <Button
-                                                    onClick={() => {
-                                                      const myWindow =
-                                                        window.open(
-                                                          item.document_front_image,
-                                                          "",
-                                                          "width=320,height=320"
-                                                        );
-                                                    }}
-                                                  >
-                                                    <VisibilityIcon />
-                                                  </Button>
-                                                </div>
                                                 {type1 == "image" ? (
-                                                  <img
-                                                    src={
-                                                      item.document_front_image
-                                                    }
-                                                    alt=""
-                                                    width="200px"
-                                                  />
+                                                  <>
+                                                    <div className="position-Eye-addDoc">
+                                                      <CustomImageModal
+                                                        image={
+                                                          item.document_front_image
+                                                        }
+                                                        isIcon={true}
+                                                        className="scriptimgwidth"
+                                                      />
+                                                    </div>
+                                                    <img
+                                                      src={
+                                                        item.document_front_image
+                                                      }
+                                                      alt=""
+                                                      width="200px"
+                                                    />
+                                                  </>
                                                 ) : (
-                                                  <embed
-                                                    src={
-                                                      item.document_front_image
-                                                    }
-                                                  />
+                                                  <>
+                                                    <div className="position-Eye-addDoc">
+                                                      <Button
+                                                        onClick={() => {
+                                                          const myWindow =
+                                                            window.open(
+                                                              item.document_front_image,
+                                                              "",
+                                                              "width=320,height=320"
+                                                            );
+                                                        }}
+                                                      >
+                                                        <VisibilityIcon />
+                                                      </Button>
+                                                    </div>
+                                                    <embed
+                                                      src={
+                                                        item.document_front_image
+                                                      }
+                                                    />
+                                                  </>
                                                 )}
                                               </div>
                                             </div>
@@ -484,34 +498,47 @@ export const AdditionalDocuments = () => {
                                                   </h6>
                                                 </div>
                                                 <div className="addDoc-listView-block-sub-imgF">
-                                                  <div className="position-Eye-addDoc">
-                                                    <Button
-                                                      onClick={() => {
-                                                        const myWindow =
-                                                          window.open(
-                                                            item.document_back_image,
-                                                            "",
-                                                            "width=320,height=320"
-                                                          );
-                                                      }}
-                                                    >
-                                                      <VisibilityIcon />
-                                                    </Button>
-                                                  </div>
                                                   {type2 == "image" ? (
-                                                    <img
-                                                      src={
-                                                        item.document_back_image
-                                                      }
-                                                      alt=""
-                                                      width="200px"
-                                                    />
+                                                    <>
+                                                      <div className="position-Eye-addDoc">
+                                                        <CustomImageModal
+                                                          image={
+                                                            item.document_back_image
+                                                          }
+                                                          isIcon={true}
+                                                          className="scriptimgwidth"
+                                                        />
+                                                      </div>
+                                                      <img
+                                                        src={
+                                                          item.document_back_image
+                                                        }
+                                                        alt=""
+                                                        width="200px"
+                                                      />
+                                                    </>
                                                   ) : (
-                                                    <embed
-                                                      src={
-                                                        item.document_back_image
-                                                      }
-                                                    />
+                                                    <>
+                                                      <div className="position-Eye-addDoc">
+                                                        <Button
+                                                          onClick={() => {
+                                                            const myWindow =
+                                                              window.open(
+                                                                item.document_back_image,
+                                                                "",
+                                                                "width=320,height=320"
+                                                              );
+                                                          }}
+                                                        >
+                                                          <VisibilityIcon />
+                                                        </Button>
+                                                      </div>
+                                                      <embed
+                                                        src={
+                                                          item.document_back_image
+                                                        }
+                                                      />
+                                                    </>
                                                   )}
                                                 </div>
                                               </div>
@@ -542,8 +569,8 @@ export const AdditionalDocuments = () => {
                         <Paper
                           id="add-doc-move"
                           elevation={1}
-                          style={{ borderRadius: "10px" }}
-                          className="w-100 mb-5"
+                          style={{ borderRadius: "10px", marginTop: "3rem" }}
+                          className="w-100"
                         >
                           <div className="card-header font-weight-bold mb-0 text-dark h5">
                             {info.addAndEdit == "Add"
@@ -650,15 +677,28 @@ export const AdditionalDocuments = () => {
                                       var objectUrl1 = URL.createObjectURL(
                                         e.target.files[0]
                                       );
-
-                                      setInfo((prevalue) => {
-                                        return {
-                                          ...prevalue,
-                                          fontimg: e.target.files[0],
-                                          ftype: e.target.files[0].type,
-                                          perviewfontimg: objectUrl1,
-                                        };
-                                      });
+                                      if (
+                                        e.target.files[0].type ==
+                                          "image/jpeg" ||
+                                        e.target.files[0].type ==
+                                          "application/pdf" ||
+                                        e.target.files[0].type == "image/png" ||
+                                        e.target.files[0].type == "image/jpg"
+                                      ) {
+                                        setInfo((prevalue) => {
+                                          return {
+                                            ...prevalue,
+                                            fontimg: e.target.files[0],
+                                            ftype: e.target.files[0].type,
+                                            perviewfontimg: objectUrl1,
+                                          };
+                                        });
+                                      } else {
+                                        Toast(
+                                          "error",
+                                          "Only JPG, JPEG, PNG and PDF types are accepted."
+                                        );
+                                      }
                                     }}
                                     style={{ display: "none" }}
                                   />
@@ -673,7 +713,7 @@ export const AdditionalDocuments = () => {
                                   ) : (
                                     <>
                                       <button
-                                        className="bg-transparent p-0 border-0"
+                                        className="bg-transparent p-0 border-0 maginAutoDoc"
                                         onClick={() => {
                                           info.perviewfontimg = "";
                                           info.fontimg = "";
@@ -728,14 +768,29 @@ export const AdditionalDocuments = () => {
                                         var objectUrl1 = URL.createObjectURL(
                                           e.target.files[0]
                                         );
-                                        setInfo((prevalue) => {
-                                          return {
-                                            ...prevalue,
-                                            backimg: e.target.files[0],
-                                            btype: e.target.files[0].type,
-                                            perviewbackimg: objectUrl1,
-                                          };
-                                        });
+                                        if (
+                                          e.target.files[0].type ==
+                                            "image/jpeg" ||
+                                          e.target.files[0].type ==
+                                            "application/pdf" ||
+                                          e.target.files[0].type ==
+                                            "image/png" ||
+                                          e.target.files[0].type == "image/jpg"
+                                        ) {
+                                          setInfo((prevalue) => {
+                                            return {
+                                              ...prevalue,
+                                              backimg: e.target.files[0],
+                                              btype: e.target.files[0].type,
+                                              perviewbackimg: objectUrl1,
+                                            };
+                                          });
+                                        } else {
+                                          Toast(
+                                            "error",
+                                            "Only JPG, JPEG, PNG and PDF types are accepted."
+                                          );
+                                        }
                                       }}
                                       style={{ display: "none" }}
                                     />
@@ -750,7 +805,7 @@ export const AdditionalDocuments = () => {
                                     ) : (
                                       <>
                                         <button
-                                          className="bg-transparent p-0 border-0"
+                                          className="bg-transparent p-0 border-0 maginAutoDoc"
                                           onClick={() => {
                                             info.backimg = "";
                                             info.perviewbackimg = "";

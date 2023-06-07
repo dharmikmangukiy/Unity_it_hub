@@ -336,20 +336,20 @@ const MyDocuments = () => {
             });
           }
           if (
-            res.data.kyc_data.master_status == "2" ||
+            res.data.kyc_data.master_status == "1" ||
             res.data.kyc_data.master_status == "0"
           ) {
             setSendKycRequest((prevalue) => {
               return {
                 ...prevalue,
-                proof1: false,
+                proof1: true,
               };
             });
           } else {
             setSendKycRequest((prevalue) => {
               return {
                 ...prevalue,
-                proof1: true,
+                proof1: false,
               };
             });
           }
@@ -566,7 +566,6 @@ const MyDocuments = () => {
       <div className="app-content--inner">
         <div className="app-content--inner__wrapper mh-100-vh">
           {mainLoader == true ? (
-      
             <div className="loader1">
               <span className="loader2"></span>
             </div>
@@ -633,7 +632,8 @@ const MyDocuments = () => {
                       item
                       md={
                         !kycStatus.additional_documents &&
-                        kycStatus.master_status == "1"
+                        (kycStatus.master_status == "1" ||
+                          kycStatus.master_status == "0")
                           ? 12
                           : 8
                       }
@@ -685,7 +685,10 @@ const MyDocuments = () => {
                                 value={!twoSide.main}
                                 checked={twoSide.main}
                                 disabled={
-                                  kycStatus.master_status == 1 ? true : false
+                                  kycStatus.master_status == 1 ||
+                                  kycStatus.master_status == 0
+                                    ? true
+                                    : false
                                 }
                                 onChange={(e) => {
                                   twoSide.main = e.target.checked;
@@ -727,17 +730,27 @@ const MyDocuments = () => {
                                     name="fontimg"
                                     value=""
                                     onChange={(e) => {
-                                      console.log(
-                                        "check doc",
-                                        e.target.files[0]
-                                      );
-                                      setDoc((prevalue) => {
-                                        return {
-                                          ...prevalue,
-                                          fontimg: e.target.files[0],
-                                          ftype: e.target.files[0].type,
-                                        };
-                                      });
+                                      if (
+                                        e.target.files[0].type ==
+                                          "image/jpeg" ||
+                                        e.target.files[0].type ==
+                                          "application/pdf" ||
+                                        e.target.files[0].type == "image/png" ||
+                                        e.target.files[0].type == "image/jpg"
+                                      ) {
+                                        setDoc((prevalue) => {
+                                          return {
+                                            ...prevalue,
+                                            fontimg: e.target.files[0],
+                                            ftype: e.target.files[0].type,
+                                          };
+                                        });
+                                      } else {
+                                        Toast(
+                                          "error",
+                                          "Only JPG, JPEG, PNG and PDF types are accepted."
+                                        );
+                                      }
                                     }}
                                     style={{ display: "none" }}
                                   />
@@ -755,7 +768,7 @@ const MyDocuments = () => {
                                         ""
                                       ) : (
                                         <button
-                                          className="bg-transparent p-0 border-0"
+                                          className="bg-transparent p-0 border-0 maginAutoDoc"
                                           onClick={() => {
                                             onRemoveImage(
                                               "id_proof_front_image"
@@ -803,15 +816,30 @@ const MyDocuments = () => {
                                       name="backimg"
                                       value=""
                                       // value={doc.backimg}
-                                      onChange={(e) =>
-                                        setDoc((prevalue) => {
-                                          return {
-                                            ...prevalue,
-                                            backimg: e.target.files[0],
-                                            btype: e.target.files[0].type,
-                                          };
-                                        })
-                                      }
+                                      onChange={(e) => {
+                                        if (
+                                          e.target.files[0].type ==
+                                            "image/jpeg" ||
+                                          e.target.files[0].type ==
+                                            "application/pdf" ||
+                                          e.target.files[0].type ==
+                                            "image/png" ||
+                                          e.target.files[0].type == "image/jpg"
+                                        ) {
+                                          setDoc((prevalue) => {
+                                            return {
+                                              ...prevalue,
+                                              backimg: e.target.files[0],
+                                              btype: e.target.files[0].type,
+                                            };
+                                          });
+                                        } else {
+                                          Toast(
+                                            "error",
+                                            "Only JPG, JPEG, PNG and PDF types are accepted."
+                                          );
+                                        }
+                                      }}
                                       style={{ display: "none" }}
                                     />
 
@@ -828,7 +856,7 @@ const MyDocuments = () => {
                                           ""
                                         ) : (
                                           <button
-                                            className="bg-transparent p-0 border-0"
+                                            className="bg-transparent p-0 border-0 maginAutoDoc"
                                             onClick={() => {
                                               onRemoveImage(
                                                 "id_proof_back_image"
@@ -885,7 +913,10 @@ const MyDocuments = () => {
                                 value={!twoSide.add}
                                 checked={twoSide.add}
                                 disabled={
-                                  kycStatus.master_status == 1 ? true : false
+                                  kycStatus.master_status == 1 ||
+                                  kycStatus.master_status == 0
+                                    ? true
+                                    : false
                                 }
                                 onChange={(e) => {
                                   twoSide.add = e.target.checked;
@@ -931,15 +962,28 @@ const MyDocuments = () => {
                                       var objectUrl1 = URL.createObjectURL(
                                         e.target.files[0]
                                       );
-
-                                      setFormImage((prevalue) => {
-                                        return {
-                                          ...prevalue,
-                                          fontimg: e.target.files[0],
-                                          ftype: e.target.files[0].type,
-                                          perviewfontimg: objectUrl1,
-                                        };
-                                      });
+                                      if (
+                                        e.target.files[0].type ==
+                                          "image/jpeg" ||
+                                        e.target.files[0].type ==
+                                          "application/pdf" ||
+                                        e.target.files[0].type == "image/png" ||
+                                        e.target.files[0].type == "image/jpg"
+                                      ) {
+                                        setFormImage((prevalue) => {
+                                          return {
+                                            ...prevalue,
+                                            fontimg: e.target.files[0],
+                                            ftype: e.target.files[0].type,
+                                            perviewfontimg: objectUrl1,
+                                          };
+                                        });
+                                      } else {
+                                        Toast(
+                                          "error",
+                                          "Only JPG, JPEG, PNG and PDF types are accepted."
+                                        );
+                                      }
                                     }}
                                     style={{ display: "none" }}
                                   />
@@ -957,7 +1001,7 @@ const MyDocuments = () => {
                                         ""
                                       ) : (
                                         <button
-                                          className="bg-transparent p-0 border-0"
+                                          className="bg-transparent p-0 border-0 maginAutoDoc"
                                           onClick={() => {
                                             onRemoveImage(
                                               "passport_front_image"
@@ -1012,14 +1056,29 @@ const MyDocuments = () => {
                                         var objectUrl1 = URL.createObjectURL(
                                           e.target.files[0]
                                         );
-                                        setFormImage((prevalue) => {
-                                          return {
-                                            ...prevalue,
-                                            backimg: e.target.files[0],
-                                            btype: e.target.files[0].type,
-                                            perviewbackimg: objectUrl1,
-                                          };
-                                        });
+                                        if (
+                                          e.target.files[0].type ==
+                                            "image/jpeg" ||
+                                          e.target.files[0].type ==
+                                            "application/pdf" ||
+                                          e.target.files[0].type ==
+                                            "image/png" ||
+                                          e.target.files[0].type == "image/jpg"
+                                        ) {
+                                          setFormImage((prevalue) => {
+                                            return {
+                                              ...prevalue,
+                                              backimg: e.target.files[0],
+                                              btype: e.target.files[0].type,
+                                              perviewbackimg: objectUrl1,
+                                            };
+                                          });
+                                        } else {
+                                          Toast(
+                                            "error",
+                                            "Only JPG, JPEG, PNG and PDF types are accepted."
+                                          );
+                                        }
                                       }}
                                       style={{ display: "none" }}
                                     />
@@ -1037,7 +1096,7 @@ const MyDocuments = () => {
                                           ""
                                         ) : (
                                           <button
-                                            className="bg-transparent p-0 border-0"
+                                            className="bg-transparent p-0 border-0 maginAutoDoc"
                                             onClick={() => {
                                               onRemoveImage(
                                                 "passport_back_image"
@@ -1154,7 +1213,8 @@ const MyDocuments = () => {
                       </Paper>
                     </Grid>
                     {!kycStatus.additional_documents &&
-                    kycStatus.master_status == "1" ? (
+                    (kycStatus.master_status == "1" ||
+                      kycStatus.master_status == "0") ? (
                       ""
                     ) : (
                       <Grid item md={4}>
@@ -1174,7 +1234,10 @@ const MyDocuments = () => {
                                   value={!twoSide.addition}
                                   checked={twoSide.addition}
                                   disabled={
-                                    kycStatus.master_status == 1 ? true : false
+                                    kycStatus.master_status == 1 ||
+                                    kycStatus.master_status == 0
+                                      ? true
+                                      : false
                                   }
                                   onChange={(e) => {
                                     twoSide.addition = e.target.checked;
@@ -1205,15 +1268,29 @@ const MyDocuments = () => {
                                     name="fontimg"
                                     // value={doc.fontimg}
                                     value=""
-                                    onChange={(e) =>
-                                      setAddDoc((prevalue) => {
-                                        return {
-                                          ...prevalue,
-                                          fontimg: e.target.files[0],
-                                          ftype: e.target.files[0].type,
-                                        };
-                                      })
-                                    }
+                                    onChange={(e) => {
+                                      if (
+                                        e.target.files[0].type ==
+                                          "image/jpeg" ||
+                                        e.target.files[0].type ==
+                                          "application/pdf" ||
+                                        e.target.files[0].type == "image/png" ||
+                                        e.target.files[0].type == "image/jpg"
+                                      ) {
+                                        setAddDoc((prevalue) => {
+                                          return {
+                                            ...prevalue,
+                                            fontimg: e.target.files[0],
+                                            ftype: e.target.files[0].type,
+                                          };
+                                        });
+                                      } else {
+                                        Toast(
+                                          "error",
+                                          "Only JPG, JPEG, PNG and PDF types are accepted."
+                                        );
+                                      }
+                                    }}
                                     style={{ display: "none" }}
                                   />
 
@@ -1230,7 +1307,7 @@ const MyDocuments = () => {
                                         ""
                                       ) : (
                                         <button
-                                          className="bg-transparent p-0 border-0"
+                                          className="bg-transparent p-0 border-0 maginAutoDoc"
                                           onClick={() => {
                                             onRemoveImage(
                                               "additional_documents"
@@ -1290,15 +1367,30 @@ const MyDocuments = () => {
                                       name="backimg"
                                       value=""
                                       // value={doc.fontimg}
-                                      onChange={(e) =>
-                                        setAddDoc((prevalue) => {
-                                          return {
-                                            ...prevalue,
-                                            backimg: e.target.files[0],
-                                            btype: e.target.files[0].type,
-                                          };
-                                        })
-                                      }
+                                      onChange={(e) => {
+                                        if (
+                                          e.target.files[0].type ==
+                                            "image/jpeg" ||
+                                          e.target.files[0].type ==
+                                            "application/pdf" ||
+                                          e.target.files[0].type ==
+                                            "image/png" ||
+                                          e.target.files[0].type == "image/jpg"
+                                        ) {
+                                          setAddDoc((prevalue) => {
+                                            return {
+                                              ...prevalue,
+                                              backimg: e.target.files[0],
+                                              btype: e.target.files[0].type,
+                                            };
+                                          });
+                                        } else {
+                                          Toast(
+                                            "error",
+                                            "Only JPG, JPEG, PNG and PDF types are accepted."
+                                          );
+                                        }
+                                      }}
                                       style={{ display: "none" }}
                                     />
 
@@ -1315,7 +1407,7 @@ const MyDocuments = () => {
                                           ""
                                         ) : (
                                           <button
-                                            className="bg-transparent p-0 border-0"
+                                            className="bg-transparent p-0 border-0 maginAutoDoc"
                                             onClick={() => {
                                               /* setAddBackimg("");
                                             setAddDoc((prevalue) => {

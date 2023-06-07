@@ -123,7 +123,6 @@ export const Affiliate = () => {
         });
         return notedata;
       };
-      console.log("note()", note());
       if (IsApprove !== "") {
         param.append("is_app", IsApprove.is_app);
         param.append("user_id", IsApprove.user_id);
@@ -196,13 +195,10 @@ export const Affiliate = () => {
   const verifySubmit = () => {
     if (ibstatus.email_status == 0 || ibstatus.mobile_status == 0) {
       navigate("/userProfile");
-      console.log("1111");
     } else if (ibstatus.kyc_status == 0 || ibstatus.kyc_status == 2) {
       navigate("/myDocuments");
-      console.log("2222");
     } else {
       handleClickOpen("paper");
-      console.log("333");
     }
   };
 
@@ -236,7 +232,6 @@ export const Affiliate = () => {
         [name]: value,
       };
     });
-    console.log(event.target.value);
   };
   useEffect(() => {
     ibstatusdata();
@@ -247,17 +242,11 @@ export const Affiliate = () => {
       } else {
         countryData.data = res.data.aaData;
         setCountryData({ ...countryData });
-        console.log("countryData", countryData);
       }
     });
   }, []);
-  // const handleClickOpen = (scrollType) => () => {
-  //   console.log("SAdaSDFDf");
-  //   setOpen(true);
-  //   setScroll(scrollType);
-  // };
+
   const handleClickOpen = (prop) => {
-    console.log("444");
     setOpen(true);
     setScroll(prop);
   };
@@ -537,7 +526,7 @@ export const Affiliate = () => {
                         <Paper
                           elevation={1}
                           style={{ borderRadius: "10px" }}
-                          className="w-100 mb-5"
+                          className="w-100 "
                         >
                           <div className="card-header d-flex align-items-center justify-content-between card-header-alt p-3">
                             <h5 className="font-weight-bold mb-0 text-dark">
@@ -604,12 +593,16 @@ export const Affiliate = () => {
                                 onBlur={trueFalse}
                                 input={<BootstrapInput />}
                               >
-                                <MenuItem value="Whatsapp">Whatsapp</MenuItem>
+                                <MenuItem value="Facebook ">Facebook</MenuItem>
                                 <MenuItem value="Instagram">Instagram</MenuItem>
-                                <MenuItem value="Facebook">Facebook</MenuItem>
+                                <MenuItem value="YouTube">YouTube</MenuItem>
+                                <MenuItem value="Tiktok">Tiktok</MenuItem>
+                                <MenuItem value="Mashho">Mashho</MenuItem>
+                                <MenuItem value="LinkedIn">LinkedIn</MenuItem>
+                                <MenuItem value="Reposo">Reposo</MenuItem>
+                                <MenuItem value="Snap chat">Snap chat</MenuItem>
                                 <MenuItem value="Twitter">Twitter</MenuItem>
-                                <MenuItem value="Skype">Skype</MenuItem>
-                                <MenuItem value="Telegram">Telegram</MenuItem>
+
                                 <MenuItem
                                   value="Yes"
                                   style={{ fontWeight: "700", color: "black" }}

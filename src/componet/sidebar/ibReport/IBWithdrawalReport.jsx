@@ -27,12 +27,9 @@ const IBWithdrawalReport = () => {
   const [openTableMenus, setOpenTableMenus] = useState([]);
   const [filterData, setFilterData] = useState({});
 
-  const depositFilter = () => {
-    console.log("dsa");
-  };
+  const depositFilter = () => {};
 
   const handleContextClick = (event, index) => {
-    console.log(event.currentTarget.getAttribute("id"), index);
     let tableMenus = [...openTableMenus];
     tableMenus[index] = event.currentTarget;
     setOpenTableMenus(tableMenus);
@@ -45,7 +42,6 @@ const IBWithdrawalReport = () => {
   };
 
   const gotoProfile = (e) => {
-    console.log("goto profile page", e);
     navigate("/master/" + e.user_id);
   };
 
@@ -71,6 +67,93 @@ const IBWithdrawalReport = () => {
       // wrap: true,
       sortable: true,
       reorder: true,
+      grow: 0.3,
+    },
+
+    {
+      name: "Mt5 account",
+      selector: (row) => {
+        return <span title={row.mt5_acc_no}>{row.mt5_acc_no}</span>;
+      },
+      // wrap: true,
+      sortable: true,
+      reorder: true,
+      grow: 0.2,
+    },
+    {
+      name: "PAYMENT METHOD",
+      selector: (row) => {
+        return <span title={row.method}>{row.method}</span>;
+      },
+      // wrap: true,
+      sortable: true,
+      reorder: true,
+      grow: 0.4,
+    },
+    {
+      name: "ACCOUNT NO",
+      selector: (row) => {
+        return (
+          <span title={row.account_number}>
+            {row.method == "Bank" ? (
+              <>
+                {row.withdrawal_bank_name}
+                <br />
+                {row.account_number}
+              </>
+            ) : (
+              ""
+            )}
+          </span>
+        );
+      },
+      // wrap: true,
+      sortable: true,
+      reorder: true,
+      grow: 0.5,
+    },
+    {
+      name: "UPI/Crypto Type",
+      selector: (row) => {
+        return <span title={row.upi_crypto_name}>{row.upi_crypto_name}</span>;
+      },
+      // wrap: true,
+      sortable: true,
+      reorder: true,
+      grow: 0.4,
+    },
+    {
+      name: "UPI/Crypto ID",
+      selector: (row) => {
+        return (
+          <span title={row.upi_crypto_ac_number}>
+            {row.upi_crypto_ac_number}
+          </span>
+        );
+      },
+      // wrap: true,
+      sortable: true,
+      reorder: true,
+      grow: 0.4,
+    },
+    // {
+    //   name: "REMARKS",
+    //   selector: (row) => {
+    //     return <span title={row.remarks}>{row.remarks}</span>;
+    //   },
+    //   // wrap: true,
+    //   sortable: true,
+    //   reorder: true,
+    //   grow: 0.4,
+    // },
+    {
+      name: "REMARKS",
+      selector: (row) => {
+        return <span title={row.remarks}>{row.remarks}</span>;
+      },
+      // wrap: true,
+      sortable: true,
+      reorder: true,
       grow: 0.4,
     },
     {
@@ -81,17 +164,7 @@ const IBWithdrawalReport = () => {
       // wrap: true,
       sortable: true,
       reorder: true,
-      grow: 0.5,
-    },
-    {
-      name: "REMARKS",
-      selector: (row) => {
-        return <span title={row.remarks}>{row.remarks}</span>;
-      },
-      // wrap: true,
-      sortable: true,
-      reorder: true,
-      grow: 0.4,
+      grow: 0.3,
     },
     {
       name: "STATUS",
@@ -143,7 +216,6 @@ const IBWithdrawalReport = () => {
                         </label>
                         <BootstrapInput
                           type="date"
-                          inputProps={{ max: "2022-04-13" }}
                           onChange={(e) =>
                             setFilterData({
                               ...filterData,
@@ -189,7 +261,8 @@ const IBWithdrawalReport = () => {
                   <CommonTable
                     url={`${Url}/datatable/ib_withdraw_list.php`}
                     column={column}
-                    sort="2"
+                    sort="1"
+                    csv="datatable/ib_withdraw_list_export.php"
                     filter={filterData}
                     refresh={refresh}
                   />

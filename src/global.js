@@ -1,39 +1,23 @@
-// const Url = 'http://localhost:8080/forex';
 // const Url = "https://rightfxtest.rightqinfotech.com";
-// const Url = "https://reactrighttest.rightfx.com";
 const Url = "https://my.rightfx.com";
+// const Url = "https://client.rightfx.com";
 
-// const Url = "https://user.rightfx.com";
+// const Url = "https://reactrighttest.rightfx.com";
 // const IsApprove = {
 //   is_app: 1,
-//   auth: "366855-243e9c-ad6285",
-//   user_id: "4017",
+//   auth: "6ec61d-4aa132-26688f",
+//   user_id: "8614",
+// };
+
+// const IsApprove = {
+//   is_app: 1,
+//   auth: "a56700-91df87-c3ae8d",
+//   user_id: "6088",
 // };
 // const IsApprove = {
 //   is_app: 1,
-//   auth: "93b1df-c3d6f0-23f7a5",
-//   user_id: "4214",
+//   auth: "db05cf-8750e4-2fa491",
+//   user_id: "13177",
 // };
-const IsApprove = {
-  is_app: 1,
-  auth: "367d88-2eb950-a77a93",
-  user_id: "3963",
-};
-// const IsApprove = {
-//   is_app: 1,
-//   auth: "ed7d3a-0834c3-23cd44",
-//   user_id: "4141",
-// };
-// A NEW ACCOUNT
-// const IsApprove = {
-//   is_app: 1,
-//   auth: "030a32-820a80-ac5ea3",
-//   user_id: "3991",
-// };
-// const IsApprove = {
-//   is_app: 1,
-//   auth: "4822e6-2fc0fa-cea730",
-//   user_id: "597",
-// };
-// const IsApprove = "";
+const IsApprove = "";
 export { Url, IsApprove };

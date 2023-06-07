@@ -30,7 +30,6 @@ const AffiliateDashboard = (prop) => {
           navigate("/");
         }
         if (res.data.ibData) {
-          console.log(res.data.ibData);
           info.data = res.data.affiliateData;
           info.link = res.data.wallet_code;
           setInfo({ ...info });
@@ -68,10 +67,10 @@ const AffiliateDashboard = (prop) => {
                             <div className="row">
                               <div className="col s12 m12 text-align-center">
                                 <h5 className="mb-0">
-                                  {info.data.refferal_availabel}
+                                  ${info.data.refferal_availabel}
                                 </h5>
                                 <p className="no-margin font-weight-700 text-uppercase">
-                                  Commision Availabel
+                                  Commision Available
                                 </p>
                               </div>
                             </div>
@@ -80,7 +79,7 @@ const AffiliateDashboard = (prop) => {
                             <div className="row">
                               <div className="col s12 m12 text-align-center">
                                 <h5 className="mb-0">
-                                  {info.data.refferal_rebate}
+                                  ${info.data.refferal_rebate}
                                 </h5>
                                 <p className="no-margin font-weight-700 text-uppercase">
                                   Total Earning
@@ -92,7 +91,7 @@ const AffiliateDashboard = (prop) => {
                             <div className="row">
                               <div className="col s12 m12 text-align-center">
                                 <h5 className="mb-0">
-                                  {info.data.refferal_withdraw}
+                                  ${info.data.refferal_withdraw}
                                 </h5>
                                 <p className="no-margin font-weight-700 text-uppercase">
                                   Total withdraw
@@ -138,7 +137,7 @@ const AffiliateDashboard = (prop) => {
                         <Paper
                           elevation={1}
                           style={{ borderRadius: "10px" }}
-                          className="w-100 mb-5"
+                          className="w-100 "
                         >
                           <div className="card-header d-flex align-items-center justify-content-between card-header-alt p-3">
                             <h5 className="font-weight-bold mb-0 text-dark">
@@ -177,9 +176,6 @@ const AffiliateDashboard = (prop) => {
                                           )
                                           .then(
                                             function () {
-                                              console.log(
-                                                "Async: Copying to clipboard was successful!"
-                                              );
                                               Toast(
                                                 "success",
                                                 "The Affiliate Link has been successfully copying"

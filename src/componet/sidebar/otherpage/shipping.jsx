@@ -32,7 +32,6 @@ const Shipping = (prop) => {
     city1: "",
     isLoder: false,
   });
-  console.log("s", prop.permission?.user_name, prop, data);
 
   const [error, setError] = useState({
     fullName: false,
@@ -64,7 +63,6 @@ const Shipping = (prop) => {
     data.fullName = prop.permission?.user_name;
     data.email = prop.permission?.user_email;
     setData({ ...data });
-    console.log("ss", prop);
   }, [prop]);
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -209,9 +207,7 @@ const Shipping = (prop) => {
       if (data?.data?.status === "ok") {
         setCityList(data?.data?.data);
       }
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
 
   const handleValidation = () => {
@@ -352,9 +348,7 @@ const Shipping = (prop) => {
             setData({ ...data });
           }
         }
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     }
   };
 
@@ -504,131 +498,136 @@ const Shipping = (prop) => {
                         ""
                       )}
                     </Grid>
-                    {
-                      countryData.state.length==0 ?      <Grid item xs={12} sm={4}>
-                      <TextField
-                        label="State"
-                        variant="standard"
-                        sx={{ width: "100%" }}
-                        name="city"
-                        value={data?.city}
-                        onBlur={trueFalse}
-                        onChange={(e) => handleChange(e)}
-                      />
-                      {error?.city == true && data?.city == "" ? (
-                        <span className="error">State is required!</span>
-                      ) : (
-                        ""
-                      )}
-                    </Grid>:    <Grid item xs={12} sm={4}>
-                      <Autocomplete
-                        disablePortal
-                        options={countryData.state}
-                        value={data.city}
-                        getOptionLabel={(option) => (option ? option : "")}
-                        onChange={(event, newValue) => {
-                          getCityData(newValue);
-
-                          if (newValue == null) {
-                            data.city = newValue;
-                            data.city1 = "";
-
-                            setData({ ...data });
-                          } else {
-                            data.city = newValue;
-                            data.city1 = "";
-
-                            setData({ ...data });
-                          }
-                        }}
-                        sx={{ padding: "0px" }}
-                        className="w-100"
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            label="State"
-                            // variant="standard"
-                            onBlur={trueFalse}
-                            size="small"
-                            name="city"
-                            variant="standard"
-                            sx={{ padding: "0px" }}
-                          />
+                    {countryData.state.length == 0 ? (
+                      <Grid item xs={12} sm={4}>
+                        <TextField
+                          label="State"
+                          variant="standard"
+                          sx={{ width: "100%" }}
+                          name="city"
+                          value={data?.city}
+                          onBlur={trueFalse}
+                          onChange={(e) => handleChange(e)}
+                        />
+                        {error?.city == true && data?.city == "" ? (
+                          <span className="error">State is required!</span>
+                        ) : (
+                          ""
                         )}
-                      />
-                      {error?.city == true &&
-                      (data?.city == "" || data?.city == null) ? (
-                        <span className="error">State is required!</span>
-                      ) : (
-                        ""
-                      )}
-                    </Grid>
-                    }
-                {
-                   countryData.state.length==0 || countryData.city.length==0 ?<Grid item xs={12} sm={4}>
-                   <TextField
-                     label="City"
-                     variant="standard"
-                     sx={{ width: "100%" }}
-                     name="city1"
-                     value={data?.city1}
-                     onBlur={trueFalse}
-                     onChange={(e) => handleChange(e)}
-                   />
-                   {error?.city1 == true && data?.city1 == "" ? (
-                     <span className="error">City is required!</span>
-                   ) : (
-                     ""
-                   )}
-                 </Grid>: <Grid item xs={12} sm={4}>
-                      <Autocomplete
-                        disablePortal
-                        options={countryData.city}
-                        value={data.city1}
-                        getOptionLabel={(option) => (option ? option : "")}
-                        onChange={(event, newValue) => {
-                          if (newValue == null) {
-                            data.city1 = newValue;
-                            setData({ ...data });
-                          } else {
-                            data.city1 = newValue;
-                            setData({ ...data });
-                          }
-                        }}
-                        sx={{ padding: "0px" }}
-                        className="w-100"
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            label="City"
-                            size="small"
-                            // className="autoComplte-textfild"
-                            onBlur={trueFalse}
-                            // helperText={
-                            //   (data.city1 == null || data.city1 == "") && error.city1
-                            //     ? "City is required"
-                            //     : ""
-                            // }
-                            // error={
-                            //   (data.city1 == null || data.city1 == "") && error.city1
-                            //     ? true
-                            //     : false
-                            // }
-                            name="city1"
-                            sx={{ padding: "0px" }}
-                            variant="standard"
-                          />
+                      </Grid>
+                    ) : (
+                      <Grid item xs={12} sm={4}>
+                        <Autocomplete
+                          disablePortal
+                          options={countryData.state}
+                          value={data.city}
+                          getOptionLabel={(option) => (option ? option : "")}
+                          onChange={(event, newValue) => {
+                            getCityData(newValue);
+
+                            if (newValue == null) {
+                              data.city = newValue;
+                              data.city1 = "";
+
+                              setData({ ...data });
+                            } else {
+                              data.city = newValue;
+                              data.city1 = "";
+
+                              setData({ ...data });
+                            }
+                          }}
+                          sx={{ padding: "0px" }}
+                          className="w-100"
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              label="State"
+                              // variant="standard"
+                              onBlur={trueFalse}
+                              size="small"
+                              name="city"
+                              variant="standard"
+                              sx={{ padding: "0px" }}
+                            />
+                          )}
+                        />
+                        {error?.city == true &&
+                        (data?.city == "" || data?.city == null) ? (
+                          <span className="error">State is required!</span>
+                        ) : (
+                          ""
                         )}
-                      />
-                      {error?.city1 == true &&
-                      (data?.city1 == "" || data?.city1 == null) ? (
-                        <span className="error">State is required!</span>
-                      ) : (
-                        ""
-                      )}
-                    </Grid>
-                }
-                   
+                      </Grid>
+                    )}
+                    {countryData.state.length == 0 ||
+                    countryData.city.length == 0 ? (
+                      <Grid item xs={12} sm={4}>
+                        <TextField
+                          label="City"
+                          variant="standard"
+                          sx={{ width: "100%" }}
+                          name="city1"
+                          value={data?.city1}
+                          onBlur={trueFalse}
+                          onChange={(e) => handleChange(e)}
+                        />
+                        {error?.city1 == true && data?.city1 == "" ? (
+                          <span className="error">City is required!</span>
+                        ) : (
+                          ""
+                        )}
+                      </Grid>
+                    ) : (
+                      <Grid item xs={12} sm={4}>
+                        <Autocomplete
+                          disablePortal
+                          options={countryData.city}
+                          value={data.city1}
+                          getOptionLabel={(option) => (option ? option : "")}
+                          onChange={(event, newValue) => {
+                            if (newValue == null) {
+                              data.city1 = newValue;
+                              setData({ ...data });
+                            } else {
+                              data.city1 = newValue;
+                              setData({ ...data });
+                            }
+                          }}
+                          sx={{ padding: "0px" }}
+                          className="w-100"
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              label="City"
+                              size="small"
+                              // className="autoComplte-textfild"
+                              onBlur={trueFalse}
+                              // helperText={
+                              //   (data.city1 == null || data.city1 == "") && error.city1
+                              //     ? "City is required"
+                              //     : ""
+                              // }
+                              // error={
+                              //   (data.city1 == null || data.city1 == "") && error.city1
+                              //     ? true
+                              //     : false
+                              // }
+                              name="city1"
+                              sx={{ padding: "0px" }}
+                              variant="standard"
+                            />
+                          )}
+                        />
+                        {error?.city1 == true &&
+                        (data?.city1 == "" || data?.city1 == null) ? (
+                          <span className="error">State is required!</span>
+                        ) : (
+                          ""
+                        )}
+                      </Grid>
+                    )}
+
                     <Grid item xs={12} sm={4}>
                       <TextField
                         label="Pincode"

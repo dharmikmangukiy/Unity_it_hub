@@ -94,11 +94,8 @@ const IBCommisionGroup = () => {
     isLoader: false,
     refresh: false,
   });
-  const depositFilter = () => {
-    // console.log("dsa");
-  };
+  const depositFilter = () => {};
   const handleContextClick = (event, index) => {
-    // console.log(event.currentTarget.getAttribute("id"), index);
     let tableMenus = [...openTableMenus];
     tableMenus[index] = event.currentTarget;
     setOpenTableMenus(tableMenus);
@@ -119,7 +116,6 @@ const IBCommisionGroup = () => {
   };
 
   const gotoProfile = (e) => {
-    // console.log("goto profile page", e);
     navigate("/master/" + e.user_id);
   };
 
@@ -235,14 +231,12 @@ const IBCommisionGroup = () => {
         Toast("error", res.data.message);
       } else {
         defaultStructure_data.data = res.data.data1;
-        // console.log("res.data", res.data.data);
         // DbData = res.data.data;
 
         setDefaultStructure_data({ ...defaultStructure_data });
         defaultStructure_data1.current = res.data.data;
         // res.data.data.forEach(element => {
         //   DbData.push(element.group_rebate);
-        //   console.log("DbData", DbData);
         // });
         updateDate.structure_data = res.data.data;
         updateDate.db_structure_data = res.data.data;
@@ -254,7 +248,6 @@ const IBCommisionGroup = () => {
 
         setUpdateDate({ ...updateDate });
 
-        // console.log("form", updateDate);
         // setMaxWidth('md');
         // setDialogTitle('Add');
       }
@@ -267,7 +260,6 @@ const IBCommisionGroup = () => {
       error = true;
     } else {
       /* updateDate.structure_data.forEach((element) => {
-        console.log(element.ib_group_name, element.group_rebate);
         if (element.group_rebate === "") {
           Toast("error",`Please enter ${element.ib_group_name} rebate`);
           error = true;
@@ -391,7 +383,6 @@ const IBCommisionGroup = () => {
       </div>
     );
   };
-  // console.log(defaultStructure_data1.current);
   const manageContent = () => {
     return (
       <div>
@@ -410,7 +401,6 @@ const IBCommisionGroup = () => {
 
             {updateDate.structure_data.map((item, index) => {
               {
-                /* console.log("DefaultStructure_data[index]",item.group_rebate*100/defaultStructure_data1.current[index].group_rebate,defaultStructure_data1.current[index].group_rebate,item.group_rebate) */
               }
               const newst = updateDate.structure_data;
               return (
@@ -448,10 +438,6 @@ const IBCommisionGroup = () => {
                                 (floatNumber.length == 2 &&
                                   floatNumber[1].length <= 3)
                               ) {
-                                // console.log(
-                                //   "value",
-                                //   parseFloat(e.target.value).toFixed(3)
-                                // );
                                 updateDate.structure_data[index][
                                   "group_rebate"
                                 ] = e.target.value;
@@ -459,12 +445,6 @@ const IBCommisionGroup = () => {
                                 updateDate.structure_data[index][
                                   "pair_data"
                                 ].forEach((value, valueIndex) => {
-                                  // console.log(
-                                  //   "test",
-                                  // updateDate.structure_data[index].pair_data[
-                                  //   valueIndex
-                                  // ].pair_name;
-                                  // );
                                   if (
                                     updateDate.structure_data[index].pair_data[
                                       valueIndex
@@ -793,15 +773,12 @@ const IBCommisionGroup = () => {
     setOpen(false);
   };
 
-  const getGroupRebate = (index) => {
-    // console.log("DdData", DbData, DbData[index]);
-  };
+  const getGroupRebate = (index) => {};
 
   useEffect(() => {
     // defaultStructure_data.forEach(element => {
     //   DbData.push(element.group_rebate);
     // });
-    // console.log("DbData", DbData, updateDate, updateDate.db_structure_data);
   }, [updateDate]);
 
   return (

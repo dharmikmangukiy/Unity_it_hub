@@ -40,7 +40,6 @@ const OpenRealAccount = () => {
     pro: true,
     Executive: false,
   });
-  console.log(active);
   const CssTextField = styled(TextField)({
     "& label.Mui-focused": {
       color: "#666666",

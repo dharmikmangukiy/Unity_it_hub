@@ -52,7 +52,6 @@ const Rating = () => {
         [name]: value,
       };
     });
-    console.log(event.target.value);
   };
 
   const getCopyTradingAccount = async () => {
@@ -76,18 +75,15 @@ const Rating = () => {
         if (res.data.status == "error") {
           Toast("error", res.data.message);
         } else {
-          console.log(res.data);
           copyTrading.data = res.data;
           setCopyTrading({ ...copyTrading });
           setTotalPage(Math.ceil(res.data.iTotalRecords / 10));
-          console.log(copyTrading);
         }
         setCopyTradingLoader(false);
       });
   };
 
   const pageChange = async (e, value) => {
-    console.log(e, value);
     setPage(value);
     setCopyTradingLoader(true);
     const param = new FormData();
@@ -109,10 +105,8 @@ const Rating = () => {
         if (res.data.status == "error") {
           Toast("error", res.data.message);
         } else {
-          console.log(res.data);
           copyTrading.data = res.data;
           setCopyTrading({ ...copyTrading });
-          console.log(copyTrading);
         }
         setCopyTradingLoader(false);
       });
@@ -120,7 +114,6 @@ const Rating = () => {
 
   const searchCopyTrader = async (e) => {
     setSearch(e.target.value);
-    console.log("search", e.target.value);
     setCopyTradingLoader(true);
     const param = new FormData();
     if (IsApprove !== "") {
@@ -142,11 +135,9 @@ const Rating = () => {
         if (res.data.status == "error") {
           Toast("error", res.data.message);
         } else {
-          console.log(res.data);
           copyTrading.data = res.data;
           setCopyTrading({ ...copyTrading });
           setTotalPage(Math.ceil(res.data.iTotalRecords / 10));
-          console.log(copyTrading);
         }
         setCopyTradingLoader(false);
       });

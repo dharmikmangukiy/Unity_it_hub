@@ -131,15 +131,15 @@
 }
 
 .wheel-item:nth-child(odd)::before {
-  border-right: solid purple calc(var(--wheel-size) / 2);
+  border-right: solid var(--item-color) calc(var(--wheel-size) / 2);
 }
 
 .wheel-item:nth-child(even)::before {
-  border-right: solid white calc(var(--wheel-size) / 2);
+  border-right: solid var(--item-color) calc(var(--wheel-size) / 2);
 }
 
 .wheel-item:nth-child(even) {
-  color: #5d2060;
+  color: #ffffff;
 }
 
 .lock-image {

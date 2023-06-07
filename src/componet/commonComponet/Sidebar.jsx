@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Navigate, NavLink, useNavigate } from "react-router-dom";
 import "./sidebar1.css";
 import Collapse from "@mui/material/Collapse";
 import ExpandLess from "@mui/icons-material/ExpandLess";
@@ -15,7 +15,6 @@ import InputBase from "@mui/material/InputBase";
 import { styled } from "@mui/material/styles";
 import FormControl from "@mui/material/FormControl";
 import ConfirmationNumberOutlinedIcon from "@mui/icons-material/ConfirmationNumberOutlined";
-import Dashboard from "./Dashboard.svg";
 import { BorderBottom } from "@mui/icons-material";
 // import { ACCOUNTS } from "../../svg/DASHBORD.svg";
 import { ReactComponent as DASHBORD } from "../../svg/dashbord.svg";
@@ -37,6 +36,7 @@ import { ReactComponent as AFFILATE } from "../../svg/AFFILATE.svg";
 import { ReactComponent as AffiliatePromo } from "../../svg/affiliatePromo.svg";
 import { ReactComponent as EarnHistory } from "../../svg/EarnHistory.svg";
 import { ReactComponent as Spin } from "../../svg/spin.svg";
+import { ReactComponent as Contest } from "../../svg/Contest.svg";
 
 import Toast from "./Toast";
 
@@ -81,7 +81,7 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
 }));
 const Sidebar = (prop) => {
   // const [on, setOn] = useState(false);
-
+  const navigate = useNavigate();
   const [scroll, setScroll] = useState("paper");
   const handleClickOpen = (scrollType) => () => {
     setOpenModel(true);
@@ -104,12 +104,9 @@ const Sidebar = (prop) => {
 
   const CloseSidebar = () => {
     prop.setSidebar(false);
-    // console.log(prop);
   };
   const handleClick = (e) => {
-    // const name = e.target.classList[0];
     const name = e;
-    console.log("name", name);
     setOpen((preValue) => {
       return {
         // ...preValue,
@@ -130,8 +127,6 @@ const Sidebar = (prop) => {
   const handleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
-
-  console.log("prop", prop);
 
   return (
     <div
@@ -197,7 +192,13 @@ const Sidebar = (prop) => {
             <i className="material-icons">sync_alt</i>
           </Button>
         )}
-        <div className="sidebar-wallet-balance">
+        <div
+          className="sidebar-wallet-balance"
+          style={{ cursor: "pointer" }}
+          onClick={() => {
+            navigate("/transfer_history");
+          }}
+        >
           <div>
             <Wallet
               // onClick={() => Toast("error", "error1")}
@@ -460,6 +461,18 @@ const Sidebar = (prop) => {
                   </li>
                   <li>
                     <a
+                      className="nav-link-simple "
+                      onClick={() => {
+                        window.open("https://my.rightfx.com/contest/", "_self");
+                      }}
+                    >
+                      {/* <span className="material-icons  icon_Mar">analytics</span> */}
+                      <Contest className="hoverSidebar" />
+                      Contest
+                    </a>
+                  </li>
+                  <li>
+                    <a
                       className={`platforms ${open.platforms ? "active" : ""}`}
                       onClick={() => handleClick("platforms")}
                     >
@@ -496,6 +509,14 @@ const Sidebar = (prop) => {
                             onClick={CloseSidebar}
                           >
                             {t("Iphone")}{" "}
+                          </NavLink>
+                        </li>
+                        <li>
+                          <NavLink
+                            to="/Platforms/RightFxAndroid"
+                            onClick={CloseSidebar}
+                          >
+                            RightFX App
                           </NavLink>
                         </li>
                       </ul>
@@ -568,9 +589,10 @@ const Sidebar = (prop) => {
                     )}
                   </>
                   <li className="webViewSidebar">
-                    <NavLink
+                    <a
                       className="nav-link-simple "
-                      to="/Web_Trader"
+                      href="https://app.rightfx.com/"
+                      target="_blank"
                       onClick={() => {
                         CloseSidebar();
                         onOther();
@@ -578,11 +600,11 @@ const Sidebar = (prop) => {
                     >
                       <Web_trader className="hoverSidebar" />
                       {t("Web_Trader")}{" "}
-                    </NavLink>
+                    </a>
                   </li>
                   {/* <li>
                   <a
-                    className={`contests ${open.contests ? "active" : null}`}
+                    className={`contests  ${open.contests ? "active" : null}`}
                     onClick={handleClick}
                   >
                     <span className="material-icons  icon_Mar">
@@ -868,7 +890,7 @@ const Sidebar = (prop) => {
                               to="/ib_commission_history"
                               onClick={CloseSidebar}
                             >
-                              IB History
+                              Rebate Statement
                             </NavLink>
                           </li>
                           <li>

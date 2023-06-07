@@ -88,7 +88,6 @@ export default function Login1(prop) {
         [name]: value,
       };
     });
-    // console.log(info);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -132,7 +131,6 @@ export default function Login1(prop) {
   };
 
   useEffect(() => {
-    // console.log(id);
     if (id == "success") {
       Toast("success", "Your account has been verified successfully");
     }
@@ -150,23 +148,20 @@ export default function Login1(prop) {
           Toast("error", res.data.message);
           setIsLoader(false);
         } else {
-          localStorage.clear();
-
-          notify1("Login successful");
-          // console.log(res.data.user_data);
-          localStorage.setItem("login", false);
-          // localStorage.setItem("user_id", res.data.user_data.user_id);
-          // localStorage.setItem("auth_key", res.data.user_data.auth_key);
-
-          if (IsApprove !== "") {
-            IsApprove.user_id = res.data.user_data.user_id;
-            IsApprove.auth = res.data.user_data.auth_key;
+          if (res.data.return_url) {
+            window.open(res.data.return_url, "_self");
+          } else {
+            localStorage.clear();
+            notify1("Login successful");
+            localStorage.setItem("login", false);
+            if (IsApprove !== "") {
+              IsApprove.user_id = res.data.user_data.user_id;
+              IsApprove.auth = res.data.user_data.auth_key;
+            }
+            setIsLoader(false);
+            prop.fetchUserPref("/dashboard");
+            navigate("/dashboard");
           }
-
-          setIsLoader(false);
-          // prop.setLogin("false");
-          prop.fetchUserPref("/dashboard");
-          navigate("/dashboard");
         }
       });
     }

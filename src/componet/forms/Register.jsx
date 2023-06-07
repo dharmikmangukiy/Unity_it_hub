@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 // import "../../css/pages/login.css";
 // import logo from './lang-grey.png';
-import logo1 from "../sidebar/loginLogo.png";
 import "./register.css";
 import "./Responsive.css";
 import { ColorButton } from "../customComponet/CustomElement";
@@ -67,7 +66,6 @@ const Register = () => {
   });
   const input1 = (event) => {
     var { name, value } = event.target;
-    // console.log(event.target);
     if (event.target.getAttribute) {
       if (event.target.getAttribute("type") == "checkbox") {
         value = event.target.checked;
@@ -95,7 +93,6 @@ const Register = () => {
           }
         });
     }
-    console.log(info);
     if (name == "portalPasswordConfirm") {
       if (value == "") {
         msg.portalPasswordConfirm = "Enter confirm password";
@@ -122,11 +119,9 @@ const Register = () => {
       if (event.target.value.match(/[0-9]/g)) {
         colorChange.third = true;
         setColorChange({ ...colorChange });
-        // console.log("colorChange.third", colorChange.third);
       } else {
         colorChange.third = false;
         setColorChange({ ...colorChange });
-        // console.log("colorChange.third", colorChange.third);
       }
       if (event.target.value.length >= 8 && event.target.value.length <= 20) {
         colorChange.first = true;
@@ -146,7 +141,6 @@ const Register = () => {
         msg.portalPassword = "Enter your password";
         setMsg({ ...msg });
       } else if (value.length < 8 || event.target.value.length >= 20) {
-        console.log("check it");
         msg.portalPassword = "Password must contain atleast 8-20 characters";
         setMsg({ ...msg });
       } else if (
@@ -167,7 +161,6 @@ const Register = () => {
     }
     if (event.target.name == "email") {
       if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
-        console.log("ds");
         msg.email = "Enter a valid email";
         setMsg({ ...msg });
       } else {
@@ -243,17 +236,7 @@ const Register = () => {
       notify(
         "Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"
       );
-    }
-    //  if (!values.portalPassword({
-    //     minLength: 8,
-    //     minLowercase: 1,
-    //     minUppercase: 1,
-    //     minNumbers: 1,})
-    // ) {
-    //   errors.portalPassword =
-    //     "Atleast one lower case, upper case and number required";
-    // }else
-    else if (!values.portalPasswordConfirm) {
+    } else if (!values.portalPasswordConfirm) {
       errors.portalPasswordConfirm = "Confirm password is requied";
       notify("Confirm password is requied");
     } else if (!values.portalPasswordConfirm == values.portalPassword) {
@@ -316,7 +299,6 @@ const Register = () => {
       });
     }
   }, [infoErrors]);
-  console.log("info.phone.toString().length", info.phone.toString().length);
   useEffect(() => {
     const param = new FormData();
 
@@ -343,7 +325,6 @@ const Register = () => {
       setCompaign({ ...compaign });
     }
   }, []);
-  // console.log("id", id, id1);
   return (
     <div>
       <div className="partner-form heigt-frm scrollr">

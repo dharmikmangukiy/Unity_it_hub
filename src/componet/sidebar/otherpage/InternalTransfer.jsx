@@ -119,7 +119,13 @@ const InternalTransfer = (prop) => {
       // form.from_account_equity = "";
       // setForm({ ...form });
     } else if (name == "from_account_mt5") {
-      fetchFromAccountMt5Details();
+      if (value == "") {
+        bal.from_account_balance = "";
+        bal.from_account_equity = "";
+        setBal({ ...bal });
+      } else {
+        fetchFromAccountMt5Details();
+      }
     } else if (name == "to_account" && value == "wallet") {
       // setIsInputWallet(true);
     } else if (name == "to_account" && value == "MT5") {
@@ -176,7 +182,7 @@ const InternalTransfer = (prop) => {
           navigate("/");
         }
         if (res.data.status == "error") {
-          Toast("error", res.data.message);
+          // Toast("error", res.data.message);
         } else {
           mt5AccountList.toData = res.data.mt5_accounts;
           mt5AccountList.fromData = res.data.mt5_accounts;
@@ -315,8 +321,6 @@ const InternalTransfer = (prop) => {
           if (res.data.status == "error") {
             Toast("error", res.data.message);
           } else {
-            console.log(form.mt5_account, "SdCardAlertOutlined");
-
             if (form.from_account == "wallet" || form.to_account == "wallet") {
               prop.getwallet();
             }
@@ -343,7 +347,6 @@ const InternalTransfer = (prop) => {
         });
     }
   };
-  console.log("mt5AccountList", form.mt5_account);
   return (
     <div className="app-content--inner">
       <div className="app-content--inner__wrapper mh-100-vh">
@@ -358,7 +361,7 @@ const InternalTransfer = (prop) => {
                   <Paper
                     elevation={1}
                     style={{ borderRadius: "10px" }}
-                    className="w-100 mb-5 internal-transfer-form"
+                    className="w-100 internal-transfer-form"
                   >
                     <div className="card-header d-flex align-items-center justify-content-between card-header-alt p-3">
                       <Grid container>
@@ -455,8 +458,32 @@ const InternalTransfer = (prop) => {
                                             {item.account_type})
                                           </MenuItem>
                                         );
+                                      } else if (
+                                        form.mt5_account == item.mt5_acc_no &&
+                                        mt5AccountList.toData.length == 1
+                                      ) {
+                                        return (
+                                          <MenuItem
+                                            onClick={() => {
+                                              navigate("/account_list");
+                                            }}
+                                          >
+                                            Open Real Account
+                                          </MenuItem>
+                                        );
                                       }
                                     })}
+                                    {mt5AccountList.toData.length == 0 ? (
+                                      <MenuItem
+                                        onClick={() => {
+                                          navigate("/account_list");
+                                        }}
+                                      >
+                                        Open Real Account
+                                      </MenuItem>
+                                    ) : (
+                                      ""
+                                    )}
                                   </Select>
                                   {form.from_account_mt5 == "" &&
                                   infoTrue.from_account_mt5 == true ? (
@@ -569,8 +596,32 @@ const InternalTransfer = (prop) => {
                                             {item.account_type})
                                           </MenuItem>
                                         );
+                                      } else if (
+                                        mt5AccountList.data.length == 1 &&
+                                        form.from_account_mt5 == item.mt5_acc_no
+                                      ) {
+                                        return (
+                                          <MenuItem
+                                            onClick={() => {
+                                              navigate("/account_list");
+                                            }}
+                                          >
+                                            Open Real Account
+                                          </MenuItem>
+                                        );
                                       }
                                     })}
+                                    {mt5AccountList.data.length == 0 ? (
+                                      <MenuItem
+                                        onClick={() => {
+                                          navigate("/account_list");
+                                        }}
+                                      >
+                                        Open Real Account
+                                      </MenuItem>
+                                    ) : (
+                                      ""
+                                    )}
                                   </Select>
                                   {form.mt5_account == "" &&
                                   infoTrue.mt5_account == true ? (
