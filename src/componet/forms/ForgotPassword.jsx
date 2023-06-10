@@ -12,6 +12,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
+import { Convert_PassWord } from "./Encryption.jsx";
 const ColorButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText("#ff0000"),
   backgroundColor: "black",
@@ -146,8 +147,12 @@ export default function ForgotPassword() {
       const param = new FormData();
       param.append("user_name", data.user_name);
       param.append("otp", data.otp);
-      param.append("password", data.password);
-      param.append("confirm_password", data.confirm_password);
+      param.append("encryption", 1);
+      param.append("password", Convert_PassWord({ message: data.password }));
+      param.append(
+        "confirm_password",
+        Convert_PassWord({ message: data.confirm_password })
+      );
 
       param.append("action", "verify_otp");
       axios

@@ -16,6 +16,7 @@ import Toast from "../commonComponet/Toast.jsx";
 import { IconButton, InputAdornment } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { Convert_PassWord } from "./Encryption.jsx";
 
 const ColorButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText("#ff0000"),
@@ -141,7 +142,11 @@ export default function Login1(prop) {
       setIsLoader(true);
       const param = new FormData();
       param.append("username", info.email);
-      param.append("password", info.password);
+      param.append("encryption", 1);
+      param.append(
+        "password",
+        Convert_PassWord({ message: info.password })
+      );
       axios.post(Url + "/ajaxfiles/login_check.php", param).then((res) => {
         // setLoader(false);
         if (res.data.status == "error") {

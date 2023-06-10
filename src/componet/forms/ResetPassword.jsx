@@ -8,6 +8,7 @@ import { NavLink, useParams } from "react-router-dom";
 import { Url } from "../../global.js";
 import axios from "axios";
 import Toast from "../commonComponet/Toast.jsx";
+import { Convert_PassWord } from "./Encryption.jsx";
 const ColorButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText("#ff0000"),
   backgroundColor: "black",
@@ -80,8 +81,9 @@ const ResetPassword = () => {
       param.append("action", "reset_password");
       param.append("q", id);
       param.append("p", id1);
-      param.append("new_password", info.password);
-      param.append("confirm_password", info.confirmPassword);
+      param.append("encryption", 1);
+      param.append("new_password", Convert_PassWord({ message: info.password }));
+      param.append("confirm_password",  Convert_PassWord({ message: info.confirmPassword }));
       axios.post(Url + "/ajaxfiles/reset_password.php", param).then((res) => {
         if (res.data.status == "error") {
           Toast("error", res.data.message);

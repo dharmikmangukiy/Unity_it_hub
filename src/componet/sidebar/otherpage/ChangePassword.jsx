@@ -20,6 +20,7 @@ import { IsApprove, Url } from "../../../global";
 
 import { useNavigate, useParams } from "react-router-dom";
 import Toast from "../../commonComponet/Toast";
+import { Convert_PassWord } from "../../forms/Encryption";
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
   "label + &": {
@@ -171,9 +172,11 @@ export const ChangePassword = () => {
         param.append("is_app", IsApprove.is_app);
         param.append("user_id", IsApprove.user_id);
         param.append("auth_key", IsApprove.auth);
+        param.append("is_crm", IsApprove.is_crm);
       }
-      param.append("new_password", age.password);
-      param.append("confirm_password", age.confirmPassword);
+      param.append("encryption", 1);
+      param.append("new_password", Convert_PassWord({ message: age.password }));
+      param.append("confirm_password", Convert_PassWord({ message: age.confirmPassword }));
       await axios
         .post(`${Url}/ajaxfiles/account_list.php`, param)
         .then((res) => {

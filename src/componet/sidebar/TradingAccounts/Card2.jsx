@@ -28,6 +28,7 @@ import { IsApprove, Url } from "../../../global.js";
 import Toast from "../../commonComponet/Toast";
 import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
+import { Convert_PassWord } from "../../forms/Encryption";
 
 const Card2 = (prop) => {
   const navigate = useNavigate();
@@ -181,10 +182,12 @@ const Card2 = (prop) => {
         param.append("is_app", IsApprove.is_app);
         param.append("user_id", IsApprove.user_id);
         param.append("auth_key", IsApprove.auth);
+        param.append("is_crm", IsApprove.is_crm);
       }
       param.append("mt5_balance", form.balance);
-      param.append("main_password", form.password);
-      param.append("confirm_password", form.confirm_password);
+      param.append("encryption", 1);
+      param.append("main_password", Convert_PassWord({ message: form.password }));
+      param.append("confirm_password", Convert_PassWord({ message: form.confirm_password }));
       if (
         planList.data == "" ||
         planList.data == [] ||

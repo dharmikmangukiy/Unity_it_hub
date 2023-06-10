@@ -29,6 +29,7 @@ import axios from "axios";
 import { IsApprove, Url } from "../../../global.js";
 import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
+import { Convert_PassWord } from "../../forms/Encryption";
 
 const Card1 = (prop) => {
   const navigate = useNavigate();
@@ -192,12 +193,15 @@ const Card1 = (prop) => {
         param.append("is_app", IsApprove.is_app);
         param.append("user_id", IsApprove.user_id);
         param.append("auth_key", IsApprove.auth);
+        param.append("is_crm", IsApprove.is_crm);
       }
       if (prop.type == "0") {
         param.append("mt5_balance", form.balance);
       }
-      param.append("main_password", form.password);
-      param.append("confirm_password", form.confirm_password);
+
+      param.append("encryption", 1);
+      param.append("main_password", Convert_PassWord({ message: form.password }));
+      param.append("confirm_password", Convert_PassWord({ message: form.confirm_password }));
       param.append("ib_group_id", planList.data[activeIndex].ib_group_level_id);
       param.append("account_type", prop.type);
       await axios

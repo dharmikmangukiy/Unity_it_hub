@@ -37,6 +37,7 @@ import { useNavigate } from "react-router-dom";
 import "./user_profile.css";
 import Counter from "../../customComponet/Counter";
 import Toast from "../../commonComponet/Toast";
+import { Convert_PassWord } from "../../forms/Encryption";
 
 const UserProfile = (prop) => {
   const navigate = useNavigate();
@@ -354,9 +355,10 @@ const UserProfile = (prop) => {
       Toast("error", "Confirm password must be same as new password");
     } else {
       const param = new FormData();
-      param.append("old_password", data.old_password);
-      param.append("new_password", data.new_password);
-      param.append("confirm_password", data.confirm_password);
+      param.append("encryption", 1);
+      param.append("old_password", Convert_PassWord({ message: data.old_password }));
+      param.append("new_password",Convert_PassWord({ message:  data.new_password }));
+      param.append("confirm_password", Convert_PassWord({ message: data.confirm_password }));
       if (IsApprove !== "") {
         param.append("is_app", IsApprove.is_app);
         param.append("user_id", IsApprove.user_id);

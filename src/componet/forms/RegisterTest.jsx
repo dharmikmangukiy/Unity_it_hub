@@ -20,6 +20,8 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
+import {Convert_PassWord} from "./Encryption";
+
 const RegisterTest = (prop) => {
   var regex = /^[a-zA-Z ]*$/;
   const { id, id1 } = useParams();
@@ -46,6 +48,7 @@ const RegisterTest = (prop) => {
     showPassword: false,
     send_otp: false,
   });
+
   useEffect(() => {
     if (id == "campaign") {
       var compaignData = id1.split("&");
@@ -160,7 +163,8 @@ const RegisterTest = (prop) => {
       param.append("user_email_address", info.email);
       param.append("user_country_code", info.code.phonecode);
       param.append("user_phone", info.phone);
-      param.append("user_password", info.password);
+      param.append("encryption", 1);
+      param.append("user_password", Convert_PassWord({ message: info.password }));
       //   param.append("send_otp ", "send_otp ");
 
       param.append("action", "send_otp");
@@ -240,11 +244,12 @@ const RegisterTest = (prop) => {
       };
     });
   };
-  const handleSubmit = (e) => {
-    onSubmitForm();
 
+  const handleSubmit = (e) => {
     e.preventDefault();
+    onSubmitForm();
   };
+
   const onSubmitForm = () => {
     if (info.fullName == "") {
       Toast("error", "Full Name is requied");
@@ -279,8 +284,13 @@ const RegisterTest = (prop) => {
       param.append("user_full_name", info.fullName);
       param.append("user_email_address", info.email);
       param.append("user_country_code", info.code.phonecode);
+      param.append("encryption", 1);
       param.append("user_phone", info.phone);
-      param.append("user_password", info.password);
+      param.append(
+        "user_password",
+        Convert_PassWord({ message: info.password })
+      );
+
       //   param.append("send_otp ", "send_otp ");
       if (info.send_otp) {
         param.append("send_otp", info.otp);
@@ -344,6 +354,7 @@ const RegisterTest = (prop) => {
   const filterOptions = createFilterOptions({
     stringify: (option) => option.phonecode,
   });
+
   return (
     <div>
       <div className="loginCard">
