@@ -279,6 +279,16 @@ const App = () => {
 
             <Route
               exact
+              path="/register/:id"
+              element={
+                <RegisterTest
+                  setLogin={setLogin}
+                  fetchUserPref={fetchUserPref}
+                />
+              }
+            />
+            <Route
+              exact
               path="/login_as/:id"
               element={
                 <LoginAs setLogin={setLogin} fetchUserPref={fetchUserPref} />

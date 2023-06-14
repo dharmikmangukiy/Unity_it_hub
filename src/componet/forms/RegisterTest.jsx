@@ -10,7 +10,7 @@ import {
 import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
+import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { Url } from "../../global";
 import "./newRegister.css";
@@ -20,13 +20,15 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
-import {Convert_PassWord} from "./Encryption";
-
+import { Convert_PassWord } from "./Encryption";
+var key = "";
+var valueOfKey = "";
 const RegisterTest = (prop) => {
   var regex = /^[a-zA-Z ]*$/;
   const { id, id1 } = useParams();
   const [timer, setTimer] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
   const [compaign, setCompaign] = useState({
     campaign_id: "",
     ref: "",
@@ -48,7 +50,7 @@ const RegisterTest = (prop) => {
     showPassword: false,
     send_otp: false,
   });
-
+  console.log(key, valueOfKey);
   useEffect(() => {
     if (id == "campaign") {
       var compaignData = id1.split("&");
@@ -58,25 +60,70 @@ const RegisterTest = (prop) => {
       compaign.ref = refId[1];
       setCompaign({ ...compaign });
     }
+    if (id == "share") {
+      var fullparth = location.search
+        .replace(/%3D/g, "=")
+        .replace(/%3F/g, "?")
+        .replace(/%2F/g, "/")
+        .replace(/%3A/g, "/")
+        .split("?");
+      console.log("id", fullparth);
+      if (fullparth.length >= 3) {
+        if (fullparth[1].split("=")[0] == "pkey") {
+          key = fullparth[1].split("=")[1];
+        }
+        if (fullparth[2].split("=")[0] == "pvalue") {
+          valueOfKey = fullparth[2].split("=")[1];
+        }
+      }
+    }
     // var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-
     // if (
     //   /android/i.test(userAgent) ||
     //   (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream)
     // ) {
     //   if (id == "campaign") {
-    //     window.open(`${Url}/deeplink/campaign_id/${compaign.ref}`, "_parent");
+    //     window.open(
+    //       `https://mydev.rightfx.com/share?register?pkey=campaign_id?pvalue=${compaign.ref}`,
+    //       "_parent"
+    //     );
+
+    //     // window.open(`${Url}/deeplink/campaign_id/${compaign.ref}`, "_parent");
     //   } else if (id == "managercode") {
-    //     window.open(`${Url}/deeplink/managercode/${id1}`, "_parent");
+    //     // window.open(`${Url}/deeplink/managercode/${id1}`, "_parent");
+    //     window.open(
+    //       `https://mydev.rightfx.com/share?register?pkey=managercode?pvalue=${id1}`,
+
+    //       "_parent"
+    //     );
     //   } else if (id == "affiliate") {
-    //     window.open(`${Url}/deeplink/affiliate/${id1}`, "_parent");
+    //     window.open(
+    //       `https://mydev.rightfx.com/share?register?pkey=affiliate?pvalue=${id1}`,
+    //       "_parent"
+    //     );
     //   } else if (id == "sponsor") {
-    //     window.open(`${Url}/deeplink/sponsor/${id1}`, "_parent");
+    //     window.open(
+    //       `https://mydev.rightfx.com/share?register?pkey=sponsor?pvalue=${id1}`,
+    //       "_parent"
+    //     );
     //   } else if (id == "referrer") {
-    //     window.open(`${Url}/deeplink/referrer/${id1}`, "_parent");
+    //     window.open(
+    //       `https://mydev.rightfx.com/share?register?pkey=referrer?pvalue=${id1}`,
+    //       "_parent"
+    //     );
     //   } else if (id == "referral_sponsor") {
-    //     window.open(`${Url}/deeplink/referral_sponsor/${id1}`, "_parent");
+    //     // window.open(`${Url}/deeplink/referral_sponsor/${id1}`, "_parent");
+    //     window.open(
+    //       `https://mydev.rightfx.com/share?register?pkey=referral_sponsor?pvalue=${id1}`,
+    //       "_parent"
+    //     );
+    //   } else {
+    //     window.open(
+    //       `https://mydev.rightfx.com/share?register?pkey=${id}?pvalue=${id1}`,
+    //       "_parent"
+    //     );
     //   }
+
     // }
 
     // iOS detection from: http://stackoverflow.com/a/9039885/177710
@@ -84,10 +131,10 @@ const RegisterTest = (prop) => {
     //   console.log("iPhone");
     // }
     getContry();
-    if (id == "sponsor") {
+    if (fullparth[1].split("=")[1] == "sponsor") {
       ibLink();
     }
-    if (id == "affiliate") {
+    if (fullparth[1].split("=")[1] == "affiliate") {
       affiliateLink();
     }
   }, []);
@@ -113,7 +160,7 @@ const RegisterTest = (prop) => {
 
   const affiliateLink = () => {
     const param = new FormData();
-    param.append("wallet_code", id1);
+    param.append("wallet_code", valueOfKey);
 
     axios
       .post(Url + "/ajaxfiles/affiliate_url_visit_logs.php", param)
@@ -121,7 +168,7 @@ const RegisterTest = (prop) => {
   };
   const ibLink = () => {
     const param = new FormData();
-    param.append("wallet_code", id1);
+    param.append("wallet_code", valueOfKey);
 
     axios
       .post(Url + "/ajaxfiles/ib_url_visit_logs.php", param)
@@ -164,7 +211,10 @@ const RegisterTest = (prop) => {
       param.append("user_country_code", info.code.phonecode);
       param.append("user_phone", info.phone);
       param.append("encryption", 1);
-      param.append("user_password", Convert_PassWord({ message: info.password }));
+      param.append(
+        "user_password",
+        Convert_PassWord({ message: info.password })
+      );
       //   param.append("send_otp ", "send_otp ");
 
       param.append("action", "send_otp");
@@ -310,9 +360,14 @@ const RegisterTest = (prop) => {
       if (id == "campaign") {
         param.append("campaign_id", compaign.ref);
       } else {
-        param.append(id, id1);
+        if (id && id1) {
+          param.append(id, id1);
+        }
       }
 
+      if (key && valueOfKey) {
+        param.append(key, valueOfKey);
+      }
       info.isLoader = true;
       setinfo({ ...info });
       axios
