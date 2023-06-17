@@ -24,7 +24,9 @@ import Toast from "../../../commonComponet/Toast";
 import { SafetyDividerRounded } from "@mui/icons-material";
 
 export const Withdrawal = (prop) => {
-  const { id } = useParams();
+  const { id, id1 } = useParams();
+  const RecevedID = useParams();
+
   const [option, setOption] = useState("");
   const [disable, setDisable] = useState(false);
   const [checked, setChecked] = useState();
@@ -150,12 +152,30 @@ export const Withdrawal = (prop) => {
       } else {
         mainLoader.methodtype = false;
         setMainLoader({ ...mainLoader });
+        // console.log(RecevedID.id)
+        if (id1 == 1) {
+          age.payment_method = "Bank";
+          var user_back_id = "";
+          res.data.data.map((item) => {
+            if (item.payment_type == "bank") {
+              if (item?.payment_bank.length !== 0) {
+                user_back_id = item.payment_bank[0].user_bank_id;
+                return item.payment_bank[0].user_bank_id;
+              }
+            }
+          });
+          age.user_bank_id = user_back_id;
+          setAge({ ...age });
+          setOption("Bank");
+          // console.log(age.user_bank_id);
+        }
         methodType.list = res.data.payment_method;
         methodType.subList = res.data.data;
         setMethodType({ ...methodType });
       }
     });
   };
+
   const fetchMT5AccountDetaiils = (prop) => {
     const param = new FormData();
     if (IsApprove !== "") {
@@ -475,6 +495,10 @@ export const Withdrawal = (prop) => {
     }
   }, [ageErrors, isSubmit, navigate]);
 
+  const NavigationId = () => {
+    navigate(`/bankAccounts/${age.withdraw_from}/${1}`);
+  };
+
   const menuItem = () => {
     if (option == "Bank") {
       return (
@@ -506,33 +530,39 @@ export const Withdrawal = (prop) => {
               style={{ width: "100%" }}
               onBlur={trueFalse}
             >
-              <MenuItem value="">Select Option</MenuItem>
-              {!bankMenu
-                ? ""
-                : bankMenu.map((item) => {
-                    return (
-                      <MenuItem value={item.user_bank_id}>
-                        {item.bank_account_holder_name} {"("}
-                        {item.bank_account_number}
-                        {")"}
-                      </MenuItem>
-                    );
-                  })}
+              {methodType.subList[0].payment_bank.length == "0" ? (
+                <MenuItem value="" onClick={NavigationId}>
+                  Please Add Your Bank
+                </MenuItem>
+              ) : (
+                methodType.subList.map((item) => {
+                  if (item.payment_type == "bank") {
+                    return item.payment_bank.map((item1) => {
+                      <MenuItem value="">Select Option</MenuItem>;
+                      return (
+                        <MenuItem value={item1.user_bank_id}>
+                          {item1.bank_account_holder_name} {"("}
+                          {item1.bank_account_number} {")"}
+                        </MenuItem>
+                      );
+                    });
+                  }
+                })
+              )}
             </Select>
-            {bankMenu.length == "0" ? (
+            {methodType.subList[0].payment_bank.length == "0" ? (
               <p>
                 No Bank Account added
-                <NavLink to="/bankAccounts">
-                  <ColorButton
-                    type="submit"
-                    variant="contained"
-                    size="small"
-                    className="mt-2 text-capitalize"
-                    sx={{ marginLeft: "10px" }}
-                  >
-                    Add new Bank Account
-                  </ColorButton>
-                </NavLink>
+                <ColorButton
+                  onClick={NavigationId}
+                  type="submit"
+                  variant="contained"
+                  size="small"
+                  className="mt-2 text-capitalize"
+                  sx={{ marginLeft: "10px" }}
+                >
+                  Add new Bank Account
+                </ColorButton>
               </p>
             ) : (
               ""

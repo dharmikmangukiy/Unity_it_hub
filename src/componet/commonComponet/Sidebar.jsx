@@ -39,6 +39,7 @@ import { ReactComponent as Spin } from "../../svg/spin.svg";
 import { ReactComponent as Contest } from "../../svg/Contest.svg";
 
 import Toast from "./Toast";
+import AffiliateProgram from "../../ibdashbord/AffiliateProgram";
 
 const style = {
   margin: "0 1.42857rem 0 0",
@@ -951,6 +952,16 @@ const Sidebar = (prop) => {
                       {/* <span className="material-icons  icon_Mar">dashboard</span> */}
                       <AffiliatePromo className="hoverSidebar" />
                       Affiliate Promo
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      className="nav-link-simple "
+                      to="/AffiliateProgram"
+                      onClick={CloseSidebar}
+                    >
+                      {/* <AffiliateProgram className="hoverSidebar" /> */}
+                      Affiliate Program
                     </NavLink>
                   </li>
                 </ul>

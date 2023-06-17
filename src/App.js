@@ -90,6 +90,7 @@ import Withdrawal_in_Telegram from "./componet/sidebar/otherpage/Withdrawal_in_T
 import AffiliatePromo from "./componet/AffiliatePromo";
 import IbUserHistory from "./componet/sidebar/ibReport/IbUserHistory";
 import RightgFxAndroid from "./componet/sidebar/Platforms/RightgFxAndroid";
+import AffiliateProgram from "./ibdashbord/AffiliateProgram";
 
 function useScrollToTop() {
   const { pathname } = useLocation();
@@ -151,7 +152,9 @@ const App = () => {
             (localStorage.getItem("affiliate") == 1 ||
               pathname == "/Affiliatedashboard" ||
               pathname == "/AffiliatePromo" ||
-              pathname == "/earnReport")
+              pathname == "/earnReport" 
+              // pathname == "/AffiliateProgram"
+              )
           ) {
             SetMoveAff(true);
           } else {
@@ -385,6 +388,15 @@ const App = () => {
                   ) : (
                     ""
                   )}
+                            {permission.data.is_affiliate == "1" ? (
+                    <Route
+                      exact
+                      path="/AffiliateProgram"
+                      element={<AffiliateProgram permission={permission.data} />}
+                    />
+                  ) : (
+                    ""
+                  )}
                   <Route
                     exact
                     path="/"
@@ -509,6 +521,11 @@ const App = () => {
                     path="/withdrawal/:id"
                     element={<Withdrawal getwallet={getwallet} />}
                   />
+                      <Route
+                    exact
+                    path="/withdrawal/:id/:id1"
+                    element={<Withdrawal getwallet={getwallet} />}
+                  />
                   <Route
                     exact
                     path="/withdrawal/t/:id"
@@ -571,6 +588,11 @@ const App = () => {
                   <Route
                     exact
                     path="/bankAccounts"
+                    element={<BankAccountp />}
+                  />
+                  <Route
+                    exact
+                    path="/bankAccounts/:mt5_ac/:id"
                     element={<BankAccountp />}
                   />
                   <Route exact path="/activities" element={<Activities />} />

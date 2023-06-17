@@ -11,16 +11,16 @@ const Url = "https://mydev.rightfx.com";
 //   user_id: "8614",
 // };
 
-const IsApprove = {
-  is_app: 1,
-  auth: "a56700-91df87-c3ae8d",
-  user_id: "6088",
-};
 // const IsApprove = {
 //   is_app: 1,
-//   auth: "d1977d-adadd8-d4f12a",
-//   user_id: "13177",
+//   auth: "a56700-91df87-c3ae8d",
+//   user_id: "6088",
 // };
+const IsApprove = {
+  is_app: 1,
+  auth: "d1977d-adadd8-d4f12a",
+  user_id: "13177",
+};
 // const IsApprove = {
 //   is_app: 1,
 //   auth: "cff995-a38ad9-aaf588",

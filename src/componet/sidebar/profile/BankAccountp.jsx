@@ -31,11 +31,13 @@ import Button from "@mui/material/Button";
 import { BootstrapInput } from "../../customComponet/CustomElement";
 import axios from "axios";
 import { IsApprove, Url } from "../../../global";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Counter from "../../customComponet/Counter";
 import Toast from "../../commonComponet/Toast";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import CustomImageModal from "../../customComponet/CustomImageModal";
+import ErrorRoundedIcon from "@mui/icons-material/ErrorRounded";
+import Tooltip from "@mui/material/Tooltip";
 
 const BootstrapInput1 = styled(InputBase)(({ theme }) => ({
   "label + &": {
@@ -66,6 +68,7 @@ const SelectFieldStyle = {
 const re = /^[A-Za-z_ ]*$/;
 
 const BankAccountp = () => {
+  const NewParam = useParams();
   const navigate = useNavigate();
   const [submitted, setSubmitted] = useState();
   const [data, setData] = useState([]);
@@ -110,7 +113,7 @@ const BankAccountp = () => {
     iban: "",
     otp: "",
     swift_code: "",
-    currency: "",
+    currency: "USD",
     ibanselect: "IFSC",
     bank_proof: "",
     bank_proof_preview: "",
@@ -204,7 +207,7 @@ const BankAccountp = () => {
     setOnEdit(true);
     // setData(data.map((item) => (item.index === index ? index : item)));
   };
-  console.log(age);
+  console.log(NewParam);
   const fetchUserPref1 = () => {
     const param = new FormData();
     setMainLoader(true);
@@ -218,6 +221,7 @@ const BankAccountp = () => {
         navigate("/");
       }
       cData.currency = res.data.bank_currency;
+
       setCData({ ...cData });
       setData(res.data.data);
       setMainLoader(false);
@@ -267,8 +271,8 @@ const BankAccountp = () => {
       notify("Verify IFSc code");
       errors.bankName = "Benificiary bank name required";
     } else if (!values.bank_proof && !age.bank_proof_preview) {
-      notify("Please enter bank proof like passbook or checkbook.");
-      errors.bankName = "Please enter bank proof like passbook or checkbook.";
+      notify("Please upload bank proof like a passbook or checkbook");
+      errors.bankName = "Please upload bank proof like a passbook or checkbook";
     }
     return errors;
   };
@@ -302,7 +306,7 @@ const BankAccountp = () => {
           ifscData.buttonDisable = false;
           ifscData.data = res.data.bank_data;
           setIfscData({ ...ifscData });
-          Toast("success", res.data.message);
+          // Toast("success", res.data.message);
         }
       });
     }
@@ -434,6 +438,7 @@ const BankAccountp = () => {
                   otpLoder: false,
                   showButton: false,
                 });
+
                 setAge((prevalue) => {
                   return { ...prevalue, isLoader: false };
                 });
@@ -547,15 +552,15 @@ const BankAccountp = () => {
                         </Button>
 
                         {item.bank_status == "2" ? (
-                          <a href="/bankAccounts#bankDetails">
-                            <Button
-                              type="submit"
-                              className="cursor-pointer  p-0 p-md-2 rounded-circle text-muted"
-                              onClick={handleEdit(item)}
-                            >
-                              <CreateIcon sx={{ color: "#3D9730" }} />
-                            </Button>
-                          </a>
+                          <Button
+                            as={Link}
+                            to={`bankAccounts#bankDetails/${NewParam.id}`}
+                            type="submit"
+                            className="cursor-pointer  p-0 p-md-2 rounded-circle text-muted"
+                            onClick={handleEdit(item)}
+                          >
+                            <CreateIcon sx={{ color: "#3D9730" }} />
+                          </Button>
                         ) : (
                           ""
                         )}
@@ -623,7 +628,7 @@ const BankAccountp = () => {
                                 </svg>
                               </Button>
                             ) : (
-                              <Button
+                              <ColorButton
                                 type="submit"
                                 onClick={handleDelete}
                                 size="medium"
@@ -632,7 +637,7 @@ const BankAccountp = () => {
                                 autoFocus
                               >
                                 Delete
-                              </Button>
+                              </ColorButton>
                             )}
                           </div>
                         </DialogContent>
@@ -670,7 +675,15 @@ const BankAccountp = () => {
       return "Password must contain atleast 8 characters";
     }
   };
-
+  const HandleGo = () => {
+    navigate(`bankAccounts#bankDetails/${NewParam.id}`);
+  };
+  const CallMe = () => {
+    if (NewParam.id == 1) {
+      console.log("ok done");
+      navigate(`/withdrawal/${NewParam.mt5_ac}/${NewParam.id}`);
+    }
+  };
   return (
     <div>
       <div className="app-content--inner">
@@ -701,6 +714,7 @@ const BankAccountp = () => {
                         <div className="card-header d-flex align-items-center justify-content-between card-header-alt p-3">
                           <h5 className="font-weight-bold mb-0 text-dark">
                             My Bank Accounts
+                            <button onClick={CallMe}>Moklo </button>
                           </h5>
                         </div>
                         <div className="divider"></div>
@@ -716,18 +730,20 @@ const BankAccountp = () => {
                                   BANK INFORMATION
                                 </h5>
                               </div>
-                              <a href="/bankAccounts#bankDetails">
-                                <div
-                                  className="add-bank-button pt-3 text-center"
-                                  style={{ width: "150px", cursor: "pointer" }}
-                                  onClick={() => {
+
+                              <div
+                                className="add-bank-button pt-3 text-center"
+                                style={{ width: "150px", cursor: "pointer" }}
+                                onClick={
+                                  (HandleGo,
+                                  () => {
                                     setOption(true);
                                     setAge({
                                       name: "",
                                       bankName: "",
                                       iban: "",
                                       swift_code: "",
-                                      currency: "",
+                                      currency: "USD",
                                       bankAccountNumber: "",
                                       otp: "",
                                       confirmbankAccountNumber: "",
@@ -755,23 +771,23 @@ const BankAccountp = () => {
                                       buttonDisable: true,
                                     });
                                     setOnEdit(false);
+                                  })
+                                }
+                              >
+                                <AccountBalanceIcon
+                                  style={{
+                                    fontSize: "35px",
+                                    color: "#5d2067",
                                   }}
-                                >
-                                  <AccountBalanceIcon
-                                    style={{
-                                      fontSize: "35px",
-                                      color: "#5d2067",
-                                    }}
-                                  />
+                                />
 
-                                  <p
-                                    className="d-md-block"
-                                    style={{ color: "#5d2067" }}
-                                  >
-                                    Add Bank Info
-                                  </p>
-                                </div>
-                              </a>
+                                <p
+                                  className="d-md-block"
+                                  style={{ color: "#5d2067" }}
+                                >
+                                  Add Bank Info
+                                </p>
+                              </div>
                             </Grid>
                             <hr className="mt-0 ml-2"></hr>
                             {submit()}
@@ -1105,6 +1121,7 @@ const BankAccountp = () => {
                                                   );
                                                 age.iban = res.toUpperCase();
                                                 setAge({ ...age });
+                                                ifscData.data = "";
                                               }}
                                               displayempty
                                               inputProps={{
@@ -1156,6 +1173,9 @@ const BankAccountp = () => {
                                                       width: "35%",
                                                       marginLeft: "10px",
                                                     }}
+                                                    disabled={
+                                                      ifscData.data != ""
+                                                    }
                                                   >
                                                     Verify Code
                                                   </ColorButton>
@@ -1205,11 +1225,27 @@ const BankAccountp = () => {
                                         sx={{
                                           display: "flex",
                                           justifyContent: "center",
-                                          alignItems: "end",
+                                          alignItems: "top",
                                         }}
                                       >
                                         {age.bank_proof_preview ? (
                                           <div className="">
+                                            <span className="font-weight-bold ">
+                                              Bank PassBook or Cheque
+                                            </span>
+                                            <Tooltip
+                                              title="You Need to Upload Passbook or Cancel Check Image here, Please Review the uploaded document to verify its clarity and legibility. If it is not visible clearly or does not meet the required criteria, it may be automatically rejected. If your document is rejected, you may need to repeat the process and upload the correct bank proof that meets the necessary guidelines."
+                                              arrow
+                                            >
+                                              <ErrorRoundedIcon
+                                                style={{
+                                                  fontSize: "18px",
+                                                  marginLeft: "5px",
+                                                  color: "gray",
+                                                }}
+                                              />
+                                            </Tooltip>
+                                            <br />
                                             <a
                                               className="bg-transparent p-0 border-0 "
                                               style={{
@@ -1243,6 +1279,7 @@ const BankAccountp = () => {
                                             <label
                                               htmlFor="contained-button-file"
                                               className="ticket-file-upload"
+                                              style={{ marginTop: "10px" }}
                                             >
                                               <Input
                                                 accept="image/x-png,image/gif,image/jpeg"
@@ -1273,10 +1310,26 @@ const BankAccountp = () => {
                                                   }
                                                 }}
                                               />
-
+                                              <span className="font-weight-bold ">
+                                                Bank PassBook or Cheque
+                                              </span>
+                                              <Tooltip
+                                                title="You Need to Upload Passbook or Cancel Check Image here, Please Review the uploaded document to verify its clarity and legibility. If it is not visible clearly or does not meet the required criteria, it may be automatically rejected. If your document is rejected, you may need to repeat the process and upload the correct bank proof that meets the necessary guidelines."
+                                                arrow
+                                              >
+                                                <ErrorRoundedIcon
+                                                  style={{
+                                                    fontSize: "18px",
+                                                    marginLeft: "5px",
+                                                    color: "gray",
+                                                  }}
+                                                />
+                                              </Tooltip>
+                                              <br />
                                               <ColorButton
                                                 variant="contained"
                                                 component="span"
+                                                className="mt-2"
                                               >
                                                 <i className="material-icons">
                                                   backup
