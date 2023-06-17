@@ -27,7 +27,7 @@ const AffiliateProgram = () => {
                 </div>
               </div>
               <div className="d-flex align-items-center justify-content-center tablepading">
-                <table className="table table-hover ">
+                <table className="table table-hover " id="table">
                   <thead>
                     <tr>
                       <th

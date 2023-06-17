@@ -166,6 +166,7 @@ const BankAccountp = () => {
         }
       });
   };
+  
   const handleEdit = (item) => () => {
     setUserBankId(item.user_bank_id);
     setAge({
@@ -428,7 +429,12 @@ const BankAccountp = () => {
                 });
               } else {
                 Toast("success", res.data.message);
+                if (NewParam.id == 1) {
+                  console.log("ok done");
+                  navigate(`/withdrawal/${NewParam.mt5_ac}/${NewParam.id}`);
+                }
                 fetchUserPref1();
+               
                 // setData([...data, age]);
                 setSubmitted(true);
                 // notify("Bank account created successfully");
@@ -678,12 +684,9 @@ const BankAccountp = () => {
   const HandleGo = () => {
     navigate(`bankAccounts#bankDetails/${NewParam.id}`);
   };
-  const CallMe = () => {
-    if (NewParam.id == 1) {
-      console.log("ok done");
-      navigate(`/withdrawal/${NewParam.mt5_ac}/${NewParam.id}`);
-    }
-  };
+
+    
+
   return (
     <div>
       <div className="app-content--inner">
@@ -714,7 +717,6 @@ const BankAccountp = () => {
                         <div className="card-header d-flex align-items-center justify-content-between card-header-alt p-3">
                           <h5 className="font-weight-bold mb-0 text-dark">
                             My Bank Accounts
-                            <button onClick={CallMe}>Moklo </button>
                           </h5>
                         </div>
                         <div className="divider"></div>
