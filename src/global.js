@@ -11,14 +11,14 @@ const Url = "https://mydev.rightfx.com";
 //   user_id: "8614",
 // };
 
+const IsApprove = {
+  is_app: 1,
+  auth: "a56700-91df87-c3ae8d",
+  user_id: "6088",
+};
 // const IsApprove = {
 //   is_app: 1,
-//   auth: "a56700-91df87-c3ae8d",
-//   user_id: "6088",
-// };
-// const IsApprove = {
-//   is_app: 1,
-//   auth: "db05cf-8750e4-2fa491",
+//   auth: "d1977d-adadd8-d4f12a",
 //   user_id: "13177",
 // };
 // const IsApprove = {
@@ -27,5 +27,5 @@ const Url = "https://mydev.rightfx.com";
 //   user_id: "13653",
 //   is_crm: 1,
 // };
-const IsApprove = "";
+// const IsApprove = "";
 export { Url, IsApprove };

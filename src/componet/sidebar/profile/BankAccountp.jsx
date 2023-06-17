@@ -6,6 +6,7 @@ import {
   FormControlLabel,
   Radio,
   FormHelperText,
+  Input,
 } from "@mui/material";
 import TopButton from "../../customComponet/TopButton";
 import { Paper } from "@mui/material";
@@ -33,6 +34,8 @@ import { IsApprove, Url } from "../../../global";
 import { useNavigate } from "react-router-dom";
 import Counter from "../../customComponet/Counter";
 import Toast from "../../commonComponet/Toast";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import CustomImageModal from "../../customComponet/CustomImageModal";
 
 const BootstrapInput1 = styled(InputBase)(({ theme }) => ({
   "label + &": {
@@ -109,6 +112,8 @@ const BankAccountp = () => {
     swift_code: "",
     currency: "",
     ibanselect: "IFSC",
+    bank_proof: "",
+    bank_proof_preview: "",
     isLoader: "",
   });
   const trueFalse = (event) => {
@@ -167,6 +172,8 @@ const BankAccountp = () => {
       iban: item.bank_ifsc,
       swift_code: item.swift_code,
       currency: item.currency,
+      bank_proof: "",
+      bank_proof_preview: item.upload_proof,
       confirmbankAccountNumber: item.bank_account_number,
       ibanselect: "IFSC",
       otp: "",
@@ -197,7 +204,7 @@ const BankAccountp = () => {
     setOnEdit(true);
     // setData(data.map((item) => (item.index === index ? index : item)));
   };
-
+  console.log(age);
   const fetchUserPref1 = () => {
     const param = new FormData();
     setMainLoader(true);
@@ -259,6 +266,9 @@ const BankAccountp = () => {
     } else if (values.iban !== ifscData.data.IFSC && age.ibanselect == "IFSC") {
       notify("Verify IFSc code");
       errors.bankName = "Benificiary bank name required";
+    } else if (!values.bank_proof && !age.bank_proof_preview) {
+      notify("Please enter bank proof like passbook or checkbook.");
+      errors.bankName = "Please enter bank proof like passbook or checkbook.";
     }
     return errors;
   };
@@ -307,6 +317,9 @@ const BankAccountp = () => {
         param.append("bank_account_number", age.bankAccountNumber);
         param.append("swift_code", age.swift_code);
         param.append("currency", age.currency);
+        if (age.bank_proof && age.bank_proof_preview) {
+          param.append("bank_proof", age.bank_proof);
+        }
 
         param.append(
           "confirm_bank_account_number",
@@ -364,6 +377,7 @@ const BankAccountp = () => {
               if (res.data.status == "error") {
                 sendOtp.otpLoder = false;
                 setSendOtp({ ...sendOtp });
+                notify(res.data.message);
               } else {
                 sendOtp.otp = true;
                 sendOtp.otpLoder = false;
@@ -380,6 +394,8 @@ const BankAccountp = () => {
         param.append("bank_account_number", age.bankAccountNumber);
         param.append("swift_code", age.swift_code);
         param.append("currency", age.currency);
+        param.append("bank_proof", age.bank_proof);
+
         param.append(
           "confirm_bank_account_number",
           age.confirmbankAccountNumber
@@ -473,6 +489,7 @@ const BankAccountp = () => {
                   <TableCell align="center">Account Number</TableCell>
                   <TableCell align="center">IFSC/IBAN</TableCell>
                   <TableCell align="center">Swift Code</TableCell>
+                  <TableCell align="center">Status</TableCell>
 
                   <TableCell align="center">Action</TableCell>
                 </TableRow>
@@ -502,6 +519,24 @@ const BankAccountp = () => {
 
                     <TableCell align="center">{item.bank_ifsc}</TableCell>
                     <TableCell align="center">{item.swift_code}</TableCell>
+                    <TableCell
+                      align="center"
+                      className={`text-color-${
+                        item.bank_status == "1"
+                          ? "green"
+                          : item.bank_status == "2"
+                          ? "red"
+                          : "yellow"
+                      }`}
+                    >
+                      {" "}
+                      {item.bank_status == "1"
+                        ? "Approved"
+                        : item.bank_status == "2"
+                        ? "Rejected"
+                        : "Pending"}
+                    </TableCell>
+
                     <TableCell align="center">
                       <div>
                         <Button
@@ -510,15 +545,20 @@ const BankAccountp = () => {
                         >
                           <DeleteIcon sx={{ color: "red" }} />
                         </Button>
-                        <a href="/bankAccounts#bankDetails">
-                          <Button
-                            type="submit"
-                            className="cursor-pointer  p-0 p-md-2 rounded-circle text-muted"
-                            onClick={handleEdit(item)}
-                          >
-                            <CreateIcon sx={{ color: "#3D9730" }} />
-                          </Button>
-                        </a>
+
+                        {item.bank_status == "2" ? (
+                          <a href="/bankAccounts#bankDetails">
+                            <Button
+                              type="submit"
+                              className="cursor-pointer  p-0 p-md-2 rounded-circle text-muted"
+                              onClick={handleEdit(item)}
+                            >
+                              <CreateIcon sx={{ color: "#3D9730" }} />
+                            </Button>
+                          </a>
+                        ) : (
+                          ""
+                        )}
                       </div>
                       <Dialog
                         open={open}
@@ -1159,45 +1199,95 @@ const BankAccountp = () => {
                                           )}
                                         </FormControl>
                                       </Grid>
-                                      {/* {age.ibanselect == "IFSC" ? (
-                                        <Grid
-                                          item
-                                          md={2}
-                                          sx={{ marginTop: "30px" }}
-                                          style={{ paddingTop: "0px" }}
-                                        >
-                                          {ifscData.isLoader == true ? (
-                                            <ColorButton
-                                              className="mb-2 resveributton"
-                                              disabled
-                                              style={{ padding: "21px 52px" }}
+                                      <Grid
+                                        item
+                                        md={6}
+                                        sx={{
+                                          display: "flex",
+                                          justifyContent: "center",
+                                          alignItems: "end",
+                                        }}
+                                      >
+                                        {age.bank_proof_preview ? (
+                                          <div className="">
+                                            <a
+                                              className="bg-transparent p-0 border-0 "
+                                              style={{
+                                                top: "-20px",
+                                                left: "-5px",
+                                              }}
+                                              onClick={() => {
+                                                age.bank_proof = "";
+                                                age.bank_proof_preview = "";
+                                                setAge({ ...age });
+                                              }}
                                             >
-                                              <svg
-                                                class="spinner"
-                                                viewBox="0 0 50 50"
+                                              <CloseOutlinedIcon className="fontimgclose" />
+                                            </a>
+                                            <CustomImageModal
+                                              image={age.bank_proof_preview}
+                                              className="deposit-upload-image-preview"
+                                            />
+                                            {infoTrue.bank_proof == true &&
+                                            !age.bank_proof_preview ? (
+                                              <span className="doc-Requied">
+                                                Requied!
+                                              </span>
+                                            ) : (
+                                              ""
+                                            )}
+                                          </div>
+                                        ) : (
+                                          <>
+                                            <p></p>
+                                            <label
+                                              htmlFor="contained-button-file"
+                                              className="ticket-file-upload"
+                                            >
+                                              <Input
+                                                accept="image/x-png,image/gif,image/jpeg"
+                                                id="contained-button-file"
+                                                multiple
+                                                type="file"
+                                                onChange={(e) => {
+                                                  if (
+                                                    e.target.files[0].type ==
+                                                      "image/jpeg" ||
+                                                    e.target.files[0].type ==
+                                                      "image/png" ||
+                                                    e.target.files[0].type ==
+                                                      "image/jpg"
+                                                  ) {
+                                                    age.bank_proof =
+                                                      e.target.files[0];
+                                                    age.bank_proof_preview =
+                                                      URL.createObjectURL(
+                                                        e.target.files[0]
+                                                      );
+                                                    setAge({ ...age });
+                                                  } else {
+                                                    Toast(
+                                                      "error",
+                                                      "Only JPG, JPEG and PNG types are accepted."
+                                                    );
+                                                  }
+                                                }}
+                                              />
+
+                                              <ColorButton
+                                                variant="contained"
+                                                component="span"
                                               >
-                                                <circle
-                                                  class="path"
-                                                  cx="25"
-                                                  cy="25"
-                                                  r="20"
-                                                  fill="none"
-                                                  stroke-width="5"
-                                                ></circle>
-                                              </svg>
-                                            </ColorButton>
-                                          ) : (
-                                            <ColorButton
-                                              className="mb-2 resveributton"
-                                              onClick={checkIfscCode}
-                                            >
-                                              Verify Code
-                                            </ColorButton>
-                                          )}
-                                        </Grid>
-                                      ) : (
-                                        ""
-                                      )} */}
+                                                <i className="material-icons">
+                                                  backup
+                                                </i>
+                                                &nbsp;Upload Bank Proof
+                                              </ColorButton>
+                                            </label>
+                                          </>
+                                        )}
+                                      </Grid>
+
                                       {sendOtp.showButton ? (
                                         <Grid item md={6}>
                                           <FormControl

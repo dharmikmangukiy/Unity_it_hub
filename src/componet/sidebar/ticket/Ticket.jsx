@@ -166,9 +166,9 @@ const Ticket = () => {
 
   const submitForm = async () => {
     if (form.title == "") {
-      Toast("error", "Please enter ticket title");
+      Toast("error", "Please Enter Ticket Subject");
     } else if (form.subject == "") {
-      Toast("error", "Please select ticket subject");
+      Toast("error", "Please Select Category");
     } else if (form.description == "") {
       Toast("error", "Please enter ticket description");
     } else {
@@ -180,8 +180,8 @@ const Ticket = () => {
         param.append("user_id", IsApprove.user_id);
         param.append("auth_key", IsApprove.auth);
       }
-      param.append("ticketTitle", form.title);
-      param.append("subject", form.subject);
+      param.append("ticketTitle", form.subject);
+      param.append("subject", form.title);
       param.append("ticketBody", form.description);
       if (form.file != "") {
         param.append("attachment", form.file);
@@ -286,7 +286,7 @@ const Ticket = () => {
                                       {form.title == "" &&
                                       infoTrue.title == true ? (
                                         <FormHelperText>
-                                          Please Enter Title
+                                          Please Enter Ticket Subject
                                         </FormHelperText>
                                       ) : (
                                         ""
@@ -341,7 +341,7 @@ const Ticket = () => {
                                       {form.subject == "" &&
                                       infoTrue.subject == true ? (
                                         <FormHelperText>
-                                          Please Select Subject
+                                          Please Select Category
                                         </FormHelperText>
                                       ) : (
                                         ""

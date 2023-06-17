@@ -1,11 +1,11 @@
 .text-color-yellow {
-  color: #b1b122;
+  color: #b1b122 !important;
 }
 .text-color-red {
-  color: red;
+  color: red !important;
 }
 .text-color-green {
-  color: green;
+  color: green !important;
 }
 .tooltip1 {
   position: relative;

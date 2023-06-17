@@ -275,6 +275,7 @@ export const Withdrawal = (prop) => {
         }
         setIsLoader1(false);
         Toast("success", res.data.message);
+        window.client.emit("playSound4");
 
         setAge({
           amount: "",

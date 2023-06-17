@@ -287,6 +287,7 @@ const DepositeTest = (prop) => {
               navigate(`/deposit/${info.amount}/${info.depositTo}`);
             }
             Toast("success", res.data.message);
+            window.client.emit("playSound");
           }
         });
     }

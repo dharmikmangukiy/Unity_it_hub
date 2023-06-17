@@ -326,6 +326,8 @@ const InternalTransfer = (prop) => {
             }
 
             Toast("success", res.data.message);
+            window.client.emit("playSound3");
+
             // setIsOTP(false);
             setIsInputMT5(false);
             // setIsInputWallet(false);
