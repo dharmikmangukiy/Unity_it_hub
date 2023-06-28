@@ -81,7 +81,7 @@ const DepositHistory = () => {
       grow: 0.3,
     },
     {
-      name: "WALLET/MT5",
+      name: "WALLET/ MT5",
       selector: (row) => {
         return <span title={row.wallet_code}>{row.wallet_code}</span>;
       },
@@ -110,19 +110,15 @@ const DepositHistory = () => {
       reorder: true,
       grow: 0.5,
     },
-    /* {
-      name: "USER COMMENT",
+    {
+      name: "crypto address",
       selector: (row) => {
-        return (
-          <span title={row.user_visible_password}>
-            {row.user_visible_password}
-          </span>
-        );
+        return <span title={row.crypto_address}>{row.crypto_address}</span>;
       },
       sortable: true,
       reorder: true,
-      grow: 1,
-    }, */
+      grow: 0.7,
+    },
     {
       name: "AMOUNT",
       selector: (row) => {

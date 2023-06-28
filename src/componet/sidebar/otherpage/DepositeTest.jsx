@@ -48,6 +48,7 @@ const DepositeTest = (prop) => {
     selsectRadio: "",
     bank_details: [],
     utn: "",
+    is_auto: "",
     slug: "",
     qrcode_url: "",
     cryptoData: "",
@@ -235,6 +236,24 @@ const DepositeTest = (prop) => {
       !info.image
     ) {
       Toast("error", "image is required");
+    } else if (
+      (info.slug == "USDT.TRC20" ||
+        info.slug == "BTC" ||
+        info.slug == "ETH" ||
+        info.slug == "LTC") &&
+      !info.image &&
+      info.is_auto == "0"
+    ) {
+      Toast("error", "image is required");
+    } else if (
+      (info.slug == "USDT.TRC20" ||
+        info.slug == "BTC" ||
+        info.slug == "ETH" ||
+        info.slug == "LTC") &&
+      !info.utn &&
+      info.is_auto == "0"
+    ) {
+      Toast("error", "Crypto Address is required");
     } else {
       param.append("deposit_method", info.slug);
       param.append("amount", info.amount);
@@ -247,7 +266,7 @@ const DepositeTest = (prop) => {
       }
       param.append("bonus_percentage", info.selsectRadio);
 
-      param.append("utr_number", info.utn);
+      param.append("crypto_address", info.utn);
 
       if (
         (info.slug == "upi" ||
@@ -260,6 +279,16 @@ const DepositeTest = (prop) => {
         param.append("deposit_proof", info.image);
       }
 
+      if (
+        (info.slug == "USDT.TRC20" ||
+          info.slug == "BTC" ||
+          info.slug == "ETH" ||
+          info.slug == "LTC") &&
+        info.image &&
+        info.is_auto == "0"
+      ) {
+        param.append("deposit_proof", info.image);
+      }
       info.isLoader = true;
       setInfo({ ...info });
       await axios
@@ -603,7 +632,7 @@ const DepositeTest = (prop) => {
                                         info.qrcode_url = item.qr_code;
                                         info.slug = item.slug;
                                         info.bank_details = item.bank_details;
-
+                                        info.is_auto = item?.is_auto;
                                         setInfo({ ...info });
                                       }}
                                       className={`lideposit mar-10 ${
@@ -625,6 +654,8 @@ const DepositeTest = (prop) => {
                                               item.bank_details;
                                             info.qrcode_url = item.qr_code;
                                             info.slug = item.slug;
+                                            info.is_auto = item.is_auto;
+
                                             setInfo({ ...info });
                                           }}
                                           //   onClick={modalopen}
@@ -1448,6 +1479,288 @@ const DepositeTest = (prop) => {
                     ) : (
                       ""
                     )}
+                    {(info.slug == "USDT.TRC20" ||
+                      info.slug == "BTC" ||
+                      info.slug == "ETH" ||
+                      info.slug == "LTC") &&
+                    info.is_auto == "0" ? (
+                      <Grid container spacing={3}>
+                        <Grid item md={12} className="d-flex">
+                          <Paper
+                            elevation={1}
+                            style={{ borderRadius: "10px" }}
+                            className="w-100 mb-3"
+                          >
+                            <div
+                              className="card-header d-flex align-items-center justify-content-between card-header-alt p-3"
+                              //   style={
+                              //     hideBonus == false
+                              //       ? { borderRadius: "4.65rem 4.65rem 0 0" }
+                              //       : { borderRadius: "4.65rem" }
+                              //   }
+                            >
+                              <Grid container spacing={3}>
+                                <Grid item md={12} xs={12} sm={12}>
+                                  <div className="">
+                                    <h5
+                                      className="font-weight-bold mb-0 text-dark text-align-center "
+                                      //   style={{ textAlign: "center" }}
+                                    >
+                                      {info.selectPaymentOption}
+                                    </h5>
+                                  </div>
+                                </Grid>
+                              </Grid>
+                            </div>
+                            <div className="divider"></div>
+                            <Grid container spacing={3}>
+                              <Grid item md={6}>
+                                <div
+                                  style={{
+                                    marginTop: "10px",
+                                    padding: "10px",
+
+                                    height: "90%",
+                                  }}
+                                >
+                                  <div>
+                                    <h5
+                                      className="font-weight-bold mb-0 "
+                                      style={{
+                                        color: "#5d2067",
+                                        textAlign: "center",
+                                      }}
+                                    >
+                                      {info.selectPaymentOption} Details
+                                    </h5>
+                                  </div>
+                                  <div className="instUpi">
+                                    <img src={info.qrcode_url} alt="" />
+                                  </div>
+                                </div>
+                              </Grid>
+                              <Grid item md={6}>
+                                <div style={{ padding: "10px", height: "90%" }}>
+                                  <div
+                                    style={{
+                                      textAlign: "center",
+                                      marginTop: "10px",
+                                    }}
+                                  >
+                                    <h5
+                                      className="font-weight-bold mb-0 "
+                                      style={{
+                                        color: "#5d2067",
+                                      }}
+                                    >
+                                      Instruction
+                                    </h5>
+                                  </div>
+                                  <div
+                                    style={{
+                                      height: "100%",
+                                    }}
+                                  >
+                                    <ol className="instUpi">
+                                      <li>
+                                        Use your Crypto wallet app to scan the
+                                        QR code displayed on the payment page..
+                                      </li>
+                                      <li>
+                                        Once the QR code is scanned, Confirm
+                                        that the amount displayed matches the
+                                        payment amount mentioned on the payment
+                                        portal.
+                                      </li>
+                                      <li>
+                                        If the amount is correct, proceed to
+                                        complete the payment within your wallet
+                                        app.
+                                      </li>
+                                      <li>
+                                        After the payment is successfully
+                                        processed, take a screenshot or capture
+                                        a picture of the transaction
+                                        confirmation. Ensure that the screenshot
+                                        clearly shows the payment amount and the
+                                        transaction ID..
+                                      </li>
+                                      <li>
+                                        UPI transaction limit can be very as per
+                                        your bank.
+                                      </li>
+                                      <li>
+                                        Once the screenshot is uploaded, submit
+                                        the payment and screenshot for approval.
+                                      </li>
+                                      <li>
+                                        You can leave Page after successfully
+                                        submit request, we will notify you
+                                        regarding the status of your payment.
+                                      </li>
+                                    </ol>
+                                  </div>
+                                </div>
+                              </Grid>
+                              <Grid item md={12}>
+                                <div style={{ padding: "10px" }}>
+                                  <div className="Neon Neon-theme-dragdropbox">
+                                    <input
+                                      className="imageUplodeUpi"
+                                      name="files[]"
+                                      id="filer_input2"
+                                      //   multiple="multiple"
+                                      type="file"
+                                      onChange={(e) => {
+                                        if (
+                                          e.target.files[0].type ==
+                                            "image/jpeg" ||
+                                          e.target.files[0].type ==
+                                            "image/png" ||
+                                          e.target.files[0].type == "image/jpg"
+                                        ) {
+                                          info.image = e.target.files[0];
+                                          setInfo({ ...info });
+                                        } else {
+                                          Toast(
+                                            "error",
+                                            "Only JPG, JPEG and PNG types are accepted."
+                                          );
+                                        }
+                                      }}
+                                    />
+                                    <div className="Neon-input-dragDrop">
+                                      <div className="Neon-input-inner">
+                                        {/* <div className="Neon-input-icon">
+                                    <i className="fa fa-file-image-o"></i>
+                                  </div> */}
+                                        {/* <div className="Neon-input-text">
+                                    <h3>Drag&amp;Drop files here</h3>{" "}
+                                    <span
+                                      style={{
+                                        display: "inline-block",
+                                        margin: "15px 0",
+                                      }}
+                                    >
+                                      or
+                                    </span>
+                                  </div> */}
+                                        <a className="Neon-input-choose-btn blue">
+                                          Browse Files
+                                        </a>
+                                        <div
+                                          className="Neon-input-text"
+                                          style={{ marginTop: "10px" }}
+                                        >
+                                          <span>or drop your images here</span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div
+                                    style={{
+                                      marginTop: "12px",
+                                      color: "#171737",
+                                      fontWeight: "600",
+                                    }}
+                                  >
+                                    {info.image == "" ||
+                                    info.image == null ||
+                                    info.image == undefined
+                                      ? ""
+                                      : info.image.name}
+                                  </div>
+                                </div>
+                              </Grid>
+                              <Grid
+                                item
+                                md={12}
+                                sx={{ paddingTop: "0px !important" }}
+                              >
+                                <div
+                                  style={{
+                                    padding: "10px 10px 17px 10px",
+                                  }}
+                                >
+                                  <div>
+                                    <label className="text-info font-weight-bold form-label-head w-100 ">
+                                      Enter Crypto Address
+                                    </label>
+                                    <FormControl
+                                      className="w-100"
+                                      // error={
+                                      //   info.utn == "" && infoTrue.utn == true
+                                      //     ? true
+                                      //     : false
+                                      // }
+                                    >
+                                      <BootstrapInput
+                                        value={info.utn}
+                                        name="utn"
+                                        type="text"
+                                        onBlur={trueFalse}
+                                        className="w-100"
+                                        onChange={(e) => {
+                                          // setAmount(e.target.value);
+                                          info.utn = e.target.value;
+                                          setInfo({ ...info });
+                                        }}
+                                        displayEmpty
+                                        inputProps={{
+                                          "aria-label": "Without label",
+                                        }}
+                                      />
+                                      {info.utn == "" &&
+                                      infoTrue.utn == true ? (
+                                        <FormHelperText>
+                                          Crypto Address is required
+                                        </FormHelperText>
+                                      ) : (
+                                        ""
+                                      )}
+                                    </FormControl>
+                                  </div>
+                                  <div
+                                    style={{
+                                      textAlign: "center",
+                                      marginTop: "20px",
+                                      marginBottom: "10px",
+                                    }}
+                                  >
+                                    {info.isLoader == true ? (
+                                      <ColorButton
+                                        className="makeapaymentbutoon"
+                                        disabled
+                                      >
+                                        <svg
+                                          className="spinner"
+                                          viewBox="0 0 50 50"
+                                        >
+                                          <circle
+                                            className="path"
+                                            cx="25"
+                                            cy="25"
+                                            r="20"
+                                            fill="none"
+                                            stroke-width="5"
+                                          ></circle>
+                                        </svg>
+                                      </ColorButton>
+                                    ) : (
+                                      <ColorButton onClick={onsubmit}>
+                                        Submit
+                                      </ColorButton>
+                                    )}
+                                  </div>
+                                </div>
+                              </Grid>
+                            </Grid>
+                          </Paper>
+                        </Grid>
+                      </Grid>
+                    ) : (
+                      ""
+                    )}
                     {info.slug == "cash" ? (
                       <>
                         <Grid container spacing={3}>
@@ -1518,7 +1831,8 @@ const DepositeTest = (prop) => {
                       info.slug == "BTC" ||
                       info.slug == "ETH" ||
                       info.slug == "LTC") &&
-                    (info.cryptoData == "" || info.cryptoData == null) ? (
+                    (info.cryptoData == "" || info.cryptoData == null) &&
+                    info.is_auto == "1" ? (
                       <>
                         <Grid container spacing={3}>
                           <Grid item md={12} className="d-flex">
@@ -1556,7 +1870,8 @@ const DepositeTest = (prop) => {
                       info.slug == "BTC" ||
                       info.slug == "ETH" ||
                       info.slug == "LTC") &&
-                    info.cryptoData !== "" ? (
+                    info.cryptoData !== "" &&
+                    info.is_auto == "1" ? (
                       <Grid
                         container
                         spacing={3}

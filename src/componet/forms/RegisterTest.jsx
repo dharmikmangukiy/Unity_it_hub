@@ -50,7 +50,6 @@ const RegisterTest = (prop) => {
     showPassword: false,
     send_otp: false,
   });
-  console.log(key, valueOfKey);
   useEffect(() => {
     if (id == "campaign") {
       var compaignData = id1.split("&");
@@ -60,23 +59,32 @@ const RegisterTest = (prop) => {
       compaign.ref = refId[1];
       setCompaign({ ...compaign });
     }
-    if (id == "share") {
-      var fullparth = location.search
-        .replace(/%3D/g, "=")
-        .replace(/%3F/g, "?")
-        .replace(/%2F/g, "/")
-        .replace(/%3A/g, "/")
-        .split("?");
-      console.log("id", fullparth);
-      if (fullparth.length >= 3) {
-        if (fullparth[1].split("=")[0] == "pkey") {
-          key = fullparth[1].split("=")[1];
-        }
-        if (fullparth[2].split("=")[0] == "pvalue") {
-          valueOfKey = fullparth[2].split("=")[1];
-        }
+    if (!id) {
+      var fullparth = location.search.split("?");
+      if (fullparth.length > 1) {
+        console.log("sad", fullparth[1].split("="));
+        key = fullparth[1]?.split("=")[0];
+        valueOfKey = fullparth[1]?.split("=")[1];
+        // console.log(key, valueOfKey);
       }
     }
+    // if (id == "share") {
+    //   var fullparth = location.search
+    //     .replace(/%3D/g, "=")
+    //     .replace(/%3F/g, "?")
+    //     .replace(/%2F/g, "/")
+    //     .replace(/%3A/g, "/")
+    //     .split("?");
+    //   if (fullparth.length >= 3) {
+    //     if (fullparth[1].split("=")[0] == "pkey") {
+    //       key = fullparth[1].split("=")[1];
+    //     }
+    //     if (fullparth[2].split("=")[0] == "pvalue") {
+    //       valueOfKey = fullparth[2].split("=")[1];
+    //     }
+    //   }
+    // }
+    // console.log(fullparth);
     // var userAgent = navigator.userAgent || navigator.vendor || window.opera;
     // if (
     //   /android/i.test(userAgent) ||
@@ -125,17 +133,25 @@ const RegisterTest = (prop) => {
     //   }
 
     // }
-
+    if (!fullparth) {
+      fullparth = [];
+    }
     // iOS detection from: http://stackoverflow.com/a/9039885/177710
     // if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
     //   console.log("iPhone");
     // }
     getContry();
-    if (fullparth[1].split("=")[1] == "sponsor") {
-      ibLink();
+    if (key == "sponsor" && valueOfKey) {
+      ibLink(valueOfKey);
     }
-    if (fullparth[1].split("=")[1] == "affiliate") {
-      affiliateLink();
+    if (key == "affiliate" && valueOfKey) {
+      affiliateLink(valueOfKey);
+    }
+    if (id == "sponsor" && id1) {
+      ibLink(id1);
+    }
+    if (id == "affiliate" && id1) {
+      affiliateLink(id1);
     }
   }, []);
   const [infoTrue, setinfoTrue] = useState({
@@ -158,17 +174,17 @@ const RegisterTest = (prop) => {
     });
   };
 
-  const affiliateLink = () => {
+  const affiliateLink = (prop1) => {
     const param = new FormData();
-    param.append("wallet_code", valueOfKey);
+    param.append("wallet_code", prop1);
 
     axios
       .post(Url + "/ajaxfiles/affiliate_url_visit_logs.php", param)
       .then((res) => {});
   };
-  const ibLink = () => {
+  const ibLink = (prop1) => {
     const param = new FormData();
-    param.append("wallet_code", valueOfKey);
+    param.append("wallet_code", prop1);
 
     axios
       .post(Url + "/ajaxfiles/ib_url_visit_logs.php", param)

@@ -126,7 +126,7 @@ export const ChangePassword = () => {
       param.append("user_id", IsApprove.user_id);
       param.append("auth_key", IsApprove.auth);
     }
-    param.append("action", "get_mt5_ac_list");
+    param.append("action", "change_password_mt5_ac_list");
     await axios.post(`${Url}/ajaxfiles/account_list.php`, param).then((res) => {
       if (res.data.message == "Session has been expired") {
         navigate("/");
@@ -176,7 +176,10 @@ export const ChangePassword = () => {
       }
       param.append("encryption", 1);
       param.append("new_password", Convert_PassWord({ message: age.password }));
-      param.append("confirm_password", Convert_PassWord({ message: age.confirmPassword }));
+      param.append(
+        "confirm_password",
+        Convert_PassWord({ message: age.confirmPassword })
+      );
       await axios
         .post(`${Url}/ajaxfiles/account_list.php`, param)
         .then((res) => {
@@ -281,7 +284,9 @@ export const ChangePassword = () => {
                                                   value={item.mt5_acc_no}
                                                 >
                                                   {item.mt5_acc_no}-
-                                                  {item.ib_group_name}
+                                                  {item.acc_type == "Demo"
+                                                    ? "Demo"
+                                                    : item.ib_group_name}
                                                 </MenuItem>
                                               );
                                             }

@@ -132,6 +132,15 @@ const Report = () => {
       grow: 1,
     }, */
     {
+      name: "crypto address",
+      selector: (row) => {
+        return <span title={row.crypto_address}>{row.crypto_address}</span>;
+      },
+      sortable: true,
+      reorder: true,
+      grow: 0.7,
+    },
+    {
       name: "AMOUNT",
       selector: (row) => {
         return <span title={row.amount}>{row.amount}</span>;

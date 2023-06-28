@@ -133,6 +133,7 @@ const BankAccountp = () => {
     setUserBankId(bankId);
     setScroll(scrollType);
   };
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -166,7 +167,7 @@ const BankAccountp = () => {
         }
       });
   };
-  
+
   const handleEdit = (item) => () => {
     setUserBankId(item.user_bank_id);
     setAge({
@@ -179,7 +180,7 @@ const BankAccountp = () => {
       bank_proof: "",
       bank_proof_preview: item.upload_proof,
       confirmbankAccountNumber: item.bank_account_number,
-      ibanselect: "IFSC",
+      ibanselect: item.is_bank_ifsc_iban,
       otp: "",
       isLoader: false,
     });
@@ -208,7 +209,6 @@ const BankAccountp = () => {
     setOnEdit(true);
     // setData(data.map((item) => (item.index === index ? index : item)));
   };
-  console.log(NewParam);
   const fetchUserPref1 = () => {
     const param = new FormData();
     setMainLoader(true);
@@ -319,6 +319,7 @@ const BankAccountp = () => {
         param.append("bank_id", userBankId);
         param.append("bank_name", age.bankName);
         param.append("bank_account_name", age.name);
+        param.append("is_bank_ifsc_iban", age.ibanselect);
         param.append("bank_account_number", age.bankAccountNumber);
         param.append("swift_code", age.swift_code);
         param.append("currency", age.currency);
@@ -400,6 +401,7 @@ const BankAccountp = () => {
         param.append("swift_code", age.swift_code);
         param.append("currency", age.currency);
         param.append("bank_proof", age.bank_proof);
+        param.append("is_bank_ifsc_iban", age.ibanselect);
 
         param.append(
           "confirm_bank_account_number",
@@ -434,7 +436,7 @@ const BankAccountp = () => {
                   navigate(`/withdrawal/${NewParam.mt5_ac}/${NewParam.id}`);
                 }
                 fetchUserPref1();
-               
+
                 // setData([...data, age]);
                 setSubmitted(true);
                 // notify("Bank account created successfully");
@@ -501,6 +503,7 @@ const BankAccountp = () => {
                   <TableCell align="center">IFSC/IBAN</TableCell>
                   <TableCell align="center">Swift Code</TableCell>
                   <TableCell align="center">Status</TableCell>
+                  <TableCell align="center">Proof</TableCell>
 
                   <TableCell align="center">Action</TableCell>
                 </TableRow>
@@ -508,7 +511,7 @@ const BankAccountp = () => {
               <TableBody>
                 {data.length == 0 ? (
                   <TableRow>
-                    <TableCell colSpan="7">
+                    <TableCell colSpan="9">
                       <div className="text-center">
                         There are no records to display
                       </div>
@@ -530,6 +533,7 @@ const BankAccountp = () => {
 
                     <TableCell align="center">{item.bank_ifsc}</TableCell>
                     <TableCell align="center">{item.swift_code}</TableCell>
+
                     <TableCell
                       align="center"
                       className={`text-color-${
@@ -547,6 +551,18 @@ const BankAccountp = () => {
                         ? "Rejected"
                         : "Pending"}
                     </TableCell>
+                    <TableCell align="center">
+                      {" "}
+                      {item.upload_proof ? (
+                        <CustomImageModal
+                          image={item.upload_proof}
+                          isIcon={true}
+                          className="tableImg"
+                        />
+                      ) : (
+                        ""
+                      )}
+                    </TableCell>
 
                     <TableCell align="center">
                       <div>
@@ -560,7 +576,11 @@ const BankAccountp = () => {
                         {item.bank_status == "2" ? (
                           <Button
                             as={Link}
-                            to={`bankAccounts#bankDetails/${NewParam.id}`}
+                            to={
+                              NewParam.id
+                                ? `/bankAccounts#bankDetails/${NewParam.id}`
+                                : "/bankAccounts#bankDetails"
+                            }
                             type="submit"
                             className="cursor-pointer  p-0 p-md-2 rounded-circle text-muted"
                             onClick={handleEdit(item)}
@@ -681,11 +701,14 @@ const BankAccountp = () => {
       return "Password must contain atleast 8 characters";
     }
   };
-  const HandleGo = () => {
-    navigate(`bankAccounts#bankDetails/${NewParam.id}`);
-  };
 
-    
+  const HandleGo = () => {
+    navigate(
+      NewParam.id
+        ? `/bankAccounts#bankDetails/${NewParam.id}`
+        : "/bankAccounts#bankDetails"
+    );
+  };
 
   return (
     <div>
@@ -1199,24 +1222,32 @@ const BankAccountp = () => {
                                             ""
                                           ) : (
                                             <>
-                                              <p style={{ margin: "0" }}>
-                                                <span className="text-info font-weight-bold ">
-                                                  Bank Name :
-                                                </span>
-                                                {ifscData.data.BANK}
-                                              </p>
-                                              <p style={{ margin: "0" }}>
-                                                <span className="text-info font-weight-bold ">
-                                                  Branch Name :
-                                                </span>
-                                                {ifscData.data.BRANCH}
-                                              </p>
-                                              <p>
-                                                <span className="text-info font-weight-bold ">
-                                                  Branch Address :
-                                                </span>
-                                                {`${ifscData.data.ADDRESS}`}
-                                              </p>
+                                              {" "}
+                                              {age.ibanselect == "IFSC" ? (
+                                                <>
+                                                  {" "}
+                                                  <p style={{ margin: "0" }}>
+                                                    <span className="text-info font-weight-bold ">
+                                                      Bank Name :
+                                                    </span>
+                                                    {ifscData.data.BANK}
+                                                  </p>
+                                                  <p style={{ margin: "0" }}>
+                                                    <span className="text-info font-weight-bold ">
+                                                      Branch Name :
+                                                    </span>
+                                                    {ifscData.data.BRANCH}
+                                                  </p>
+                                                  <p>
+                                                    <span className="text-info font-weight-bold ">
+                                                      Branch Address :
+                                                    </span>
+                                                    {`${ifscData.data.ADDRESS}`}
+                                                  </p>
+                                                </>
+                                              ) : (
+                                                ""
+                                              )}
                                             </>
                                           )}
                                         </FormControl>

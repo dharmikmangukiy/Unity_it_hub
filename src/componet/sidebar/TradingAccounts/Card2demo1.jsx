@@ -130,8 +130,8 @@ const Card1 = (prop) => {
         param.append("mt5_balance", form.balance);
       }
       param.append("password", form.password);
-      param.append("confirm_password", form.confirm_password);
-      param.append("ib_group_id", planList.data[activeIndex].ib_group_level_id);
+      // param.append("confirm_password", form.confirm_password);
+      // param.append("ib_group_id", planList.data[activeIndex].ib_group_level_id);
       param.append("account_type", prop.type);
       await axios
         .post(`${Url}/ajaxfiles/account_list.php`, param)

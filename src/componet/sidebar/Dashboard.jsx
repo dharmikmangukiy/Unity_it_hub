@@ -1132,6 +1132,16 @@ const Dashboard = (prop) => {
                                                 >
                                                   Trade
                                                 </ColorButton>
+                                                <ColorButton
+                                                  className="item2-item2 mx-1 btn-costom btn-36"
+                                                  onClick={() => {
+                                                    navigate(
+                                                      `/change_password/${val.mt5_acc_no}`
+                                                    );
+                                                  }}
+                                                >
+                                                  Change Password
+                                                </ColorButton>
                                               </div>
                                             </div>
                                           </div>
@@ -1210,18 +1220,42 @@ const Dashboard = (prop) => {
                                                 </span>
                                               </div>
                                             </div>
-                                            <ColorButton
-                                              className="item2-item2 mx-1 btn-costom btn-36 live-account-button-mob"
-                                              onClick={() => {
-                                                mt5AndDemoList.value = val;
-                                                setMt5AndDemoList({
-                                                  ...mt5AndDemoList,
-                                                });
-                                                getTrade();
+                                            <div
+                                              style={{
+                                                display: "flex",
+                                                justifyContent: "center",
                                               }}
                                             >
-                                              Trade
-                                            </ColorButton>
+                                              <ColorButton
+                                                className="item2-item2 mx-1 btn-costom btn-36 "
+                                                sx={{
+                                                  marginTop: "10px",
+                                                }}
+                                                onClick={() => {
+                                                  mt5AndDemoList.value = val;
+                                                  setMt5AndDemoList({
+                                                    ...mt5AndDemoList,
+                                                  });
+                                                  getTrade();
+                                                }}
+                                              >
+                                                Trade
+                                              </ColorButton>
+
+                                              <ColorButton
+                                                className="item2-item2 mx-1 btn-costom btn-36"
+                                                sx={{
+                                                  marginTop: "10px",
+                                                }}
+                                                onClick={() => {
+                                                  navigate(
+                                                    `/change_password/${val.mt5_acc_no}`
+                                                  );
+                                                }}
+                                              >
+                                                Change Password
+                                              </ColorButton>
+                                            </div>
                                           </div>
                                         </>
                                       );

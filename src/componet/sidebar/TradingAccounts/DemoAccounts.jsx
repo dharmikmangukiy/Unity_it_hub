@@ -742,15 +742,15 @@ export const DemoAccounts = () => {
                                 >
                                   Open Additional Demo Account
                                 </ColorButton>
-                                {/* <ColorButton
+                                <ColorButton
                                   className="mx-md-3 my-2 my-md-0"
                                   onClick={() => {
-                                    navigate("/change_password");
+                                    navigate(`/change_password/${mt5Account}`);
                                   }}
                                 >
                                   Change Password
                                 </ColorButton>
-                                <ColorButton onClick={getLeverage}>
+                                {/* <ColorButton onClick={getLeverage}>
                                   Change Leverage
                                 </ColorButton> */}
                                 {Dopen ? (
