@@ -185,7 +185,15 @@ const ViewTicket = () => {
                             </div>
                           </div>
                           <div>
-                            <label className="ticket-status">Ticket Open</label>
+                            {viewTicketData?.data?.ticketstatus == "Open" ? (
+                              <label className="ticket-status">
+                                Ticket Open
+                              </label>
+                            ) : (
+                              <label className="ticket-close">
+                                Ticket Close{" "}
+                              </label>
+                            )}
                           </div>
                         </div>
                         <div className="divider"></div>
@@ -460,6 +468,11 @@ const ViewTicket = () => {
                               <BootstrapInput
                                 name="title"
                                 value={form.message}
+                                disabled={
+                                  viewTicketData?.data?.ticketstatus == "Open"
+                                    ? false
+                                    : true
+                                }
                                 onChange={(e) => {
                                   setForm({
                                     ...form,
@@ -506,6 +519,12 @@ const ViewTicket = () => {
                                     accept="image/*"
                                     id="contained-button-file"
                                     multiple
+                                    disabled={
+                                      viewTicketData?.data?.ticketstatus ==
+                                      "Open"
+                                        ? false
+                                        : true
+                                    }
                                     type="file"
                                     onChange={onSelectFile}
                                   />
@@ -518,6 +537,12 @@ const ViewTicket = () => {
                                     <Button
                                       className="site-button-color"
                                       variant="contained"
+                                      disabled={
+                                        viewTicketData?.data?.ticketstatus ==
+                                        "Open"
+                                          ? false
+                                          : true
+                                      }
                                       component="span"
                                     >
                                       <i className="material-icons">backup</i>
@@ -547,6 +572,11 @@ const ViewTicket = () => {
                                 <ColorButton
                                   className="send-message"
                                   onClick={sendMessage}
+                                  disabled={
+                                    viewTicketData?.data?.ticketstatus == "Open"
+                                      ? false
+                                      : true
+                                  }
                                   sx={{ marginLeft: "10px" }}
                                 >
                                   <i className="material-icons">send</i>{" "}

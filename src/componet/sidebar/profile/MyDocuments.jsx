@@ -194,6 +194,7 @@ const MyDocuments = () => {
           doc.isLoder = false;
           setDoc({ ...doc });
         } else {
+          window.client.emit("playSound5");
           Toast("success", res.data.message);
           fatchKycStatus();
           doc.isLoder = false;
