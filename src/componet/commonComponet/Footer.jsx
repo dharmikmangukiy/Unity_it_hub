@@ -99,8 +99,16 @@ const Footer = () => {
                   </div>
                   <div className="divider"></div>
                   <div className="pt-4 px-3 py-2 border-top text-align-justify">
+                    <b>Right Financial Limited</b> is an Investment Firm
+                    incorporated under the laws of Republic of Mauritius with
+                    company number 196529 . Authorised and regulated by the
+                    Financial Service Commission (FSC) in Mauritius (License No
+                    GB22201253 ). Registered address at Level 6, Ken Lee
+                    Building, 20 Edith Cavell Street, Port Louis, Mauritius.
+                  </div>
+                  <div className="pt-4 px-3 py-2 text-align-justify">
                     <b>Right Group Financial Limited</b> is registered by the
-                    United Kingdom with registration number <b>13210109</b>. The
+                    United Kingdom with registration number 13210109. The
                     registered office of the Right Group Financial Limited is at
                     27, Old Gloucester Street, London, WC1N 3AX United Kingdom.
                   </div>

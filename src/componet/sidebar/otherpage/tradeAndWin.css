@@ -278,14 +278,18 @@
   text-align: center;
 }
 .prize-icon {
-  width: 150px;
-  height: 150px;
+  width: 130px;
+  height: 130px;
   border-radius: 50%;
   margin: auto;
-  background: #d9d9d9;
+  /* background: #d9d9d9; */
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.prize-icon img {
+  /* width: 130px; */
+  height: 130px;
 }
 .prize-icon p {
   font-family: "Poppins";

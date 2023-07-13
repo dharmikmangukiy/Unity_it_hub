@@ -433,7 +433,7 @@ const IBCommissionHistory = () => {
             <MenuItem value="">Select Option</MenuItem>
 
             {methodType.subList.map((item, index) => {
-              if (item.payment_type == "bank") {
+              if (item.payment_type == "Bank") {
                 return item.payment_bank.map((item1, index1) => {
                   return (
                     <MenuItem value={item1.user_bank_id}>

@@ -157,7 +157,7 @@ export const Withdrawal = (prop) => {
           age.payment_method = "Bank";
           var user_back_id = "";
           res.data.data.map((item) => {
-            if (item.payment_type == "bank") {
+            if (item.payment_type == "Bank") {
               if (item?.payment_bank.length !== 0) {
                 user_back_id = item.payment_bank[0].user_bank_id;
                 return item.payment_bank[0].user_bank_id;
@@ -536,7 +536,7 @@ export const Withdrawal = (prop) => {
                 </MenuItem>
               ) : (
                 methodType.subList.map((item) => {
-                  if (item.payment_type == "bank") {
+                  if (item.payment_type == "Bank") {
                     return item.payment_bank.map((item1) => {
                       <MenuItem value="">Select Option</MenuItem>;
                       return (
