@@ -63,8 +63,8 @@ const How_to_participate = () => {
                         (hereinafter— ‘IBs’).
                       </li>
                       <li>
-                        The Contest starts on 1MARCH2023 (12:00 am GMT) and ends
-                        on 15APRIL 2023 (11:00 pm GMT).
+                        The Contest starts on 1st of every month (12:00 am GMT)
+                        and ends on 30th or 31st of month (11:00 pm GMT).
                       </li>
                       <li>
                         The Contest prizes are: Dubai Tour,Thailand Tour,Goa
