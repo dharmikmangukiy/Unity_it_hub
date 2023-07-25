@@ -1,10 +1,22 @@
 import React, { useState } from "react";
-import { FormControl, Grid, Menu, MenuItem, Select } from "@mui/material";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormControl,
+  Grid,
+  Menu,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import CardContent from "@mui/material/CardContent";
 import TopButton from "../customComponet/TopButton";
 import { Paper } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+
 import { ColorButton } from "../customComponet/CustomElement";
 import { Button } from "@mui/material";
 import { BootstrapInput } from "../customComponet/CustomElement";
@@ -13,12 +25,55 @@ import { Url } from "../../global";
 import "./report.css";
 import CustomImageModal from "../customComponet/CustomImageModal";
 import NewDate from "../commonComponet/NewDate";
+import CloseIcon from "@mui/icons-material/Close";
+
 // import './history.css';
+import IconButton from "@mui/material/IconButton";
+
+export interface DialogTitleProps {
+  id: string;
+  children?: React.ReactNode;
+  onClose: () => void;
+}
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+  "& .MuiDialogContent-root": {
+    padding: theme.spacing(2),
+  },
+  "& .MuiDialogActions-root": {
+    padding: theme.spacing(1),
+  },
+}));
+const BootstrapDialogTitle = (props: DialogTitleProps) => {
+  const { children, onClose, ...other } = props;
+
+  return (
+    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+      {children}
+      {onClose ? (
+        <IconButton
+          aria-label="close"
+          onClick={onClose}
+          sx={{
+            position: "absolute",
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+      ) : null}
+    </DialogTitle>
+  );
+};
 
 const Report = () => {
   const [value, setValue] = React.useState(new Date());
   const [openTableMenus, setOpenTableMenus] = useState([]);
   const [open, setOpen] = React.useState(false);
+  const [fullWidth, setFullWidth] = useState(true);
+  const [dialogTitle, setDialogTitle] = useState("Deposit Proof");
+  const [maxWidth, setMaxWidth] = useState("md");
 
   const [age, setAge] = React.useState("");
   const [type, setType] = React.useState("deposit");
@@ -37,6 +92,7 @@ const Report = () => {
   const [depositParam, setDepositParam] = useState({
     deposit_status: "",
   });
+  const [image, setimage] = useState([]);
 
   const depositFilter = () => {};
 
@@ -53,6 +109,27 @@ const Report = () => {
   };
   const handleChange = (event) => {
     setAge(event.target.value);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const manageContent = () => {
+    return (
+      <div className="deposit-image-flex">
+        {image.map((item, index) => {
+          return <CustomImageModal image={item} className="width-150px" />;
+        })}
+      </div>
+    );
+  };
+  const manageDialogActionButton = () => {
+    return (
+      <div className="dialogMultipleActionButton">
+        <ColorButton variant="contained" onClick={handleClose}>
+          Close
+        </ColorButton>
+      </div>
+    );
   };
   const depositColumn = [
     {
@@ -153,12 +230,24 @@ const Report = () => {
     {
       name: "PROOF",
       selector: (row) => {
-        return row.proof != "" ? (
-          <CustomImageModal
-            image={row.proof}
-            isIcon={true}
-            className="tableImg"
-          />
+        return row.proof != "" && row.proof?.length !== 0 ? (
+          row.proof?.length == 1 ? (
+            <CustomImageModal
+              image={row.proof}
+              isIcon={true}
+              className="tableImg"
+            />
+          ) : (
+            <Button
+              onClick={() => {
+                setimage(row.proof);
+                setOpen(true);
+              }}
+            >
+              {" "}
+              <VisibilityIcon />
+            </Button>
+          )
         ) : (
           ""
         );
@@ -764,6 +853,24 @@ const Report = () => {
             </Grid>
           </div>
         </div>
+        <BootstrapDialog
+          onClose={handleClose}
+          aria-labelledby="customized-dialog-title"
+          open={open}
+          className="modalWidth100"
+          fullWidth={fullWidth}
+          maxWidth={maxWidth}
+        >
+          <BootstrapDialogTitle
+            id="customized-dialog-title"
+            className="dialogTitle"
+            onClose={handleClose}
+          >
+            {dialogTitle}
+          </BootstrapDialogTitle>
+          <DialogContent dividers>{manageContent()}</DialogContent>
+          <DialogActions>{manageDialogActionButton()}</DialogActions>
+        </BootstrapDialog>
       </div>
     </div>
   );

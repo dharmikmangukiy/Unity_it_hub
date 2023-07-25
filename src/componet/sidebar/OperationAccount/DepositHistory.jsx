@@ -8,7 +8,13 @@ import {
   Paper,
   Select,
   KeyboardDatePicker,
+  Dialog,
+  styled,
+  DialogTitle,
+  DialogActions,
+  DialogContent,
 } from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 import CommonTable from "../../customComponet/CommonTable";
 import { ColorButton } from "../../customComponet/CustomElement";
@@ -16,10 +22,49 @@ import { useNavigate } from "react-router-dom";
 import { BootstrapInput } from "../../customComponet/CustomElement";
 import { Url } from "../../../global.js";
 import axios from "axios";
+import CloseIcon from "@mui/icons-material/Close";
+
 import CustomImageModal from "../../customComponet/CustomImageModal";
 import "./history.css";
+import IconButton from "@mui/material/IconButton";
 import TopButton from "../../customComponet/TopButton";
 import NewDate from "../../commonComponet/NewDate";
+export interface DialogTitleProps {
+  id: string;
+  children?: React.ReactNode;
+  onClose: () => void;
+}
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+  "& .MuiDialogContent-root": {
+    padding: theme.spacing(2),
+  },
+  "& .MuiDialogActions-root": {
+    padding: theme.spacing(1),
+  },
+}));
+const BootstrapDialogTitle = (props: DialogTitleProps) => {
+  const { children, onClose, ...other } = props;
+
+  return (
+    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+      {children}
+      {onClose ? (
+        <IconButton
+          aria-label="close"
+          onClick={onClose}
+          sx={{
+            position: "absolute",
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+      ) : null}
+    </DialogTitle>
+  );
+};
 
 const DepositHistory = () => {
   const [open, setOpen] = React.useState(false);
@@ -27,7 +72,10 @@ const DepositHistory = () => {
   const navigate = useNavigate();
   const [openTableMenus, setOpenTableMenus] = useState([]);
   const [filterData, setFilterData] = useState({});
-
+  const [maxWidth, setMaxWidth] = useState("md");
+  const [fullWidth, setFullWidth] = useState(true);
+  const [dialogTitle, setDialogTitle] = useState("Deposit Proof");
+  const [image, setimage] = useState([]);
   const depositFilter = () => {};
 
   const handleContextClick = (event, index) => {
@@ -45,7 +93,9 @@ const DepositHistory = () => {
   const gotoProfile = (e) => {
     navigate("/master/" + e.user_id);
   };
-
+  const handleClose = () => {
+    setOpen(false);
+  };
   const column = [
     {
       name: "SR.NO",
@@ -132,12 +182,24 @@ const DepositHistory = () => {
     {
       name: "PROOF",
       selector: (row) => {
-        return row.proof != "" ? (
-          <CustomImageModal
-            image={row.proof}
-            isIcon={true}
-            className="tableImg"
-          />
+        return row.proof != "" && row.proof?.length !== 0 ? (
+          row.proof?.length == 1 ? (
+            <CustomImageModal
+              image={row.proof}
+              isIcon={true}
+              className="tableImg"
+            />
+          ) : (
+            <Button
+              onClick={() => {
+                setimage(row.proof);
+                setOpen(true);
+              }}
+            >
+              {" "}
+              <VisibilityIcon />
+            </Button>
+          )
         ) : (
           ""
         );
@@ -188,7 +250,24 @@ const DepositHistory = () => {
       grow: 0.1,
     },
   ];
-
+  const manageContent = () => {
+    return (
+      <div className="deposit-image-flex">
+        {image.map((item, index) => {
+          return <CustomImageModal image={item} className="width-150px" />;
+        })}
+      </div>
+    );
+  };
+  const manageDialogActionButton = () => {
+    return (
+      <div className="dialogMultipleActionButton">
+        <ColorButton variant="contained" onClick={handleClose}>
+          Close
+        </ColorButton>
+      </div>
+    );
+  };
   return (
     <div>
       <div className="app-content--inner">
@@ -281,6 +360,24 @@ const DepositHistory = () => {
             </Grid>
           </div>
         </div>
+        <BootstrapDialog
+          onClose={handleClose}
+          aria-labelledby="customized-dialog-title"
+          open={open}
+          className="modalWidth100"
+          fullWidth={fullWidth}
+          maxWidth={maxWidth}
+        >
+          <BootstrapDialogTitle
+            id="customized-dialog-title"
+            className="dialogTitle"
+            onClose={handleClose}
+          >
+            {dialogTitle}
+          </BootstrapDialogTitle>
+          <DialogContent dividers>{manageContent()}</DialogContent>
+          <DialogActions>{manageDialogActionButton()}</DialogActions>
+        </BootstrapDialog>
       </div>
     </div>
   );

@@ -52,3 +52,19 @@ li.lideposit:hover {
 .headerMenu:hover span {
   color: #5d2067 !important;
 }
+.deposit-image-flex {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.deposit-close-position {
+  position: absolute;
+  right: 0;
+  top: -4px;
+}
+.width-150px {
+  width: 150px;
+}

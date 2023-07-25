@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { FormHelperText, Grid, MenuItem, Select } from "@mui/material";
 import { Paper } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 
 import { NavLink, useParams } from "react-router-dom";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
@@ -19,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import Toast from "../../commonComponet/Toast";
 import { toast } from "react-toastify";
+import CustomImageModal from "../../customComponet/CustomImageModal";
 const DepositeTest = (prop) => {
   const { id } = useParams();
   const [dataArray, setDataArray] = useState({
@@ -42,7 +44,7 @@ const DepositeTest = (prop) => {
   const [hideBonus, setHideBonus] = useState(true);
   const [info, setInfo] = useState({
     amount: "",
-    image: "",
+    image: [],
     depositTo: "",
     selectPaymentOption: "",
     selsectRadio: "",
@@ -233,7 +235,7 @@ const DepositeTest = (prop) => {
         info.slug == "phonepe" ||
         info.slug == "paytm" ||
         info.slug == "gpay") &&
-      !info.image
+      (!info.image || info.image?.length == 0)
     ) {
       Toast("error", "image is required");
     } else if (
@@ -241,7 +243,7 @@ const DepositeTest = (prop) => {
         info.slug == "BTC" ||
         info.slug == "ETH" ||
         info.slug == "LTC") &&
-      !info.image &&
+      (!info.image || info.image?.length == 0) &&
       info.is_auto == "0"
     ) {
       Toast("error", "image is required");
@@ -276,7 +278,10 @@ const DepositeTest = (prop) => {
           info.slug == "gpay") &&
         info.image
       ) {
-        param.append("deposit_proof", info.image);
+        // param.append("deposit_proof", info.image);
+        info.image.map((item, index) => {
+          param.append(`deposit_proof[${index}]`, item);
+        });
       }
 
       if (
@@ -287,7 +292,9 @@ const DepositeTest = (prop) => {
         info.image &&
         info.is_auto == "0"
       ) {
-        param.append("deposit_proof", info.image);
+        info.image.map((item, index) => {
+          param.append(`deposit_proof[${index}]`, item);
+        });
       }
       info.isLoader = true;
       setInfo({ ...info });
@@ -626,13 +633,14 @@ const DepositeTest = (prop) => {
                                     <li
                                       onClick={() => {
                                         info.selectPaymentOption = item.title;
-                                        info.image = "";
+                                        info.image = [];
                                         info.utn = "";
                                         info.cryptoData = "";
                                         info.qrcode_url = item.qr_code;
                                         info.slug = item.slug;
                                         info.bank_details = item.bank_details;
                                         info.is_auto = item?.is_auto;
+                                        info.isLoader = false;
                                         setInfo({ ...info });
                                       }}
                                       className={`lideposit mar-10 ${
@@ -647,7 +655,7 @@ const DepositeTest = (prop) => {
                                           onClick={() => {
                                             info.selectPaymentOption =
                                               item.title;
-                                            info.image = "";
+                                            info.image = [];
                                             info.utn = "";
                                             info.cryptoData = "";
                                             info.bank_details =
@@ -655,7 +663,7 @@ const DepositeTest = (prop) => {
                                             info.qrcode_url = item.qr_code;
                                             info.slug = item.slug;
                                             info.is_auto = item.is_auto;
-
+                                            info.isLoader = false;
                                             setInfo({ ...info });
                                           }}
                                           //   onClick={modalopen}
@@ -1331,14 +1339,24 @@ const DepositeTest = (prop) => {
                                       type="file"
                                       onChange={(e) => {
                                         if (
-                                          e.target.files[0].type ==
+                                          (e.target.files[0].type ==
                                             "image/jpeg" ||
-                                          e.target.files[0].type ==
-                                            "image/png" ||
-                                          e.target.files[0].type == "image/jpg"
+                                            e.target.files[0].type ==
+                                              "image/png" ||
+                                            e.target.files[0].type ==
+                                              "image/jpg") &&
+                                          info.image?.length < 5
                                         ) {
-                                          info.image = e.target.files[0];
+                                          info.image = [
+                                            ...info.image,
+                                            e.target.files[0],
+                                          ];
                                           setInfo({ ...info });
+                                        } else if (info.image?.length >= 5) {
+                                          Toast(
+                                            "error",
+                                            "You can upload max 5 deposit proof"
+                                          );
                                         } else {
                                           Toast(
                                             "error",
@@ -1349,20 +1367,6 @@ const DepositeTest = (prop) => {
                                     />
                                     <div className="Neon-input-dragDrop">
                                       <div className="Neon-input-inner">
-                                        {/* <div className="Neon-input-icon">
-                                    <i className="fa fa-file-image-o"></i>
-                                  </div> */}
-                                        {/* <div className="Neon-input-text">
-                                    <h3>Drag&amp;Drop files here</h3>{" "}
-                                    <span
-                                      style={{
-                                        display: "inline-block",
-                                        margin: "15px 0",
-                                      }}
-                                    >
-                                      or
-                                    </span>
-                                  </div> */}
                                         <a className="Neon-input-choose-btn blue">
                                           Browse Files
                                         </a>
@@ -1384,9 +1388,38 @@ const DepositeTest = (prop) => {
                                   >
                                     {info.image == "" ||
                                     info.image == null ||
-                                    info.image == undefined
-                                      ? ""
-                                      : info.image.name}
+                                    info.image == undefined ? (
+                                      ""
+                                    ) : (
+                                      <div className="deposit-image-flex">
+                                        {info.image?.map((item, index) => {
+                                          var imagep =
+                                            URL.createObjectURL(item);
+                                          return (
+                                            <div
+                                            // style={{ position: "relative" }}
+                                            >
+                                              <div className="text-right">
+                                                <CloseOutlinedIcon
+                                                  className="fontimgclose"
+                                                  onClick={() => {
+                                                    info.image.splice(index, 1);
+                                                    setInfo({ ...info });
+                                                  }}
+                                                />
+                                              </div>
+                                              <div>
+                                                <CustomImageModal
+                                                  image={imagep}
+                                                  alt=""
+                                                  className="width-150px"
+                                                />
+                                              </div>
+                                            </div>
+                                          );
+                                        })}
+                                      </div>
+                                    )}
                                   </div>
                                 </div>
                               </Grid>
@@ -1613,14 +1646,24 @@ const DepositeTest = (prop) => {
                                       type="file"
                                       onChange={(e) => {
                                         if (
-                                          e.target.files[0].type ==
+                                          (e.target.files[0].type ==
                                             "image/jpeg" ||
-                                          e.target.files[0].type ==
-                                            "image/png" ||
-                                          e.target.files[0].type == "image/jpg"
+                                            e.target.files[0].type ==
+                                              "image/png" ||
+                                            e.target.files[0].type ==
+                                              "image/jpg") &&
+                                          info.image?.length < 5
                                         ) {
-                                          info.image = e.target.files[0];
+                                          info.image = [
+                                            ...info.image,
+                                            e.target.files[0],
+                                          ];
                                           setInfo({ ...info });
+                                        } else if (info.image?.length >= 5) {
+                                          Toast(
+                                            "error",
+                                            "You can upload max 5 deposit proof"
+                                          );
                                         } else {
                                           Toast(
                                             "error",
@@ -1631,20 +1674,6 @@ const DepositeTest = (prop) => {
                                     />
                                     <div className="Neon-input-dragDrop">
                                       <div className="Neon-input-inner">
-                                        {/* <div className="Neon-input-icon">
-                                    <i className="fa fa-file-image-o"></i>
-                                  </div> */}
-                                        {/* <div className="Neon-input-text">
-                                    <h3>Drag&amp;Drop files here</h3>{" "}
-                                    <span
-                                      style={{
-                                        display: "inline-block",
-                                        margin: "15px 0",
-                                      }}
-                                    >
-                                      or
-                                    </span>
-                                  </div> */}
                                         <a className="Neon-input-choose-btn blue">
                                           Browse Files
                                         </a>
@@ -1666,9 +1695,38 @@ const DepositeTest = (prop) => {
                                   >
                                     {info.image == "" ||
                                     info.image == null ||
-                                    info.image == undefined
-                                      ? ""
-                                      : info.image.name}
+                                    info.image == undefined ? (
+                                      ""
+                                    ) : (
+                                      <div className="deposit-image-flex">
+                                        {info.image?.map((item, index) => {
+                                          var imagep =
+                                            URL.createObjectURL(item);
+                                          return (
+                                            <div
+                                            // style={{ position: "relative" }}
+                                            >
+                                              <div className="text-right">
+                                                <CloseOutlinedIcon
+                                                  className="fontimgclose"
+                                                  onClick={() => {
+                                                    info.image.splice(index, 1);
+                                                    setInfo({ ...info });
+                                                  }}
+                                                />
+                                              </div>
+                                              <div>
+                                                <CustomImageModal
+                                                  image={imagep}
+                                                  alt=""
+                                                  className="width-150px"
+                                                />
+                                              </div>
+                                            </div>
+                                          );
+                                        })}
+                                      </div>
+                                    )}
                                   </div>
                                 </div>
                               </Grid>
@@ -2332,7 +2390,7 @@ const DepositeTest = (prop) => {
                                 </div>
                               </Grid>
                               <Grid item md={12}>
-                                <div style={{ padding: "12px" }}>
+                                <div style={{ padding: "10px" }}>
                                   <div className="Neon Neon-theme-dragdropbox">
                                     <input
                                       className="imageUplodeUpi"
@@ -2342,38 +2400,34 @@ const DepositeTest = (prop) => {
                                       type="file"
                                       onChange={(e) => {
                                         if (
-                                          e.target.files[0].type ==
+                                          (e.target.files[0].type ==
                                             "image/jpeg" ||
-                                          e.target.files[0].type ==
-                                            "image/png" ||
-                                          e.target.files[0].type == "image/jpg"
+                                            e.target.files[0].type ==
+                                              "image/png" ||
+                                            e.target.files[0].type ==
+                                              "image/jpg") &&
+                                          info.image?.length < 5
                                         ) {
-                                          info.image = e.target.files[0];
+                                          info.image = [
+                                            ...info.image,
+                                            e.target.files[0],
+                                          ];
                                           setInfo({ ...info });
+                                        } else if (info.image?.length >= 5) {
+                                          Toast(
+                                            "error",
+                                            "You can upload max 5 deposit proof"
+                                          );
                                         } else {
                                           Toast(
                                             "error",
-                                            "Only JPG, JPEG, and PNG types are accepted."
+                                            "Only JPG, JPEG and PNG types are accepted."
                                           );
                                         }
                                       }}
                                     />
                                     <div className="Neon-input-dragDrop">
                                       <div className="Neon-input-inner">
-                                        {/* <div className="Neon-input-icon">
-                                    <i className="fa fa-file-image-o"></i>
-                                  </div> */}
-                                        {/* <div className="Neon-input-text">
-                                    <h3>Drag&amp;Drop files here</h3>{" "}
-                                    <span
-                                      style={{
-                                        display: "inline-block",
-                                        margin: "15px 0",
-                                      }}
-                                    >
-                                      or
-                                    </span>
-                                  </div> */}
                                         <a className="Neon-input-choose-btn blue">
                                           Browse Files
                                         </a>
@@ -2395,9 +2449,38 @@ const DepositeTest = (prop) => {
                                   >
                                     {info.image == "" ||
                                     info.image == null ||
-                                    info.image == undefined
-                                      ? ""
-                                      : info.image.name}
+                                    info.image == undefined ? (
+                                      ""
+                                    ) : (
+                                      <div className="deposit-image-flex">
+                                        {info.image?.map((item, index) => {
+                                          var imagep =
+                                            URL.createObjectURL(item);
+                                          return (
+                                            <div
+                                            // style={{ position: "relative" }}
+                                            >
+                                              <div className="text-right">
+                                                <CloseOutlinedIcon
+                                                  className="fontimgclose"
+                                                  onClick={() => {
+                                                    info.image.splice(index, 1);
+                                                    setInfo({ ...info });
+                                                  }}
+                                                />
+                                              </div>
+                                              <div>
+                                                <CustomImageModal
+                                                  image={imagep}
+                                                  alt=""
+                                                  className="width-150px"
+                                                />
+                                              </div>
+                                            </div>
+                                          );
+                                        })}
+                                      </div>
+                                    )}
                                   </div>
                                 </div>
                               </Grid>

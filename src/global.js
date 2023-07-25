@@ -24,7 +24,7 @@ const Url = "https://my.rightfx.com";
 // };
 // const IsApprove = {
 //   is_app: 1,
-//   auth: "396889-47ab59-b18d84",
+//   auth: "a62069-f87481-74b3ae",
 //   user_id: "6088",
 //   is_crm: 1,
 // };
