@@ -511,7 +511,7 @@ const InternalTransfer = (prop) => {
                                   className="show-balance-element"
                                   style={{ background: "#39b54a" }}
                                 >
-                                  Equity {bal.from_account_equity}{" "}
+                                  Available for Withdraw {bal.from_account_equity}{" "}
                                 </div>
                               ) : (
                                 ""
