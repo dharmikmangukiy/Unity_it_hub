@@ -159,7 +159,7 @@ const MyClient = () => {
                       <th className="">IB Account</th>
                       <th>Deposit</th>
                       <th>Withdraw</th>
-                      <th className="">Lot</th>
+                      <th className="">Downline Lot</th>
                       <th className="colcolor">Downline Rebate</th>
                       {/* <th>Team Deposit</th>
                       <th>Total Lot </th>
@@ -466,7 +466,7 @@ const MyClient = () => {
                                 <th className="">IB Account</th>
                                 <th>Deposit</th>
                                 <th>Withdraw</th>
-                                <th className="">Lot</th>
+                                <th className=""> Downline Lot</th>
                                 <th className="colcolor">Downline Rebate</th>
 
                                 {/* <th>Team Deposit</th>
