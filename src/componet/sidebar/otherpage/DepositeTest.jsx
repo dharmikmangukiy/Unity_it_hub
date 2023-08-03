@@ -319,7 +319,9 @@ const DepositeTest = (prop) => {
               setInfo({ ...info });
             } else if (info.slug == "cash") {
               navigate(`/deposit/t/${res.data.deposit_id}`);
-            } else {
+            } else if (info.slug == "chippay") {
+              window.open(res.data.link, "_blank");
+            }else {
               navigate(`/deposit/${info.amount}/${info.depositTo}`);
             }
             Toast("success", res.data.message);
@@ -1512,6 +1514,40 @@ const DepositeTest = (prop) => {
                     ) : (
                       ""
                     )}
+                    {
+                      info.slug == "chippay" ?   <div
+                      style={{
+                        textAlign: "center",
+                        marginTop: "20px",
+                        marginBottom: "10px",
+                      }}
+                    >
+                      {info.isLoader == true ? (
+                        <ColorButton
+                          className="makeapaymentbutoon"
+                          disabled
+                        >
+                          <svg
+                            className="spinner"
+                            viewBox="0 0 50 50"
+                          >
+                            <circle
+                              className="path"
+                              cx="25"
+                              cy="25"
+                              r="20"
+                              fill="none"
+                              stroke-width="5"
+                            ></circle>
+                          </svg>
+                        </ColorButton>
+                      ) : (
+                        <ColorButton onClick={onsubmit}>
+                          Submit
+                        </ColorButton>
+                      )}
+                    </div>:""
+                    }
                     {(info.slug == "USDT.TRC20" ||
                       info.slug == "BTC" ||
                       info.slug == "ETH" ||
