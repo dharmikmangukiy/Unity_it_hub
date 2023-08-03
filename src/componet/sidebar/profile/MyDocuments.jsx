@@ -156,7 +156,7 @@ const MyDocuments = () => {
       };
     });
   };
-  const MyDocuments = () => {
+  const ADD_Doc_Details = () => {
     if (kycStatus.is_country_china == 1) {
       return (
         <div className="flex_item_box pb-2">
@@ -778,7 +778,7 @@ const MyDocuments = () => {
                         </div>
                         <div className="divider"></div>
                         <div className="card-body">
-                          {MyDocuments()}
+                          {ADD_Doc_Details()}
                           <div className="id-proof-wrap">
                             <div>
                               <label
