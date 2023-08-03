@@ -42,6 +42,9 @@ const MyDocuments = () => {
     perviewbackimg: "",
     ftype: "",
     btype: "",
+    region_country_area: "",
+    identitytype: "",
+    document_number: "",
   });
   const [sendKycRequest, setSendKycRequest] = useState({
     proof1: false,
@@ -143,6 +146,97 @@ const MyDocuments = () => {
       }
     }
   };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormImage((prevalue) => {
+      return {
+        ...prevalue,
+        [name]: value,
+      };
+    });
+  };
+  const MyDocuments = () => {
+    if (kycStatus.is_country_china == 1) {
+      return (
+        <div className="flex_item_box pb-2">
+          <FormControl
+            fullWidth={true}
+            style={{ margin: "0 5px 0 5px" }}
+            className="Width_total_responsive py-2"
+          >
+            <label className="small font-weight-bold text-dark">
+              {" "}
+              Identity Type
+            </label>
+            <Select
+              value={formImage.identitytype}
+              onChange={(e) => {
+                formImage.identitytype = e.target.value;
+                setFormImage({ ...formImage });
+              }}
+              displayEmpty
+              disabled={sendKycRequest.proof1}
+
+              inputProps={{ "aria-label": "Without label" }}
+              input={<BootstrapInput />}
+            >
+              <MenuItem value="1">ID card</MenuItem>
+              <MenuItem value="2"> Passport</MenuItem>
+              <MenuItem value="6"> Others</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl
+            fullWidth={true}
+            style={{ margin: "0 5px 0 5px" }}
+            className="Width_total_responsive py-2"
+          >
+            <label className="small font-weight-bold text-dark">
+              {" "}
+              Region Country Area
+            </label>
+            <Select
+              value={formImage.region_country_area}
+              onChange={(e) => {
+                formImage.region_country_area = e.target.value;
+                setFormImage({ ...formImage });
+              }}
+              disabled={sendKycRequest.proof1}
+
+              displayEmpty
+              inputProps={{ "aria-label": "Without label" }}
+              input={<BootstrapInput />}
+            >
+              <MenuItem value="Mainland China">Mainland China</MenuItem>
+              <MenuItem value="Hong Kong, China"> Hong Kong, China </MenuItem>
+              <MenuItem value="Vietnam"> Vietnam </MenuItem>
+              <MenuItem value="Others"> Others </MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl
+            className="w-100 Width_total_responsive py-2"
+            variant="outlined"
+            style={{ margin: "0 5px 0 5px" }}
+          >
+            <label className="small font-weight-bold text-dark">
+              {" "}
+              Document Number
+            </label>
+            <BootstrapInput
+              value={formImage.document_number}
+              name="document_number"
+              disabled={sendKycRequest.proof1}
+
+              id="outlined-adornment-password"
+              onChange={handleChange}
+            />
+          </FormControl>
+        </div>
+      );
+    } else {
+      return <></>;
+    }
+  };
   const onSubmit = () => {
     setinfoTrue({
       fontimg: true,
@@ -152,7 +246,19 @@ const MyDocuments = () => {
       fontimg3: infotrue.fontimg3,
       backimg3: infotrue.backimg3,
     });
-    if (!doc.fontimg && !fontimg) {
+    if (formImage.identitytype == "" && kycStatus.is_country_china == 1) {
+      Toast("error", "Please Select Identity Type");
+    } else if (
+      formImage.region_country_area == "" &&
+      kycStatus.is_country_china == 1
+    ) {
+      Toast("error", "Please Select Region Country Area");
+    } else if (
+      formImage.document_number == "" &&
+      kycStatus.is_country_china == 1
+    ) {
+      Toast("error", "Please Enter Document Number");
+    } else if (!doc.fontimg && !fontimg) {
       Toast("error", "Please upload documents ID Proof front side image");
     } else if (twoSide.main && !doc.backimg && !backimg) {
       Toast("error", "Please upload documents ID Proof back side image");
@@ -169,6 +275,13 @@ const MyDocuments = () => {
         param.append("user_id", IsApprove.user_id);
         param.append("auth_key", IsApprove.auth);
       }
+      if (kycStatus.is_country_china == 1) {
+        param.append("identitytype", formImage.identitytype);
+        param.append("region_country_area", formImage.region_country_area);
+        param.append("document_number", formImage.document_number);
+      }
+     
+
       if (doc.fontimg) {
         param.append("id_proof_front_image", doc.fontimg);
       }
@@ -303,6 +416,11 @@ const MyDocuments = () => {
               : "image";
           formImage.perviewfontimg = res.data.kyc_data.passport_front_image;
           formImage.perviewbackimg = res.data.kyc_data.passport_back_image;
+          formImage.document_number = res.data.kyc_data.document_number;
+          formImage.region_country_area = res.data.kyc_data.region_country_area;
+          formImage.identitytype = res.data.kyc_data.identitytype;
+          // formImage.perviewbackimg = res.data.kyc_data.passport_back_image;
+
           setFormImage({ ...formImage });
           setKycStatus(res.data.kyc_data);
           setBackimg(res.data.kyc_data.id_proof_back_image);
@@ -479,15 +597,6 @@ const MyDocuments = () => {
     }
   }, [adddoc]);
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setDoc((prevalue) => {
-      return {
-        ...prevalue,
-        [name]: value,
-      };
-    });
-  };
   // const [click, setClick] = React.useState();
   const buttonstyle = {
     background: "linear-gradient(45deg, #eeeff8 30%, #eeeff8 90%)",
@@ -669,6 +778,7 @@ const MyDocuments = () => {
                         </div>
                         <div className="divider"></div>
                         <div className="card-body">
+                          {MyDocuments()}
                           <div className="id-proof-wrap">
                             <div>
                               <label
