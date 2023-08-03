@@ -149,12 +149,14 @@ const MyDocuments = () => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
+    if (/^[a-zA-Z0-9]+$/.test(value) || value === '') {
     setFormImage((prevalue) => {
       return {
         ...prevalue,
         [name]: value,
       };
     });
+  }
   };
   const ADD_Doc_Details = () => {
     if (kycStatus.is_country_china == 1) {
