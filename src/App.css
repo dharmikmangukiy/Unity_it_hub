@@ -36,3 +36,11 @@
   margin-left: 2px;
   margin-top: 2px;
 }
+.flex_item_box{
+  display: flex;
+}
+@media only screen and (max-width: 480px) {
+  .flex_item_box {
+   display: block;
+  }
+}

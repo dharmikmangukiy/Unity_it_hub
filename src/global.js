@@ -29,5 +29,11 @@ const Url = "https://mydev.rightfx.com";
 //   user_id: "6088",
 //   is_crm: 1,
 // };
+// const IsApprove = {
+//   is_app: 1,
+//   auth: "b49fc3-1b69c9-d91dcb",
+//   user_id: "6088",
+//   is_crm: 1,
+// };
 const IsApprove = "";
 export { Url, IsApprove };
