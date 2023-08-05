@@ -143,10 +143,7 @@ export default function Login1(prop) {
       const param = new FormData();
       param.append("username", info.email);
       param.append("encryption", 1);
-      param.append(
-        "password",
-        Convert_PassWord({ message: info.password })
-      );
+      param.append("password", Convert_PassWord({ message: info.password }));
       axios.post(Url + "/ajaxfiles/login_check.php", param).then((res) => {
         // setLoader(false);
         if (res.data.status == "error") {

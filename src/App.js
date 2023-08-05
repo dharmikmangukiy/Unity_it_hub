@@ -91,6 +91,7 @@ import AffiliatePromo from "./componet/AffiliatePromo";
 import IbUserHistory from "./componet/sidebar/ibReport/IbUserHistory";
 import RightgFxAndroid from "./componet/sidebar/Platforms/RightgFxAndroid";
 import AffiliateProgram from "./ibdashbord/AffiliateProgram";
+import { Helmet } from "react-helmet";
 
 function useScrollToTop() {
   const { pathname } = useLocation();
@@ -103,8 +104,16 @@ const THEME = createTheme({
     fontFamily: `"Cairo",sans-serif`,
   },
 });
+var title = "";
+var description = "";
 const App = () => {
+  var pathname = window.location.pathname;
+
   useScrollToTop();
+  const [newtitle, setNewtitle] = useState({
+    title: "",
+    description: "",
+  });
   const [login, setLogin] = useState(localStorage.getItem("login"));
   const [login1, setLogin1] = useState(false);
   const [moveToib, SetMoveToib] = useState(false);
@@ -125,7 +134,6 @@ const App = () => {
   const [loader, setLoader] = useState(true);
 
   const fetchUserPref = async (prop) => {
-    var pathname = window.location.pathname;
     const param = new FormData();
     if (IsApprove !== "") {
       param.append("is_app", IsApprove.is_app);
@@ -152,9 +160,8 @@ const App = () => {
             (localStorage.getItem("affiliate") == 1 ||
               pathname == "/Affiliatedashboard" ||
               pathname == "/AffiliatePromo" ||
-              pathname == "/earnReport" 
-              // pathname == "/AffiliateProgram"
-              )
+              pathname == "/earnReport")
+            // pathname == "/AffiliateProgram"
           ) {
             SetMoveAff(true);
           } else {
@@ -187,6 +194,7 @@ const App = () => {
       });
   };
   useEffect(() => {
+    Spath();
     var url = window.location.pathname.split("/");
 
     if (url.length > 1 && url[1] == "login_as") {
@@ -213,6 +221,56 @@ const App = () => {
         });
     }
   }, []);
+
+  const Spath = () => {
+    if (pathname == "/login") {
+      if (document.querySelector('meta[name="description"]')) {
+        document.getElementById("change_title").textContent =
+          "Log in to your RightFX Account";
+        document
+          .querySelector('meta[name="description"]')
+          .setAttribute(
+            "content",
+            "Login into your RightFX Trading account with start trading forex, spot metals and stocks in your live or demo trading account, on Metatrader 5."
+          );
+      }
+    } else if (pathname == "/ForgotPassword") {
+      if (document.querySelector('meta[name="description"]')) {
+        document.getElementById("change_title").textContent =
+          "Reset your Account password | RightFX";
+        document
+          .querySelector('meta[name="description"]')
+          .setAttribute(
+            "content",
+            "Forgot your RightFX account password? Want to reset your password? Send us your email address and we will email you the instructions."
+          );
+      }
+    } else if (pathname == "/register") {
+      if (document.querySelector('meta[name="description"]')) {
+        document.getElementById("change_title").textContent =
+          "Open Forex Trading Account | RightFX";
+        document
+          .querySelector('meta[name="description"]')
+          .setAttribute(
+            "content",
+            "Open a Forex Trading Account with RightFX. Register now to enjoy full access to decision-supporting tools and up-to-date market analysis on our web trading platform"
+          );
+      }
+    } else {
+      if (document.querySelector('meta[name="description"]')) {
+        document.getElementById("change_title").textContent = "RightFX";
+        document
+          .querySelector('meta[name="description"]')
+          .setAttribute(
+            "content",
+            "RightFX is a global leader in forex broker offering forex trading, indices, commodities, tight spreads, stocks, and 24 hour live support. Our online forex trading platforms and apps are available on web, desktop and mobile."
+          );
+      }
+    }
+  };
+  useEffect(() => {
+    Spath();
+  }, [pathname]);
   const getwallet = () => {
     const param = new FormData();
     param.append("action", "view_balance");
@@ -233,10 +291,18 @@ const App = () => {
     });
   };
   const [clang, setClang] = useState();
+  console.log(title, description);
   if (login == "true" || localStorage.getItem("login") == null) {
     return (
       <ThemeProvider theme={THEME}>
         <div className="loginbg">
+          {/* <Helmet>
+            <title>{newtitle.title}</title>
+            <meta charSet="utf-8" />
+            <meta name="description" content={newtitle.description} />
+            <meta property="og:title" content={newtitle.title} />
+  <meta property="og:description" content="This is a brief description of the content when shared on social media."/>
+          </Helmet> */}
           <Routes>
             {/* <Route exact path="/Register" element={<Register />} /> */}
             <Route exact path="/ForgotPassword" element={<ForgotPassword />} />
@@ -323,6 +389,11 @@ const App = () => {
                 : "app-wrapper app-sidebar-fixed app-header-fixed"
             }
           >
+            <Helmet>
+              <title>{newtitle.title}</title>
+              <meta charSet="utf-8" />
+              <meta name="description" content={newtitle.description} />
+            </Helmet>
             <Sidebar
               cside={sidebar}
               setSidebar={setSidebar}
@@ -388,11 +459,13 @@ const App = () => {
                   ) : (
                     ""
                   )}
-                            {permission.data.is_affiliate == "1" ? (
+                  {permission.data.is_affiliate == "1" ? (
                     <Route
                       exact
                       path="/AffiliateProgram"
-                      element={<AffiliateProgram permission={permission.data} />}
+                      element={
+                        <AffiliateProgram permission={permission.data} />
+                      }
                     />
                   ) : (
                     ""
@@ -521,7 +594,7 @@ const App = () => {
                     path="/withdrawal/:id"
                     element={<Withdrawal getwallet={getwallet} />}
                   />
-                      <Route
+                  <Route
                     exact
                     path="/withdrawal/:id/:id1"
                     element={<Withdrawal getwallet={getwallet} />}
