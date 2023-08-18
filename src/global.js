@@ -1,6 +1,6 @@
 // const Url = "https://rightfxtest.rightqinfotech.com";
-// const Url = "https://my.rightfx.com";
-const Url = "https://mydev.rightfx.com";
+const Url = "https://my.rightfx.com";
+// const Url = "https://mydev.rightfx.com";
 
 // const Url = "https://client.rightfx.com";
 
@@ -23,7 +23,7 @@ const Url = "https://mydev.rightfx.com";
 //   user_id: "13729",
 //   is_crm: 1,
 // };
-// const IsApprove = {
+// const IsApprove = {    
 //   is_app: 1,
 //   auth: "038f93-33fed9-2c40a6",
 //   user_id: "6088",
@@ -31,7 +31,7 @@ const Url = "https://mydev.rightfx.com";
 // };
 // const IsApprove = {
 //   is_app: 1,
-//   auth: "b49fc3-1b69c9-d91dcb",
+//   auth: "5a0d3c-c4574c-b81b28",
 //   user_id: "6088",
 //   is_crm: 1,
 // };

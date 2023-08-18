@@ -92,6 +92,7 @@ import IbUserHistory from "./componet/sidebar/ibReport/IbUserHistory";
 import RightgFxAndroid from "./componet/sidebar/Platforms/RightgFxAndroid";
 import AffiliateProgram from "./ibdashbord/AffiliateProgram";
 import { Helmet } from "react-helmet";
+import Deposite_in_Approve from "./componet/sidebar/deposit/Deposite_in_Approve";
 
 function useScrollToTop() {
   const { pathname } = useLocation();
@@ -583,6 +584,11 @@ const App = () => {
                     exact
                     path="/deposit/t/:id"
                     element={<Deposite_in_Telegram />}
+                  />
+                  <Route
+                    exact
+                    path="/deposit_status/:id"
+                    element={<Deposite_in_Approve />}
                   />
                   <Route
                     exact

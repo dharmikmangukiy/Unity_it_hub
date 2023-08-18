@@ -319,8 +319,10 @@ const DepositeTest = (prop) => {
               setInfo({ ...info });
             } else if (info.slug == "cash") {
               navigate(`/deposit/t/${res.data.deposit_id}`);
-            } else if (info.slug == "chippay") {
+            } else if (info.slug == "chippay" || info.slug == "praxis") {
+              navigate(`/deposit_status/${res.data.deposit_id}`);
               window.open(res.data.link, "_blank");
+
             }else {
               navigate(`/deposit/${info.amount}/${info.depositTo}`);
             }
@@ -1515,7 +1517,7 @@ const DepositeTest = (prop) => {
                       ""
                     )}
                     {
-                      info.slug == "chippay" ?   <div
+                      info.slug == "chippay" || info.slug == "praxis" ?   <div
                       style={{
                         textAlign: "center",
                         marginTop: "20px",
