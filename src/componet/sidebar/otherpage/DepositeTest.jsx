@@ -575,7 +575,9 @@ const DepositeTest = (prop) => {
                                     )}
                                   </FormControl>
                                 </Grid>
-                                <Grid item md={4}>
+                                {
+                                  dataOFBonus.usd_rate != 0 ? <>
+    <Grid item md={4}>
                                   <label className="text-info font-weight-bold form-label-head w-100">
                                     INR
                                   </label>
@@ -625,6 +627,9 @@ const DepositeTest = (prop) => {
                                     }}
                                   />
                                 </Grid>
+                                  </>:""
+                                }
+                            
                               </Grid>
                             </Grid>
                           </Grid>
