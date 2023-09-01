@@ -27,6 +27,7 @@ const DepositeTest = (prop) => {
     accountList: [],
     paymentOption: [],
   });
+  const [kyc_required,setKyc_required]=useState(0)
   const [dataOFBonus, setDataOFBonus] = useState({
     aed_rate: "",
     usd_rate: "",
@@ -417,6 +418,9 @@ const DepositeTest = (prop) => {
         dataOFBonus.bonus_image3 = res.data.bonus_image3;
         dataOFBonus.aed_rate = res.data.aed_rate;
         epayData.epay_is_demo = res.data.epay_is_demo;
+        if(res.data?.kyc_required){
+          setKyc_required(res.data.kyc_required)
+        }
         setEpayData({ ...epayData });
         dataOFBonus.lot = parseFloat(
           ((res.data.deposit_bonus_max_amount * 40) / 100).toFixed(2)
@@ -446,7 +450,8 @@ const DepositeTest = (prop) => {
                 <Grid item sm={11}></Grid>
                 <Grid item xl={1}></Grid>
                 <Grid item xl={10} md={12} lg={12}>
-                  <div className="webView">
+                  {
+                    kyc_required==0 ?       <div className="webView">
                     <Grid container spacing={3}>
                       <Grid item md={12} className="d-flex">
                         <Paper
@@ -2608,7 +2613,33 @@ const DepositeTest = (prop) => {
                     ) : (
                       ""
                     )}
-                  </div>
+                  </div>:   <Paper
+                          elevation={1}
+                          style={{ borderRadius: "10px" }}
+                          className="w-100 mb-3"
+                        >
+                          <div style={{padding:"10px"}}>
+                              <div className="text-align-center">
+                                <img width="220px"  src="http://mydev.rightfx.com/uploads/images/deposit_kyc_image.png" alt="" />
+                              </div>
+                              <div style={{    display: "flex",justifyContent: "center"}}>
+                              <div style={{maxWidth:"500px"}} className="text-align-justify">
+                                <span className="font-weight-bold ">
+                               <span style={{color:"red"}}>Complete KYC verification</span>  to access all features,
+Once verified, you can use other methods such as bank transfer, credit, or crypto wallet.
+                                </span>
+                              </div>
+                              </div>
+                             
+                              <div className="text-align-center mt-3">
+                                <ColorButton onClick={()=>{
+                                  navigate("/myDocuments")
+                                }}>First Complete KYC </ColorButton>
+                              </div>
+                          </div>
+                        </Paper>
+                  }
+           
                 </Grid>
               </Grid>
             </div>
